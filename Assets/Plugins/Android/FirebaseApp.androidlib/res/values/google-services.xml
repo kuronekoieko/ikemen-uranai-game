@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/firebase_database_url,@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_web_client_id">
+  <string name="firebase_database_url" translatable="false">https://ikevo-uranai-default-rtdb.asia-southeast1.firebasedatabase.app</string>
+  <string name="gcm_defaultSenderId" translatable="false">585716704007</string>
+  <string name="google_storage_bucket" translatable="false">ikevo-uranai.appspot.com</string>
+  <string name="project_id" translatable="false">ikevo-uranai</string>
+  <string name="google_api_key" translatable="false">AIzaSyCaG9F0jKHts5jwlXB2T8i3lMspCHy7Tak</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyCaG9F0jKHts5jwlXB2T8i3lMspCHy7Tak</string>
+  <string name="google_app_id" translatable="false">1:585716704007:android:0ecb70de932da27c471ba2</string>
+  <string name="default_web_client_id" translatable="false">585716704007-hqhn0ntg2ovl1ssodkgm33gh2tb90vrg.apps.googleusercontent.com</string>
+</resources>

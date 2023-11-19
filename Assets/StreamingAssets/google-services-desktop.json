@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "585716704007",
+    "firebase_url": "https://ikevo-uranai-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "ikevo-uranai",
+    "storage_bucket": "ikevo-uranai.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:585716704007:android:0ecb70de932da27c471ba2",
+        "android_client_info": {
+          "package_name": "com.ikevo.studio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "585716704007-hqhn0ntg2ovl1ssodkgm33gh2tb90vrg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaG9F0jKHts5jwlXB2T8i3lMspCHy7Tak"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "585716704007-hqhn0ntg2ovl1ssodkgm33gh2tb90vrg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "585716704007-p90p5mi02ffnn59dli57176h0hpt52ha.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ikevo.studio"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

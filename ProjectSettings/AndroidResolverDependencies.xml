@@ -1,0 +1,39 @@
+<dependencies>
+  <packages>
+    <package>androidx.fragment:fragment:1.2.5</package>
+    <package>androidx.print:print:1.0.0</package>
+    <package>com.android.support:customtabs:23.0.0</package>
+    <package>com.google.android.gms:play-services-base:18.1.0</package>
+    <package>com.google.android.play:core-common:2.0.0</package>
+    <package>com.google.android.play:review:2.0.0</package>
+    <package>com.google.firebase:firebase-analytics:21.2.0</package>
+    <package>com.google.firebase:firebase-app-unity:10.3.0</package>
+    <package>com.google.firebase:firebase-auth:21.1.0</package>
+    <package>com.google.firebase:firebase-auth-unity:10.3.0</package>
+    <package>com.google.firebase:firebase-common:20.2.0</package>
+    <package>com.google.firebase:firebase-database:20.1.0</package>
+    <package>com.google.firebase:firebase-database-unity:10.3.0</package>
+    <package>com.google.firebase:firebase-storage:20.1.0</package>
+    <package>com.google.firebase:firebase-storage-unity:10.3.0</package>
+    <package>com.google.guava:guava:28.2-android</package>
+  </packages>
+  <files>
+    <file>Assets/Plugins/Android/com.google.guava.failureaccess-1.0.1.jar</file>
+    <file>Assets/Plugins/Android/org.checkerframework.checker-compat-qual-2.5.5.jar</file>
+  </files>
+  <settings>
+    <setting name="androidAbis" value="armeabi-v7a" />
+    <setting name="bundleId" value="com.ikevo.studio" />
+    <setting name="explodeAars" value="True" />
+    <setting name="gradleBuildEnabled" value="True" />
+    <setting name="gradlePropertiesTemplateEnabled" value="False" />
+    <setting name="gradleTemplateEnabled" value="False" />
+    <setting name="installAndroidPackages" value="True" />
+    <setting name="localMavenRepoDir" value="Assets/GeneratedLocalRepo" />
+    <setting name="packageDir" value="Assets/Plugins/Android" />
+    <setting name="patchAndroidManifest" value="True" />
+    <setting name="patchMainTemplateGradle" value="True" />
+    <setting name="projectExportEnabled" value="False" />
+    <setting name="useJetifier" value="True" />
+  </settings>
+</dependencies>
