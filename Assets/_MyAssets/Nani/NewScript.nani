@@ -1,10 +1,12 @@
-@back Forest
-@char haru.Test
-Hello World! 1
-@back City
-@char chitose
-Hello World! 2
+@back forest
+@char haru.idle_01
+こんにちは
+
+@back city
+@char chitose.idle_03
+おはよう
+
 @hide haru
-Hello World! 3
+こんばんは
 
 @stop
