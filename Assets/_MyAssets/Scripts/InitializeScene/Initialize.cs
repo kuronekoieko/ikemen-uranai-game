@@ -8,8 +8,14 @@ public class Initialize : MonoBehaviour
 {
     async void Start()
     {
+        Application.targetFrameRate = 60;
+
         LoadingScreen.Instance.OnStart();
         LoadingScreen.Instance.Open();
+
+        // テスト用
+        await LoadingScreen.Instance.ProgressTimer(5);
+
         await SceneManager.LoadSceneAsync("Main");
     }
 
