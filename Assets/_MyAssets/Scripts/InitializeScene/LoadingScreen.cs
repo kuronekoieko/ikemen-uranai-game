@@ -24,8 +24,14 @@ public class LoadingScreen : SingletonMonoBehaviour<LoadingScreen>
         gameObject.SetActive(true);
 
         progressBarImage.fillAmount = 0;
+        // hintTitleText.text = "カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法";
         hintTitleText.text = "カードのレベルアップ方法";
+
+        hintTitleText.LimitLineCount(lineCountMax: 1, fontSizeMin: 40);
+        //  hintContentText.text = "カードを重複して手に入れるか、\n成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。";
         hintContentText.text = "カードを重複して手に入れるか、\n成長の鍵を手に入れることでレベルを上げることができます。";
+        hintContentText.LimitLineCount(lineCountMax: 3, fontSizeMin: 30);
+
         uidText.text = "123456";
     }
 
@@ -52,4 +58,7 @@ public class LoadingScreen : SingletonMonoBehaviour<LoadingScreen>
             frameCount += 1f;
         }
     }
+
+
+
 }
