@@ -1,0 +1,12 @@
+@back forest
+@char haru.idle_01
+NewScript 1
+
+@back city
+@char chitose.idle_03
+おはよう
+
+@hide haru
+こんばんは
+
+@stop
