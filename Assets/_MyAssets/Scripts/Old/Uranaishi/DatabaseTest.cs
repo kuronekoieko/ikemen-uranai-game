@@ -24,7 +24,7 @@ public class DatabaseTest : MonoBehaviour
         imageButton.onClick.AddListener(SetIcon);
 
         Debug.Log("ユーザーデータ取得開始");
-        uranaishi = await FirebaseDatabaseManager.i.GetUserData(uranaishi.id);
+        uranaishi = await FirebaseDatabaseManager.Instance.GetUserData(uranaishi.id);
         Debug.Log("ユーザーデータ取得終了");
 
         userNameIF.text = uranaishi.name.ToString();
@@ -46,9 +46,9 @@ public class DatabaseTest : MonoBehaviour
 
         uranaishi.name = userNameIF.text;
 
-        await FirebaseDatabaseManager.i.SetUserData(uranaishi);
+        await FirebaseDatabaseManager.Instance.SetUserData(uranaishi);
 
-        await FirebaseStorageManager.i.UploadFromLocalFile(uranaishi, iconLocalFilePath);
+        await FirebaseStorageManager.Instance.UploadFromLocalFile(uranaishi, iconLocalFilePath);
         Debug.Log("登録完了");
     }
 

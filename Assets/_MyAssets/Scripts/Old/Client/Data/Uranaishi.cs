@@ -89,7 +89,7 @@ public class Uranaishi
             // return;
         }
 
-        await FirebaseStorageManager.i.DownloadFile(this, (sprite) =>
+        await FirebaseStorageManager.Instance.DownloadFile(this, (sprite) =>
         {
             _iconSprite = sprite;
             onComplete(sprite);

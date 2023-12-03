@@ -36,7 +36,7 @@ public class VivoxManager : MonoBehaviour
         _client.Initialize();
 
         // authのユーザーidは端末で決まるので、別端末でテストする必要あり
-        await UnityAuthenticationManager.i.Initialize();
+        await UnityAuthenticationManager.Instance.Initialize();
         VivoxService.Instance.Initialize();
         await LoginUser();
         await JoinChannel("channel-001");

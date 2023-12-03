@@ -24,8 +24,8 @@ public class UIManager : MonoBehaviour
     {
         i = this;
         SaveDataManager.i.LoadSaveData();
-        FirebaseDatabaseManager.i.Initialize();
-        FirebaseStorageManager.i.Initialize();
+        FirebaseDatabaseManager.Instance.Initialize();
+        FirebaseStorageManager.Instance.Initialize();
 
         if (isLocalTestData)
         {
@@ -34,7 +34,7 @@ public class UIManager : MonoBehaviour
         else
         {
             Debug.Log("ユーザーデータ取得開始");
-            uranaishiAry = await FirebaseDatabaseManager.i.GetUranaishiAry(10);
+            uranaishiAry = await FirebaseDatabaseManager.Instance.GetUranaishiAry(10);
             Debug.Log("ユーザーデータ取得終了");
         }
 

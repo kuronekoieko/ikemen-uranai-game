@@ -5,13 +5,23 @@ using UnityEngine;
 public class ObjectPooling<T> : MonoBehaviour where T : ObjectPoolingElement
 {
     [SerializeField] T prefab;
-    [SerializeField] Transform parent;
+    [SerializeField] protected Transform parent;
 
     protected List<T> list = new List<T>();
 
     public virtual void OnStart()
     {
         this.prefab.gameObject.SetActive(false);
+        HideDummies();
+    }
+
+    void HideDummies()
+    {
+        T[] dummies = parent.GetComponentsInChildren<T>();
+        foreach (var dummy in dummies)
+        {
+            dummy.gameObject.SetActive(false);
+        }
     }
 
     protected void Clear()
