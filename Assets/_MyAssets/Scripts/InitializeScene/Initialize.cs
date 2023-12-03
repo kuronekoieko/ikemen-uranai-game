@@ -12,7 +12,8 @@ public class Initialize : MonoBehaviour
 
         LoadingScreen.Instance.OnStart();
         LoadingScreen.Instance.Open();
-
+        InputProfileScreen.Instance.OnStart();
+        InputProfileScreen.Instance.Open();
 
         var asyncOperation = SceneManager.LoadSceneAsync("Main");
         asyncOperation.allowSceneActivation = false;

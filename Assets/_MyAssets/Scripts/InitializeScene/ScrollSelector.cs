@@ -5,68 +5,67 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 using UnityEngine.PlayerLoop;
+using Cysharp.Threading.Tasks;
 //using Codice.Client.Common;
 
-public class ScrollSelector : MonoBehaviour, IEndDragHandler, IBeginDragHandler
+public class ScrollSelector : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI originText;
     ScrollRect scrollRect;
-    List<TextMeshProUGUI> texts = new List<TextMeshProUGUI>();
-    int selectedIndex;
+    List<TextMeshProUGUI> texts = new();
+    public int selectedIndex => GetNearIndex();
 
-    private void Start()
+    public async void OnStart(List<string> datas, int startIndex)
     {
         scrollRect = GetComponent<ScrollRect>();
-        string[] elements = new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", };
 
-        originText.text = elements[0];
+        originText.text = datas[0];
         texts.Add(originText);
 
-        for (int i = 1; i < elements.Length; i++)
+        for (int i = 1; i < datas.Count; i++)
         {
             var text = Instantiate(originText, scrollRect.content);
-            text.text = elements[i];
+            text.text = datas[i];
             texts.Add(text);
         }
-        scrollRect.verticalNormalizedPosition = 1;
-    }
-
-
-    public void OnEndDrag(PointerEventData data)
-    {
-
-    }
-
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-
-
+        await UniTask.DelayFrame(1);
+        var normalizedPos = ScrollToCore(startIndex, 0.5f);
+        scrollRect.verticalNormalizedPosition = normalizedPos;
     }
 
     private void Update()
     {
-
-        Debug.Log(scrollRect.verticalNormalizedPosition);
+        if (scrollRect == null) return;
+        // Debug.Log(scrollRect.verticalNormalizedPosition);
         float v = Mathf.Abs(scrollRect.velocity.y);
 
         if (!Input.GetMouseButton(0) && v < 300f)
         {
-            var normalizedPos = ScrollToCore(0.5f);
-            scrollRect.verticalNormalizedPosition = Mathf.Lerp(scrollRect.verticalNormalizedPosition, normalizedPos, 5f * Time.deltaTime);
+            var selectedIndex = GetNearIndex();
+            var normalizedPos = ScrollToCore(selectedIndex, 0.5f);
+            scrollRect.verticalNormalizedPosition = Mathf.Lerp(scrollRect.verticalNormalizedPosition, normalizedPos, 3f * Time.deltaTime);
         }
     }
 
-    // https://qiita.com/Shinoda_Naoki/items/346d349b7b81affe99d8
-    private float ScrollToCore(float align)
+    int GetNearIndex()
     {
         int length = texts.Count;
         float y = Mathf.Clamp01(scrollRect.verticalNormalizedPosition);
+        // 0は下、1は上
+        // それぞれ要素の真ん中
+        // 一要素の長さd=1/(length-1)
+        // (num-1)*d-d/2<1-y<(num-1)*d+d/2
+        // を解く
         int num = Mathf.CeilToInt((length - 1) * (1 - y) + 1 / 2f);
-        selectedIndex = Mathf.Clamp(num - 1, 0, length - 1);
-        GameObject go = texts[selectedIndex].gameObject;
-
         //Debug.Log(num);
 
+        return Mathf.Clamp(num - 1, 0, length - 1);
+    }
+
+    // https://qiita.com/Shinoda_Naoki/items/346d349b7b81affe99d8
+    private float ScrollToCore(int selectedIndex, float align)
+    {
+        GameObject go = texts[selectedIndex].gameObject;
 
         var targetRect = go.transform.GetComponent<RectTransform>();
         var contentHeight = scrollRect.content.rect.height;
