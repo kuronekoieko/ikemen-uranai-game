@@ -8,6 +8,8 @@ public class Initialize : MonoBehaviour
 {
     async void Start()
     {
+        LoadingScreen.Instance.OnStart();
+        LoadingScreen.Instance.Open();
         await SceneManager.LoadSceneAsync("Main");
     }
 
