@@ -13,11 +13,20 @@ public class Initialize : MonoBehaviour
         LoadingScreen.Instance.OnStart();
         LoadingScreen.Instance.Open();
 
+
+        var asyncOperation = SceneManager.LoadSceneAsync("Main");
+        asyncOperation.allowSceneActivation = false;
+
         // テスト用
         await LoadingScreen.Instance.ProgressTimer(5);
 
-        await SceneManager.LoadSceneAsync("Main");
+
+        asyncOperation.allowSceneActivation = true;
+
+
     }
+
+
 
 
 }
