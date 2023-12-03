@@ -28,6 +28,7 @@ public class ScrollSelector : MonoBehaviour, IEndDragHandler, IBeginDragHandler
             text.text = elements[i];
             texts.Add(text);
         }
+        scrollRect.verticalNormalizedPosition = 1;
     }
 
 
@@ -45,26 +46,26 @@ public class ScrollSelector : MonoBehaviour, IEndDragHandler, IBeginDragHandler
     private void Update()
     {
 
-
+        Debug.Log(scrollRect.verticalNormalizedPosition);
         float v = Mathf.Abs(scrollRect.velocity.y);
 
         if (!Input.GetMouseButton(0) && v < 300f)
         {
-            var normalizedPos = ScrollToCore(scrollRect, 0.5f);
+            var normalizedPos = ScrollToCore(0.5f);
             scrollRect.verticalNormalizedPosition = Mathf.Lerp(scrollRect.verticalNormalizedPosition, normalizedPos, 5f * Time.deltaTime);
         }
     }
 
     // https://qiita.com/Shinoda_Naoki/items/346d349b7b81affe99d8
-    private float ScrollToCore(ScrollRect scrollRect, float align)
+    private float ScrollToCore(float align)
     {
-        int max = texts.Count;
-        float pos = 1 - Mathf.Clamp01(scrollRect.verticalNormalizedPosition);
-        int num = Mathf.CeilToInt(max * pos);
-        selectedIndex = Mathf.Clamp(num - 1, 0, max - 1);
+        int length = texts.Count;
+        float y = Mathf.Clamp01(scrollRect.verticalNormalizedPosition);
+        int num = Mathf.CeilToInt((length - 1) * (1 - y) + 1 / 2f);
+        selectedIndex = Mathf.Clamp(num - 1, 0, length - 1);
         GameObject go = texts[selectedIndex].gameObject;
 
-        // Debug.Log(num);
+        //Debug.Log(num);
 
 
         var targetRect = go.transform.GetComponent<RectTransform>();
