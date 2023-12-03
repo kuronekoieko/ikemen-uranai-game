@@ -8,4 +8,16 @@ public static class DebugUtils
     {
         Debug.Log(JsonUtility.ToJson(msg, true));
     }
+
+    public static void Log(object[] msg)
+    {
+        string str = "";
+
+        foreach (var item in msg)
+        {
+            str += item + " ";
+        }
+
+        Debug.Log(str);
+    }
 }
