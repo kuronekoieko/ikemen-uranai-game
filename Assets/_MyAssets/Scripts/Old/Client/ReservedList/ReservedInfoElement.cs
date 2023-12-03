@@ -25,7 +25,7 @@ public class ReservedInfoElement : ObjectPoolingElement
         nameText.text = "";
         dateText.text = "";
         timeText.text = "予約時間 : ";
-        Uranaishi uranaishi = await FirebaseDatabaseManager.i.GetUserData(reserve.uranaishiId);
+        Uranaishi uranaishi = await FirebaseDatabaseManager.Instance.GetUserData(reserve.uranaishiId);
 
         iconImage.sprite = null;
         uranaishi.GetIcon((sprite) =>

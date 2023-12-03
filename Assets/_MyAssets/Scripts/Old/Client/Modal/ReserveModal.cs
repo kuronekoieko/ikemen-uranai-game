@@ -154,7 +154,7 @@ public class ReserveModal : BaseModal
             schedule.scheduleStatus = ScheduleStatus.Reserved;
         }
 
-        await FirebaseDatabaseManager.i.SetUserData(uranaishi);
+        await FirebaseDatabaseManager.Instance.SetUserData(uranaishi);
 
         Reserve reserve = new Reserve();
         reserve.uranaishiId = uranaishi.id;

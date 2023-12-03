@@ -21,8 +21,8 @@ public class UranaishiTestData : ScriptableObject
     [Button]
     public async void Pull()
     {
-        FirebaseDatabaseManager.i.Initialize();
-        uranaishis = await FirebaseDatabaseManager.i.GetUranaishiAry(10);
+        FirebaseDatabaseManager.Instance.Initialize();
+        uranaishis = await FirebaseDatabaseManager.Instance.GetUranaishiAry(10);
         Debug.Log("データベース取得");
 
     }
@@ -30,11 +30,11 @@ public class UranaishiTestData : ScriptableObject
     [Button]
     public async void Send()
     {
-        FirebaseDatabaseManager.i.Initialize();
+        FirebaseDatabaseManager.Instance.Initialize();
 
         foreach (var uranaishi in uranaishis)
         {
-            await FirebaseDatabaseManager.i.SetUserData(uranaishi);
+            await FirebaseDatabaseManager.Instance.SetUserData(uranaishi);
         }
         Debug.Log("データベース更新");
     }

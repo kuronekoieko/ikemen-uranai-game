@@ -8,7 +8,7 @@ public class CopyDatas : MonoBehaviour
 
     async void Start()
     {
-        uranaishiTestData.uranaishis = await FirebaseDatabaseManager.i.GetUranaishiAry(10);
+        uranaishiTestData.uranaishis = await FirebaseDatabaseManager.Instance.GetUranaishiAry(10);
 
     }
 
