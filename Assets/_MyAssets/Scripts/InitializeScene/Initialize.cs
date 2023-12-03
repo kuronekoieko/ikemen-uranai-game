@@ -21,7 +21,7 @@ public class Initialize : MonoBehaviour
         await LoadingScreen.Instance.ProgressTimer(5);
 
 
-        asyncOperation.allowSceneActivation = true;
+        //asyncOperation.allowSceneActivation = true;
 
 
     }
