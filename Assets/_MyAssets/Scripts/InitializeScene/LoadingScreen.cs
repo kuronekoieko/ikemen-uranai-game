@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using Cysharp.Threading.Tasks;
 
-public class LoadingScreen : SingletonMonoBehaviour<LoadingScreen>
+public class LoadingScreen : BaseScreen<LoadingScreen>
 {
     [SerializeField] Image progressBarImage;
     [SerializeField] TextMeshProUGUI progressText;
@@ -14,12 +14,12 @@ public class LoadingScreen : SingletonMonoBehaviour<LoadingScreen>
     [SerializeField] TextMeshProUGUI uidText;
 
 
-    public void OnStart()
+    public override void OnStart()
     {
         gameObject.SetActive(false);
     }
 
-    public void Open()
+    public override void Open()
     {
         gameObject.SetActive(true);
 
