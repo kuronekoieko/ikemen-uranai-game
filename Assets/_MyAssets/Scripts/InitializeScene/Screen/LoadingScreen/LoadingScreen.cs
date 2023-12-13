@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using Cysharp.Threading.Tasks;
 
-public class LoadingScreen : BaseScreen<LoadingScreen>
+public class LoadingScreen : BaseScreen
 {
     [SerializeField] Image progressBarImage;
     [SerializeField] TextMeshProUGUI progressText;
@@ -16,12 +16,12 @@ public class LoadingScreen : BaseScreen<LoadingScreen>
 
     public override void OnStart()
     {
-        gameObject.SetActive(false);
+        base.OnStart();
     }
 
     public override void Open()
     {
-        gameObject.SetActive(true);
+        base.Open();
 
         progressBarImage.fillAmount = 0;
         // hintTitleText.text = "カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法";
