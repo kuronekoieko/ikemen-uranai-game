@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InputProfileScreen : SingletonMonoBehaviour<InputProfileScreen>
+public class InputProfileScreen : BaseScreen
 {
 
     [SerializeField] ScrollSelector monthScrollSelector;
     [SerializeField] ScrollSelector dayScrollSelector;
+    [SerializeField] Button nextButton;
 
-    public void OnStart()
+    public override void OnStart()
     {
-        gameObject.SetActive(false);
-
+        base.OnStart();
 
         var months = new List<string>();
         for (int i = 1; i <= 12; i++)
@@ -28,12 +28,16 @@ public class InputProfileScreen : SingletonMonoBehaviour<InputProfileScreen>
 
         monthScrollSelector.OnStart(months, 0);
         dayScrollSelector.OnStart(days, 0);
+        nextButton.onClick.AddListener(OnClickNextButton);
     }
 
-    public void Open()
+    public override void Open()
     {
-        gameObject.SetActive(true);
+        base.Open();
+    }
 
-
+    void OnClickNextButton()
+    {
+        ScreenManager.Instance.Get<TodayHoroscopesScreen>().Open();
     }
 }

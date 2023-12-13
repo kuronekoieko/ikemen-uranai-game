@@ -6,21 +6,21 @@ using Cysharp.Threading.Tasks;
 
 public class Initialize : MonoBehaviour
 {
+    [SerializeField] ScreenManager screenManager;
     async void Start()
     {
         Application.targetFrameRate = 60;
 
-        LoadingScreen.Instance.OnStart();
-        LoadingScreen.Instance.Open();
-        InputProfileScreen.Instance.OnStart();
-        InputProfileScreen.Instance.Open();
+        screenManager.OnStart();
+        ScreenManager.Instance.Get<LoadingScreen>().Open();
 
         var asyncOperation = SceneManager.LoadSceneAsync("Main");
         asyncOperation.allowSceneActivation = false;
 
         // テスト用
-        await LoadingScreen.Instance.ProgressTimer(5);
+        await ScreenManager.Instance.Get<LoadingScreen>().ProgressTimer(5);
 
+        ScreenManager.Instance.Get<InputProfileScreen>().Open();
 
         //asyncOperation.allowSceneActivation = true;
 
