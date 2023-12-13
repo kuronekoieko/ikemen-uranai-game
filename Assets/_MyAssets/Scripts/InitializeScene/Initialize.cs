@@ -19,6 +19,7 @@ public class Initialize : MonoBehaviour
 
         // テスト用
         await ScreenManager.Instance.Get<LoadingScreen>().ProgressTimer(5);
+        ScreenManager.Instance.Get<LoadingScreen>().Close();
 
         ScreenManager.Instance.Get<InputProfileScreen>().Open();
 
