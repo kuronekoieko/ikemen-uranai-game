@@ -60,5 +60,8 @@ public class LoadingScreen : BaseScreen
     }
 
 
-
+    public override void Close()
+    {
+        base.Close();
+    }
 }

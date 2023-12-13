@@ -23,10 +23,16 @@ public class TodayHoroscopesScreen : BaseScreen
 
     void OnClickOtherConstellationInfoButton()
     {
-
+        Close();
     }
     void OnClickHomeButton()
     {
+        Close();
+        ScreenManager.Instance.Get<HomeScreen>().Open();
+    }
 
+    public override void Close()
+    {
+        base.Close();
     }
 }

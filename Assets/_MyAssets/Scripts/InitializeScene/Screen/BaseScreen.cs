@@ -12,4 +12,9 @@ public abstract class BaseScreen : MonoBehaviour
     {
         gameObject.SetActive(true);
     }
+
+    public virtual void Close()
+    {
+        gameObject.SetActive(false);
+    }
 }
