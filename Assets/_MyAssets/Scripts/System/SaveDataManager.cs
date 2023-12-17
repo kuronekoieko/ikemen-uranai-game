@@ -23,7 +23,7 @@ public class SaveDataManager : MonoBehaviour
 
     public void LoadSaveData()
     {
-        SaveData.i = new SaveData(0, 2000);
+        SaveData.i = new SaveData();
         // SaveData.i.Test();
 
         //PlayerPrefsに保存済みのユーザーデータのstringを取得
