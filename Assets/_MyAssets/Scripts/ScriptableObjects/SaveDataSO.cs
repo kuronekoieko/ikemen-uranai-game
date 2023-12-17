@@ -15,27 +15,22 @@ public class SaveDataSO : ScriptableObject
     [Button]
     public void Pull()
     {
-        SaveDataManager saveDataManager = FindObjectOfType<SaveDataManager>();
-        saveDataManager.LoadSaveData();
-        saveData = SaveData.i;
+        saveData.LoadSaveData();
         Debug.Log("セーブデータ取得");
     }
 
     [Button]
     public void Send()
     {
-        SaveData.i = saveData;
-        SaveDataManager saveDataManager = FindObjectOfType<SaveDataManager>();
-        saveDataManager.Save();
+        saveData.Save();
         Debug.Log("セーブデータ更新");
     }
 
     [Button]
     public void Clear()
     {
-        SaveDataManager saveDataManager = FindObjectOfType<SaveDataManager>();
-        saveDataManager.Clear();
-        saveData = SaveData.i;
+        saveData.LoadSaveData();
+        saveData.Clear();
         Debug.Log("セーブデータ削除");
     }
 }
