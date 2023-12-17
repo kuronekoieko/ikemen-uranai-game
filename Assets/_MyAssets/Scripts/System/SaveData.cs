@@ -8,10 +8,8 @@ using Newtonsoft.Json;
 [JsonObject]
 public class SaveData : BaseSaveData<SaveData>
 {
-
-
-
     public Player player = new();
-
+    public int jem_Free;
+    public int jem_Charging;
 
 }
