@@ -18,6 +18,7 @@ public class FirebaseDatabaseManager : Singleton<FirebaseDatabaseManager>
         // Get the root reference location of the database.
         reference = FirebaseDatabase.DefaultInstance.RootReference;
     }
+    /*
 
     public async Task SetUserData(Uranaishi uranaishi)
     {
@@ -105,6 +106,8 @@ public class FirebaseDatabaseManager : Singleton<FirebaseDatabaseManager>
 
         return uranaishiList.ToArray();
     }
+
+    */
 
     void HandleValueChanged(object sender, ValueChangedEventArgs args)
     {
