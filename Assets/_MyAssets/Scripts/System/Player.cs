@@ -6,12 +6,9 @@ using Newtonsoft.Json;
 
 [Serializable]
 [JsonObject]
-public class SaveData : BaseSaveData<SaveData>
+public class Player 
 {
-
-
-
-    public Player player = new();
-
+    public int level = 1;
+    public int exp = 0;
 
 }
