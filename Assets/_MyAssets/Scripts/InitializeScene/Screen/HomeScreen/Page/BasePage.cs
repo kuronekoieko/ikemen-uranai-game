@@ -9,7 +9,7 @@ public abstract class BasePage : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
-    public virtual async void Open()
+    public virtual void Open()
     {
         var basePage = PageManager.Instance.GetActive();
         basePage?.Close();
@@ -18,7 +18,6 @@ public abstract class BasePage : MonoBehaviour
 
     public void Close()
     {
-
         gameObject.SetActive(false);
         OnClose();
     }
