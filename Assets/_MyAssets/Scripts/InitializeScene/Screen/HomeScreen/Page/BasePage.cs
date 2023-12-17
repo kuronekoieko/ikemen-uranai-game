@@ -13,7 +13,6 @@ public abstract class BasePage : MonoBehaviour
     {
         var basePage = PageManager.Instance.GetActive();
         basePage?.Close();
-        await UniTask.DelayFrame(1);
         gameObject.SetActive(true);
     }
 
