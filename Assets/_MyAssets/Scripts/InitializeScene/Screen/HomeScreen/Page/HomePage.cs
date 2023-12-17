@@ -18,8 +18,7 @@ public class HomePage : BasePage
         base.Open();
     }
 
-    public override void Close()
+    protected override void OnClose()
     {
-        base.Close();
     }
 }
