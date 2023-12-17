@@ -12,6 +12,9 @@ public class Initialize : MonoBehaviour
         Application.targetFrameRate = 60;
 
         screenManager.OnStart();
+
+        ScreenManager.Instance.Get<HomeScreen>().Open();
+        return;//テスト
         ScreenManager.Instance.Get<LoadingScreen>().Open();
 
         var asyncOperation = SceneManager.LoadSceneAsync("Main");

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class BasePage : MonoBehaviour
+public abstract class BasePage : MonoBehaviour
 {
     public virtual void OnStart()
     {
@@ -17,10 +17,12 @@ public class BasePage : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    public virtual void Close()
+    public void Close()
     {
 
         gameObject.SetActive(false);
-        Debug.Log("親");
+        OnClose();
     }
+
+    protected abstract void OnClose();
 }
