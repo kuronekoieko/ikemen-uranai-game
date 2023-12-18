@@ -10,6 +10,7 @@ public class Initialize : MonoBehaviour
     async void Start()
     {
         Application.targetFrameRate = 60;
+        await CSVManager.Instance.InitializeAsync();
 
         screenManager.OnStart();
 
