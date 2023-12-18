@@ -10,7 +10,7 @@ namespace DataBase
     public class Character
     {
         public string id;
-        public string name;
-        public string voice_actor;// 変数名はcsvのキーと同じにする
+        public string name_jp;
+        public string voice_actor_jp;// 変数名はcsvのキーと同じにする
     }
 }

@@ -52,7 +52,7 @@ public class HomeHeader : MonoBehaviour
         foreach (var character in CSVManager.Instance.characters)
         {
             if (character.id != saveData.currentCharacterId) continue;
-            characterNameText.text = character.name;
+            characterNameText.text = character.name_jp;
         }
 
     }
