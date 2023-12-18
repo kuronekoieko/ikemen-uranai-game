@@ -19,7 +19,8 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
         Application.targetFrameRate = 60;
 
         await CSVManager.Instance.InitializeAsync();
-        SaveData.Instance.LoadSaveData();
+        InitSaveData(CSVManager.Instance);
+
 
         screenManager.OnStart();
 
@@ -41,6 +42,27 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
 
         //asyncOperation.allowSceneActivation = true;
 
+
+    }
+
+    void InitSaveData(CSVManager cSVManager)
+    {
+        SaveData.Instance.LoadSaveData();
+
+        DebugUtils.LogJson(SaveData.Instance);
+
+        foreach (var character in cSVManager.Characters)
+        {
+            var saveDataCharacter = new SaveDataObjects.Character()
+            {
+                id = character.id
+            };
+            SaveData.Instance.characters.Add(saveDataCharacter);
+        }
+
+        SaveData.Instance.Save();
+
+        DebugUtils.LogJson(SaveData.Instance);
 
     }
 
