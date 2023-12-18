@@ -15,6 +15,7 @@ public class SaveDataSO : ScriptableObject
     [Button]
     public void Pull()
     {
+        saveData = SaveData.Instance;
         saveData.LoadSaveData();
         Debug.Log("セーブデータ取得");
     }

@@ -84,13 +84,13 @@ public class HomeHeader : MonoBehaviour
         return null;
     }
 
-    DataBase.Character GetCharacterData(string currentCharacterId)
+    DataBase.Character GetCharacterData(string characterId)
     {
-        if (string.IsNullOrEmpty(currentCharacterId)) return null;
+        if (string.IsNullOrEmpty(characterId)) return null;
 
         foreach (var character in CSVManager.Instance.Characters)
         {
-            if (character.id == currentCharacterId) return character;
+            if (character.id == characterId) return character;
         }
         return null;
     }
