@@ -7,12 +7,15 @@ using DataBase;
 public class CSVManager : Singleton<CSVManager>
 {
     public Character[] characters;
+    public bool IsInitialized { get; private set; }
 
     public async UniTask InitializeAsync()
     {
+        IsInitialized = false;
         // パスに拡張子つけない
         TextAsset textAsset = await LoadAsync<TextAsset>("CSV/Characters");
         if (textAsset) characters = CSVSerializer.Deserialize<Character>(textAsset.text);
+        IsInitialized = true;
     }
 
     async UniTask<T> LoadAsync<T>(string path) where T : Object

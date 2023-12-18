@@ -28,6 +28,9 @@ public class HomeHeader : MonoBehaviour
     private void Update()
     {
         if (SaveData.Instance == null) return;
+        if (CSVManager.Instance.IsInitialized == false) return;
+
+
         SaveData saveData = SaveData.Instance;
 
         levelText.text = saveData.player.level.ToString();
@@ -43,6 +46,13 @@ public class HomeHeader : MonoBehaviour
             if (character.id != saveData.currentCharacterId) continue;
             characterLevelText.text = character.level.ToString();
             characterExpPerText.text = character.exp.ToString();// TODO: %表示
+        }
+
+        characterNameText.text = "キャラクター";// エラーのとき
+        foreach (var character in CSVManager.Instance.characters)
+        {
+            if (character.id != saveData.currentCharacterId) continue;
+            characterNameText.text = character.name;
         }
 
     }
