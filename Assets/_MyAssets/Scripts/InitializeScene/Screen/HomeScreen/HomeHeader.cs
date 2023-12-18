@@ -72,7 +72,7 @@ public class HomeHeader : MonoBehaviour
         {
             characterExpBarImage.fillAmount = (float)currentCharacter.exp / (float)currentLevelData.exp;
         }
-        characterExpPerText.text = (characterExpBarImage.fillAmount * 100) + "%";
+        characterExpPerText.text = Mathf.FloorToInt(characterExpBarImage.fillAmount * 100) + "%";
 
     }
 
