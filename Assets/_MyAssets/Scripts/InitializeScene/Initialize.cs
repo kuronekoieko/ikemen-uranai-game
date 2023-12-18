@@ -20,8 +20,7 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
         Application.targetFrameRate = 60;
 
         await CSVManager.Instance.InitializeAsync();
-        // InitSaveData(CSVManager.Instance);
-
+        SaveDataInitializer.Initialize(CSVManager.Instance);
 
         screenManager.OnStart();
 
@@ -45,36 +44,6 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
 
 
     }
-
-
-
-    /*
-        void AddSaveDataCharacters(CSVManager cSVManager)
-        {
-            var saveDataCharacters = SaveDataManager.SaveData.characters.ToList();
-
-            foreach (var dataBaseCharacter in cSVManager.Characters)
-            {
-                bool exist = false;
-                foreach (var saveDataCharacter in SaveDataManager.SaveData.characters)
-                {
-                    Debug.Log(saveDataCharacter.id + " " + dataBaseCharacter.id);
-                    exist = saveDataCharacter.id == dataBaseCharacter.id;
-                    if (exist) break;
-                }
-                if (exist) continue;
-
-                var newSaveDataCharacter = new SaveDataObjects.Character()
-                {
-                    id = dataBaseCharacter.id
-                };
-                saveDataCharacters.Add(newSaveDataCharacter);
-
-            }
-
-            SaveDataManager.SaveData.characters = saveDataCharacters;
-        }
-    */
 
     private void Update()
     {
