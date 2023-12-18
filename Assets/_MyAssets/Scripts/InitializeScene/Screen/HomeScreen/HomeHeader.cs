@@ -37,29 +37,7 @@ public class HomeHeader : MonoBehaviour
         dayText.text = DateTime.Now.ToString("MM d ddd");
         timeText.text = DateTime.Now.ToString("hh:mm:ss");
 
-
-        var currentCharacter = GetCurrentCharacter();
-        if (currentCharacter == null)
-        {
-            characterLevelText.text = "999";
-            characterExpPerText.text = "100%";
-        }
-        else
-        {
-            characterLevelText.text = currentCharacter.level.ToString();
-
-            var currentLevelData = GetCurrentLevelData(currentCharacter);
-            if (currentLevelData == null)
-            {
-                characterExpBarImage.fillAmount = 0;
-            }
-            else
-            {
-                characterExpBarImage.fillAmount = (float)currentCharacter.exp / (float)currentLevelData.exp;
-            }
-            characterExpPerText.text = (characterExpBarImage.fillAmount * 100) + "%";
-        }
-
+        ShowExp();
 
         var characterData = GetCharacterData(saveData.currentCharacterId);
         if (characterData == null)
@@ -70,6 +48,31 @@ public class HomeHeader : MonoBehaviour
         {
             characterNameText.text = characterData.name_jp;
         }
+
+    }
+
+    void ShowExp()
+    {
+        var currentCharacter = GetCurrentCharacter();
+        if (currentCharacter == null)
+        {
+            characterLevelText.text = "999";
+            characterExpPerText.text = "100%";
+            return;
+        }
+
+        characterLevelText.text = currentCharacter.level.ToString();
+
+        var currentLevelData = GetCurrentLevelData(currentCharacter);
+        if (currentLevelData == null)
+        {
+            characterExpBarImage.fillAmount = 0;
+        }
+        else
+        {
+            characterExpBarImage.fillAmount = (float)currentCharacter.exp / (float)currentLevelData.exp;
+        }
+        characterExpPerText.text = (characterExpBarImage.fillAmount * 100) + "%";
 
     }
 
