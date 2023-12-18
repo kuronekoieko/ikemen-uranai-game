@@ -7,12 +7,12 @@ using SaveDataObjects;
 
 [Serializable]
 [JsonObject]
-public class SaveData : BaseSaveData<SaveData>
+public class SaveData 
 {
     public Player player = new();
     public int jemFree;
     public int jemCharging;
     public string currentCharacterId = "0001";
-    public List<Character> characters = new();
+    public Character[] characters;
 
 }
