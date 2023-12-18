@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
 using UnityEngine.Events;
+using System.Linq;
 
 public class Initialize : SingletonMonoBehaviour<Initialize>
 {
@@ -45,25 +46,70 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
 
     }
 
-    void InitSaveData(CSVManager cSVManager)
+    async void InitSaveData(CSVManager cSVManager)
     {
-        SaveData.Instance.LoadSaveData();
-
-        DebugUtils.LogJson(SaveData.Instance);
-
-        foreach (var character in cSVManager.Characters)
+        var defaultSaveData = new SaveData
         {
-            var saveDataCharacter = new SaveDataObjects.Character()
+            characters = CreateDataCharacters(cSVManager).ToArray()
+        };
+
+        SaveDataManager.Load();
+
+
+        DebugUtils.LogJson(SaveDataManager.SaveData);
+
+        // DebugUtils.LogJson(SaveData.Instance);
+
+        // 差分追加
+        // AddSaveDataCharacters(cSVManager);
+        // SaveData.Instance.Save();
+
+        await UniTask.DelayFrame(1);
+
+        DebugUtils.LogJson(SaveDataManager.SaveData);
+    }
+
+    List<SaveDataObjects.Character> CreateDataCharacters(CSVManager cSVManager)
+    {
+        var saveDataCharacters = new List<SaveDataObjects.Character>();
+
+        foreach (var dataBaseCharacter in cSVManager.Characters)
+        {
+            var newSaveDataCharacter = new SaveDataObjects.Character()
             {
-                id = character.id
+                id = dataBaseCharacter.id
             };
-            SaveData.Instance.characters.Add(saveDataCharacter);
+            saveDataCharacters.Add(newSaveDataCharacter);
+
+        }
+        return saveDataCharacters;
+    }
+
+
+    void AddSaveDataCharacters(CSVManager cSVManager)
+    {
+        var saveDataCharacters = SaveDataManager.SaveData.characters.ToList();
+
+        foreach (var dataBaseCharacter in cSVManager.Characters)
+        {
+            bool exist = false;
+            foreach (var saveDataCharacter in SaveDataManager.SaveData.characters)
+            {
+                Debug.Log(saveDataCharacter.id + " " + dataBaseCharacter.id);
+                exist = saveDataCharacter.id == dataBaseCharacter.id;
+                if (exist) break;
+            }
+            if (exist) continue;
+
+            var newSaveDataCharacter = new SaveDataObjects.Character()
+            {
+                id = dataBaseCharacter.id
+            };
+            saveDataCharacters.Add(newSaveDataCharacter);
+
         }
 
-        SaveData.Instance.Save();
-
-        DebugUtils.LogJson(SaveData.Instance);
-
+        SaveDataManager.SaveData.characters = saveDataCharacters.ToArray();
     }
 
 

@@ -18,6 +18,8 @@ public class HomeHeader : MonoBehaviour
     [SerializeField] Image characterExpBarImage;
     [SerializeField] Button chargingScreenButton;
 
+    SaveData SaveData => SaveDataManager.SaveData;
+
 
     public void OnStart()
     {
@@ -29,17 +31,16 @@ public class HomeHeader : MonoBehaviour
     {
         // セーブデータが別のインスタンスをつくってしまうから？
         // セーブデータがロードされないため
-        SaveData saveData = SaveData.Instance;
 
-        levelText.text = saveData.player.level.ToString();
-        jemFreeText.text = saveData.jemFree.ToString();
-        jemChargingText.text = saveData.jemCharging.ToString();
+        levelText.text = SaveData.player.level.ToString();
+        jemFreeText.text = SaveData.jemFree.ToString();
+        jemChargingText.text = SaveData.jemCharging.ToString();
         dayText.text = DateTime.Now.ToString("MM d ddd");
         timeText.text = DateTime.Now.ToString("hh:mm:ss");
 
         ShowExp();
 
-        var characterData = GetCharacterData(saveData.currentCharacterId);
+        var characterData = GetCharacterData(SaveData.currentCharacterId);
         if (characterData == null)
         {
             characterNameText.text = "キャラクター";
@@ -78,9 +79,9 @@ public class HomeHeader : MonoBehaviour
 
     SaveDataObjects.Character GetCurrentCharacter()
     {
-        foreach (var character in SaveData.Instance.characters)
+        foreach (var character in SaveData.characters)
         {
-            if (character.id == SaveData.Instance.currentCharacterId) return character;
+            if (character.id == SaveData.currentCharacterId) return character;
         }
         return null;
     }

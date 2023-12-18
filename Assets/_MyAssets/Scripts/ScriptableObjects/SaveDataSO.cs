@@ -10,28 +10,26 @@ public class SaveDataSO : ScriptableObject
     [SerializeField] SaveData saveData;
 
 
-
-
     [Button]
     public void Pull()
     {
-        saveData = SaveData.Instance;
-        saveData.LoadSaveData();
+        SaveDataManager.Load();
+        saveData = SaveDataManager.SaveData;
         Debug.Log("セーブデータ取得");
     }
 
     [Button]
     public void Send()
     {
-        saveData.Save();
+        SaveDataManager.Replace(saveData);
         Debug.Log("セーブデータ更新");
     }
 
     [Button]
     public void Clear()
     {
-        saveData.LoadSaveData();
-        saveData.Clear();
+        SaveDataManager.Clear();
+        saveData = SaveDataManager.SaveData;
         Debug.Log("セーブデータ削除");
     }
 }
