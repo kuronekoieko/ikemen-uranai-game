@@ -12,6 +12,6 @@ namespace SaveDataObjects
     {
         public string id;
         public int level = 1;
-        public int exp = 0;
+        public int exp = 200;
     }
 }

@@ -6,16 +6,21 @@ using DataBase;
 
 public class CSVManager : Singleton<CSVManager>
 {
-    public Character[] characters;
-    public bool IsInitialized { get; private set; }
+    public Character[] Characters { get; private set; }
+    public LevelData[] LevelDatas { get; private set; }
+
 
     public async UniTask InitializeAsync()
     {
-        IsInitialized = false;
+
         // パスに拡張子つけない
         TextAsset textAsset = await LoadAsync<TextAsset>("CSV/Characters");
-        if (textAsset) characters = CSVSerializer.Deserialize<Character>(textAsset.text);
-        IsInitialized = true;
+        if (textAsset) Characters = CSVSerializer.Deserialize<Character>(textAsset.text);
+
+        textAsset = await LoadAsync<TextAsset>("CSV/Level-Exp");
+        if (textAsset) LevelDatas = CSVSerializer.Deserialize<LevelData>(textAsset.text);
+
+
     }
 
     async UniTask<T> LoadAsync<T>(string path) where T : Object

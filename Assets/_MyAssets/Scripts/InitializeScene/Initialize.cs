@@ -3,18 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
+using UnityEngine.Events;
 
-public class Initialize : MonoBehaviour
+public class Initialize : SingletonMonoBehaviour<Initialize>
 {
     [SerializeField] ScreenManager screenManager;
+    bool IsInitialized;
+
+    public UnityAction OnUpdate = () => { };
+
     async void Start()
     {
+        IsInitialized = false;
+
         Application.targetFrameRate = 60;
+
         await CSVManager.Instance.InitializeAsync();
+        SaveData.Instance.LoadSaveData();
 
         screenManager.OnStart();
 
         ScreenManager.Instance.Get<HomeScreen>().Open();
+
+        IsInitialized = true;
+
         return;//テスト
         ScreenManager.Instance.Get<LoadingScreen>().Open();
 
@@ -33,6 +45,11 @@ public class Initialize : MonoBehaviour
     }
 
 
+    private void Update()
+    {
+        if (IsInitialized == false) return;
+        OnUpdate.Invoke();
+    }
 
 
 }
