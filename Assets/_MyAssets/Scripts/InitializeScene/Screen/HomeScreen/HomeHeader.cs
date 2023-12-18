@@ -79,9 +79,10 @@ public class HomeHeader : MonoBehaviour
 
     SaveDataObjects.Character GetCurrentCharacter()
     {
+        if (SaveData.characters == null) return null;
         foreach (var character in SaveData.characters)
         {
-            if (character.id == SaveData.currentCharacterId) return character;
+            if (character.Key == SaveData.currentCharacterId) return character.Value;
         }
         return null;
     }

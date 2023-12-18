@@ -23,10 +23,7 @@ public static class SaveDataManager
     public static void Replace(SaveData t)
     {
         _SaveData = t;
-        //ユーザーデータオブジェクトからjson形式のstringを取得
-        // string jsonStr = JsonUtility.ToJson(SaveData.Instance);
-        string jsonStr = JsonConvert.SerializeObject(SaveData, Formatting.Indented);
-        SavePlayerPrefs(jsonStr);
+        Save();
     }
 
     public static void Load()
@@ -47,13 +44,13 @@ public static class SaveDataManager
         Save();
     }
 
-    public static void LoadOverWrite(SaveData t)
+    public static void LoadOverWrite(SaveData defaultSaveData)
     {
+        _SaveData = defaultSaveData;
         string jsonStr = PlayerPrefs.GetString(KEY_SAVE_DATA);
         //Debug.Log(jsonStr);
         if (string.IsNullOrEmpty(jsonStr) == false)
         {
-            _SaveData ??= new();
             JsonConvert.PopulateObject(jsonStr, _SaveData);
         }
 

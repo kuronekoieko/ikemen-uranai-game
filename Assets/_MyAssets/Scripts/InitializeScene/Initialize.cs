@@ -50,11 +50,13 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
     {
         var defaultSaveData = new SaveData
         {
-            characters = CreateDataCharacters(cSVManager).ToArray()
+            characters = CreateDic(cSVManager)
         };
+        SaveDataManager.LoadOverWrite(defaultSaveData);
 
-        SaveDataManager.Load();
-
+        // SaveDataManager.Load();
+        //  SaveDataManager.SaveData.characters = CreateDic(cSVManager);
+        SaveDataManager.Save();
 
         DebugUtils.LogJson(SaveDataManager.SaveData);
 
@@ -67,6 +69,22 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
         await UniTask.DelayFrame(1);
 
         DebugUtils.LogJson(SaveDataManager.SaveData);
+    }
+
+    Dictionary<string, SaveDataObjects.Character> CreateDic(CSVManager cSVManager)
+    {
+        var saveDataCharacters = new Dictionary<string, SaveDataObjects.Character>();
+
+        foreach (var dataBaseCharacter in cSVManager.Characters)
+        {
+            var newSaveDataCharacter = new SaveDataObjects.Character()
+            {
+                id = dataBaseCharacter.id
+            };
+            saveDataCharacters.Add(newSaveDataCharacter.id, newSaveDataCharacter);
+
+        }
+        return saveDataCharacters;
     }
 
     List<SaveDataObjects.Character> CreateDataCharacters(CSVManager cSVManager)
@@ -85,33 +103,33 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
         return saveDataCharacters;
     }
 
-
-    void AddSaveDataCharacters(CSVManager cSVManager)
-    {
-        var saveDataCharacters = SaveDataManager.SaveData.characters.ToList();
-
-        foreach (var dataBaseCharacter in cSVManager.Characters)
+    /*
+        void AddSaveDataCharacters(CSVManager cSVManager)
         {
-            bool exist = false;
-            foreach (var saveDataCharacter in SaveDataManager.SaveData.characters)
+            var saveDataCharacters = SaveDataManager.SaveData.characters.ToList();
+
+            foreach (var dataBaseCharacter in cSVManager.Characters)
             {
-                Debug.Log(saveDataCharacter.id + " " + dataBaseCharacter.id);
-                exist = saveDataCharacter.id == dataBaseCharacter.id;
-                if (exist) break;
+                bool exist = false;
+                foreach (var saveDataCharacter in SaveDataManager.SaveData.characters)
+                {
+                    Debug.Log(saveDataCharacter.id + " " + dataBaseCharacter.id);
+                    exist = saveDataCharacter.id == dataBaseCharacter.id;
+                    if (exist) break;
+                }
+                if (exist) continue;
+
+                var newSaveDataCharacter = new SaveDataObjects.Character()
+                {
+                    id = dataBaseCharacter.id
+                };
+                saveDataCharacters.Add(newSaveDataCharacter);
+
             }
-            if (exist) continue;
 
-            var newSaveDataCharacter = new SaveDataObjects.Character()
-            {
-                id = dataBaseCharacter.id
-            };
-            saveDataCharacters.Add(newSaveDataCharacter);
-
+            SaveDataManager.SaveData.characters = saveDataCharacters;
         }
-
-        SaveDataManager.SaveData.characters = saveDataCharacters.ToArray();
-    }
-
+    */
 
     private void Update()
     {
