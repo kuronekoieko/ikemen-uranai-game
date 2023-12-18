@@ -31,9 +31,10 @@ public class ScrollSelector : MonoBehaviour
         await UniTask.DelayFrame(1);
         var normalizedPos = ScrollToCore(startIndex, 0.5f);
         scrollRect.verticalNormalizedPosition = normalizedPos;
+        Initialize.Instance.OnUpdate += OnUpdate;
     }
 
-    private void Update()
+    private void OnUpdate()
     {
         if (scrollRect == null) return;
         // Debug.Log(scrollRect.verticalNormalizedPosition);

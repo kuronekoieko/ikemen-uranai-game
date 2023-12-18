@@ -10,7 +10,7 @@ public class BaseSaveData<T> where T : new()
     {
         get
         {
-            if (_instance == null) _instance = new();
+            _instance ??= new();// if (_instance == null) _instance = new();
             return _instance;
         }
     }

@@ -4,7 +4,6 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
-using System.Linq;
 
 public class HomeHeader : MonoBehaviour
 {
@@ -23,14 +22,13 @@ public class HomeHeader : MonoBehaviour
     public void OnStart()
     {
         chargingScreenButton.onClick.AddListener(OnClickChargingScreenButton);
+        Initialize.Instance.OnUpdate += OnUpdate;
     }
 
-    private void Update()
+    private void OnUpdate()
     {
-        if (SaveData.Instance == null) return;
-        if (CSVManager.Instance.IsInitialized == false) return;
-
-
+        // セーブデータが別のインスタンスをつくってしまうから？
+        // セーブデータがロードされないため
         SaveData saveData = SaveData.Instance;
 
         levelText.text = saveData.player.level.ToString();
@@ -39,22 +37,62 @@ public class HomeHeader : MonoBehaviour
         dayText.text = DateTime.Now.ToString("MM d ddd");
         timeText.text = DateTime.Now.ToString("hh:mm:ss");
 
-        characterLevelText.text = "999";// エラーのとき
-        characterExpPerText.text = "100%";// エラーのとき
-        foreach (var character in saveData.characters)
+
+        var currentCharacter = GetCurrentCharacter();
+        if (currentCharacter == null)
         {
-            if (character.id != saveData.currentCharacterId) continue;
-            characterLevelText.text = character.level.ToString();
-            characterExpPerText.text = character.exp.ToString();// TODO: %表示
+            characterLevelText.text = "999";
+            characterExpPerText.text = "100%";
+        }
+        else
+        {
+            var currentLevelData = GetCurrentLevelData(currentCharacter);
+            characterLevelText.text = currentCharacter.level.ToString();
+            characterExpBarImage.fillAmount = currentCharacter.exp / currentLevelData.exp;
+            characterExpPerText.text = (characterExpBarImage.fillAmount * 100) + "%";// TODO: %表示
         }
 
-        characterNameText.text = "キャラクター";// エラーのとき
-        foreach (var character in CSVManager.Instance.characters)
+
+        var characterData = GetCharacterData(saveData.currentCharacterId);
+        if (characterData == null)
         {
-            if (character.id != saveData.currentCharacterId) continue;
-            characterNameText.text = character.name_jp;
+            characterNameText.text = "キャラクター";
+        }
+        else
+        {
+            characterNameText.text = characterData.name_jp;
         }
 
+    }
+
+    SaveDataObjects.Character GetCurrentCharacter()
+    {
+        foreach (var character in SaveData.Instance.characters)
+        {
+            if (character.id == SaveData.Instance.currentCharacterId) return character;
+        }
+        return null;
+    }
+
+    DataBase.LevelData GetCurrentLevelData(SaveDataObjects.Character currentCharacter)
+    {
+        if (currentCharacter == null) return null;
+        foreach (var levelData in CSVManager.Instance.LevelDatas)
+        {
+            if (levelData.level == currentCharacter.level) return levelData;
+        }
+        return null;
+    }
+
+    DataBase.Character GetCharacterData(string currentCharacterId)
+    {
+        if (string.IsNullOrEmpty(currentCharacterId)) return null;
+
+        foreach (var character in CSVManager.Instance.Characters)
+        {
+            if (character.id == currentCharacterId) return character;
+        }
+        return null;
     }
 
     void OnClickChargingScreenButton()
