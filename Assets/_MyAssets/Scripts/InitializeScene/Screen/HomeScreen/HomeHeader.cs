@@ -46,10 +46,18 @@ public class HomeHeader : MonoBehaviour
         }
         else
         {
-            var currentLevelData = GetCurrentLevelData(currentCharacter);
             characterLevelText.text = currentCharacter.level.ToString();
-            characterExpBarImage.fillAmount = currentCharacter.exp / currentLevelData.exp;
-            characterExpPerText.text = (characterExpBarImage.fillAmount * 100) + "%";// TODO: %表示
+
+            var currentLevelData = GetCurrentLevelData(currentCharacter);
+            if (currentLevelData == null)
+            {
+                characterExpBarImage.fillAmount = 0;
+            }
+            else
+            {
+                characterExpBarImage.fillAmount = (float)currentCharacter.exp / (float)currentLevelData.exp;
+            }
+            characterExpPerText.text = (characterExpBarImage.fillAmount * 100) + "%";
         }
 
 
