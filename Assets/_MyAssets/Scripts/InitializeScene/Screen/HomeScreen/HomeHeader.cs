@@ -36,8 +36,8 @@ public class HomeHeader : MonoBehaviour
         dayText.text = DateTime.Now.ToString("MM d ddd");
         timeText.text = DateTime.Now.ToString("hh:mm:ss");
 
-        characterLevelText.text = "999";
-        characterExpPerText.text = "100%";
+        characterLevelText.text = "999";// エラーのとき
+        characterExpPerText.text = "100%";// エラーのとき
         foreach (var character in saveData.characters)
         {
             if (character.id != saveData.currentCharacterId) continue;
