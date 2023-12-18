@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OpenScreenButton_Characters : BaseButton
+public class OpenScreenButton_Gacha : BaseOpenScreenButton
 {
     public override void OnClick()
     {
-        PageManager.Instance.Get<CharactersPage>().Open();
+        PageManager.Instance.Get<GachaPage>().Open();
 
     }
 
