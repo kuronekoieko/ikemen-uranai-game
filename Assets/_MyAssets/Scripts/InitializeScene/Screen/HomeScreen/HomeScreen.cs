@@ -25,6 +25,7 @@ public class HomeScreen : BaseScreen
     public override void Open()
     {
         base.Open();
+        PageManager.Instance.Get<HomePage>().Open();
         // character.SetActive(true);
 
     }
