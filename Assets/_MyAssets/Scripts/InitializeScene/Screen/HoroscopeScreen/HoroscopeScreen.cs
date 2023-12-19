@@ -36,8 +36,9 @@ public class HoroscopeScreen : BaseScreen
         base.Open();
 
         screenTitleText.text = "今日の星座占い";
-
+        // SaveDataManager.SaveData.birthDay = "01/01";
         var constellation = SaveDataManager.SaveData.Constellation;
+        // Debug.Log(constellation);
 
         ShowConstellation(constellation);
         ShowFortune(constellation);
@@ -49,10 +50,12 @@ public class HoroscopeScreen : BaseScreen
         constellationNameText.text = "XXXX座(XX/XX~XX/XX)";
 
         if (constellation == null) return;
+        if (constellation.StartDT == null) return;
+        if (constellation.EndDT == null) return;
 
         string name = constellation.name;
-        string start = constellation.StartDT.ToString("M/d");
-        string end = constellation.EndDT.ToString("M/d");
+        string start = constellation.StartDT.Value.ToString("M/d");
+        string end = constellation.EndDT.Value.ToString("M/d");
         constellationNameText.text = $"{name}({start}~{end})";
     }
 

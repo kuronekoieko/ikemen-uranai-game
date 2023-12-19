@@ -5,10 +5,32 @@ using System;
 
 public static class DateTimeExtensions
 {
-   public static DateTime ToDateTime(this string a)
+    public static DateTime? ToNullableDateTime(this string a)
     {
         bool success = DateTime.TryParse(a, out DateTime dateTime);
-        if (success == false) Debug.LogError("日付のパースに失敗 " + a);
+        if (success)
+        {
+            return dateTime;
+        }
+        else
+        {
+            // Debug.LogWarning("日付のパースに失敗 " + a);
+            return null;
+        }
+    }
+
+    public static DateTime ToDateTime(this string a)
+    {
+        bool success = DateTime.TryParse(a, out DateTime dateTime);
+        if (success)
+        {
+
+        }
+        else
+        {
+            Debug.LogWarning("日付のパースに失敗 " + a);
+        }
+
         return dateTime;
     }
 }

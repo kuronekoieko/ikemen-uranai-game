@@ -14,8 +14,8 @@ public class HoroscopeScreenTest : MonoBehaviour
     {
         await CSVManager.Instance.InitializeAsync();
 
-        List<DateTime> testDatas = CSVManager.Instance.Constellations.Select(c => c.StartDT).ToList();
-        testDatas.AddRange(CSVManager.Instance.Constellations.Select(c => c.EndDT).ToList());
+        List<DateTime> testDatas = CSVManager.Instance.Constellations.Select(c => c.StartDT.Value).ToList();
+        testDatas.AddRange(CSVManager.Instance.Constellations.Select(c => c.EndDT.Value).ToList());
 
         List<bool> results = new();
         SaveData saveData = new();
