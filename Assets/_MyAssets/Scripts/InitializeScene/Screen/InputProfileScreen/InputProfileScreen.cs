@@ -39,7 +39,7 @@ public class InputProfileScreen : BaseScreen
     void OnClickNextButton()
     {
         Close();
-        ScreenManager.Instance.Get<TodayHoroscopesScreen>().Open();
+        ScreenManager.Instance.Get<HoroscopeScreen>().Open();
     }
 
     public override void Close()
