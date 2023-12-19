@@ -24,25 +24,27 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
 
         screenManager.OnStart();
 
-        ScreenManager.Instance.Get<InputProfileScreen>().Open();
-
-        IsInitialized = true;
-
-        return;//テスト
         ScreenManager.Instance.Get<LoadingScreen>().Open();
 
-        var asyncOperation = SceneManager.LoadSceneAsync("Main");
-        asyncOperation.allowSceneActivation = false;
+        // var asyncOperation = SceneManager.LoadSceneAsync("Main");
+        // asyncOperation.allowSceneActivation = false;
 
         // テスト用
-        await ScreenManager.Instance.Get<LoadingScreen>().ProgressTimer(5);
+        await ScreenManager.Instance.Get<LoadingScreen>().ProgressTimer(1);
         ScreenManager.Instance.Get<LoadingScreen>().Close();
 
-        ScreenManager.Instance.Get<InputProfileScreen>().Open();
+        if (SaveDataManager.SaveData.BirthDayDT == null)
+        {
+            ScreenManager.Instance.Get<InputProfileScreen>().Open();
+        }
+        else
+        {
+            ScreenManager.Instance.Get<HomeScreen>().Open();
+        }
 
         //asyncOperation.allowSceneActivation = true;
 
-
+        IsInitialized = true;
     }
 
     private void Update()
