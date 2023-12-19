@@ -13,7 +13,7 @@ public class ScrollSelector : MonoBehaviour
     [SerializeField] TextMeshProUGUI originText;
     ScrollRect scrollRect;
     List<TextMeshProUGUI> texts = new();
-    public int selectedIndex => GetNearIndex();
+    public int SelectedIndex => GetNearIndex();
 
     public async void OnStart(List<string> datas, int startIndex)
     {

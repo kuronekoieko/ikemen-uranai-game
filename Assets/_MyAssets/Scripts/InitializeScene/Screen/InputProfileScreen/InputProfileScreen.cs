@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,9 +39,23 @@ public class InputProfileScreen : BaseScreen
 
     void OnClickNextButton()
     {
-        Close();
-        var constellation = SaveDataManager.SaveData.Constellation;
-        ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation);
+        int month = monthScrollSelector.SelectedIndex + 1;
+        int day = dayScrollSelector.SelectedIndex + 1;
+        string birthDay = month + "/" + day;
+        // Debug.Log(birthDay);
+        var birthDayDT = birthDay.ToNullableDateTime();
+        if (birthDayDT == null)
+        {
+            Debug.Log("誕生日が入力されていない");
+        }
+        else
+        {
+            SaveDataManager.SaveData.birthDay = birthDay;
+            SaveDataManager.Save();
+            var constellation = SaveDataManager.SaveData.Constellation;
+            ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation);
+            Close();
+        }
     }
 
     public override void Close()
