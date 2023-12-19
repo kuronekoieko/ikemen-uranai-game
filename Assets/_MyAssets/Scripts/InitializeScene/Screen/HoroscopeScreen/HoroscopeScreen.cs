@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TodayHoroscopesScreen : BaseScreen
+public class HoroscopeScreen : BaseScreen
 {
     [SerializeField] Button otherConstellationInfoButton;
     [SerializeField] Button homeButton;

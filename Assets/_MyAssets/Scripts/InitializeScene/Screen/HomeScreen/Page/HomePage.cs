@@ -26,12 +26,12 @@ public class HomePage : BasePage
 
     void OnClickTodayHoroscopesButton()
     {
-        ScreenManager.Instance.Get<TodayHoroscopesScreen>().Open();
+        ScreenManager.Instance.Get<HoroscopeScreen>().Open();
     }
 
     void OnClickTomorrowHoroscopesButton()
     {
-        ScreenManager.Instance.Get<TodayHoroscopesScreen>().Open();
+        ScreenManager.Instance.Get<HoroscopeScreen>().Open();
     }
 
     public override void Open()
