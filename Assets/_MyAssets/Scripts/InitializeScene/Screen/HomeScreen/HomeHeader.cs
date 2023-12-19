@@ -18,6 +18,8 @@ public class HomeHeader : MonoBehaviour
     [SerializeField] TextMeshProUGUI timeText;
     [SerializeField] Image characterExpBarImage;
     [SerializeField] Button chargingScreenButton;
+    [SerializeField] Button openMenuScreenButton;
+
 
     SaveData SaveData => SaveDataManager.SaveData;
 
@@ -25,6 +27,7 @@ public class HomeHeader : MonoBehaviour
     public void OnStart()
     {
         chargingScreenButton.onClick.AddListener(OnClickChargingScreenButton);
+        openMenuScreenButton.onClick.AddListener(OnClickOpenMenuScreenButton);
         Initialize.Instance.OnUpdate += OnUpdate;
     }
 
@@ -112,5 +115,10 @@ public class HomeHeader : MonoBehaviour
     void OnClickChargingScreenButton()
     {
 
+    }
+
+    void OnClickOpenMenuScreenButton()
+    {
+        ScreenManager.Instance.Get<MenuScreen>().Open();
     }
 }
