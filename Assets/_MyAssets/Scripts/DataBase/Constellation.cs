@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Newtonsoft.Json;
 
 namespace DataBase
 {
+    [Serializable]
+    [JsonObject]
     public class Constellation
     {
         public string id;
@@ -12,29 +15,7 @@ namespace DataBase
         public string start;
         public string end;
 
-        public DateTime StartDT => start.ToDateTime();
-        public DateTime EndDT => end.ToDateTime();
-
-
-        DateTime ToDateTime(string value)
-        {
-            DateTime dateTime = value.ToDateTime();
-
-            int lastIndex = CSVManager.Instance.Constellations.Length - 1;
-            Constellation lastConstellation = CSVManager.Instance.Constellations[lastIndex];
-
-            DateTime lastConstellationEndDT = lastConstellation.end.ToDateTime();
-
-            Debug.Log(dateTime + " " + lastConstellationEndDT.Date + " " + (dateTime.Date <= lastConstellationEndDT.Date));
-            if (dateTime.Date <= lastConstellationEndDT.Date)
-            {
-                dateTime = dateTime.AddYears(1);
-            }
-            return dateTime;
-        }
-
-
-
-
+        public DateTime? StartDT => start.ToNullableDateTime();
+        public DateTime? EndDT => end.ToNullableDateTime();
     }
 }
