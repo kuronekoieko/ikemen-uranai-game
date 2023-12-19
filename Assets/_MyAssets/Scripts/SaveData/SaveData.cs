@@ -15,22 +15,17 @@ public class SaveData
     public int exp = 0;
     public int jemFree;
     public int jemCharging;
-    public string birthDay = "";
-    public DateTime? BirthDayDT => birthDay.ToNullableDateTime();
+    public string birthDay;
     public string currentCharacterId = "0001";
     // 配列は使わない。dicにする→データ更新のときに上書きされずに、要素が追加されるため
     // 初期値nullにするとセーブデータがnullで上書きされる
     public Dictionary<string, Character> characters = new();
 
-    public DataBase.Constellation Constellation
-    {
-        get
-        {
-            _Constellation ??= GetConstellation(BirthDayDT);
-            return _Constellation;
-        }
-    }
-    [NonSerialized] DataBase.Constellation _Constellation;
+
+
+    public DateTime? BirthDayDT => birthDay.ToNullableDateTime();
+
+    public DataBase.Constellation Constellation => GetConstellation(BirthDayDT);
 
 
     public DataBase.Constellation GetConstellation(DateTime? birthDayDT)

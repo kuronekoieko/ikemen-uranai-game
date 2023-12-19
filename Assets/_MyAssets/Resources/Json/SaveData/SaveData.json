@@ -3,7 +3,7 @@
   "exp": 0,
   "jemFree": 0,
   "jemCharging": 0,
-  "birthDay": "4/2",
+  "birthDay": "9/4",
   "currentCharacterId": "0001",
   "characters": {
     "0001": {
@@ -72,7 +72,7 @@
       "exp": 200
     }
   },
-  "BirthDayDT": "2023-04-02T00:00:00",
+  "BirthDayDT": "2023-09-04T00:00:00",
   "Constellation": {
     "id": "01",
     "name": "おひつじ座",
