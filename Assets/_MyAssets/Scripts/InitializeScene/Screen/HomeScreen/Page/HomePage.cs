@@ -19,6 +19,19 @@ public class HomePage : BasePage
     {
         base.OnStart();
         Initialize.Instance.OnUpdate += OnUpdate;
+        todayHoroscopesButton.onClick.AddListener(OnClickTodayHoroscopesButton);
+        tomorrowHoroscopesButton.onClick.AddListener(OnClickTomorrowHoroscopesButton);
+
+    }
+
+    void OnClickTodayHoroscopesButton()
+    {
+        ScreenManager.Instance.Get<TodayHoroscopesScreen>().Open();
+    }
+
+    void OnClickTomorrowHoroscopesButton()
+    {
+        ScreenManager.Instance.Get<TodayHoroscopesScreen>().Open();
     }
 
     public override void Open()
