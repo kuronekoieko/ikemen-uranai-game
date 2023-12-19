@@ -35,38 +35,62 @@ public class HoroscopeScreen : BaseScreen
         base.Open();
 
         screenTitleText.text = "今日の星座占い";
-        // iconImage.sprite=
+
         string constellationId = "01";
-        var constellation = CSVManager.Instance.Constellations.FirstOrDefault(c => c.id == constellationId);
-        if (constellation == null)
-        {
-            constellationNameText.text = "XXXX座(XX/XX~XX/XX)";
-        }
-        else
-        {
-            string name = constellation.name;
-            string start = constellation.StartDT.ToString("M/d");
-            string end = constellation.EndDT.ToString("M/d");
-            constellationNameText.text = $"{name}({start}~{end})";
-        }
 
-        var fortune = CSVManager.Instance.Fortunes.FirstOrDefault(f => f.constellation_id == constellationId);
-        if (fortune == null)
-        {
-            fortuneRankText.text = "XX" + "位";
-            luckyItemText.text = "XXXX";
-            luckyColorText.text = "XXXX";
-        }
-        else
-        {
-            fortuneRankText.text = fortune.rank + "位";
-            luckyItemText.text = fortune.item;
-            luckyColorText.text = fortune.color;
-        }
-
-
-
+        ShowConstellation(constellationId);
+        ShowFortune(constellationId);
     }
+
+    void ShowConstellation(string constellationId)
+    {
+        // iconImage.sprite=
+        var constellation = CSVManager.Instance.Constellations.FirstOrDefault(c => c.id == constellationId);
+        constellationNameText.text = "XXXX座(XX/XX~XX/XX)";
+
+        if (constellation == null) return;
+
+        string name = constellation.name;
+        string start = constellation.StartDT.ToString("M/d");
+        string end = constellation.EndDT.ToString("M/d");
+        constellationNameText.text = $"{name}({start}~{end})";
+    }
+
+    void ShowFortune(string constellationId)
+    {
+        var fortune = CSVManager.Instance.Fortunes.FirstOrDefault(f => f.constellation_id == constellationId);
+
+        fortuneRankText.text = "XX" + "位";
+        luckyItemText.text = "XXXX";
+        luckyColorText.text = "XXXX";
+        messageText.text = "XXXX";
+
+        if (fortune == null) return;
+
+        fortuneRankText.text = fortune.rank + "位";
+        luckyItemText.text = fortune.item;
+        luckyColorText.text = fortune.color;
+
+        var dataBaseCharacter = CSVManager.Instance.Characters.FirstOrDefault(c => c.id == SaveDataManager.SaveData.currentCharacterId);
+        if (dataBaseCharacter == null) return;
+
+        if (fortune.rank <= 4)
+        {
+            messageText.text = dataBaseCharacter.rank_message_low;
+            return;
+        }
+        if (fortune.rank <= 8)
+        {
+            messageText.text = dataBaseCharacter.rank_message_mid;
+            return;
+        }
+        if (fortune.rank <= 12)
+        {
+            messageText.text = dataBaseCharacter.rank_message_high;
+            return;
+        }
+    }
+
 
     void OnClickOtherConstellationInfoButton()
     {

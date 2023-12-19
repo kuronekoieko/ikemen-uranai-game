@@ -6,6 +6,7 @@ using DataBase;
 
 public class CSVManager : Singleton<CSVManager>
 {
+    // 各オブジェクト内の変数名はcsvのキーと同じにする
     public Character[] Characters { get; private set; }
     public LevelData[] LevelDatas { get; private set; }
     public Constellation[] Constellations { get; private set; }
