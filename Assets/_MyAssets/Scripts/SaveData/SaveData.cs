@@ -11,6 +11,8 @@ using System.Linq;
 [JsonObject]
 public class SaveData
 {
+    public string uid;
+    public string name;
     public int level = 1;
     public int exp = 0;
     public int jemFree;

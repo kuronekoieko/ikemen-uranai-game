@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ public class InputProfileScreen : BaseScreen
     [SerializeField] ScrollSelector monthScrollSelector;
     [SerializeField] ScrollSelector dayScrollSelector;
     [SerializeField] Button nextButton;
+    [SerializeField] TMP_InputField inputField;
 
     public override void OnStart()
     {
@@ -50,9 +52,9 @@ public class InputProfileScreen : BaseScreen
         }
         else
         {
+            SaveDataManager.SaveData.name = inputField.text;
             SaveDataManager.SaveData.birthDay = birthDay;
             SaveDataManager.Save();
-            Debug.Log(SaveDataManager.SaveData.BirthDayDT.Value);
             var constellation = SaveDataManager.SaveData.Constellation;
             ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation);
             Close();

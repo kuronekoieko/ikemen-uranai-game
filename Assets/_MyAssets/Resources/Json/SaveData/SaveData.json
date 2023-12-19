@@ -1,9 +1,11 @@
 {
+  "uid": null,
+  "name": "おけい",
   "level": 1,
   "exp": 0,
   "jemFree": 0,
   "jemCharging": 0,
-  "birthDay": "9/4",
+  "birthDay": "7/8",
   "currentCharacterId": "0001",
   "characters": {
     "0001": {
@@ -72,13 +74,13 @@
       "exp": 200
     }
   },
-  "BirthDayDT": "2023-09-04T00:00:00",
+  "BirthDayDT": "2023-07-08T00:00:00",
   "Constellation": {
-    "id": "01",
-    "name": "おひつじ座",
-    "start": "3月21日",
-    "end": "4月19日",
-    "StartDT": "2023-03-21T00:00:00",
-    "EndDT": "2023-04-19T00:00:00"
+    "id": "04",
+    "name": "かに座",
+    "start": "6月22日",
+    "end": "7月22日",
+    "StartDT": "2023-06-22T00:00:00",
+    "EndDT": "2023-07-22T00:00:00"
   }
 }
