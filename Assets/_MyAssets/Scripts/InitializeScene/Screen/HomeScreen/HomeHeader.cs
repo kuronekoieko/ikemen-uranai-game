@@ -36,7 +36,7 @@ public class HomeHeader : MonoBehaviour
         // セーブデータが別のインスタンスをつくってしまうから？
         // セーブデータがロードされないため
 
-        levelText.text = SaveData.player.level.ToString();
+        levelText.text = SaveData.level.ToString();
         jemFreeText.text = SaveData.jemFree.ToString();
         jemChargingText.text = SaveData.jemCharging.ToString();
         dayText.text = DateTime.Now.ToString("MM d ddd", CultureInfo.CreateSpecificCulture("en-US"));

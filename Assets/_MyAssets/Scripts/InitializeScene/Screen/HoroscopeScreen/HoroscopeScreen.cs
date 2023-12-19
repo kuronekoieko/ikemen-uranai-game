@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Linq;
+using System;
 
 public class HoroscopeScreen : BaseScreen
 {
@@ -36,16 +37,15 @@ public class HoroscopeScreen : BaseScreen
 
         screenTitleText.text = "今日の星座占い";
 
-        string constellationId = "01";
+        var constellation = SaveDataManager.SaveData.Constellation;
 
-        ShowConstellation(constellationId);
-        ShowFortune(constellationId);
+        ShowConstellation(constellation);
+        ShowFortune(constellation);
     }
 
-    void ShowConstellation(string constellationId)
+    void ShowConstellation(DataBase.Constellation constellation)
     {
         // iconImage.sprite=
-        var constellation = CSVManager.Instance.Constellations.FirstOrDefault(c => c.id == constellationId);
         constellationNameText.text = "XXXX座(XX/XX~XX/XX)";
 
         if (constellation == null) return;
@@ -56,14 +56,16 @@ public class HoroscopeScreen : BaseScreen
         constellationNameText.text = $"{name}({start}~{end})";
     }
 
-    void ShowFortune(string constellationId)
+    void ShowFortune(DataBase.Constellation constellation)
     {
-        var fortune = CSVManager.Instance.Fortunes.FirstOrDefault(f => f.constellation_id == constellationId);
-
         fortuneRankText.text = "XX" + "位";
         luckyItemText.text = "XXXX";
         luckyColorText.text = "XXXX";
         messageText.text = "XXXX";
+
+        if (constellation == null) return;
+
+        var fortune = CSVManager.Instance.Fortunes.FirstOrDefault(f => f.constellation_id == constellation.id);
 
         if (fortune == null) return;
 
