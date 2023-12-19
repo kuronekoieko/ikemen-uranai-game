@@ -13,12 +13,12 @@ public class CSVManager : Singleton<CSVManager>
 
     public async UniTask InitializeAsync()
     {
-        Characters = await Deserialize<Character>("Characters");
-        LevelDatas = await Deserialize<LevelData>("Level-Exp");
-        Constellations = await Deserialize<Constellation>("Constellation");
+        Characters = await DeserializeAsync<Character>("Characters");
+        LevelDatas = await DeserializeAsync<LevelData>("Level-Exp");
+        Constellations = await DeserializeAsync<Constellation>("Constellation");
     }
 
-    async UniTask<T[]> Deserialize<T>(string fileName)
+    async UniTask<T[]> DeserializeAsync<T>(string fileName)
     {
         // パスに拡張子つけない
         string path = "CSV/" + fileName;
