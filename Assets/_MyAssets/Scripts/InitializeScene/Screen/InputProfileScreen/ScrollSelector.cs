@@ -74,9 +74,7 @@ public class ScrollSelector : MonoBehaviour
     // https://qiita.com/Shinoda_Naoki/items/346d349b7b81affe99d8
     private float ScrollToCore(int selectedIndex, float align)
     {
-        GameObject go = texts[selectedIndex].gameObject;
-
-        var targetRect = go.transform.GetComponent<RectTransform>();
+        var targetRect = texts[selectedIndex].rectTransform;
         var contentHeight = scrollRect.content.rect.height;
         var viewportHeight = scrollRect.viewport.rect.height;
         // スクロール不要
