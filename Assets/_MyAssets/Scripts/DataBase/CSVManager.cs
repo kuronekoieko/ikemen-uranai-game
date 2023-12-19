@@ -16,6 +16,11 @@ public class CSVManager : Singleton<CSVManager>
         Characters = await Deserialize<Character>("Characters");
         LevelDatas = await Deserialize<LevelData>("Level-Exp");
         Constellations = await Deserialize<Constellation>("Constellation");
+
+        foreach (var item in Constellations)
+        {
+            DebugUtils.LogJson(item);
+        }
     }
 
     async UniTask<T[]> Deserialize<T>(string fileName)
