@@ -8,27 +8,27 @@ public class CSVManager : Singleton<CSVManager>
 {
     public Character[] Characters { get; private set; }
     public LevelData[] LevelDatas { get; private set; }
+    public Constellation[] Constellations { get; private set; }
 
 
     public async UniTask InitializeAsync()
     {
-
-        // パスに拡張子つけない
-        TextAsset textAsset = await LoadAsync<TextAsset>("CSV/Characters");
-        if (textAsset) Characters = CSVSerializer.Deserialize<Character>(textAsset.text);
-
-        textAsset = await LoadAsync<TextAsset>("CSV/Level-Exp");
-        if (textAsset) LevelDatas = CSVSerializer.Deserialize<LevelData>(textAsset.text);
-
-
+        Characters = await Deserialize<Character>("Characters");
+        LevelDatas = await Deserialize<LevelData>("Level-Exp");
+        Constellations = await Deserialize<Constellation>("Constellation");
     }
 
-    async UniTask<T> LoadAsync<T>(string path) where T : Object
+    async UniTask<T[]> Deserialize<T>(string fileName)
     {
-        var result = await Resources.LoadAsync<T>(path);
-        var resource = result as T;
-        if (resource == null) Debug.LogError("csv読み込みに失敗しました: " + path);
-        return resource;
+        // パスに拡張子つけない
+        string path = "CSV/" + fileName;
+        var result = await Resources.LoadAsync<TextAsset>(path);
+        var textAsset = result as TextAsset;
+        if (textAsset == null) Debug.LogError("csv読み込みに失敗しました: " + path);
+
+        var ary = CSVSerializer.Deserialize<T>(textAsset.text);
+        if (ary == null) Debug.LogError("csvデシリアライズに失敗しました: " + fileName);
+        return ary;
     }
 }
 
