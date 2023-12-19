@@ -11,6 +11,7 @@ public abstract class BaseScreen : MonoBehaviour
     public virtual void Open()
     {
         gameObject.SetActive(true);
+        transform.SetAsLastSibling();
     }
 
     public virtual void Close()
