@@ -12,7 +12,29 @@ namespace DataBase
         public string start;
         public string end;
 
-        public DateTime StartDT => Convert.ToDateTime(start);
-        public DateTime EndDT => Convert.ToDateTime(end);
+        public DateTime StartDT => start.ToDateTime();
+        public DateTime EndDT => end.ToDateTime();
+
+
+        DateTime ToDateTime(string value)
+        {
+            DateTime dateTime = value.ToDateTime();
+
+            int lastIndex = CSVManager.Instance.Constellations.Length - 1;
+            Constellation lastConstellation = CSVManager.Instance.Constellations[lastIndex];
+
+            DateTime lastConstellationEndDT = lastConstellation.end.ToDateTime();
+
+            Debug.Log(dateTime + " " + lastConstellationEndDT.Date + " " + (dateTime.Date <= lastConstellationEndDT.Date));
+            if (dateTime.Date <= lastConstellationEndDT.Date)
+            {
+                dateTime = dateTime.AddYears(1);
+            }
+            return dateTime;
+        }
+
+
+
+
     }
 }
