@@ -22,6 +22,7 @@ public class HoroscopeScreen : BaseScreen
     // フッター =============================
     [SerializeField] Button otherConstellationInfoButton;
     [SerializeField] Button homeButton;
+
     public override void OnStart()
     {
         base.OnStart();
@@ -35,7 +36,8 @@ public class HoroscopeScreen : BaseScreen
 
         screenTitleText.text = "今日の星座占い";
         // iconImage.sprite=
-        var constellation = CSVManager.Instance.Constellations.FirstOrDefault(c => c.id == "01");
+        string constellationId = "01";
+        var constellation = CSVManager.Instance.Constellations.FirstOrDefault(c => c.id == constellationId);
         if (constellation == null)
         {
             constellationNameText.text = "XXXX座(XX/XX~XX/XX)";
@@ -47,6 +49,22 @@ public class HoroscopeScreen : BaseScreen
             string end = constellation.EndDT.ToString("M/d");
             constellationNameText.text = $"{name}({start}~{end})";
         }
+
+        var fortune = CSVManager.Instance.Fortunes.FirstOrDefault(f => f.constellation_id == constellationId);
+        if (fortune == null)
+        {
+            fortuneRankText.text = "XX" + "位";
+            luckyItemText.text = "XXXX";
+            luckyColorText.text = "XXXX";
+        }
+        else
+        {
+            fortuneRankText.text = fortune.rank + "位";
+            luckyItemText.text = fortune.item;
+            luckyColorText.text = fortune.color;
+        }
+
+
 
     }
 
