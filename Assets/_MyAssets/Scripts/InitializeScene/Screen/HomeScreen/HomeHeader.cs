@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using System.Globalization;
 
 public class HomeHeader : MonoBehaviour
 {
@@ -35,7 +36,7 @@ public class HomeHeader : MonoBehaviour
         levelText.text = SaveData.player.level.ToString();
         jemFreeText.text = SaveData.jemFree.ToString();
         jemChargingText.text = SaveData.jemCharging.ToString();
-        dayText.text = DateTime.Now.ToString("MM d ddd");
+        dayText.text = DateTime.Now.ToString("MM d ddd", CultureInfo.CreateSpecificCulture("en-US"));
         timeText.text = DateTime.Now.ToString("hh:mm:ss");
 
         ShowExp();
