@@ -31,7 +31,15 @@ public class InputProfileScreen : BaseScreen
 
         monthScrollSelector.OnStart(months, 0);
         dayScrollSelector.OnStart(days, 0);
+
+
         nextButton.onClick.AddListener(OnClickNextButton);
+        Initialize.Instance.OnUpdate += OnUpdate;
+    }
+
+    void OnUpdate()
+    {
+
     }
 
     public override void Open()

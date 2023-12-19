@@ -33,6 +33,19 @@ public class LoadingScreen : BaseScreen
         hintContentText.LimitLineCount(lineCountMax: 3, fontSizeMin: 30);
 
         uidText.text = "123456";
+
+
+        var hint = CSVManager.Instance.Hints.GetRandom();
+        if (hint == null) return;
+
+        hintTitleText.text = hint.title;
+        hintTitleText.LimitLineCount(lineCountMax: 1, fontSizeMin: 40);
+
+        hintContentText.text = hint.description;
+        hintContentText.LimitLineCount(lineCountMax: 3, fontSizeMin: 30);
+
+        uidText.text = SaveDataManager.SaveData.uid;
+
     }
 
     /// <summary>
