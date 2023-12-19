@@ -9,6 +9,7 @@ public class CSVManager : Singleton<CSVManager>
     public Character[] Characters { get; private set; }
     public LevelData[] LevelDatas { get; private set; }
     public Constellation[] Constellations { get; private set; }
+    public Fortune[] Fortunes { get; private set; }
 
 
     public async UniTask InitializeAsync()
@@ -16,6 +17,7 @@ public class CSVManager : Singleton<CSVManager>
         Characters = await DeserializeAsync<Character>("Characters");
         LevelDatas = await DeserializeAsync<LevelData>("Level-Exp");
         Constellations = await DeserializeAsync<Constellation>("Constellation");
+        Fortunes = await DeserializeAsync<Fortune>("Fortune");
     }
 
     async UniTask<T[]> DeserializeAsync<T>(string fileName)
