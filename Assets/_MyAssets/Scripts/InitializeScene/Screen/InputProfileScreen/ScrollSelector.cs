@@ -12,7 +12,7 @@ public class ScrollSelector : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI originText;
     ScrollRect scrollRect;
-    List<TextMeshProUGUI> texts = new();
+    readonly List<TextMeshProUGUI> texts = new();
     public int SelectedIndex => GetNearIndex();
 
     public async void OnStart(List<string> datas, int startIndex)
@@ -32,6 +32,14 @@ public class ScrollSelector : MonoBehaviour
         var normalizedPos = ScrollToCore(startIndex, 0.5f);
         scrollRect.verticalNormalizedPosition = normalizedPos;
         Initialize.Instance.OnUpdate += OnUpdate;
+    }
+
+    public void ShowDay(int daysInMonth)
+    {
+        for (int i = 1; i < texts.Count; i++)
+        {
+            texts[i].gameObject.SetActive(i < daysInMonth);
+        }
     }
 
     private void OnUpdate()
