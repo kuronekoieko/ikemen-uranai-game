@@ -39,7 +39,11 @@ public class InputProfileScreen : BaseScreen
 
     void OnUpdate()
     {
-
+        int month = monthScrollSelector.SelectedIndex + 1;
+        // その月の日数
+        // 2004年は閏年だから
+        int days = DateTime.DaysInMonth(2004, month);
+        dayScrollSelector.ShowDay(days);
     }
 
     public override void Open()
