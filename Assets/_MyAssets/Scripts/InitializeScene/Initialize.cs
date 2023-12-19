@@ -24,7 +24,7 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
 
         screenManager.OnStart();
 
-        ScreenManager.Instance.Get<HoroscopeScreen>().Open();
+        ScreenManager.Instance.Get<InputProfileScreen>().Open();
 
         IsInitialized = true;
 

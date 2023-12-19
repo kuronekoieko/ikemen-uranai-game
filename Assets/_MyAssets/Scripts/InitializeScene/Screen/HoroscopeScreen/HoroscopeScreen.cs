@@ -31,13 +31,18 @@ public class HoroscopeScreen : BaseScreen
         homeButton.onClick.AddListener(OnClickHomeButton);
     }
 
-    public override void Open()
+    public void Open(DataBase.Constellation constellation)
     {
+        if (constellation == null)
+        {
+            ScreenManager.Instance.Get<InputProfileScreen>().Open();
+            return;
+        }
+
         base.Open();
 
         screenTitleText.text = "今日の星座占い";
         // SaveDataManager.SaveData.birthDay = "01/01";
-        var constellation = SaveDataManager.SaveData.Constellation;
         // Debug.Log(constellation);
 
         ShowConstellation(constellation);

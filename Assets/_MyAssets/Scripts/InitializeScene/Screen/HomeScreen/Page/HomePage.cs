@@ -26,12 +26,14 @@ public class HomePage : BasePage
 
     void OnClickTodayHoroscopesButton()
     {
-        ScreenManager.Instance.Get<HoroscopeScreen>().Open();
+        var constellation = SaveDataManager.SaveData.Constellation;
+        ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation);
     }
 
     void OnClickTomorrowHoroscopesButton()
     {
-        ScreenManager.Instance.Get<HoroscopeScreen>().Open();
+        var constellation = SaveDataManager.SaveData.Constellation;
+        ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation);
     }
 
     public override void Open()

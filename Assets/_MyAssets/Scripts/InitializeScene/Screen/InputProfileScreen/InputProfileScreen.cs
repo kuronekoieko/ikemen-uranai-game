@@ -39,7 +39,8 @@ public class InputProfileScreen : BaseScreen
     void OnClickNextButton()
     {
         Close();
-        ScreenManager.Instance.Get<HoroscopeScreen>().Open();
+        var constellation = SaveDataManager.SaveData.Constellation;
+        ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation);
     }
 
     public override void Close()
