@@ -6,6 +6,8 @@ using Firebase.Database;
 using Firebase.Extensions;
 using UnityEngine.Events;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
+using Newtonsoft.Json;
 
 
 
@@ -18,96 +20,49 @@ public class FirebaseDatabaseManager : Singleton<FirebaseDatabaseManager>
         // Get the root reference location of the database.
         reference = FirebaseDatabase.DefaultInstance.RootReference;
     }
-    /*
 
-    public async Task SetUserData(Uranaishi uranaishi)
+
+    public async UniTask SendSaveData(SaveData saveData)
     {
         // 空のidを送ると、サーバーのデータ全部消える
-        if (string.IsNullOrEmpty(uranaishi.id)) return;
-        string json = JsonUtility.ToJson(uranaishi);
-        await reference.Child("users").Child(uranaishi.id)
-        .SetRawJsonValueAsync(json).ContinueWithOnMainThread(task =>
-        {
-            if (task.IsCompletedSuccessfully)
-            {
-                // Debug.Log("成功" + uranaishi.id);
-            }
-            else
-            {
-                // Debug.Log("失敗" + uranaishi.id);
-            }
-        });
-        //reference.Child("users").Push().SetRawJsonValueAsync(json);
+        if (string.IsNullOrEmpty(saveData.uid)) return;
+        string json = JsonUtility.ToJson(saveData);
+        await reference.Child("users").Child(saveData.uid).SetRawJsonValueAsync(json);
     }
 
-    public async Task<Uranaishi> GetUserData(string uranaishiId)
+    public async UniTask<SaveData> GetUserData(string uid)
     {
-        Uranaishi uranaishi = null;
-        await reference.Child("users").Child(uranaishiId)
-        .GetValueAsync().ContinueWithOnMainThread(task =>
-        {
-            if (task.IsFaulted)
-            {
-                // Handle the error...
-            }
-            else if (task.IsCompleted)
-            {
-                DataSnapshot snapshot = task.Result;
-                Debug.Log(snapshot.GetRawJsonValue());
-                uranaishi = new Uranaishi();
-                JsonUtility.FromJsonOverwrite(snapshot.GetRawJsonValue(), uranaishi);
-                // Do something with snapshot...
-            }
-        });
-
-        return uranaishi;
+        DataSnapshot snapshot = await reference.Child("users").Child(uid).GetValueAsync();
+        string json = snapshot.GetRawJsonValue();
+        Debug.Log(json);
+        var saveData = JsonConvert.DeserializeObject<SaveData>(json);
+        return saveData;
     }
 
 
-    public async Task<Uranaishi[]> GetUranaishiAry(int count)
+    public async Task<Dictionary<string, SaveData>> GetSaveDataAry(int count)
     {
 
-        List<Uranaishi> uranaishiList = new List<Uranaishi>();
+        Dictionary<string, SaveData> saveDatas = new();
 
+        DataSnapshot snapshot = await reference.Child("users").GetValueAsync();
 
-        await reference.Child("users")
-        .GetValueAsync().ContinueWithOnMainThread(async task =>
+        // https://www.project-unknown.jp/entry/firebase-login-vol3_1#DataSnapshot-snapshot--taskResult
+        IEnumerator<DataSnapshot> result = snapshot.Children.GetEnumerator();
+
+        while (result.MoveNext())
         {
-            await task;
-            if (task.IsFaulted)
-            {
-                // Handle the error...
-            }
-            else if (task.IsCompleted)
-            {
+            DataSnapshot data = result.Current;
+            SaveData saveData = new SaveData();
+            string json = data.GetRawJsonValue();
+            JsonUtility.FromJsonOverwrite(data.GetRawJsonValue(), saveData);
+            saveData = JsonConvert.DeserializeObject<SaveData>(json);
+            saveDatas[saveData.uid] = saveData;
+        }
 
-                // https://www.project-unknown.jp/entry/firebase-login-vol3_1#DataSnapshot-snapshot--taskResult
-                DataSnapshot snapshot = task.Result;
-                IEnumerator<DataSnapshot> result = snapshot.Children.GetEnumerator();
-
-                while (result.MoveNext())
-                {
-                    DataSnapshot data = result.Current;
-                    Uranaishi uranaishi = new Uranaishi();
-                    JsonUtility.FromJsonOverwrite(data.GetRawJsonValue(), uranaishi);
-                    foreach (var review in uranaishi.reviews)
-                    {
-                        review.uranaishi = uranaishi;
-                    }
-                    //uranaishi.CheckSchedules(Constant.Instance.reserveDurationMin, Constant.Instance.reserveDays);
-                    uranaishi.CheckScheduleMatrix();
-                    uranaishiList.Add(uranaishi);
-                    // Debug.Log(data.GetRawJsonValue());
-
-                    // Debug.Log(uranaishi.id);
-                }
-            }
-        });
-
-        return uranaishiList.ToArray();
+        return saveDatas;
     }
 
-    */
 
     void HandleValueChanged(object sender, ValueChangedEventArgs args)
     {

@@ -15,14 +15,7 @@ public class FirebaseStorageManager : Singleton<FirebaseStorageManager>
 
     public void Initialize()
     {
-        // Get a reference to the storage service, using the default Firebase App
-        FirebaseStorage storage = FirebaseStorage.DefaultInstance;
-
-
-        // Create a root reference
-        storageRef = storage.RootReference;
-
-
+        storageRef = FirebaseStorage.DefaultInstance.RootReference;
     }
     /*
 
