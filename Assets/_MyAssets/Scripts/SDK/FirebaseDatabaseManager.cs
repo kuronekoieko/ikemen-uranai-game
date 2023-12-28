@@ -26,7 +26,7 @@ public class FirebaseDatabaseManager : Singleton<FirebaseDatabaseManager>
     {
         // 空のidを送ると、サーバーのデータ全部消える
         if (string.IsNullOrEmpty(saveData.uid)) return;
-        string json = JsonUtility.ToJson(saveData);
+        string json = JsonConvert.SerializeObject(saveData);
         await reference.Child("users").Child(saveData.uid).SetRawJsonValueAsync(json);
     }
 
@@ -55,7 +55,6 @@ public class FirebaseDatabaseManager : Singleton<FirebaseDatabaseManager>
             DataSnapshot data = result.Current;
             SaveData saveData = new SaveData();
             string json = data.GetRawJsonValue();
-            JsonUtility.FromJsonOverwrite(data.GetRawJsonValue(), saveData);
             saveData = JsonConvert.DeserializeObject<SaveData>(json);
             saveDatas[saveData.uid] = saveData;
         }

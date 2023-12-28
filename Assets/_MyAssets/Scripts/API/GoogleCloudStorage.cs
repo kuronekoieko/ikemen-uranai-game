@@ -56,7 +56,6 @@ public class GoogleCloudStorage
 
 
         // string requestJson = JsonConvert.SerializeObject(requestData, Formatting.Indented);
-        // string requestJson = JsonUtility.ToJson(requestData, true);
         // Debug.Log("リクエスト " + requestJson);
 
         // string apiKey = "";
