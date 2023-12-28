@@ -18,7 +18,9 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
         IsInitialized = false;
 
         Application.targetFrameRate = 60;
-       await GoogleCloudStorage.DownloadAudioFile();
+        // await GoogleCloudStorage.DownloadAudioFile();
+        FirebaseStorageManager.Instance.Initialize();
+        await FirebaseStorageManager.Instance.DownloadFile();
 
         await CSVManager.Instance.InitializeAsync();
         SaveDataInitializer.Initialize(CSVManager.Instance);
