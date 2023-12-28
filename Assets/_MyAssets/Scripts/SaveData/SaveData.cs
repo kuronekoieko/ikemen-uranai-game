@@ -24,9 +24,10 @@ public class SaveData
     public Dictionary<string, Character> characters = new();
 
 
-
+    [JsonIgnore]
     public DateTime? BirthDayDT => birthDay.ToNullableDateTime();
-
+    
+    [JsonIgnore]
     public DataBase.Constellation Constellation => GetConstellation(BirthDayDT);
 
 

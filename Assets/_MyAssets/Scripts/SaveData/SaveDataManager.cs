@@ -12,7 +12,6 @@ public static class SaveDataManager
     public static async void Save()
     {
         //ユーザーデータオブジェクトからjson形式のstringを取得
-        // string jsonStr = JsonUtility.ToJson(SaveData.Instance);
         string jsonStr = JsonConvert.SerializeObject(SaveData, Formatting.Indented);
         SavePlayerPrefs(jsonStr);
         await FirebaseDatabaseManager.Instance.SendSaveData(SaveData);
