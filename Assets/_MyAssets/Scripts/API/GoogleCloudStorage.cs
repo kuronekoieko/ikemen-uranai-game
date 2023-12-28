@@ -14,7 +14,6 @@ using UnityEngine.Networking;
 using Google.Apis.Auth.OAuth2;
 
 
-
 public class GoogleCloudStorage
 {
     static CancellationTokenSource _tokenSource;
@@ -28,7 +27,7 @@ public class GoogleCloudStorage
 
     public static async Task DownloadByteRangeAsync(
            string bucketName = "com-ikevo-game-test",
-           string objectName = "test-001.mp3",
+           string objectName = "test-001.wav",
            long firstByte = 0,
            long lastByte = 20,
            string localPath = "my-local-path/my-file-name")
@@ -65,7 +64,7 @@ public class GoogleCloudStorage
         // POSTするデータ
         // byte[] data = System.Text.Encoding.UTF8.GetBytes(requestJson);
         string bucketName = "com-ikevo-game-test";
-        string objectName = "test-001.mp3";
+        string objectName = "test-001.wav";
         string apiEndPint = GetAPIEndPoint(bucketName, objectName);
 
         // POSTリクエストを送信
@@ -111,14 +110,15 @@ public class GoogleCloudStorage
 
 
 
-    public AudioSource audioSource;
+    static AudioSource audioSource;
 
 
     public static async UniTask DownloadAudioFile()
     {
         string bucketName = "com-ikevo-game-test";
-        string objectName = "test-001.mp3";
+        string objectName = "test-001.wav";
         var credentials = GoogleCredential.FromFile("Assets/_MyAssets/Scripts/API/shaped-epigram-393712-6ea863eb4aa3.json"); // ローカルに保存されたサービスアカウントのJSONキー ファイルへのパス
+        DebugUtils.LogJson(credentials);
         var storage = StorageClient.Create(credentials);
 
         using var memoryStream = new MemoryStream();
@@ -126,10 +126,60 @@ public class GoogleCloudStorage
 
         // メモリストリームからオーディオデータを取得
         byte[] audioData = memoryStream.ToArray();
-
+        Debug.Log(audioData.Length);
         // UnityのAudioSourceにデータをセットして再生
-        //audioSource.clip = WavUtility.ToAudioClip(audioData, 0, audioData.Length, 0, 0);
-        // audioSource.Play();
+        audioSource.clip = LoadWav(audioData);
+        audioSource.Play();
+    }
+
+    // WAVファイルのバイナリデータを受け取り、AudioClipに変換するメソッド
+    public static AudioClip LoadWav(byte[] fileData)
+    {
+        // WAVヘッダを解析して情報を取得
+        int channels = fileData[22];  // チャンネル数
+        int frequency = BitConverter.ToInt32(fileData, 24);  // サンプリングレート
+        int dataStartPosition = 44;  // データ部分の開始位置
+
+        // WAVデータの抽出
+        float[] audioData = new float[(fileData.Length - dataStartPosition) / 2];
+        for (int i = dataStartPosition, j = 0; i < fileData.Length; i += 2, j++)
+        {
+            audioData[j] = (float)BitConverter.ToInt16(fileData, i) / 32768.0f;
+        }
+
+        // AudioClipの作成
+        AudioClip audioClip = AudioClip.Create("LoadedAudio", audioData.Length, channels, frequency, false);
+        audioClip.SetData(audioData, 0);
+
+        return audioClip;
+    }
+
+    public static string storageUrl = "https://storage.googleapis.com/com-ikevo-game-test/test-001.wav";
+
+    public static IEnumerator DownloadAudio()
+    {
+        using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(storageUrl, AudioType.WAV))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError("Failed to download audio: " + www.error);
+            }
+            else
+            {
+                var audioClip = DownloadHandlerAudioClip.GetContent(www);
+                if (audioClip != null)
+                {
+                    // ダウンロードが成功したら再生するなどの処理を行う
+                    // PlayAudio();
+                }
+                else
+                {
+                    Debug.LogError("Failed to create AudioClip.");
+                }
+            }
+        }
     }
 
     public struct Result
