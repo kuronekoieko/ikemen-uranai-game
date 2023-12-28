@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "shaped-epigram-393712",
+  "private_key_id": "6ea863eb4aa3161bd902ed307e6cc64c932e72b9",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDAVpHxQxg7ANWJ\nwXVHfzCQKoIGeVq7wGqh5IwcbBfBNg+JxCyrxGsLAq1UkVHCZC5ePnR9g3ZbiHyo\niNhoGYEXhO8X8ylQG1553pi3p044Def2r12SMebjh8bTTbmDpCNSduExQNrXpaG4\nok3uIJ5UHjARvOaqd7vUk7kbAPB5AYXldfs0mOFkjoN0uXAas3BeSg4F5tHr+xbm\nasJtEPOcdwozVYcA5i4li9skxKcqMl7aZ5yitjJZTNV51YBzX++F2LVQqnb0vX1u\nFZXBi83GyzypvOTt+WoSLuKrRhih81/oIRKmEpIOpyeSI/aTsIrq4BNjvqLALjOx\nVhmxSjGXAgMBAAECggEAJ4ai303GgPme6HxVOagttrLFncb6mnLkdvicwoqEJzSQ\n5OLnuzTWOqEGNcbXYndr//odvl1xyUW3OHtG3b3ABbFP4UAbUVcOh0TzZWqAbIyP\nCubm99BBfqi8d1gVs7PbfmrnxFNrpb1oCqVwFmulnevGPR7w2D9a3kitVZtPz83g\nmA4yp0A05PE21XOygsJT31M2bF5p4dCOB4kBZf+28ff13pDhAqdUr4UFAlYAL6Q6\nVMnoomXsbEQoDIqVCpO5HDxIU/vJ+T82IdYkEhOuPg6BZYTAzpxMgUUc4LaJ1H3H\nphWBD3sINg1ZDFXBPOznmLs3HKjS2XNoTSQnoG1iIQKBgQD3Bp2mAOOVdR76G5Fq\nOHg+K5y+Nr4fwhc970MPBl5nd/wPez7Ad/KWZnAy4MSVIS64+dXi20PQQL7t9Lhw\nyirvI9w9dIkfX5qew3XC8ZjMd4+kHGKORoxO9lluTX+oDn1mGqxhmX4GIt0kcuZn\nyjseiVRtxGAJSiYLA/vxH5JjnQKBgQDHU1liQIDU7Fq1Pn87hAL1V0QM1TnCqINd\no8QoNJI3QjrPtoQeIf9j6hwaemHMvSBZv/JpVNFeogJhKHTZH7n8z16w4P57czQQ\nmYMMD3DVBpuigww1l5crHyYB+rdpwGc5EFeWa1CA86q0PqoaBtoUdPTNY8L4nCg2\nDGI0CftFwwKBgC/uDLClA4OAUh5dMv3VLx+A/sy5enJXCoNt5SkJJ1AUK8glNavK\nmjssbSCyE/KLmbEyaJm3yZSiu2kYTqEz2NjFsHoMHn8D4dBkRHkqv2cM28YP69+H\nOLopeni4eMh250XkbwYQ7i7qnNXxpVsGFip6ovMZYzjqNi90+nFymsjRAoGAPVFt\nwOT4/QeMzA7i0ytEQbdLzurVbwWqC+dyU7AAfxFXyEhsklyBFXqSlK6rYXGY/yMm\nbrLSCdurAbqRX6376ELe7Wj5wH5rOOQQxWgGnPIAdNj9q4rrzS8y4Q8A136CArL9\nTt/KjzDmhbZ1W7ZZ5ksod/rFovdfA2mB2GJts0MCgYEA0Jp7q78c7GiQwh6nZ5Fg\n563iODA9UWOAkjUHyOojSzTx1eegCvsp9dpSfT8Ae+FDxv5I3WSdVMUEwxFZZme2\nt6z//UAYwpBbZWOzH+MdZgMawKsil7HjVgsg89rkt8m7dc6WBUgBRmIy/6PXSlQD\nRW1bfBKztB4PdgND0grO3c4=\n-----END PRIVATE KEY-----\n",
+  "client_email": "ikevo-uranai-game-test@shaped-epigram-393712.iam.gserviceaccount.com",
+  "client_id": "105105909930948790530",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/ikevo-uranai-game-test%40shaped-epigram-393712.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
