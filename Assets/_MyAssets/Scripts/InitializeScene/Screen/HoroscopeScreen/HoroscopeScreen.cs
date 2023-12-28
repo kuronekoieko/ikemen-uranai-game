@@ -31,7 +31,7 @@ public class HoroscopeScreen : BaseScreen
         homeButton.onClick.AddListener(OnClickHomeButton);
     }
 
-    public void Open(DataBase.Constellation constellation)
+    public async void Open(DataBase.Constellation constellation)
     {
         if (constellation == null)
         {
@@ -47,6 +47,10 @@ public class HoroscopeScreen : BaseScreen
 
         ShowConstellation(constellation);
         ShowFortune(constellation);
+
+        Uri uri = await FirebaseStorageManager.Instance.DownloadFile("aaaa/test-004.wav");
+        var audioClip = await FirebaseStorageManager.Instance.DownloadAudio(uri);
+        AudioManager.Instance.PlayOneShot(audioClip);
     }
 
     void ShowConstellation(DataBase.Constellation constellation)

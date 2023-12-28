@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
 using UnityEngine.Events;
 using System.Linq;
+using System;
 
 public class Initialize : SingletonMonoBehaviour<Initialize>
 {
@@ -20,7 +21,6 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
         Application.targetFrameRate = 60;
         // await GoogleCloudStorage.DownloadAudioFile();
         FirebaseStorageManager.Instance.Initialize();
-        await FirebaseStorageManager.Instance.DownloadFile();
 
         await CSVManager.Instance.InitializeAsync();
         SaveDataInitializer.Initialize(CSVManager.Instance);
