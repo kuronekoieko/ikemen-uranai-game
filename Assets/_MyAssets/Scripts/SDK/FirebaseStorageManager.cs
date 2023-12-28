@@ -59,44 +59,49 @@ public class FirebaseStorageManager : Singleton<FirebaseStorageManager>
             }
     */
 
-    public async Task DownloadFile()
+    public async UniTask<Uri> DownloadFile(string path)
     {
         Debug.Log("音声ダウンロード開始");
-        StorageReference storageReference = storageRef.Child("test-001.wav");
+        StorageReference storageReference = storageRef.Child(path);
 
-
-        // Fetch the download URL
-        Uri uri = await storageReference.GetDownloadUrlAsync();
-
-        await DownloadAudio(uri.ToString());
+        Uri uri = null;
+        try
+        {
+            uri = await storageReference.GetDownloadUrlAsync();
+            Debug.Log(uri);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.ToString());
+        }
+        return uri;
     }
 
-    public static IEnumerator DownloadAudio(string url)
+    public async UniTask<AudioClip> DownloadAudio(Uri uri)
     {
-        using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.WAV))
-        {
-            yield return www.SendWebRequest();
+        if (uri == null) return null;
+        string url = uri.ToString();
+        using UnityWebRequest request = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.WAV);
+        await request.SendWebRequest();
 
-            if (www.result != UnityWebRequest.Result.Success)
-            {
-                Debug.LogError("Failed to download audio: " + www.error);
-            }
-            else
-            {
-                var audioClip = DownloadHandlerAudioClip.GetContent(www);
-                if (audioClip != null)
-                {
-                    // ダウンロードが成功したら再生するなどの処理を行う
-                    // PlayAudio();
-                    Debug.Log("成功");
-                    AudioManager.Instance.PlayOneShot(audioClip);
-                }
-                else
-                {
-                    Debug.LogError("Failed to create AudioClip.");
-                }
-            }
+
+        if (request.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError("Failed to download audio: " + request.error);
+            return null;
         }
+
+        var audioClip = DownloadHandlerAudioClip.GetContent(request);
+        if (audioClip == null)
+        {
+            Debug.LogError("Failed to create AudioClip.");
+            return null;
+        }
+
+        // ダウンロードが成功したら再生するなどの処理を行う
+        // PlayAudio();
+        Debug.Log("ダウンロード成功");
+        return audioClip;
     }
 
 
@@ -118,7 +123,7 @@ public class FirebaseStorageManager : Singleton<FirebaseStorageManager>
 
         try
         {
-            // https://www.hanachiru-blog.com/entry/2019/07/12/233000
+            // https://request.hanachiru-blog.com/entry/2019/07/12/233000
             Texture2D texture = ((DownloadHandlerTexture)request.downloadHandler).texture;
             sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero); ;
             // Debug.Log("ダウンロード完了");
