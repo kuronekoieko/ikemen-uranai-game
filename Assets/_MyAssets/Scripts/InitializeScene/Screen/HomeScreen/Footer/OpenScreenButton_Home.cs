@@ -12,5 +12,7 @@ public class OpenScreenButton_Home : BaseOpenScreenButton
         PageManager.Instance.Get<HomePage>().Open();
     }
 
-
+    public override void OnStart()
+    {
+    }
 }

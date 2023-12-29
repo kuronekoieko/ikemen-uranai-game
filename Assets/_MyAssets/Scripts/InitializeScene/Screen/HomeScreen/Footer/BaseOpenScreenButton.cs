@@ -4,9 +4,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 
-public class BaseOpenScreenButton : BaseButton, IPointerDownHandler, IPointerUpHandler
+public abstract class BaseOpenScreenButton : BaseButton, IPointerDownHandler, IPointerUpHandler
 {
     readonly float duration = 0.2f;
+
+    public abstract void OnStart();
+
     public override void OnClick()
     {
     }

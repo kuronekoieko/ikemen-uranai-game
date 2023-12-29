@@ -10,7 +10,11 @@ public class HomeFooter : MonoBehaviour
 
     public void OnStart()
     {
-
+        var buttons = GetComponentsInChildren<BaseOpenScreenButton>(true);
+        foreach (var button in buttons)
+        {
+            button.OnStart();
+        }
     }
 
 

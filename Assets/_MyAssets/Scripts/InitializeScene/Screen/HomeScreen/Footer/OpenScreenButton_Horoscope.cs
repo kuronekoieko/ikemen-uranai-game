@@ -9,5 +9,7 @@ public class OpenScreenButton_Horoscope : BaseOpenScreenButton
         PageManager.Instance.Get<HoroscopePage>().Open();
 
     }
-
+    public override void OnStart()
+    {
+    }
 }

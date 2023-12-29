@@ -7,8 +7,10 @@ public class OpenScreenButton_Story : BaseOpenScreenButton
     public override void OnClick()
     {
         PageManager.Instance.Get<StoryPage>().Open();
-
     }
 
-
+    public override void OnStart()
+    {
+        Button.interactable = false;
+    }
 }
