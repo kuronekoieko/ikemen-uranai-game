@@ -9,5 +9,7 @@ public class OpenScreenButton_Characters : BaseOpenScreenButton
         PageManager.Instance.Get<CharactersPage>().Open();
 
     }
-
+    public override void OnStart()
+    {
+    }
 }
