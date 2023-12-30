@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using MainScene;
 
 public class HomePage : BasePage
 {
