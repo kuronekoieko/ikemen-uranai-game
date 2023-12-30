@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using System;
 using System.Globalization;
+using MainScene;
 
 public class HomeHeader : MonoBehaviour
 {

@@ -7,54 +7,64 @@ using UnityEngine.Events;
 using System.Linq;
 using System;
 
-public class Initialize : SingletonMonoBehaviour<Initialize>
+namespace MainScene
 {
-    [SerializeField] ScreenManager screenManager;
-    bool IsInitialized;
 
-    public UnityAction OnUpdate = () => { };
-
-    async void Start()
+    public class Initialize : SingletonMonoBehaviour<Initialize>
     {
-        IsInitialized = false;
+        [SerializeField] ScreenManager screenManager;
+        bool IsInitialized;
 
-        Application.targetFrameRate = 60;
-        FirebaseStorageManager.Instance.Initialize();
-        FirebaseDatabaseManager.Instance.Initialize();
+        public UnityAction OnUpdate = () => { };
 
-        await CSVManager.Instance.InitializeAsync();
-        SaveDataInitializer.Initialize(CSVManager.Instance);
-
-        screenManager.OnStart();
-
-        ScreenManager.Instance.Get<LoadingScreen>().Open();
-
-        // var asyncOperation = SceneManager.LoadSceneAsync("Main");
-        // asyncOperation.allowSceneActivation = false;
-
-        // テスト用
-        await ScreenManager.Instance.Get<LoadingScreen>().ProgressTimer(1);
-        ScreenManager.Instance.Get<LoadingScreen>().Close();
-
-        if (SaveDataManager.SaveData.BirthDayDT == null)
+        private async void Start()
         {
-            ScreenManager.Instance.Get<InputProfileScreen>().Open();
-        }
-        else
-        {
-            ScreenManager.Instance.Get<HomeScreen>().Open();
+            if (IsInitialized) return;
+            IsInitialized = false;
+
+            Application.targetFrameRate = 60;
+            FirebaseStorageManager.Instance.Initialize();
+            FirebaseDatabaseManager.Instance.Initialize();
+
+            await CSVManager.Instance.InitializeAsync();
+            SaveDataInitializer.Initialize(CSVManager.Instance);
+
+            screenManager.OnStart();
+
+            ScreenManager.Instance.Get<LoadingScreen>().Open();
+
+            // ローディング画面を開いてから、スプラッシュを閉じる
+            if (InitializeScene.Initialize.Instance) InitializeScene.Initialize.Instance.Close();
+            CompleteInit();
         }
 
-        //asyncOperation.allowSceneActivation = true;
 
-        IsInitialized = true;
+        async void CompleteInit()
+        {
+            // テスト用
+            await ScreenManager.Instance.Get<LoadingScreen>().ProgressTimer(1);
+            ScreenManager.Instance.Get<LoadingScreen>().Close();
+
+            if (SaveDataManager.SaveData.BirthDayDT == null)
+            {
+                ScreenManager.Instance.Get<InputProfileScreen>().Open();
+            }
+            else
+            {
+                ScreenManager.Instance.Get<HomeScreen>().Open();
+            }
+
+            //asyncOperation.allowSceneActivation = true;
+
+            IsInitialized = true;
+        }
+
+        private void Update()
+        {
+            if (IsInitialized == false) return;
+            OnUpdate.Invoke();
+        }
+
     }
-
-    private void Update()
-    {
-        if (IsInitialized == false) return;
-        OnUpdate.Invoke();
-    }
-
 
 }

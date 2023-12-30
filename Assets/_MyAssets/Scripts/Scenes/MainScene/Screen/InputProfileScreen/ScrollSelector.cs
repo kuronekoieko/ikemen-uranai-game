@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine.PlayerLoop;
 using Cysharp.Threading.Tasks;
 //using Codice.Client.Common;
+using MainScene;
 
 public class ScrollSelector : MonoBehaviour
 {
