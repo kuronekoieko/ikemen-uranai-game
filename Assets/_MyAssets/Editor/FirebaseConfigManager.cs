@@ -42,6 +42,7 @@ public class FirebaseConfigManager
             baseAndroidSettings = "google-services-prod.json";
             baseIosSettings = "GoogleService-Info-prod.plist";
         }
+        Debug.Log("コピー開始 isDev: " + isDev);
 
         // Firebaseの設定ファイルを上書きコピー
         File.Copy(firebasePath + baseAndroidSettings, firebasePath + ANDROID_SETTINGS, overwrite: true);

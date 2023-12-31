@@ -8,6 +8,7 @@ using System.IO;
 using System;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
+using Cysharp.Threading.Tasks;
 
 public class MyBuildPostprocessor : IPreprocessBuildWithReport
 {
@@ -18,26 +19,41 @@ public class MyBuildPostprocessor : IPreprocessBuildWithReport
     static string releaseBundleDisplayName;
 
     // ビルド前処理
-    public void OnPreprocessBuild(BuildReport report)
+    public async void OnPreprocessBuild(BuildReport report)
     {
         Debug.Log("OnPreprocessBuild");
-        FirebaseConfigManager.CreateFiles(EditorUserBuildSettings.development);
         OnPreprocessBuild_Android(report);
+        // 1フレーム待たないと、次のログが出ない
+        await UniTask.DelayFrame(1);
+        FirebaseConfigManager.CreateFiles(EditorUserBuildSettings.development);
     }
 
     [PostProcessBuild]
     public static void OnPostProcessBuild(BuildTarget buildTarget, string path)
     {
         Debug.Log("OnPostProcessBuild buildTarget : " + buildTarget);
-        OnPostProcessBuild_IOS(buildTarget, path);
+        // OnPostProcessBuild_IOS(buildTarget, path);
         OnPostProcessBuild_Android(buildTarget, path);
+        FirebaseConfigManager.CreateFiles(false);
     }
 
     public void OnPreprocessBuild_Android(BuildReport report)
     {
-        if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.Android) return;
+        //if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.Android) return;
         Debug.Log("OnPreprocessBuild_Android");
-        releaseBundleIdentifier = PlayerSettings.GetApplicationIdentifier(BuildTargetGroup.Android);
+
+        if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android)
+        {
+            releaseBundleIdentifier = PlayerSettings.GetApplicationIdentifier(BuildTargetGroup.Android);
+        }
+        else if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.iOS)
+        {
+            releaseBundleIdentifier = PlayerSettings.GetApplicationIdentifier(BuildTargetGroup.iOS);
+        }
+        else
+        {
+            return;
+        }
 
         if (releaseBundleIdentifier.Contains(".dev"))
         {
@@ -58,19 +74,21 @@ public class MyBuildPostprocessor : IPreprocessBuildWithReport
         {
             releaseBundleDisplayName = PlayerSettings.productName;
 
-            string dateName = DateTime.Today.Month.ToString("D2") + DateTime.Today.Day.ToString("D2");
+            string dateName = DateTime.Today.ToString("MMdd");
 
             string debugBundleDisplayName = $"{dateName}_{releaseBundleDisplayName}";
             string debugBundleIdentifier = releaseBundleIdentifier + ".dev";
 
             PlayerSettings.productName = debugBundleDisplayName;
             PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, debugBundleIdentifier);
+            PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.iOS, debugBundleIdentifier);
         }
+        AssetDatabase.SaveAssets();
     }
 
     static void OnPostProcessBuild_Android(BuildTarget buildTarget, string path)
     {
-        if (buildTarget != BuildTarget.Android) return;
+        // if (buildTarget != BuildTarget.Android) return;
         // https://qiita.com/ckazu/items/07dff39449e9f544b038
         Debug.Log("OnPostProcessBuild_Android");
 
@@ -78,6 +96,7 @@ public class MyBuildPostprocessor : IPreprocessBuildWithReport
         {
             PlayerSettings.productName = releaseBundleDisplayName;
             PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, releaseBundleIdentifier);
+            PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.iOS, releaseBundleIdentifier);
         }
         // PostProcessBuild後の保存が自動でされず、gitの変更にPreprocessBuildの変更が出てしまうため
         AssetDatabase.SaveAssets();
@@ -121,14 +140,13 @@ public class MyBuildPostprocessor : IPreprocessBuildWithReport
         if (EditorUserBuildSettings.development)
         {
             //日付とか
-            string dateName = DateTime.Today.Month.ToString("D2") + DateTime.Today.Day.ToString("D2");
-            string timeName = DateTime.Now.Hour.ToString("D2") + DateTime.Now.Minute.ToString("D2");
+            //string dateName = DateTime.Today.ToString("MMdd");
 
             //アプリ名
-            plist.root.SetString("CFBundleDisplayName", $"{dateName}_{Application.productName}");
+            // plist.root.SetString("CFBundleDisplayName", $"{dateName}_{Application.productName}");
 
             //bundleId
-            pbxProject.SetBuildProperty(target, "PRODUCT_BUNDLE_IDENTIFIER", Application.identifier + ".dev");
+            // pbxProject.SetBuildProperty(target, "PRODUCT_BUNDLE_IDENTIFIER", Application.identifier + ".dev");
         }
 
         // 第三引数を入れたらエラーで止まる
