@@ -6,6 +6,7 @@ using TMPro;
 using System.Linq;
 using System;
 using DataBase;
+using Cysharp.Threading.Tasks;
 
 public class HoroscopeScreen : BaseScreen
 {
@@ -39,23 +40,43 @@ public class HoroscopeScreen : BaseScreen
             ScreenManager.Instance.Get<InputProfileScreen>().Open();
             return;
         }
+        ScreenManager.Instance.Get<LoadingScreen>().Open();
+
+
+        var task1 = DownloadFortune(dateTime);
+        var task2 = DownloadAudioClip();
+
+        var (fortunes, audioClip) = await UniTask.WhenAll(task1, task2);
+        ScreenManager.Instance.Get<LoadingScreen>().Close();
 
         base.Open();
 
-        screenTitleText.text = "今日の星座占い";
-        // SaveDataManager.SaveData.birthDay = "01/01";
-        // Debug.Log(constellation);
-        string fileName = "Fortunes/" + dateTime.ToString("yyyy-MM-dd") + ".csv";
-        Uri uri = await FirebaseStorageManager.Instance.GetURI(fileName);
-        string csv = await FirebaseStorageManager.Instance.DownloadCsvFile(uri);
-        var fortunes = CSVSerializer.Deserialize<Fortune>(csv);
+        string day = dateTime.Date == DateTime.Today ? "今日" : "明日";
+
+        screenTitleText.text = day + "の星座占い";
+
 
         ShowConstellation(constellation);
         ShowFortune(constellation, fortunes);
 
-        uri = await FirebaseStorageManager.Instance.GetURI("test-001.wav");
-        var audioClip = await FirebaseStorageManager.Instance.DownloadAudio(uri);
+
         AudioManager.Instance.PlayOneShot(audioClip);
+    }
+
+    async UniTask<Fortune[]> DownloadFortune(DateTime dateTime)
+    {
+        string fileName = "Fortunes/" + dateTime.ToString("yyyy-MM-dd") + ".csv";
+        Uri uri = await FirebaseStorageManager.Instance.GetURI(fileName);
+        string csv = await FirebaseStorageManager.Instance.DownloadCsvFile(uri);
+        var fortunes = CSVSerializer.Deserialize<Fortune>(csv);
+        return fortunes;
+    }
+
+    async UniTask<AudioClip> DownloadAudioClip()
+    {
+        Uri uri = await FirebaseStorageManager.Instance.GetURI("test-001.wav");
+        var audioClip = await FirebaseStorageManager.Instance.DownloadAudio(uri);
+        return audioClip;
     }
 
     void ShowConstellation(Constellation constellation)
