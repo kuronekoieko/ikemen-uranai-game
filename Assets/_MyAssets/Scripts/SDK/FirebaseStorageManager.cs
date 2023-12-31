@@ -52,9 +52,9 @@ public class FirebaseStorageManager : Singleton<FirebaseStorageManager>
             }
     */
 
-    public async UniTask<Uri> DownloadFile(string path)
+    public async UniTask<Uri> GetURI(string path)
     {
-        Debug.Log("音声アクセス開始");
+        Debug.Log("データベースアクセス開始 " + path);
         StorageReference storageReference = storageRef.Child(path);
 
         Uri uri = null;
@@ -68,6 +68,29 @@ public class FirebaseStorageManager : Singleton<FirebaseStorageManager>
             Debug.LogError(e.ToString());
         }
         return uri;
+    }
+
+    public async UniTask<string> DownloadCsvFile(Uri uri)
+    {
+        Debug.Log("csvダウンロード開始");
+
+        UnityWebRequest www = UnityWebRequest.Get(uri.ToString());
+
+        await www.SendWebRequest();
+
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError("CSVファイルのダウンロードに失敗しました: " + www.error);
+            return null;
+        }
+        else
+        {
+            // ダウンロード成功時の処理
+            string csvData = www.downloadHandler.text;
+            // CSVデータを使って何かしらの処理を行う
+            Debug.Log("ダウンロードしたCSVデータ:\n" + csvData);
+            return csvData;
+        }
     }
 
     public async UniTask<AudioClip> DownloadAudio(Uri uri)
