@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Linq;
 using System;
+using DataBase;
 
 public class HoroscopeScreen : BaseScreen
 {
@@ -31,7 +32,7 @@ public class HoroscopeScreen : BaseScreen
         homeButton.onClick.AddListener(OnClickHomeButton);
     }
 
-    public async void Open(DataBase.Constellation constellation)
+    public async void Open(Constellation constellation, DateTime dateTime)
     {
         if (constellation == null)
         {
@@ -44,16 +45,20 @@ public class HoroscopeScreen : BaseScreen
         screenTitleText.text = "今日の星座占い";
         // SaveDataManager.SaveData.birthDay = "01/01";
         // Debug.Log(constellation);
+        string fileName = "Fortunes/" + dateTime.ToString("yyyy-MM-dd") + ".csv";
+        Uri uri = await FirebaseStorageManager.Instance.GetURI(fileName);
+        string csv = await FirebaseStorageManager.Instance.DownloadCsvFile(uri);
+        var fortunes = CSVSerializer.Deserialize<Fortune>(csv);
 
         ShowConstellation(constellation);
-        ShowFortune(constellation);
+        ShowFortune(constellation, fortunes);
 
-        Uri uri = await FirebaseStorageManager.Instance.DownloadFile("test-001.wav");
+        uri = await FirebaseStorageManager.Instance.GetURI("test-001.wav");
         var audioClip = await FirebaseStorageManager.Instance.DownloadAudio(uri);
         AudioManager.Instance.PlayOneShot(audioClip);
     }
 
-    void ShowConstellation(DataBase.Constellation constellation)
+    void ShowConstellation(Constellation constellation)
     {
         // iconImage.sprite=
         constellationNameText.text = "XXXX座(XX/XX~XX/XX)";
@@ -68,7 +73,7 @@ public class HoroscopeScreen : BaseScreen
         constellationNameText.text = $"{name}({start}~{end})";
     }
 
-    void ShowFortune(DataBase.Constellation constellation)
+    void ShowFortune(Constellation constellation, Fortune[] fortunes)
     {
         fortuneRankText.text = "XX" + "位";
         luckyItemText.text = "XXXX";
@@ -77,7 +82,7 @@ public class HoroscopeScreen : BaseScreen
 
         if (constellation == null) return;
 
-        var fortune = CSVManager.Instance.Fortunes.FirstOrDefault(f => f.constellation_id == constellation.id);
+        var fortune = fortunes.FirstOrDefault(f => f.constellation_id == constellation.id);
 
         if (fortune == null) return;
 
