@@ -42,7 +42,7 @@ public static class SaveDataManager
         }
         */
 
-        _SaveData = await FirebaseDatabaseManager.Instance.GetUserData(_SaveData.uid);
+        _SaveData = await FirebaseDatabaseManager.Instance.GetUserData(_SaveData.firebaseUserId);
         // _SaveData ??= defaultSaveData;
 
 
@@ -64,7 +64,7 @@ public static class SaveDataManager
                     JsonConvert.PopulateObject(jsonStr, _SaveData);
                 }
                 */
-        _SaveData = await FirebaseDatabaseManager.Instance.GetUserData(defaultSaveData.uid);
+        _SaveData = await FirebaseDatabaseManager.Instance.GetUserData(defaultSaveData.firebaseUserId);
         _SaveData ??= defaultSaveData;
 
         //ユーザーデータ保存

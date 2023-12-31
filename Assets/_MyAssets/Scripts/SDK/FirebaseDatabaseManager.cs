@@ -24,15 +24,16 @@ public class FirebaseDatabaseManager : Singleton<FirebaseDatabaseManager>
 
     public async UniTask SendSaveData(SaveData saveData)
     {
+        string userId = FirebaseAuthenticationManager.Instance.User.UserId;
         // 空のidを送ると、サーバーのデータ全部消える
-        if (string.IsNullOrEmpty(saveData.uid)) return;
+        if (string.IsNullOrEmpty(userId)) return;
         string json = JsonConvert.SerializeObject(saveData);
-        await reference.Child("users").Child(saveData.uid).SetRawJsonValueAsync(json);
+        await reference.Child("users").Child(userId).SetRawJsonValueAsync(json);
     }
 
-    public async UniTask<SaveData> GetUserData(string uid)
+    public async UniTask<SaveData> GetUserData(string userId)
     {
-        DataSnapshot snapshot = await reference.Child("users").Child(uid).GetValueAsync();
+        DataSnapshot snapshot = await reference.Child("users").Child(userId).GetValueAsync();
         string json = snapshot.GetRawJsonValue();
         Debug.Log(json);
         if (string.IsNullOrEmpty(json)) return null;
@@ -41,10 +42,8 @@ public class FirebaseDatabaseManager : Singleton<FirebaseDatabaseManager>
         return saveData;
     }
 
-
-    public async Task<Dictionary<string, SaveData>> GetSaveDataAry(int count)
+    public async Task<Dictionary<string, SaveData>> GetUsers()
     {
-
         Dictionary<string, SaveData> saveDatas = new();
 
         DataSnapshot snapshot = await reference.Child("users").GetValueAsync();
@@ -55,10 +54,10 @@ public class FirebaseDatabaseManager : Singleton<FirebaseDatabaseManager>
         while (result.MoveNext())
         {
             DataSnapshot data = result.Current;
-            SaveData saveData = new SaveData();
             string json = data.GetRawJsonValue();
-            saveData = JsonConvert.DeserializeObject<SaveData>(json);
-            saveDatas[saveData.uid] = saveData;
+            if (string.IsNullOrEmpty(json)) continue;
+            SaveData saveData = JsonConvert.DeserializeObject<SaveData>(json);
+            saveDatas[saveData.firebaseUserId] = saveData;
         }
 
         return saveDatas;

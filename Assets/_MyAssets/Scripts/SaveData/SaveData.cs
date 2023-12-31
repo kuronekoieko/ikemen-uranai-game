@@ -11,7 +11,8 @@ using System.Linq;
 [JsonObject]
 public class SaveData
 {
-    public string uid = "789123";
+    public string displayUserId;
+    public string firebaseUserId;
     public string name;
     public int level = 1;
     public int exp = 0;
@@ -26,7 +27,7 @@ public class SaveData
 
     [JsonIgnore]
     public DateTime? BirthDayDT => birthDay.ToNullableDateTime();
-    
+
     [JsonIgnore]
     public DataBase.Constellation Constellation => GetConstellation(BirthDayDT);
 
