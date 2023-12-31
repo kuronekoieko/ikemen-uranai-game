@@ -22,24 +22,48 @@ public class CreateFortunes
         LuckyItems = await DeserializeAsync<LuckyItem>("Fortunes/LuckyItems");
         LuckyColors = await DeserializeAsync<LuckyColor>("Fortunes/LuckyColors");
 
-        List<Fortune> fortunes = new();
-        var luckyItems = LuckyItems.ToList();
-        var luckyColors = LuckyColors.ToList();
-        var ranks = Enumerable.Range(1, 12).ToList();
-        
-        foreach (var constellation in Constellations)
+        var dateTimes = GenerateDateList(60);
+
+        foreach (var dateTime in dateTimes)
         {
-            Fortune fortune = new()
+            List<Fortune> fortunes = new();
+            var luckyItems = LuckyItems.ToList();
+            var luckyColors = LuckyColors.ToList();
+            var ranks = Enumerable.Range(1, 12).ToList();
+
+            foreach (var constellation in Constellations)
             {
-                constellation_id = constellation.id,
-                rank = ranks.PopRandom(),
-                item = luckyItems.PopRandom().name,
-                color = luckyColors.PopRandom().name,
-            };
-            fortunes.Add(fortune);
+                Fortune fortune = new()
+                {
+                    constellation_id = constellation.id,
+                    rank = ranks.PopRandom(),
+                    item = luckyItems.PopRandom().name,
+                    color = luckyColors.PopRandom().name,
+                };
+                fortunes.Add(fortune);
+            }
+
+            Save(dateTime.ToString("yyyy-MM-dd"), fortunes);
+            await UniTask.DelayFrame(1);
         }
 
-        Save("2024-01-01", fortunes);
+
+    }
+
+    static List<DateTime> GenerateDateList(int days)
+    {
+        List<DateTime> dateList = new();
+
+        // 現在の日付を取得
+        DateTime currentDate = new(2023, 12, 1);
+
+        // 5年分の日付を生成してリストに追加
+        for (int i = 0; i < days; i++)
+        {
+            dateList.Add(currentDate.AddDays(i));
+        }
+
+        return dateList;
     }
 
     static void Save(string fileName, List<Fortune> fortunes)
