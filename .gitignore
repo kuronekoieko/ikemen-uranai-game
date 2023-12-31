@@ -89,3 +89,7 @@ DebugSettingSO.asset.meta
 
 # Enter Play Mode Settingなどは人によるため
 ProjectSettings/EditorSettings.asset
+
+# firebaseの設定ファイルのデスクトップ版
+Assets/StreamingAssets/google-services-desktop.json
+Assets/StreamingAssets/google-services-desktop.json.meta
