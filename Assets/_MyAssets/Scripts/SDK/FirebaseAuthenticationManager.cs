@@ -8,17 +8,19 @@ public class FirebaseAuthenticationManager : Singleton<FirebaseAuthenticationMan
 {
     public async UniTask Initialize()
     {
-        var firebaseUser = await FirebaseAuth.DefaultInstance.SignInAnonymouslyAsync();
 
+        try
+        {
+            var firebaseUser = await FirebaseAuth.DefaultInstance.SignInAnonymouslyAsync();
+            Debug.LogFormat("User signed in successfully: {0} ({1})",
+                firebaseUser.DisplayName, firebaseUser.UserId);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError(e);
+        }
 
-
-        Debug.LogFormat("User signed in successfully: {0} ({1})",
-            firebaseUser.DisplayName, firebaseUser.UserId);
     }
 
-
-    public FirebaseUser GetUser()
-    {
-        return FirebaseAuth.DefaultInstance.CurrentUser;
-    }
+    public FirebaseUser User => FirebaseAuth.DefaultInstance.CurrentUser;
 }

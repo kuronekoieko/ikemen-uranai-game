@@ -30,7 +30,7 @@ namespace MainScene
             await CSVManager.Instance.InitializeAsync();
             await SaveDataInitializer.Initialize(
                 CSVManager.Instance,
-                FirebaseAuthenticationManager.Instance.GetUser().UserId);
+                FirebaseAuthenticationManager.Instance.User.UserId);
 
             screenManager.OnStart();
 
