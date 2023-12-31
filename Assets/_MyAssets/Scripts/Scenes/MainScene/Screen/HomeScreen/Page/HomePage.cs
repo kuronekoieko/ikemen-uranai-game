@@ -11,7 +11,7 @@ public class HomePage : BasePage
     [SerializeField] Button todayHoroscopesButton;
     [SerializeField] Button tomorrowHoroscopesButton;
     [SerializeField] TextMeshProUGUI leftTimeText;
-    
+
     readonly int openHour = 20;
     readonly int closeHour = 0;
 
@@ -22,7 +22,6 @@ public class HomePage : BasePage
         Initialize.Instance.OnUpdate += OnUpdate;
         todayHoroscopesButton.onClick.AddListener(OnClickTodayHoroscopesButton);
         tomorrowHoroscopesButton.onClick.AddListener(OnClickTomorrowHoroscopesButton);
-
     }
 
     void OnClickTodayHoroscopesButton()
