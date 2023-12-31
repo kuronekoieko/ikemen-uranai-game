@@ -7,7 +7,7 @@ using System.Linq;
 using System;
 using DataBase;
 
-public class HoroscopeScreenTest : MonoBehaviour
+public class HoroscopeScreenTest
 {
     [Test]
     public async void ConsumePoints()
@@ -22,27 +22,27 @@ public class HoroscopeScreenTest : MonoBehaviour
 
         foreach (var testData in CSVManager.Instance.Constellations)
         {
-            Debug.Log("==================================");
+            // Debug.Log("==================================");
             var constellation = saveData.GetConstellation(testData.StartDT);
             bool success = constellation != null && constellation.name == testData.name;
             results.Add(success);
             if (success)
             {
-                Debug.Log("成功 " + testData.name);
+                //  Debug.Log("成功 " + testData.name);
             }
             else
             {
                 Debug.LogError("失敗" + testData.name);
             }
 
-            Debug.Log("==================================");
+            //  Debug.Log("==================================");
 
             constellation = saveData.GetConstellation(testData.EndDT);
             success = constellation != null && constellation.name == testData.name;
             results.Add(success);
             if (success)
             {
-                Debug.Log("成功 " + testData.name);
+                // Debug.Log("成功 " + testData.name);
             }
             else
             {

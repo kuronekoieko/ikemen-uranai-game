@@ -11,9 +11,9 @@ public class HomePage : BasePage
     [SerializeField] Button todayHoroscopesButton;
     [SerializeField] Button tomorrowHoroscopesButton;
     [SerializeField] TextMeshProUGUI leftTimeText;
-
-    readonly int closeHour = 5;
-    readonly int openHour = 21;
+    
+    readonly int openHour = 20;
+    readonly int closeHour = 0;
 
 
     public override void OnStart()
@@ -48,15 +48,16 @@ public class HomePage : BasePage
 
     void OnUpdate()
     {
-        DateTime now = DateTime.Now;
-        DateTime today = DateTime.Today;
-        Show(now, today);
+
+        Show();
     }
 
 
-    void Show(DateTime now, DateTime today)
+    void Show()
     {
-        bool isOpenTomorrowHoroscope = openHour < now.Hour || now.Hour < closeHour;
+        DateTime now = DateTime.Now;
+        DateTime today = DateTime.Today;
+        bool isOpenTomorrowHoroscope = IsOpenTomorrowHoroscope(now, openHour, closeHour);
         if (isOpenTomorrowHoroscope == false)
         {
             var tomorrowHoroscopeDT = today.AddHours(openHour);
@@ -67,5 +68,11 @@ public class HomePage : BasePage
 
         leftTimeText.gameObject.SetActive(!isOpenTomorrowHoroscope);
         tomorrowHoroscopesButton.interactable = isOpenTomorrowHoroscope;
+    }
+
+    public static bool IsOpenTomorrowHoroscope(DateTime now, int openHour, int closeHour)
+    {
+        bool isOpenTomorrowHoroscope = openHour <= now.Hour || now.Hour < closeHour;
+        return isOpenTomorrowHoroscope;
     }
 }
