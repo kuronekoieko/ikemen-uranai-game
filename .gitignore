@@ -91,5 +91,5 @@ DebugSettingSO.asset.meta
 ProjectSettings/EditorSettings.asset
 
 # firebaseの設定ファイルのデスクトップ版
-Assets/StreamingAssets/google-services-desktop.json
-Assets/StreamingAssets/google-services-desktop.json.meta
+# Assets/StreamingAssets/google-services-desktop.json
+# Assets/StreamingAssets/google-services-desktop.json.meta
