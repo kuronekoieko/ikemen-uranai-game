@@ -85,11 +85,14 @@ Assets/Plugins/Editor/JetBrains*
 # 各自が好きにいじる用のファイルにするため
 DebugSettingSO.asset
 DebugSettingSO.asset.meta
-*.mp4
 
 # Enter Play Mode Settingなどは人によるため
 ProjectSettings/EditorSettings.asset
 
-# firebaseの設定ファイルのデスクトップ版
-# Assets/StreamingAssets/google-services-desktop.json
-# Assets/StreamingAssets/google-services-desktop.json.meta
+# 可変なfirebaseの設定ファイル
+google-services-desktop.json
+google-services-desktop.json.meta
+google-services.json
+google-services.json.meta
+GoogleService-Info.plist
+GoogleService-Info.plist.meta
