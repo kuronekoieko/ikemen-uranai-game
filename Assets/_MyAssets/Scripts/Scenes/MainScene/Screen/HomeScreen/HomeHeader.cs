@@ -36,8 +36,9 @@ public class HomeHeader : MonoBehaviour
     {
         // セーブデータが別のインスタンスをつくってしまうから？
         // セーブデータがロードされないため
+        if (SaveData == null) return;
 
-        levelText.text = SaveData.level.ToString();
+        levelText.text = "Lv." + SaveData.level.ToString();
         jemFreeText.text = SaveData.jemFree.ToString();
         jemChargingText.text = SaveData.jemCharging.ToString();
         dayText.text = DateTime.Now.ToString("MM d ddd", CultureInfo.CreateSpecificCulture("en-US"));
@@ -62,12 +63,12 @@ public class HomeHeader : MonoBehaviour
         var currentCharacter = GetCurrentCharacter();
         if (currentCharacter == null)
         {
-            characterLevelText.text = "999";
+            characterLevelText.text = "Lv." + "999";
             characterExpPerText.text = "100%";
             return;
         }
 
-        characterLevelText.text = currentCharacter.level.ToString();
+        characterLevelText.text = "Lv." + currentCharacter.level.ToString();
 
         var currentLevelData = GetCurrentLevelData(currentCharacter);
         if (currentLevelData == null)
