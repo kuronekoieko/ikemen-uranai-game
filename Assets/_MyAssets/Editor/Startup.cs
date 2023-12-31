@@ -15,6 +15,7 @@ public class Startup
     {
         // Debug.Log("Up and running");
         InputKeystore();
+        FirebaseConfigManager.CreateIfNotExist();
     }
 
 

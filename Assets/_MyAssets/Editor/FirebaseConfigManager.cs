@@ -14,6 +14,15 @@ public class FirebaseConfigManager
     static readonly string firebasePath = Application.dataPath + "/FirebaseSettingFiles/";
 
 
+    public static void CreateIfNotExist()
+    {
+        if (!File.Exists(firebasePath + ANDROID_SETTINGS))
+        {
+            CreateDev();
+        }
+    }
+
+
     [MenuItem("MyTool/Create Firebase Settings - Prod")]
     static void CreateProd()
     {
