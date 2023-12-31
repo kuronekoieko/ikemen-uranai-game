@@ -23,11 +23,14 @@ namespace MainScene
             IsInitialized = false;
 
             Application.targetFrameRate = 60;
+            await FirebaseAuthenticationManager.Instance.Initialize();
             FirebaseStorageManager.Instance.Initialize();
             FirebaseDatabaseManager.Instance.Initialize();
 
             await CSVManager.Instance.InitializeAsync();
-            await SaveDataInitializer.Initialize(CSVManager.Instance);
+            await SaveDataInitializer.Initialize(
+                CSVManager.Instance,
+                FirebaseAuthenticationManager.Instance.GetUser().UserId);
 
             screenManager.OnStart();
 

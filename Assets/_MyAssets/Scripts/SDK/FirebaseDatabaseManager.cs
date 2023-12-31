@@ -35,7 +35,8 @@ public class FirebaseDatabaseManager : Singleton<FirebaseDatabaseManager>
         DataSnapshot snapshot = await reference.Child("users").Child(uid).GetValueAsync();
         string json = snapshot.GetRawJsonValue();
         Debug.Log(json);
-        var saveData = JsonConvert.DeserializeObject<SaveData>(json);
+        if (string.IsNullOrEmpty(json)) return null;
+        SaveData saveData = JsonConvert.DeserializeObject<SaveData>(json);
         DebugUtils.LogJson(saveData);
         return saveData;
     }

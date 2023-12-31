@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using Cysharp.Threading.Tasks;
-using System.Threading.Tasks;
 
 public static class SaveDataManager
 {
@@ -29,6 +28,7 @@ public static class SaveDataManager
 
     public static async UniTask Load()
     {
+        /*
         string jsonStr = PlayerPrefs.GetString(KEY_SAVE_DATA);
         //Debug.Log(jsonStr);
         if (string.IsNullOrEmpty(jsonStr) == false)
@@ -40,8 +40,10 @@ public static class SaveDataManager
         {
             _SaveData = new();
         }
+        */
 
         _SaveData = await FirebaseDatabaseManager.Instance.GetUserData(_SaveData.uid);
+        // _SaveData ??= defaultSaveData;
 
 
         //ユーザーデータ保存
@@ -50,16 +52,20 @@ public static class SaveDataManager
 
     public static async UniTask LoadOverWriteAsync(SaveData defaultSaveData)
     {
-        _SaveData = defaultSaveData;
 
-        string jsonStr = PlayerPrefs.GetString(KEY_SAVE_DATA);
-        //Debug.Log(jsonStr);
-        if (string.IsNullOrEmpty(jsonStr) == false)
-        {
-            // jsonにnullがあると、nullで上書きされるので注意(特にリストやdic)
-            JsonConvert.PopulateObject(jsonStr, _SaveData);
-        }
-        _SaveData = await FirebaseDatabaseManager.Instance.GetUserData(_SaveData.uid);
+
+        /*
+         _SaveData = defaultSaveData;
+                string jsonStr = PlayerPrefs.GetString(KEY_SAVE_DATA);
+                //Debug.Log(jsonStr);
+                if (string.IsNullOrEmpty(jsonStr) == false)
+                {
+                    // jsonにnullがあると、nullで上書きされるので注意(特にリストやdic)
+                    JsonConvert.PopulateObject(jsonStr, _SaveData);
+                }
+                */
+        _SaveData = await FirebaseDatabaseManager.Instance.GetUserData(defaultSaveData.uid);
+        _SaveData ??= defaultSaveData;
 
         //ユーザーデータ保存
         Save();
@@ -74,11 +80,11 @@ public static class SaveDataManager
         PlayerPrefs.Save();
     }
 
-    public static async void Clear()
+    public static void Clear()
     {
         PlayerPrefs.DeleteAll();
 
         // TODO: サーバーも消す
-        await Load();
+        //await Load();
     }
 }
