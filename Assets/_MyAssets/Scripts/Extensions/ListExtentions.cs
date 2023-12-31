@@ -5,6 +5,15 @@ using System.Linq;
 
 public static class ListExtentions
 {
+    public static T PopRandom<T>(this List<T> self)
+    {
+        if (self.Count == 0) return default;
+        int index = Random.Range(0, self.Count);
+        T t = self[index];
+        self.RemoveAt(index);
+        return t;
+    }
+
     public static T GetRandom<T>(this List<T> self, out int index)
     {
         index = Random.Range(0, self.Count);
