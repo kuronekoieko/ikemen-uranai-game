@@ -48,7 +48,7 @@ public class HoroscopeScreen : BaseScreen
         ShowConstellation(constellation);
         ShowFortune(constellation);
 
-        Uri uri = await FirebaseStorageManager.Instance.DownloadFile("aaaa/test-004.wav");
+        Uri uri = await FirebaseStorageManager.Instance.DownloadFile("test-001.wav");
         var audioClip = await FirebaseStorageManager.Instance.DownloadAudio(uri);
         AudioManager.Instance.PlayOneShot(audioClip);
     }
