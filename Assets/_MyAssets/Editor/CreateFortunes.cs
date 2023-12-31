@@ -68,7 +68,7 @@ public class CreateFortunes
 
     static void Save(string fileName, List<Fortune> fortunes)
     {
-        string path = Application.dataPath + @"/_MyAssets/Resources/CSV/Fortunes/Daily/" + fileName + ".csv";
+        string path = Application.dataPath + @"/_MyAssets/CSV/Fortunes/" + fileName + ".csv";
         using StreamWriter sw = File.CreateText(path);
 
         string titleLine = "constellation_id" + "," + "rank" + "," + "item" + "," + "color";
