@@ -4,6 +4,7 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using DataBase;
 
+
 public class CSVManager : Singleton<CSVManager>
 {
     // 各オブジェクト内の変数名はcsvのキーと同じにする
