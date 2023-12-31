@@ -14,6 +14,7 @@ public class FirebaseAuthenticationManager : Singleton<FirebaseAuthenticationMan
             var firebaseUser = await FirebaseAuth.DefaultInstance.SignInAnonymouslyAsync();
             Debug.LogFormat("User signed in successfully: {0} ({1})",
                 firebaseUser.DisplayName, firebaseUser.UserId);
+            // DebugUtils.LogJson(firebaseUser);
         }
         catch (System.Exception e)
         {
