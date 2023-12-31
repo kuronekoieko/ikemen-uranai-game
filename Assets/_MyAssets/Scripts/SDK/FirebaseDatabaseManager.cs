@@ -36,6 +36,7 @@ public class FirebaseDatabaseManager : Singleton<FirebaseDatabaseManager>
         string json = snapshot.GetRawJsonValue();
         Debug.Log(json);
         var saveData = JsonConvert.DeserializeObject<SaveData>(json);
+        DebugUtils.LogJson(saveData);
         return saveData;
     }
 

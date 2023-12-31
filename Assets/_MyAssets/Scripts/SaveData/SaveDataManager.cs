@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
+using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
 
 public static class SaveDataManager
 {
@@ -13,7 +15,7 @@ public static class SaveDataManager
     {
         //ユーザーデータオブジェクトからjson形式のstringを取得
         string jsonStr = JsonConvert.SerializeObject(SaveData, Formatting.Indented);
-        SavePlayerPrefs(jsonStr);
+        // SavePlayerPrefs(jsonStr);
         await FirebaseDatabaseManager.Instance.SendSaveData(SaveData);
         Debug.Log(jsonStr);
     }
@@ -25,7 +27,7 @@ public static class SaveDataManager
         Save();
     }
 
-    public static void Load()
+    public static async UniTask Load()
     {
         string jsonStr = PlayerPrefs.GetString(KEY_SAVE_DATA);
         //Debug.Log(jsonStr);
@@ -39,11 +41,14 @@ public static class SaveDataManager
             _SaveData = new();
         }
 
+        _SaveData = await FirebaseDatabaseManager.Instance.GetUserData(_SaveData.uid);
+
+
         //ユーザーデータ保存
         Save();
     }
 
-    public static void LoadOverWrite(SaveData defaultSaveData)
+    public static async UniTask LoadOverWriteAsync(SaveData defaultSaveData)
     {
         _SaveData = defaultSaveData;
 
@@ -54,6 +59,7 @@ public static class SaveDataManager
             // jsonにnullがあると、nullで上書きされるので注意(特にリストやdic)
             JsonConvert.PopulateObject(jsonStr, _SaveData);
         }
+        _SaveData = await FirebaseDatabaseManager.Instance.GetUserData(_SaveData.uid);
 
         //ユーザーデータ保存
         Save();
@@ -68,9 +74,11 @@ public static class SaveDataManager
         PlayerPrefs.Save();
     }
 
-    public static void Clear()
+    public static async void Clear()
     {
         PlayerPrefs.DeleteAll();
-        Load();
+
+        // TODO: サーバーも消す
+        await Load();
     }
 }

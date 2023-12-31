@@ -1,19 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 
 public static class SaveDataInitializer
 {
 
-    public static void Initialize(CSVManager cSVManager)
+    public static async UniTask Initialize(CSVManager cSVManager)
     {
         var defaultSaveData = new SaveData
         {
             characters = CreateCharacters(cSVManager)
         };
 
-        SaveDataManager.LoadOverWrite(defaultSaveData);
+        await SaveDataManager.LoadOverWriteAsync(defaultSaveData);
         // DebugUtils.LogJson(SaveDataManager.SaveData);
     }
 
