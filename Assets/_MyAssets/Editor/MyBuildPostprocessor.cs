@@ -21,6 +21,7 @@ public class MyBuildPostprocessor : IPreprocessBuildWithReport
     public void OnPreprocessBuild(BuildReport report)
     {
         Debug.Log("OnPreprocessBuild");
+        FirebaseConfigManager.CreateFiles(EditorUserBuildSettings.development);
         OnPreprocessBuild_Android(report);
     }
 
@@ -28,7 +29,6 @@ public class MyBuildPostprocessor : IPreprocessBuildWithReport
     public static void OnPostProcessBuild(BuildTarget buildTarget, string path)
     {
         Debug.Log("OnPostProcessBuild buildTarget : " + buildTarget);
-        FirebaseConfigManager.CreateFiles(EditorUserBuildSettings.development);
         OnPostProcessBuild_IOS(buildTarget, path);
         OnPostProcessBuild_Android(buildTarget, path);
     }
