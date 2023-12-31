@@ -23,14 +23,18 @@ public class CreateFortunes
         LuckyColors = await DeserializeAsync<LuckyColor>("Fortunes/LuckyColors");
 
         List<Fortune> fortunes = new();
+        var luckyItems = LuckyItems.ToList();
+        var luckyColors = LuckyColors.ToList();
+        var ranks = Enumerable.Range(1, 12).ToList();
+        
         foreach (var constellation in Constellations)
         {
             Fortune fortune = new()
             {
                 constellation_id = constellation.id,
-                rank = 0,
-                item = LuckyItems.GetRandom().name,
-                color = LuckyColors.GetRandom().name,
+                rank = ranks.PopRandom(),
+                item = luckyItems.PopRandom().name,
+                color = luckyColors.PopRandom().name,
             };
             fortunes.Add(fortune);
         }
@@ -52,6 +56,7 @@ public class CreateFortunes
             sw.WriteLine(line);
         }
         AssetDatabase.Refresh();
+        Debug.Log("生成完了 " + fileName);
     }
 
     static async UniTask<T[]> DeserializeAsync<T>(string fileName)
