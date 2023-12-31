@@ -9,15 +9,20 @@ using MainScene;
 
 public class HomeHeader : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI levelText;
+    [SerializeField] TextMeshProUGUI playerLevelText;
+    [SerializeField] Image playerExpBarImage;
+    [SerializeField] TextMeshProUGUI playerExpPerText;
+
     [SerializeField] TextMeshProUGUI jemFreeText;
     [SerializeField] TextMeshProUGUI jemChargingText;
+
     [SerializeField] TextMeshProUGUI characterNameText;
     [SerializeField] TextMeshProUGUI characterLevelText;
     [SerializeField] TextMeshProUGUI characterExpPerText;
+    [SerializeField] Image characterExpBarImage;
+
     [SerializeField] TextMeshProUGUI dayText;
     [SerializeField] TextMeshProUGUI timeText;
-    [SerializeField] Image characterExpBarImage;
     [SerializeField] Button chargingScreenButton;
     [SerializeField] Button openMenuScreenButton;
 
@@ -38,7 +43,11 @@ public class HomeHeader : MonoBehaviour
         // セーブデータがロードされないため
         if (SaveData == null) return;
 
-        levelText.text = "Lv." + SaveData.level.ToString();
+        playerLevelText.text = "Lv." + SaveData.level.ToString();
+        var levelData = GetCurrentLevelData_Player(SaveData.level);
+        playerExpBarImage.fillAmount = (float)SaveData.exp / (float)levelData.exp;
+        playerExpPerText.text = Mathf.FloorToInt(playerExpBarImage.fillAmount * 100) + "%";
+
         jemFreeText.text = SaveData.jemFree.ToString();
         jemChargingText.text = SaveData.jemCharging.ToString();
         dayText.text = DateTime.Now.ToString("MM d ddd", CultureInfo.CreateSpecificCulture("en-US"));
@@ -89,6 +98,15 @@ public class HomeHeader : MonoBehaviour
         foreach (var character in SaveData.characters)
         {
             if (character.Key == SaveData.currentCharacterId) return character.Value;
+        }
+        return null;
+    }
+
+    DataBase.LevelData GetCurrentLevelData_Player(int playerLevel)
+    {
+        foreach (var levelData in CSVManager.Instance.LevelDatas)
+        {
+            if (levelData.level == playerLevel) return levelData;
         }
         return null;
     }
