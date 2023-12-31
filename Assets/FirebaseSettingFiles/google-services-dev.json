@@ -13,7 +13,12 @@
           "package_name": "com.ikemen.dev"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "191287597726-7dmirf2h1t9nf9hr43gq02a229c41liv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCfvARfIQp-uQVQj67JB29N2vbJsq38p5Y"
@@ -21,7 +26,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "191287597726-7dmirf2h1t9nf9hr43gq02a229c41liv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "191287597726-0vu2o1oou9ff8a7v4r1o472sonoljsjo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ikemen.dev"
+              }
+            }
+          ]
         }
       }
     }

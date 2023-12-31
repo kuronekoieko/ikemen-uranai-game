@@ -7,11 +7,12 @@ using UnityEngine;
 public static class SaveDataInitializer
 {
 
-    public static async UniTask Initialize(CSVManager cSVManager)
+    public static async UniTask Initialize(CSVManager cSVManager, string uid)
     {
         var defaultSaveData = new SaveData
         {
-            characters = CreateCharacters(cSVManager)
+            characters = CreateCharacters(cSVManager),
+            uid = uid,
         };
 
         await SaveDataManager.LoadOverWriteAsync(defaultSaveData);
