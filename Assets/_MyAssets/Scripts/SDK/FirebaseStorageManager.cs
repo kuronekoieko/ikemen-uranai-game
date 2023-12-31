@@ -54,7 +54,7 @@ public class FirebaseStorageManager : Singleton<FirebaseStorageManager>
 
     public async UniTask<Uri> DownloadFile(string path)
     {
-        Debug.Log("音声ダウンロード開始");
+        Debug.Log("音声アクセス開始");
         StorageReference storageReference = storageRef.Child(path);
 
         Uri uri = null;
@@ -74,6 +74,8 @@ public class FirebaseStorageManager : Singleton<FirebaseStorageManager>
     {
         if (uri == null) return null;
         string url = uri.ToString();
+
+        Debug.Log("音声ダウンロード開始");
         using UnityWebRequest request = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.WAV);
         await request.SendWebRequest();
 
