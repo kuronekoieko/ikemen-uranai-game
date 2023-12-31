@@ -45,8 +45,19 @@ public class FirebaseConfigManager
         }
         Debug.Log("コピー開始 isDev: " + isDev);
 
-        // Firebaseの設定ファイルを上書きコピー
+        // google-services-desktopを更新できないため、一度消す
+        try
+        {
+            File.Delete("Assets/StreamingAssets/google-services-desktop.json");
+            Debug.Log("削除完了 google-services-desktop.json");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError(e);
+        }
 
+
+        // Firebaseの設定ファイルを上書きコピー
         try
         {
             File.Copy(firebasePath + baseAndroidSettings, firebasePath + ANDROID_SETTINGS, overwrite: true);
