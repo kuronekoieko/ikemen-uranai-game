@@ -4,7 +4,6 @@ using UnityEngine;
 using System.IO;
 using UnityEditor;
 
-
 public class FirebaseConfigManager
 {
     // Androidの設定ファイル
@@ -12,19 +11,21 @@ public class FirebaseConfigManager
     // iOSの設定ファイル
     static readonly string IOS_SETTINGS = "GoogleService-Info.plist";
     // Firebaseの設定ファイルのパス
-    static readonly string firebasePath = Application.dataPath + "/_MyAssets/FirebaseSettingFiles/";
+    static readonly string firebasePath = Application.dataPath + "/FirebaseSettingFiles/";
 
 
     [MenuItem("MyTool/Create Firebase Settings - Prod")]
     static void CreateProd()
     {
         CreateFiles(isDev: false);
+        AssetDatabase.Refresh();
     }
 
     [MenuItem("MyTool/Create Firebase Settings - Dev")]
     static void CreateDev()
     {
         CreateFiles(isDev: true);
+        AssetDatabase.Refresh();
     }
 
     public static void CreateFiles(bool isDev)
@@ -45,11 +46,27 @@ public class FirebaseConfigManager
         Debug.Log("コピー開始 isDev: " + isDev);
 
         // Firebaseの設定ファイルを上書きコピー
-        File.Copy(firebasePath + baseAndroidSettings, firebasePath + ANDROID_SETTINGS, overwrite: true);
-        File.Copy(firebasePath + baseIosSettings, firebasePath + IOS_SETTINGS, overwrite: true);
 
-        Debug.Log("コピー完了 isDev: " + isDev);
+        try
+        {
+            File.Copy(firebasePath + baseAndroidSettings, firebasePath + ANDROID_SETTINGS, overwrite: true);
+            Debug.Log("コピー完了 " + baseAndroidSettings);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError(e);
+        }
+
+
+        try
+        {
+            File.Copy(firebasePath + baseIosSettings, firebasePath + IOS_SETTINGS, overwrite: true);
+            Debug.Log("コピー完了 " + baseIosSettings);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError(e);
+        }
 
     }
-
 }
