@@ -12,9 +12,9 @@ public class SaveDataSO : ScriptableObject
 
 
     [Button]
-    public void Pull()
+    public async void Pull()
     {
-        SaveDataManager.Load();
+        await SaveDataManager.Load();
         saveData = SaveDataManager.SaveData;
         SaveJson(saveData);
         Debug.Log("セーブデータ取得");
@@ -53,5 +53,5 @@ public class SaveDataSO : ScriptableObject
         using StreamWriter sw = File.CreateText(path);
         sw.WriteLine(json);
     }
-   
+
 }

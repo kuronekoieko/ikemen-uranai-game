@@ -27,7 +27,7 @@ namespace MainScene
             FirebaseDatabaseManager.Instance.Initialize();
 
             await CSVManager.Instance.InitializeAsync();
-            SaveDataInitializer.Initialize(CSVManager.Instance);
+            await SaveDataInitializer.Initialize(CSVManager.Instance);
 
             screenManager.OnStart();
 
