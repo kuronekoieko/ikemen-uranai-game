@@ -42,15 +42,13 @@ public class HoroscopeScreen : BaseScreen
         }
         ScreenManager.Instance.Get<LoadingScreen>().Open();
 
-        Fortune fortune = CSVManager.Instance.Fortunes
-            .Where(f => f.date_time == dateTime.ToStringDate())
-            .FirstOrDefault(f => f.constellation_id == constellation.id);
+        Fortune fortune = FortuneManager.GetFortune(dateTime, constellation.id);
         // TODO: 失敗したとき
         if (fortune == null) return;
 
 
         // var task1 = FileDownloader.GetFortunes(dateTime);
-        string fileName = FileDownloader.GetAudioFileName(characterId, fortune.rank, fortune.msg_id);
+        string fileName = FileDownloader.GetAudioFileName(characterId, fortune);
 
         Debug.Log(fileName);
         var audioClip = await FileDownloader.GetAudioClip(fileName);
