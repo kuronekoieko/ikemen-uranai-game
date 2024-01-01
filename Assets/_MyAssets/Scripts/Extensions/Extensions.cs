@@ -57,4 +57,9 @@ public static class Extensions
             return self.Value.ToString(format);
         }
     }
+
+    public static string ToStringDate(this DateTime self)
+    {
+        return self.ToString("yyyy-MM-dd");
+    }
 }

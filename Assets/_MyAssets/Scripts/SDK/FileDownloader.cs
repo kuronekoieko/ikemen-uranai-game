@@ -25,7 +25,7 @@ public class FileDownloader
 
     static string GetFortunesFileName(DateTime dateTime)
     {
-        string fileName = "Fortunes/" + dateTime.ToString("yyyy-MM-dd") + ".csv";
+        string fileName = "Fortunes/" + dateTime.ToStringDate() + ".csv";
         return fileName;
     }
 
