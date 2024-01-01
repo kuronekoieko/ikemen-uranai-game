@@ -6,6 +6,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine.Events;
 using System.Linq;
 using System;
+using System.Threading.Tasks;
 
 namespace MainScene
 {
@@ -44,28 +45,47 @@ namespace MainScene
 
         async void CompleteInit()
         {
-            // var task1 = FileDownloader.DownloadFortune(DateTime.Today);
-            // var task2 = FileDownloader.DownloadFortune(DateTime.Today.AddDays(1));
-            // var task3 = FileDownloader.DownloadAudioClip("test-001.wav");
-            var task4 = ScreenManager.Instance.Get<LoadingScreen>().ProgressTimer(1);
-            await UniTask.WhenAll(task4);
-
-
-            ScreenManager.Instance.Get<LoadingScreen>().Close();
+            var task0 = ScreenManager.Instance.Get<LoadingScreen>().ProgressTimer(1);
 
             if (SaveDataManager.SaveData.BirthDayDT == null)
             {
+                await UniTask.WhenAll(task0);
+
                 ScreenManager.Instance.Get<InputProfileScreen>().Open();
             }
             else
             {
+                var task1 = DownloadFilesAsync();
+                await UniTask.WhenAll(task0, task1);
+
                 ScreenManager.Instance.Get<HomeScreen>().Open();
             }
 
-            //asyncOperation.allowSceneActivation = true;
+            ScreenManager.Instance.Get<LoadingScreen>().Close();
+
 
             IsInitialized = true;
         }
+
+
+        async UniTask DownloadFilesAsync()
+        {
+
+            // 初回起動時は、誕生日情報が無いので、Constellationがnullになる
+            var todayFortune = FortuneManager.GetFortune(DateTime.Today, SaveDataManager.SaveData.Constellation.id);
+            var tomorrowFortune = FortuneManager.GetFortune(DateTime.Today.AddDays(1), SaveDataManager.SaveData.Constellation.id);
+
+            // var task1 = FileDownloader.DownloadFortune(DateTime.Today);
+            // var task2 = FileDownloader.DownloadFortune(DateTime.Today.AddDays(1));
+            var todayAudioFileName = FileDownloader.GetAudioFileName(SaveDataManager.SaveData.currentCharacterId, todayFortune);
+            var task3 = FileDownloader.GetAudioClip(todayAudioFileName);
+
+            var tomorrowAudioFileName = FileDownloader.GetAudioFileName(SaveDataManager.SaveData.currentCharacterId, tomorrowFortune);
+            var task4 = FileDownloader.GetAudioClip(tomorrowAudioFileName);
+
+            await UniTask.WhenAll(task3, task4);
+        }
+
 
         private void Update()
         {
