@@ -58,7 +58,7 @@ public class HoroscopeScreen : BaseScreen
 
 
         ShowConstellation(constellation);
-        ShowFortune(constellation, fortunes);
+        ShowFortune(constellation, fortunes, SaveDataManager.SaveData.currentCharacterId);
 
 
         AudioManager.Instance.PlayOneShot(audioClip);
@@ -79,7 +79,7 @@ public class HoroscopeScreen : BaseScreen
         constellationNameText.text = $"{name}({start}~{end})";
     }
 
-    void ShowFortune(Constellation constellation, Fortune[] fortunes)
+    void ShowFortune(Constellation constellation, Fortune[] fortunes, string characterId)
     {
         fortuneRankText.text = "XX" + "位";
         luckyItemText.text = "XXXX";
@@ -99,21 +99,13 @@ public class HoroscopeScreen : BaseScreen
         var dataBaseCharacter = CSVManager.Instance.Characters.FirstOrDefault(c => c.id == SaveDataManager.SaveData.currentCharacterId);
         if (dataBaseCharacter == null) return;
 
-        if (fortune.rank <= 4)
-        {
-            messageText.text = dataBaseCharacter.rank_message_low;
-            return;
-        }
-        if (fortune.rank <= 8)
-        {
-            messageText.text = dataBaseCharacter.rank_message_mid;
-            return;
-        }
-        if (fortune.rank <= 12)
-        {
-            messageText.text = dataBaseCharacter.rank_message_high;
-            return;
-        }
+        var fortuneMessage = CSVManager.Instance.FortuneMessages
+            .Where(f => f.character_id == characterId)
+            .FirstOrDefault(f => f.rank == fortune.rank);
+
+        if (fortuneMessage == null) return;
+        // TODO: ロジック実装
+        messageText.text = fortuneMessage.messages.GetRandom();
     }
 
 

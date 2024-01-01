@@ -14,8 +14,5 @@ namespace DataBase
         public string id;
         public string name_jp;
         public string voice_actor_jp;
-        public string rank_message_low;
-        public string rank_message_mid;
-        public string rank_message_high;
     }
 }
