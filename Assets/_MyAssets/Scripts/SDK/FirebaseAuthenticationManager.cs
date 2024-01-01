@@ -8,6 +8,16 @@ public class FirebaseAuthenticationManager : Singleton<FirebaseAuthenticationMan
 {
     public async UniTask Initialize()
     {
+        //Debug.Log("aaaaaaaaaaaaaaa " + User.UserId);
+        if (string.IsNullOrEmpty(User.UserId))
+        {
+            // 毎回新しいユーザーが作成されるっぽい
+            await SignInAnonymouslyAsync();
+        }
+    }
+
+    async UniTask SignInAnonymouslyAsync()
+    {
 
         try
         {
