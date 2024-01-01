@@ -2,11 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using TMPro;
-using UnityEngine.PlayerLoop;
-using Cysharp.Threading.Tasks;
-//using Codice.Client.Common;
 using MainScene;
 
 public class ScrollSelector : MonoBehaviour
@@ -16,7 +12,7 @@ public class ScrollSelector : MonoBehaviour
     readonly List<TextMeshProUGUI> texts = new();
     public int SelectedIndex => GetNearIndex();
 
-    public async void OnStart(List<string> datas, int startIndex)
+    public async void OnStart(List<string> datas)
     {
         scrollRect = GetComponent<ScrollRect>();
 
@@ -29,10 +25,13 @@ public class ScrollSelector : MonoBehaviour
             text.text = datas[i];
             texts.Add(text);
         }
-        await UniTask.DelayFrame(1);
-        var normalizedPos = ScrollToCore(startIndex, 0.5f);
-        scrollRect.verticalNormalizedPosition = normalizedPos;
         Initialize.Instance.OnUpdate += OnUpdate;
+    }
+
+    public void SelectIndex(int index)
+    {
+        var normalizedPos = ScrollToCore(index, 0.5f);
+        scrollRect.verticalNormalizedPosition = normalizedPos;
     }
 
     public void ShowDay(int daysInMonth)

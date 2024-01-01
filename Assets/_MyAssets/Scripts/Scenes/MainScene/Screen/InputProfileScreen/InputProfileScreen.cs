@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using MainScene;
+using Cysharp.Threading.Tasks;
 
 public class InputProfileScreen : BaseScreen
 {
@@ -30,8 +31,8 @@ public class InputProfileScreen : BaseScreen
             days.Add(i.ToString());
         }
 
-        monthScrollSelector.OnStart(months, 0);
-        dayScrollSelector.OnStart(days, 0);
+        monthScrollSelector.OnStart(months);
+        dayScrollSelector.OnStart(days);
 
 
         nextButton.onClick.AddListener(OnClickNextButton);
@@ -47,9 +48,14 @@ public class InputProfileScreen : BaseScreen
         dayScrollSelector.ShowDay(days);
     }
 
-    public override void Open()
+    public async override void Open()
     {
         base.Open();
+
+        // 一度シーンがアクティブになってから1フレーム待たないと、変更に反映されない
+        await UniTask.DelayFrame(1);
+        monthScrollSelector.SelectIndex(0);
+        dayScrollSelector.SelectIndex(0);
     }
 
     void OnClickNextButton()
