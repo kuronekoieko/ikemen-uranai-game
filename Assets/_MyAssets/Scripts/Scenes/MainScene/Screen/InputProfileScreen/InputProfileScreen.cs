@@ -65,6 +65,8 @@ public class InputProfileScreen : BaseScreen
         string birthDay = month + "/" + day;
         // Debug.Log(birthDay);
         var birthDayDT = birthDay.ToNullableDateTime();
+
+        // TODO: 名前が無いとき
         if (birthDayDT == null)
         {
             Debug.Log("誕生日が入力されていない");
