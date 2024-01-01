@@ -27,13 +27,13 @@ public class HomePage : BasePage
     void OnClickTodayHoroscopesButton()
     {
         var constellation = SaveDataManager.SaveData.Constellation;
-        ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation, DateTime.Today);
+        ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation, DateTime.Today, SaveDataManager.SaveData.currentCharacterId);
     }
 
     void OnClickTomorrowHoroscopesButton()
     {
         var constellation = SaveDataManager.SaveData.Constellation;
-        ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation, DateTime.Today.AddDays(1));
+        ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation, DateTime.Today.AddDays(1), SaveDataManager.SaveData.currentCharacterId);
     }
 
     public override void Open()

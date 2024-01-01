@@ -65,4 +65,11 @@ public class FileDownloader
         }
         return audioClip;
     }
+
+    public static string GetAudioFileName(string characterId, int rank, int msg_id)
+    {
+        // Voices/chara0001-rank04-msg14.wav
+        string fileName = "Voices/chara" + characterId + "-rank" + rank.ToString("D2") + "-msg" + msg_id.ToString("D2") + ".wav";
+        return fileName;
+    }
 }
