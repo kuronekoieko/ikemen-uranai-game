@@ -46,9 +46,9 @@ namespace MainScene
         {
             // var task1 = FileDownloader.DownloadFortune(DateTime.Today);
             // var task2 = FileDownloader.DownloadFortune(DateTime.Today.AddDays(1));
-            var task3 = FileDownloader.DownloadAudioClip("test-001.wav");
+            // var task3 = FileDownloader.DownloadAudioClip("test-001.wav");
             var task4 = ScreenManager.Instance.Get<LoadingScreen>().ProgressTimer(1);
-            await UniTask.WhenAll(task3, task4);
+            await UniTask.WhenAll(task4);
 
 
             ScreenManager.Instance.Get<LoadingScreen>().Close();

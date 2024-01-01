@@ -54,7 +54,7 @@ public class FileDownloader
         return audioClip;
     }
 
-    public static async UniTask<AudioClip> DownloadAudioClip(string path)
+    static async UniTask<AudioClip> DownloadAudioClip(string path)
     {
         Uri uri = await FirebaseStorageManager.Instance.GetURI(path);
         var audioClip = await FirebaseStorageManager.Instance.DownloadAudio(uri);

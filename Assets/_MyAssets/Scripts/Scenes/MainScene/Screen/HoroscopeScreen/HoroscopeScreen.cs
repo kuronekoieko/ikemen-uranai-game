@@ -53,7 +53,7 @@ public class HoroscopeScreen : BaseScreen
         string fileName = FileDownloader.GetAudioFileName(characterId, fortune.rank, fortune.msg_id);
 
         Debug.Log(fileName);
-        var audioClip = await FileDownloader.DownloadAudioClip(fileName);
+        var audioClip = await FileDownloader.GetAudioClip(fileName);
 
         // TODO: 失敗したとき
         // var (fortunes, audioClip) = await UniTask.WhenAll(task1, task2);
