@@ -43,8 +43,8 @@ public class HoroscopeScreen : BaseScreen
         ScreenManager.Instance.Get<LoadingScreen>().Open();
 
 
-        var task1 = DownloadFortune(dateTime);
-        var task2 = DownloadAudioClip();
+        var task1 = FileDownloader.GetFortunes(dateTime);
+        var task2 = FileDownloader.GetAudioClip("test-001.wav");
 
         // TODO: 失敗したとき
         var (fortunes, audioClip) = await UniTask.WhenAll(task1, task2);
@@ -62,22 +62,6 @@ public class HoroscopeScreen : BaseScreen
 
 
         AudioManager.Instance.PlayOneShot(audioClip);
-    }
-
-    async UniTask<Fortune[]> DownloadFortune(DateTime dateTime)
-    {
-        string fileName = "Fortunes/" + dateTime.ToString("yyyy-MM-dd") + ".csv";
-        Uri uri = await FirebaseStorageManager.Instance.GetURI(fileName);
-        string csv = await FirebaseStorageManager.Instance.DownloadCsvFile(uri);
-        var fortunes = CSVSerializer.Deserialize<Fortune>(csv);
-        return fortunes;
-    }
-
-    async UniTask<AudioClip> DownloadAudioClip()
-    {
-        Uri uri = await FirebaseStorageManager.Instance.GetURI("test-001.wav");
-        var audioClip = await FirebaseStorageManager.Instance.DownloadAudio(uri);
-        return audioClip;
     }
 
     void ShowConstellation(Constellation constellation)

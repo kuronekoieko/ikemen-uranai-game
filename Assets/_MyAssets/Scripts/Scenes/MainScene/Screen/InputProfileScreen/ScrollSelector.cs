@@ -12,7 +12,7 @@ public class ScrollSelector : MonoBehaviour
     readonly List<TextMeshProUGUI> texts = new();
     public int SelectedIndex => GetNearIndex();
 
-    public async void OnStart(List<string> datas)
+    public void OnStart(List<string> datas)
     {
         scrollRect = GetComponent<ScrollRect>();
 
