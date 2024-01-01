@@ -9,7 +9,8 @@ public class CSVManager : Singleton<CSVManager>
 {
     // 各オブジェクト内の変数名はcsvのキーと同じにする
     public Character[] Characters { get; private set; }
-    public LevelData[] LevelDatas { get; private set; }
+    public LevelData[] CharacterLevelDatas { get; private set; }
+    public LevelData[] PlayerLevelDatas { get; private set; }
     public Constellation[] Constellations { get; private set; }
     public Fortune[] Fortunes { get; private set; }
     public Hint[] Hints { get; private set; }
@@ -18,7 +19,8 @@ public class CSVManager : Singleton<CSVManager>
     public async UniTask InitializeAsync()
     {
         Characters = await DeserializeAsync<Character>("Characters");
-        LevelDatas = await DeserializeAsync<LevelData>("Level-Exp");
+        CharacterLevelDatas = await DeserializeAsync<LevelData>("CharacterLevel-Exp");
+        PlayerLevelDatas = await DeserializeAsync<LevelData>("PlayerLevel-Exp");
         Constellations = await DeserializeAsync<Constellation>("Constellation");
         Fortunes = await DeserializeAsync<Fortune>("Fortune");
         Hints = await DeserializeAsync<Hint>("Hint");
