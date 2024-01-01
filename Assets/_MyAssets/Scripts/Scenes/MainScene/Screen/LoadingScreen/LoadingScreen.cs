@@ -45,7 +45,6 @@ public class LoadingScreen : BaseScreen
         hintContentText.LimitLineCount(lineCountMax: 3, fontSizeMin: 30);
 
         uidText.text = "UID: " + SaveDataManager.SaveData.displayUserId;
-
     }
 
     /// <summary>
