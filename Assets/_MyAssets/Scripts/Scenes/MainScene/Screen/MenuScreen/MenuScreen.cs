@@ -22,6 +22,7 @@ public class MenuScreen : BaseScreen
         });
         signOutButton.onClick.AddListener(async () =>
         {
+            await FirebaseDatabaseManager.Instance.RemoveSaveData();
             await FirebaseAuthenticationManager.Instance.DeleteAsync();
             FirebaseAuthenticationManager.Instance.SignOut();
             uidText.text = "uid: ";
