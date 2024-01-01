@@ -25,14 +25,14 @@ public class CSVManager : Singleton<CSVManager>
         CharacterLevelDatas = await DeserializeAsync<LevelData>("CharacterLevel-Exp");
         PlayerLevelDatas = await DeserializeAsync<LevelData>("PlayerLevel-Exp");
         Constellations = await DeserializeAsync<Constellation>("Constellation");
-        Fortunes = await DeserializeAsync<Fortune>("Fortune");
+        Fortunes = await DeserializeAsync<Fortune>("Fortunes");
         Hints = await DeserializeAsync<Hint>("Hint");
 
         var fortuneMessageDics = await DeserializeAsync_StringDics("FortuneMessages");
         FortuneMessages = ToObjects(fortuneMessageDics).ToArray();
     }
 
-    async UniTask<T[]> DeserializeAsync<T>(string fileName)
+    public async UniTask<T[]> DeserializeAsync<T>(string fileName)
     {
         // パスに拡張子つけない
         string path = "CSV/" + fileName;

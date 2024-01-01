@@ -42,12 +42,18 @@ public class HoroscopeScreen : BaseScreen
         }
         ScreenManager.Instance.Get<LoadingScreen>().Open();
 
+        Fortune fortune = CSVManager.Instance.Fortunes
+            .Where(f => f.date_time == dateTime.ToStringDate())
+            .FirstOrDefault(f => f.constellation_id == constellation.id);
+        // TODO: 失敗したとき
+        if (fortune == null) return;
 
-        var task1 = FileDownloader.GetFortunes(dateTime);
-        var task2 = FileDownloader.GetAudioClip("test-001.wav");
+
+        // var task1 = FileDownloader.GetFortunes(dateTime);
+        var audioClip = await FileDownloader.GetAudioClip("test-001.wav");
 
         // TODO: 失敗したとき
-        var (fortunes, audioClip) = await UniTask.WhenAll(task1, task2);
+        // var (fortunes, audioClip) = await UniTask.WhenAll(task1, task2);
         ScreenManager.Instance.Get<LoadingScreen>().Close();
 
         base.Open();
@@ -58,7 +64,7 @@ public class HoroscopeScreen : BaseScreen
 
 
         ShowConstellation(constellation);
-        ShowFortune(constellation, fortunes, SaveDataManager.SaveData.currentCharacterId);
+        ShowFortune(constellation, fortune, SaveDataManager.SaveData.currentCharacterId);
 
 
         AudioManager.Instance.PlayOneShot(audioClip);
@@ -79,7 +85,7 @@ public class HoroscopeScreen : BaseScreen
         constellationNameText.text = $"{name}({start}~{end})";
     }
 
-    void ShowFortune(Constellation constellation, Fortune[] fortunes, string characterId)
+    void ShowFortune(Constellation constellation, Fortune fortune, string characterId)
     {
         fortuneRankText.text = "XX" + "位";
         luckyItemText.text = "XXXX";
@@ -87,10 +93,6 @@ public class HoroscopeScreen : BaseScreen
         messageText.text = "XXXX";
 
         if (constellation == null) return;
-
-        var fortune = fortunes.FirstOrDefault(f => f.constellation_id == constellation.id);
-
-        if (fortune == null) return;
 
         fortuneRankText.text = fortune.rank + "位";
         luckyItemText.text = fortune.item;

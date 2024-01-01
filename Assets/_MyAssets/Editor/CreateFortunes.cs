@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using UnityEditor;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 public class CreateFortunes
 {
@@ -18,36 +19,37 @@ public class CreateFortunes
     [MenuItem("MyTool/Create Fortunes")]
     static async void Start()
     {
-        Constellations = await DeserializeAsync<Constellation>("Constellation");
-        LuckyItems = await DeserializeAsync<LuckyItem>("Fortunes/LuckyItems");
-        LuckyColors = await DeserializeAsync<LuckyColor>("Fortunes/LuckyColors");
+        Constellations = await CSVManager.Instance.DeserializeAsync<Constellation>("Constellation");
+        LuckyItems = await CSVManager.Instance.DeserializeAsync<LuckyItem>("Fortunes/LuckyItems");
+        LuckyColors = await CSVManager.Instance.DeserializeAsync<LuckyColor>("Fortunes/LuckyColors");
+
 
         var dateTimes = GenerateDateList(60);
 
+        List<Fortune> fortunes = new();
+
         foreach (var dateTime in dateTimes)
         {
-            List<Fortune> fortunes = new();
             var luckyItems = LuckyItems.ToList();
             var luckyColors = LuckyColors.ToList();
             var ranks = Enumerable.Range(1, 12).ToList();
+            var msgNos = Enumerable.Range(1, 20).ToList();
 
             foreach (var constellation in Constellations)
             {
                 Fortune fortune = new()
                 {
+                    date_time = dateTime.ToStringDate(),
                     constellation_id = constellation.id,
                     rank = ranks.PopRandom(),
                     item = luckyItems.PopRandom().name,
                     color = luckyColors.PopRandom().name,
+                    msg_id = msgNos.PopRandom(),
                 };
                 fortunes.Add(fortune);
             }
-
-            Save(dateTime.ToString("yyyy-MM-dd"), fortunes);
-            await UniTask.DelayFrame(1);
         }
-
-
+        Save("Fortunes", fortunes);
     }
 
     static List<DateTime> GenerateDateList(int days)
@@ -71,29 +73,36 @@ public class CreateFortunes
         string path = Application.dataPath + @"/_MyAssets/CSV/Fortunes/" + fileName + ".csv";
         using StreamWriter sw = File.CreateText(path);
 
-        string titleLine = "constellation_id" + "," + "rank" + "," + "item" + "," + "color";
+        string titleLine = "";
+
+
+        // クラスの変数を配列で取得
+        FieldInfo[] fields = typeof(Fortune).GetFields();
+
+        // 配列を反復処理して各変数にアクセス
+        foreach (FieldInfo field in fields)
+        {
+            //object value = field.GetValue(instance);
+            //Debug.Log(field.Name + ": " + value);
+            titleLine += field.Name + ",";
+        }
+
+
+
         sw.WriteLine(titleLine);
 
         foreach (var fortune in fortunes)
         {
-            string line = fortune.constellation_id + "," + fortune.rank + "," + fortune.item + "," + fortune.color;
+            string line = "";
+            foreach (FieldInfo field in fields)
+            {
+                line += field.GetValue(fortune) + ",";
+            }
+
             sw.WriteLine(line);
         }
         AssetDatabase.Refresh();
         Debug.Log("生成完了 " + fileName);
-    }
-
-    static async UniTask<T[]> DeserializeAsync<T>(string fileName)
-    {
-        // パスに拡張子つけない
-        string path = "CSV/" + fileName;
-        var result = await Resources.LoadAsync<TextAsset>(path);
-        var textAsset = result as TextAsset;
-        if (textAsset == null) Debug.LogError("csv読み込みに失敗しました: " + path);
-
-        var ary = CSVSerializer.Deserialize<T>(textAsset.text);
-        if (ary == null) Debug.LogError("csvデシリアライズに失敗しました: " + fileName);
-        return ary;
     }
 
 

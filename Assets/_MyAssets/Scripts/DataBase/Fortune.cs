@@ -10,9 +10,11 @@ namespace DataBase
     [JsonObject]
     public class Fortune
     {
+        public string date_time;
         public string constellation_id;
         public int rank;
         public string item;
         public string color;
+        public int msg_id;  
     }
 }
