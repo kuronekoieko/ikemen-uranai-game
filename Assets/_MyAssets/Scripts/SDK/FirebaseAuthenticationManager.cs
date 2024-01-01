@@ -6,12 +6,13 @@ using Firebase.Auth;
 
 public class FirebaseAuthenticationManager : Singleton<FirebaseAuthenticationManager>
 {
+    public FirebaseUser User => FirebaseAuth.DefaultInstance.CurrentUser;
+
     public async UniTask Initialize()
     {
-        //Debug.Log("aaaaaaaaaaaaaaa " + User.UserId);
-        if (string.IsNullOrEmpty(User.UserId))
+        if (User == null)
         {
-            // 毎回新しいユーザーが作成されるっぽい
+            // 毎回新しいユーザーが作成されるっぽい？
             await SignInAnonymouslyAsync();
         }
     }
@@ -33,5 +34,61 @@ public class FirebaseAuthenticationManager : Singleton<FirebaseAuthenticationMan
 
     }
 
-    public FirebaseUser User => FirebaseAuth.DefaultInstance.CurrentUser;
+    public void SignOut()
+    {
+        FirebaseAuth.DefaultInstance.SignOut();
+    }
+
+    async UniTask ReauthenticateAsync()
+    {
+
+        // Get auth credentials from the user for re-authentication. The example below shows
+        // email and password credentials but there are multiple possible providers,
+        // such as GoogleAuthProvider or FacebookAuthProvider.
+        Firebase.Auth.Credential credential =
+            Firebase.Auth.EmailAuthProvider.GetCredential("user@example.com", "password1234");
+
+        if (User != null)
+        {
+            await User.ReauthenticateAsync(credential).ContinueWith(task =>
+            {
+                if (task.IsCanceled)
+                {
+                    Debug.LogError("ReauthenticateAsync was canceled.");
+                    return;
+                }
+                if (task.IsFaulted)
+                {
+                    Debug.LogError("ReauthenticateAsync encountered an error: " + task.Exception);
+                    return;
+                }
+
+                Debug.Log("User reauthenticated successfully.");
+            });
+        }
+    }
+
+
+    public async UniTask DeleteAsync()
+    {
+        if (User == null) return;
+
+        await User.DeleteAsync().ContinueWith(task =>
+        {
+            if (task.IsCanceled)
+            {
+                Debug.LogError("DeleteAsync was canceled.");
+                return;
+            }
+            if (task.IsFaulted)
+            {
+                Debug.LogError("DeleteAsync encountered an error: " + task.Exception);
+                return;
+            }
+
+            Debug.Log("User deleted successfully.");
+        });
+
+    }
+
 }
