@@ -33,7 +33,7 @@ public class HoroscopeScreen : BaseScreen
         homeButton.onClick.AddListener(OnClickHomeButton);
     }
 
-    public async void Open(Constellation constellation, DateTime dateTime)
+    public async void Open(Constellation constellation, DateTime dateTime, string characterId)
     {
         if (constellation == null)
         {
@@ -50,7 +50,10 @@ public class HoroscopeScreen : BaseScreen
 
 
         // var task1 = FileDownloader.GetFortunes(dateTime);
-        var audioClip = await FileDownloader.GetAudioClip("test-001.wav");
+        string fileName = FileDownloader.GetAudioFileName(characterId, fortune.rank, fortune.msg_id);
+
+        Debug.Log(fileName);
+        var audioClip = await FileDownloader.DownloadAudioClip(fileName);
 
         // TODO: 失敗したとき
         // var (fortunes, audioClip) = await UniTask.WhenAll(task1, task2);
@@ -64,10 +67,17 @@ public class HoroscopeScreen : BaseScreen
 
 
         ShowConstellation(constellation);
-        ShowFortune(constellation, fortune, SaveDataManager.SaveData.currentCharacterId);
+        ShowFortune(constellation, fortune, characterId);
 
 
-        AudioManager.Instance.PlayOneShot(audioClip);
+        if (audioClip != null)
+        {
+            AudioManager.Instance.PlayOneShot(audioClip);
+        }
+        else
+        {
+            Debug.LogError("音声がありません");
+        }
     }
 
     void ShowConstellation(Constellation constellation)
