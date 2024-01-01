@@ -46,6 +46,7 @@ public class HoroscopeScreen : BaseScreen
         var task1 = DownloadFortune(dateTime);
         var task2 = DownloadAudioClip();
 
+        // TODO: 失敗したとき
         var (fortunes, audioClip) = await UniTask.WhenAll(task1, task2);
         ScreenManager.Instance.Get<LoadingScreen>().Close();
 

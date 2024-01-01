@@ -79,7 +79,7 @@ public class HomeHeader : MonoBehaviour
 
         characterLevelText.text = "Lv." + currentCharacter.level.ToString();
 
-        var currentLevelData = GetCurrentLevelData(currentCharacter);
+        var currentLevelData = GetCurrentLevelData_Character(currentCharacter);
         if (currentLevelData == null)
         {
             characterExpBarImage.fillAmount = 0;
@@ -104,17 +104,17 @@ public class HomeHeader : MonoBehaviour
 
     DataBase.LevelData GetCurrentLevelData_Player(int playerLevel)
     {
-        foreach (var levelData in CSVManager.Instance.LevelDatas)
+        foreach (var levelData in CSVManager.Instance.PlayerLevelDatas)
         {
             if (levelData.level == playerLevel) return levelData;
         }
         return null;
     }
 
-    DataBase.LevelData GetCurrentLevelData(SaveDataObjects.Character currentCharacter)
+    DataBase.LevelData GetCurrentLevelData_Character(SaveDataObjects.Character currentCharacter)
     {
         if (currentCharacter == null) return null;
-        foreach (var levelData in CSVManager.Instance.LevelDatas)
+        foreach (var levelData in CSVManager.Instance.CharacterLevelDatas)
         {
             if (levelData.level == currentCharacter.level) return levelData;
         }
