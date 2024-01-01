@@ -24,7 +24,7 @@ public class CreateFortunes
         LuckyColors = await CSVManager.Instance.DeserializeAsync<LuckyColor>("Fortunes/LuckyColors");
 
 
-        var dateTimes = GenerateDateList(60);
+        var dateTimes = GenerateDateList(365 * 10);
 
         List<Fortune> fortunes = new();
 

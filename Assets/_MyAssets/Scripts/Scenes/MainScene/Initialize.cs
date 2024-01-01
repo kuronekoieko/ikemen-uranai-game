@@ -44,11 +44,11 @@ namespace MainScene
 
         async void CompleteInit()
         {
-            var task1 = FileDownloader.DownloadFortune(DateTime.Today);
-            var task2 = FileDownloader.DownloadFortune(DateTime.Today.AddDays(1));
+            // var task1 = FileDownloader.DownloadFortune(DateTime.Today);
+            // var task2 = FileDownloader.DownloadFortune(DateTime.Today.AddDays(1));
             var task3 = FileDownloader.DownloadAudioClip("test-001.wav");
             var task4 = ScreenManager.Instance.Get<LoadingScreen>().ProgressTimer(1);
-            await UniTask.WhenAll(task1, task2, task3, task4);
+            await UniTask.WhenAll(task3, task4);
 
 
             ScreenManager.Instance.Get<LoadingScreen>().Close();
