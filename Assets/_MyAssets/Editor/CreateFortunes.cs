@@ -43,7 +43,7 @@ public class CreateFortunes
 
             foreach (var constellation in Constellations)
             {
-                int beforeRank = GetBeforeRank(beforeDailyFortunes, dateTime, constellation.id);
+                int beforeRank = GetBeforeRank(beforeDailyFortunes, constellation.id);
                 Fortune fortune = new()
                 {
                     date_time = dateTime.ToStringDate(),
@@ -86,7 +86,7 @@ public class CreateFortunes
         Save("Fortunes", fortunes);
     }
 
-    static int GetBeforeRank(List<Fortune> beforeDailyFortunes, DateTime dateTime, string constellationId)
+    static int GetBeforeRank(List<Fortune> beforeDailyFortunes, string constellationId)
     {
         foreach (var fortune in beforeDailyFortunes)
         {
@@ -160,7 +160,7 @@ public class CreateFortunes
         return dateList;
     }
 
-    static async void Save(string fileName, List<Fortune> fortunes)
+    static void Save(string fileName, List<Fortune> fortunes)
     {
         Debug.Log("書き込み開始");
 
