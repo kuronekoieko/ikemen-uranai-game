@@ -24,7 +24,8 @@ public class CreateFortunes
         LuckyColors = await CSVManager.Instance.DeserializeAsync<LuckyColor>("Fortunes/LuckyColors");
 
 
-        var dateTimes = GenerateDateList(365 * 10);
+        // var dateTimes = GenerateDateList(365 * 10);
+        var dateTimes = GenerateDateList(2);
 
         List<Fortune> fortunes = new();
 
@@ -34,22 +35,93 @@ public class CreateFortunes
             var luckyColors = LuckyColors.ToList();
             var ranks = Enumerable.Range(1, 12).ToList();
             var msgNos = Enumerable.Range(1, 20).ToList();
+            List<Fortune> dailyFortunes = new();
 
             foreach (var constellation in Constellations)
             {
+                int beforeRank = fortunes
+                    .Where(f => f.date_time == dateTime.AddDays(-1).ToStringDate())
+                    .Where(f => f.constellation_id == constellation.id)
+                    .Select(f => f.rank)
+                    .FirstOrDefault();
                 Fortune fortune = new()
                 {
                     date_time = dateTime.ToStringDate(),
                     constellation_id = constellation.id,
-                    rank = ranks.PopRandom(),
+                    rank = beforeRank,
                     item = luckyItems.PopRandom().name,
                     color = luckyColors.PopRandom().name,
                     msg_id = msgNos.PopRandom(),
                 };
-                fortunes.Add(fortune);
+                dailyFortunes.Add(fortune);
             }
+
+            dailyFortunes = dailyFortunes.OrderBy(f => f.rank).ToList();
+            var high = dailyFortunes.Where(f => f.rank <= 3);
+            var mid = dailyFortunes.Where(f => 4 <= f.rank && f.rank <= 9);
+            var low = dailyFortunes.Where(f => 10 <= f.rank);
+
+            dailyFortunes = new();
+            dailyFortunes.AddRange(high);
+            dailyFortunes.AddRange(low);
+            dailyFortunes.AddRange(mid);
+
+            foreach (var dailyFortune in dailyFortunes)
+            {
+                dailyFortune.rank = PopRandomRank(dailyFortune.rank, ranks);
+            }
+
+            dailyFortunes = dailyFortunes.OrderBy(f => f.constellation_id).ToList();
+            fortunes.AddRange(dailyFortunes);
+
+            await UniTask.DelayFrame(1);
         }
         Save("Fortunes", fortunes);
+    }
+
+    static int PopRandomRank(int beforeRank, List<int> ranks)
+    {
+        if (ranks.Count == 0)
+        {
+            // Debug.Log("要素数０");
+            return default;
+        }
+
+        if (beforeRank == 0)
+        {
+            return ranks.PopRandom();
+        }
+
+        int rank = ranks.GetRandom();
+        if (beforeRank <= 3)
+        {
+            while (rank <= 3)
+            {
+                rank = ranks.GetRandom();
+            }
+            ranks.Remove(rank);
+            // Debug.Log("前が3位いないのとき " + rank);
+
+            return rank;
+        }
+
+        if (10 <= beforeRank)
+        {
+            while (10 <= rank)
+            {
+                rank = ranks.GetRandom();
+            }
+            ranks.Remove(rank);
+            // Debug.Log("前が10位以上のとき " + rank);
+
+            return rank;
+        }
+
+        rank = ranks.GetRandom();
+        ranks.Remove(rank);
+        Debug.Log("その他 " + rank);
+
+        return rank;
     }
 
     static List<DateTime> GenerateDateList(int days)
