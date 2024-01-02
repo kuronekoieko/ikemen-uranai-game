@@ -9,6 +9,10 @@ public static class DebugUtils
     {
         Debug.Log(JsonConvert.SerializeObject(msg, Formatting.Indented));
     }
+    public static void LogJson(string text, object msg)
+    {
+        Debug.Log(text + "\n" + JsonConvert.SerializeObject(msg, Formatting.Indented));
+    }
 
     public static void Log(object[] msg)
     {
