@@ -12,40 +12,38 @@ using System.Reflection;
 
 public class CreateFortunes
 {
-    static Constellation[] Constellations;
-    static LuckyItem[] LuckyItems;
-    static LuckyColor[] LuckyColors;
 
     [MenuItem("MyTool/Create Fortunes")]
     static async void Start()
     {
         Debug.Log("計算開始");
 
-        Constellations = await CSVManager.Instance.DeserializeAsync<Constellation>("Constellation");
-        LuckyItems = await CSVManager.Instance.DeserializeAsync<LuckyItem>("Fortunes/LuckyItems");
-        LuckyColors = await CSVManager.Instance.DeserializeAsync<LuckyColor>("Fortunes/LuckyColors");
+        var Constellations = await CSVManager.Instance.DeserializeAsync<Constellation>("Constellation");
+        var LuckyItems = await CSVManager.Instance.DeserializeAsync<LuckyItem>("Fortunes/LuckyItems");
+        var LuckyColors = await CSVManager.Instance.DeserializeAsync<LuckyColor>("Fortunes/LuckyColors");
 
-
+        var LuckyItemList = LuckyItems.ToList();
+        var LuckyColorList = LuckyColors.ToList();
+        var rankList = Enumerable.Range(1, 12).ToList();
+        var msgNoList = Enumerable.Range(1, 20).ToList();
         var dateTimes = GenerateDateList(365 * 10);
         // var dateTimes = GenerateDateList(3);
 
-        List<Fortune> fortunes = new();
+        var fortunes = new List<Fortune>();
+        var beforeDailyFortunes = new List<Fortune>();
+
 
         foreach (var dateTime in dateTimes)
         {
-            var luckyItems = LuckyItems.ToList();
-            var luckyColors = LuckyColors.ToList();
-            var ranks = Enumerable.Range(1, 12).ToList();
-            var msgNos = Enumerable.Range(1, 20).ToList();
-            List<Fortune> dailyFortunes = new();
+            var luckyItems = new List<LuckyItem>(LuckyItemList);
+            var luckyColors = new List<LuckyColor>(LuckyColorList);
+            var ranks = new List<int>(rankList);
+            var msgNos = new List<int>(msgNoList);
+            var dailyFortunes = new List<Fortune>();
 
             foreach (var constellation in Constellations)
             {
-                int beforeRank = fortunes
-                    .Where(f => f.date_time == dateTime.AddDays(-1).ToStringDate())
-                    .Where(f => f.constellation_id == constellation.id)
-                    .Select(f => f.rank)
-                    .FirstOrDefault();
+                int beforeRank = GetBeforeRank(beforeDailyFortunes, dateTime, constellation.id);
                 Fortune fortune = new()
                 {
                     date_time = dateTime.ToStringDate(),
@@ -59,9 +57,9 @@ public class CreateFortunes
             }
 
             dailyFortunes = dailyFortunes.OrderBy(f => f.rank).ToList();
-            var high = dailyFortunes.Where(f => f.rank <= 3);
-            var mid = dailyFortunes.Where(f => 4 <= f.rank && f.rank <= 9);
-            var low = dailyFortunes.Where(f => 10 <= f.rank);
+            List<Fortune> high = dailyFortunes.Where(f => f.rank <= 3);
+            List<Fortune> mid = dailyFortunes.Where(f => 4 <= f.rank && f.rank <= 9);
+            List<Fortune> low = dailyFortunes.Where(f => 10 <= f.rank);
 
             dailyFortunes = new();
             dailyFortunes.AddRange(high);
@@ -76,11 +74,29 @@ public class CreateFortunes
 
             dailyFortunes = dailyFortunes.OrderBy(f => f.constellation_id).ToList();
             fortunes.AddRange(dailyFortunes);
+            beforeDailyFortunes = dailyFortunes;
 
-            await UniTask.DelayFrame(1);
-            Debug.Log(fortunes.Count + "/" + dateTimes.Count * 12);
+            if (dateTime.Day == DateTime.DaysInMonth(dateTime.Year, dateTime.Month))
+            {
+                await UniTask.DelayFrame(1);
+                var progress = (float)fortunes.Count / (float)(dateTimes.Count * 12) * 10f;
+                Debug.Log("計算中 " + Mathf.FloorToInt(progress) + "%");
+            }
         }
         Save("Fortunes", fortunes);
+    }
+
+    static int GetBeforeRank(List<Fortune> beforeDailyFortunes, DateTime dateTime, string constellationId)
+    {
+        foreach (var fortune in beforeDailyFortunes)
+        {
+            if (fortune.constellation_id == constellationId)
+            {
+                return fortune.rank;
+            }
+        }
+
+        return 0;
     }
 
     static int PopRandomRank(int beforeRank, List<int> ranks)
@@ -169,16 +185,20 @@ public class CreateFortunes
 
         sw.WriteLine(titleLine);
 
-        foreach (var fortune in fortunes)
+
+        for (int i = 0; i < fortunes.Count; i++)
         {
+            var fortune = fortunes[i];
             string line = "";
             foreach (FieldInfo field in fields)
             {
                 line += field.GetValue(fortune) + ",";
             }
 
-            await sw.WriteLineAsync(line);
+            sw.WriteLine(line);
         }
+
+
         AssetDatabase.Refresh();
         Debug.Log("生成完了 " + fileName);
     }
