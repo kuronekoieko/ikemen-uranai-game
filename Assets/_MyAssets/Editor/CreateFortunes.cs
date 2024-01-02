@@ -69,7 +69,7 @@ public class CreateFortunes
             foreach (var dailyFortune in dailyFortunes)
             {
                 dailyFortune.rank = PopRandomRank(dailyFortune.rank, ranks);
-                if (dailyFortune.rank == 0) DebugUtils.LogJson("順位が異常", dailyFortune);
+                if (dailyFortune.rank == 0) DebugUtils.LogJsonError("順位が異常", dailyFortune);
             }
 
             dailyFortunes = dailyFortunes.OrderBy(f => f.constellation_id).ToList();

@@ -14,6 +14,11 @@ public static class DebugUtils
         Debug.Log(text + "\n" + JsonConvert.SerializeObject(msg, Formatting.Indented));
     }
 
+    public static void LogJsonError(string text, object msg)
+    {
+        Debug.LogError(text + "\n" + JsonConvert.SerializeObject(msg, Formatting.Indented));
+    }
+
     public static void Log(object[] msg)
     {
         string str = "";
