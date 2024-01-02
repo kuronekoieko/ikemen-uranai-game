@@ -19,13 +19,15 @@ public class CreateFortunes
     [MenuItem("MyTool/Create Fortunes")]
     static async void Start()
     {
+        Debug.Log("計算開始");
+
         Constellations = await CSVManager.Instance.DeserializeAsync<Constellation>("Constellation");
         LuckyItems = await CSVManager.Instance.DeserializeAsync<LuckyItem>("Fortunes/LuckyItems");
         LuckyColors = await CSVManager.Instance.DeserializeAsync<LuckyColor>("Fortunes/LuckyColors");
 
 
-        // var dateTimes = GenerateDateList(365 * 10);
-        var dateTimes = GenerateDateList(2);
+        var dateTimes = GenerateDateList(365 * 10);
+        // var dateTimes = GenerateDateList(3);
 
         List<Fortune> fortunes = new();
 
@@ -69,12 +71,14 @@ public class CreateFortunes
             foreach (var dailyFortune in dailyFortunes)
             {
                 dailyFortune.rank = PopRandomRank(dailyFortune.rank, ranks);
+                if (dailyFortune.rank == 0) DebugUtils.LogJson("順位が異常", dailyFortune);
             }
 
             dailyFortunes = dailyFortunes.OrderBy(f => f.constellation_id).ToList();
             fortunes.AddRange(dailyFortunes);
 
             await UniTask.DelayFrame(1);
+            Debug.Log(fortunes.Count + "/" + dateTimes.Count * 12);
         }
         Save("Fortunes", fortunes);
     }
@@ -119,7 +123,7 @@ public class CreateFortunes
 
         rank = ranks.GetRandom();
         ranks.Remove(rank);
-        Debug.Log("その他 " + rank);
+        // Debug.Log("その他 " + rank);
 
         return rank;
     }
@@ -140,8 +144,10 @@ public class CreateFortunes
         return dateList;
     }
 
-    static void Save(string fileName, List<Fortune> fortunes)
+    static async void Save(string fileName, List<Fortune> fortunes)
     {
+        Debug.Log("書き込み開始");
+
         string path = Application.dataPath + @"/_MyAssets/CSV/Fortunes/" + fileName + ".csv";
         using StreamWriter sw = File.CreateText(path);
 
@@ -171,7 +177,7 @@ public class CreateFortunes
                 line += field.GetValue(fortune) + ",";
             }
 
-            sw.WriteLine(line);
+            await sw.WriteLineAsync(line);
         }
         AssetDatabase.Refresh();
         Debug.Log("生成完了 " + fileName);
