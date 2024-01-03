@@ -6,6 +6,15 @@ using System;
 
 public static class ListExtentions
 {
+    public static List<T> ReverseList<T>(this List<T> self)
+    {
+        List<T> items = new();
+        for (int i = self.Count - 1; i >= 0; i--)
+        {
+            items.Add(self[i]);
+        }
+        return items;
+    }
 
     public static List<T> Where<T>(this List<T> self, Func<T, bool> predicate)
     {
