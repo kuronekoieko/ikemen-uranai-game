@@ -26,7 +26,7 @@ public class CreateFortunes
         var LuckyColorList = LuckyColors.Select(luckyColor => luckyColor.name).ToList();
         var rankList = Enumerable.Range(1, 12).ToList();
         var msgNoList = Enumerable.Range(1, 20).ToList();
-        var dateTimes = GenerateDateList(8);
+        var dateTimes = GenerateDateList(365 * 10);
 
         var fortunes = new List<Fortune>();
         var dailyFortunesList = new List<List<Fortune>>();
@@ -58,31 +58,15 @@ public class CreateFortunes
 
             ReTry(dailyFortunes, LuckyItemList, dailyFortunesList);
             ReTry(dailyFortunes, luckyColors, dailyFortunesList);
+            SetRanks(dailyFortunes, ranks);
 
-            dailyFortunes = dailyFortunes.OrderBy(f => f.rank).ToList();
-            List<Fortune> high = dailyFortunes.Where(f => f.rank <= 3);
-            List<Fortune> mid = dailyFortunes.Where(f => 4 <= f.rank && f.rank <= 9);
-            List<Fortune> low = dailyFortunes.Where(f => 10 <= f.rank);
-
-            dailyFortunes = new();
-            dailyFortunes.AddRange(high);
-            dailyFortunes.AddRange(low);
-            dailyFortunes.AddRange(mid);
-
-            foreach (var dailyFortune in dailyFortunes)
-            {
-                dailyFortune.rank = PopRandomRank(dailyFortune.rank, ranks);
-                if (dailyFortune.rank == 0) DebugUtils.LogJsonError("順位が異常", dailyFortune);
-            }
-
-            dailyFortunes = dailyFortunes.OrderBy(f => f.constellation_id).ToList();
             fortunes.AddRange(dailyFortunes);
             dailyFortunesList.Add(dailyFortunes);
 
             if (dateTime.Day == DateTime.DaysInMonth(dateTime.Year, dateTime.Month))
             {
                 await UniTask.DelayFrame(1);
-                var progress = (float)fortunes.Count / (float)(dateTimes.Count * 12) * 10f;
+                var progress = (float)fortunes.Count / (float)(dateTimes.Count * 12) * 100f;
                 Debug.Log("計算中 " + Mathf.FloorToInt(progress) + "%");
             }
         }
@@ -110,7 +94,7 @@ public class CreateFortunes
         }
         if (count > 0)
         {
-            Debug.Log("再抽選回数 " + count);
+            // Debug.Log("再抽選回数 " + count);
         }
     }
 
@@ -128,6 +112,27 @@ public class CreateFortunes
         string luckyItem = luckyItems.PopRandom(ignore: luckyItem => last7DaysLuckyItems.Contains(luckyItem));
         if (string.IsNullOrEmpty(luckyItem)) return "";
         return luckyItem;
+    }
+
+    static void SetRanks(List<Fortune> dailyFortunes, List<int> ranks)
+    {
+        dailyFortunes = dailyFortunes.OrderBy(f => f.rank).ToList();
+        List<Fortune> high = dailyFortunes.Where(f => f.rank <= 3);
+        List<Fortune> mid = dailyFortunes.Where(f => 4 <= f.rank && f.rank <= 9);
+        List<Fortune> low = dailyFortunes.Where(f => 10 <= f.rank);
+
+        dailyFortunes = new();
+        dailyFortunes.AddRange(high);
+        dailyFortunes.AddRange(low);
+        dailyFortunes.AddRange(mid);
+
+        foreach (var dailyFortune in dailyFortunes)
+        {
+            dailyFortune.rank = PopRandomRank(dailyFortune.rank, ranks);
+            if (dailyFortune.rank == 0) DebugUtils.LogJsonError("順位が異常", dailyFortune);
+        }
+
+        dailyFortunes = dailyFortunes.OrderBy(f => f.constellation_id).ToList();
     }
 
 
