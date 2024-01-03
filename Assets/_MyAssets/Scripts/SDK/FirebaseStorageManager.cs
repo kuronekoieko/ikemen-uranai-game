@@ -52,29 +52,30 @@ public class FirebaseStorageManager : Singleton<FirebaseStorageManager>
             }
     */
 
-    public async UniTask<Uri> GetURI(string path)
+    public async UniTask<string> GetURI(string path)
     {
         Debug.Log("データベースアクセス開始 " + path);
         StorageReference storageReference = storageRef.Child(path);
 
-        Uri uri = null;
         try
         {
-            uri = await storageReference.GetDownloadUrlAsync();
+            var uri = await storageReference.GetDownloadUrlAsync();
             Debug.Log(uri);
+            if (uri != null) return uri.ToString();
+            return "";
         }
         catch (Exception e)
         {
             Debug.LogError(e.ToString());
         }
-        return uri;
+        return "";
     }
 
-    public async UniTask<string> DownloadCsvFile(Uri uri)
+    public async UniTask<string> DownloadCsvFile(string url)
     {
         Debug.Log("csvダウンロード開始");
 
-        UnityWebRequest www = UnityWebRequest.Get(uri.ToString());
+        UnityWebRequest www = UnityWebRequest.Get(url);
 
         await www.SendWebRequest();
 
@@ -93,10 +94,10 @@ public class FirebaseStorageManager : Singleton<FirebaseStorageManager>
         }
     }
 
-    public async UniTask<AudioClip> DownloadAudio(Uri uri)
+    public async UniTask<DownloadedAudio> DownloadAudio(string url)
     {
-        if (uri == null) return null;
-        string url = uri.ToString();
+        if (string.IsNullOrEmpty(url)) return null;
+
 
         Debug.Log("音声ダウンロード開始");
         using UnityWebRequest request = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.WAV);
@@ -115,13 +116,23 @@ public class FirebaseStorageManager : Singleton<FirebaseStorageManager>
             Debug.LogError("Failed to create AudioClip.");
             return null;
         }
+        DownloadedAudio downloadedAudio = new()
+        {
+            audioClip = audioClip,
+            data = request.downloadHandler.data
+        };
 
         // ダウンロードが成功したら再生するなどの処理を行う
         // PlayAudio();
         Debug.Log("ダウンロード成功");
-        return audioClip;
+        return downloadedAudio;
     }
 
+    public class DownloadedAudio
+    {
+        public AudioClip audioClip;
+        public byte[] data;
+    }
 
     private async Task<Sprite> LoadTexture(string uri)
     {

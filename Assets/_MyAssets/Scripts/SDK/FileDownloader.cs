@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DataBase;
 using UnityEngine;
+using System.IO;
 
 public class FileDownloader
 {
@@ -32,8 +33,8 @@ public class FileDownloader
     public static async UniTask<Fortune[]> DownloadFortune(DateTime dateTime)
     {
         string fileName = GetFortunesFileName(dateTime);
-        Uri uri = await FirebaseStorageManager.Instance.GetURI(fileName);
-        string csv = await FirebaseStorageManager.Instance.DownloadCsvFile(uri);
+        string url = await FirebaseStorageManager.Instance.GetURI(fileName);
+        string csv = await FirebaseStorageManager.Instance.DownloadCsvFile(url);
         var fortunes = CSVSerializer.Deserialize<Fortune>(csv);
 
         if (fortunesDic.ContainsKey(fileName) == false)
@@ -46,24 +47,89 @@ public class FileDownloader
 
     public static async UniTask<AudioClip> GetAudioClip(string path)
     {
-        bool success = audioClipDic.TryGetValue(path, out AudioClip audioClip);
-        if (success == false)
+
+        audioClipDic.TryGetValue(path, out AudioClip audioClip);
+        if (audioClip) return audioClip;
+
+        // audioClip = LoadAudioFromLocal(path);
+        if (audioClip)
         {
-            audioClip = await DownloadAudioClip(path);
+            audioClipDic[path] = audioClip;
+            return audioClip;
         }
+
+        audioClip = await DownloadAudioClip(path);
+        if (audioClip)
+        {
+            audioClipDic[path] = audioClip;
+            return audioClip;
+        }
+
         return audioClip;
     }
 
     static async UniTask<AudioClip> DownloadAudioClip(string path)
     {
-        Uri uri = await FirebaseStorageManager.Instance.GetURI(path);
-        var audioClip = await FirebaseStorageManager.Instance.DownloadAudio(uri);
+        string url = await FirebaseStorageManager.Instance.GetURI(path);
+        var assetBundle = await AssetBundleLoader.DownloadAssetBundleAsync(url.Replace(".wav", ""));
+        Debug.Log(assetBundle);
+        if (assetBundle == null) return null;
+        var assetBundleName = path.Replace(".wav", "").Replace("Voices/", "");
+        var obj = await assetBundle.LoadAssetAsync<AudioClip>(assetBundleName);
+        return obj as AudioClip;
 
-        if (audioClipDic.ContainsKey(path) == false)
+        var downloadedAudio = await FirebaseStorageManager.Instance.DownloadAudio(url);
+        if (downloadedAudio == null) return null;
+        SaveLocal(downloadedAudio.data, path);
+        return downloadedAudio.audioClip;
+    }
+
+    static void SaveLocal(byte[] audioData, string path)
+    {
+        // 保存先のファイルパス
+        string filePath = Application.persistentDataPath + "/" + path;
+        Debug.Log(filePath);
+
+        string directoryPath = Path.GetDirectoryName(filePath);
+        Debug.Log(directoryPath);
+
+        if (!Directory.Exists(directoryPath))
         {
-            audioClipDic[path] = audioClip;
+            Directory.CreateDirectory(directoryPath);
         }
-        return audioClip;
+
+        try
+        {
+            // ファイルに保存
+            File.WriteAllBytes(filePath, audioData);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
+    }
+
+    static AudioClip LoadAudioFromLocal(string path)
+    {
+        // ファイルのフルパスを取得
+        string filePath = Application.persistentDataPath + "/" + path;
+
+        // ファイルが存在するか確認
+        if (File.Exists(filePath))
+        {
+            // ファイルをバイト配列として読み込む
+            //  byte[] audioData = File.ReadAllBytes(filePath);
+            byte[] fileBytes = File.ReadAllBytes(filePath);
+            DebugUtils.LogJson(fileBytes);
+
+            Debug.Log("Audio loaded from: " + filePath);
+            return WavUtility.ToAudioClip(filePath);
+        }
+        else
+        {
+            Debug.LogError("File not found: " + filePath);
+            return null;
+        }
     }
 
     public static string GetAudioFileName(string characterId, Fortune fortune)
