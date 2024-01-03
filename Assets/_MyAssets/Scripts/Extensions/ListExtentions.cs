@@ -32,6 +32,13 @@ public static class ListExtentions
     public static T PopRandom<T>(this List<T> self, Func<T, bool> isRetry)
     {
         if (self.Count == 0) return default;
+        bool invalid = self.All(item => isRetry(item));
+        if (invalid)
+        {
+            Debug.LogError("抽選に失敗");
+            return default;
+        }
+
         T t = self.GetRandom();
         while (isRetry(t))
         {
