@@ -83,12 +83,10 @@ namespace MainScene
             var tomorrowAudioFileName = FileDownloader.GetAudioFileName(SaveDataManager.SaveData.currentCharacterId, tomorrowFortune);
             var task4 = FileDownloader.GetAudioClip(tomorrowAudioFileName);
 
-            await UniTask.WhenAll(task3, task4);
+            // var test = "Voices/chara0001-rank01-msg01";
+            // var task5 = FileDownloader.GetAudioClip(test);
 
-            var test = "Voices/chara0001-rank01-msg01.wav";
-            var audioClip = await FileDownloader.GetAudioClip(test);
-            DebugUtils.LogJson(audioClip);
-            AudioManager.Instance.PlayOneShot(audioClip);
+            await UniTask.WhenAll(task3, task4);
         }
 
 

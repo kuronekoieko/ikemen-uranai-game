@@ -8,7 +8,7 @@ using System;
 public class AssetBundleLoader
 {
 
-    public static async UniTask<AssetBundle> DownloadAssetBundleAsync(string url)
+    public static async UniTask<T> DownloadAssetBundleAsync<T>(string url, string assetBundleName) where T : UnityEngine.Object
     {
         if (string.IsNullOrEmpty(url)) return null;
 
@@ -22,8 +22,9 @@ public class AssetBundleLoader
         }
         else
         {
-            AssetBundle bundle = DownloadHandlerAssetBundle.GetContent(request);
-            return bundle;
+            AssetBundle assetBundle = DownloadHandlerAssetBundle.GetContent(request);
+            var obj = await assetBundle.LoadAssetAsync(assetBundleName);
+            return obj as T;
         }
     }
 

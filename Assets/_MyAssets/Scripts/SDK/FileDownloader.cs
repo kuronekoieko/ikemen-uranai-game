@@ -71,17 +71,20 @@ public class FileDownloader
     static async UniTask<AudioClip> DownloadAudioClip(string path)
     {
         string url = await FirebaseStorageManager.Instance.GetURI(path);
-        var assetBundle = await AssetBundleLoader.DownloadAssetBundleAsync(url.Replace(".wav", ""));
-        Debug.Log(assetBundle);
-        if (assetBundle == null) return null;
-        var assetBundleName = path.Replace(".wav", "").Replace("Voices/", "");
-        var obj = await assetBundle.LoadAssetAsync<AudioClip>(assetBundleName);
-        return obj as AudioClip;
 
-        var downloadedAudio = await FirebaseStorageManager.Instance.DownloadAudio(url);
-        if (downloadedAudio == null) return null;
-        SaveLocal(downloadedAudio.data, path);
-        return downloadedAudio.audioClip;
+        if (path.Contains(".wav"))
+        {
+            var downloadedAudio = await FirebaseStorageManager.Instance.DownloadAudio(url);
+            if (downloadedAudio == null) return null;
+            SaveLocal(downloadedAudio.data, path);
+            return downloadedAudio.audioClip;
+        }
+        else
+        {
+            var assetBundleName = path.Replace("Voices/", "");
+            var audioClip = await AssetBundleLoader.DownloadAssetBundleAsync<AudioClip>(url, assetBundleName);
+            return audioClip;
+        }
     }
 
     static void SaveLocal(byte[] audioData, string path)

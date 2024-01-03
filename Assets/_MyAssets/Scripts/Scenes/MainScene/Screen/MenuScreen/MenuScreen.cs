@@ -30,9 +30,13 @@ public class MenuScreen : BaseScreen
 
     }
 
-    public override void Open()
+    public override async void Open()
     {
         base.Open();
+
+        var test = "Voices/chara0001-rank01-msg01";
+        var audioClip = await FileDownloader.GetAudioClip(test);
+        AudioManager.Instance.PlayOneShot(audioClip);
 
         if (FirebaseAuthenticationManager.Instance.User == null)
         {
