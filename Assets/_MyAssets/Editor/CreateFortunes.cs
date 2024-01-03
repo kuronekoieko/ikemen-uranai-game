@@ -26,7 +26,7 @@ public class CreateFortunes
         var LuckyColorList = LuckyColors.Select(luckyColor => luckyColor.name).ToList();
         var rankList = Enumerable.Range(1, 12).ToList();
         var msgNoList = Enumerable.Range(1, 20).ToList();
-        var dateTimes = GenerateDateList(2);
+        var dateTimes = GenerateDateList(8);
 
         var fortunes = new List<Fortune>();
         var dailyFortunesList = new List<List<Fortune>>();
@@ -97,15 +97,8 @@ public class CreateFortunes
             .Select(dailyFortune => dailyFortune.item)
             .ToList();
 
-        bool invalid = luckyItems.All(luckyItem => last7DaysLuckyItems.Contains(luckyItem));
-        if (invalid)
-        {
-            Debug.LogError("アイテムがありません");
-            return "";
-        }
-
         string luckyItem = luckyItems.PopRandom(isRetry: luckyItem => last7DaysLuckyItems.Contains(luckyItem));
-
+        if (string.IsNullOrEmpty(luckyItem)) return "";
         return luckyItem;
     }
 
@@ -140,11 +133,6 @@ public class CreateFortunes
         int rank = ranks.GetRandom();
         if (beforeRank <= 3)
         {
-            if (ranks.All(rank => rank <= 3))
-            {
-                Debug.LogError("順位が異常");
-                return 0;
-            }
             rank = ranks.PopRandom(isRetry: rank => rank <= 3);
             // Debug.Log("前が3位いないのとき " + rank);
             return rank;
@@ -152,11 +140,6 @@ public class CreateFortunes
 
         if (10 <= beforeRank)
         {
-            if (ranks.All(rank => 10 <= rank))
-            {
-                Debug.LogError("順位が異常");
-                return 0;
-            }
             rank = ranks.PopRandom(isRetry: rank => 10 <= rank);
             // Debug.Log("前が10位以上のとき " + rank);
             return rank;
