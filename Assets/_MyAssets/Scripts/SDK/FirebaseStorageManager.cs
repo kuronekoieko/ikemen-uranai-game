@@ -66,7 +66,7 @@ public class FirebaseStorageManager : Singleton<FirebaseStorageManager>
         }
         catch (Exception e)
         {
-            Debug.LogError(e.ToString());
+            Debug.LogError(path + "\n" + e.ToString());
         }
         return "";
     }
