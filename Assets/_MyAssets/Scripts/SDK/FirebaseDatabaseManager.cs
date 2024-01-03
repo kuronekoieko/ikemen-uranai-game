@@ -31,6 +31,15 @@ public class FirebaseDatabaseManager : Singleton<FirebaseDatabaseManager>
         await reference.Child("users").Child(userId).SetRawJsonValueAsync(json);
     }
 
+    public async UniTask RemoveSaveData()
+    {
+        string userId = FirebaseAuthenticationManager.Instance.User.UserId;
+        // 空のidを送ると、サーバーのデータ全部消える
+        if (string.IsNullOrEmpty(userId)) return;
+        await reference.Child("users").Child(userId).RemoveValueAsync();
+    }
+
+
     public async UniTask<SaveData> GetUserData(string userId)
     {
         DataSnapshot snapshot = await reference.Child("users").Child(userId).GetValueAsync();

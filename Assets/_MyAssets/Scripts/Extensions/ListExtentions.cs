@@ -2,39 +2,82 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public static class ListExtentions
 {
+    public static List<T> ReverseList<T>(this List<T> self)
+    {
+        List<T> items = new();
+        for (int i = self.Count - 1; i >= 0; i--)
+        {
+            items.Add(self[i]);
+        }
+        return items;
+    }
+
+    public static List<T> Where<T>(this List<T> self, Func<T, bool> predicate)
+    {
+        List<T> list = new();
+        foreach (var item in self)
+        {
+            if (predicate(item))
+            {
+                list.Add(item);
+            }
+        }
+        return list;
+    }
+
+    public static T PopRandom<T>(this List<T> self, Func<T, bool> ignore)
+    {
+        if (self.Count == 0) return default;
+        bool invalid = self.All(item => ignore(item));
+        if (invalid)
+        {
+            Debug.LogWarning("抽選に失敗");
+            return default;
+        }
+
+        T t = self.GetRandom();
+        while (ignore(t))
+        {
+            t = self.GetRandom();
+        }
+
+        self.Remove(t);
+        return t;
+    }
+
     public static T PopRandom<T>(this List<T> self)
     {
         if (self.Count == 0) return default;
-        int index = Random.Range(0, self.Count);
-        T t = self[index];
-        self.RemoveAt(index);
+        T t = self.GetRandom();
+        self.Remove(t);
         return t;
     }
 
     public static T GetRandom<T>(this List<T> self, out int index)
     {
-        index = Random.Range(0, self.Count);
+        index = UnityEngine.Random.Range(0, self.Count);
         return self[index];
     }
 
     public static T GetRandom<T>(this List<T> self)
     {
-        int index = Random.Range(0, self.Count);
+        int index = UnityEngine.Random.Range(0, self.Count);
         return self[index];
     }
 
     public static T GetRandom<T>(this T[] self, out int index)
     {
-        index = Random.Range(0, self.Length);
+        index = UnityEngine.Random.Range(0, self.Length);
         return self[index];
     }
 
     public static T GetRandom<T>(this T[] self)
     {
-        int index = Random.Range(0, self.Length);
+        int index = UnityEngine.Random.Range(0, self.Length);
         return self[index];
     }
 
