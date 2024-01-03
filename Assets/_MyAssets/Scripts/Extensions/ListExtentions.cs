@@ -29,18 +29,18 @@ public static class ListExtentions
         return list;
     }
 
-    public static T PopRandom<T>(this List<T> self, Func<T, bool> isRetry)
+    public static T PopRandom<T>(this List<T> self, Func<T, bool> ignore)
     {
         if (self.Count == 0) return default;
-        bool invalid = self.All(item => isRetry(item));
+        bool invalid = self.All(item => ignore(item));
         if (invalid)
         {
-            Debug.LogError("抽選に失敗");
+            Debug.LogWarning("抽選に失敗");
             return default;
         }
 
         T t = self.GetRandom();
-        while (isRetry(t))
+        while (ignore(t))
         {
             t = self.GetRandom();
         }

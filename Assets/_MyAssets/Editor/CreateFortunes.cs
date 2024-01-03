@@ -56,6 +56,9 @@ public class CreateFortunes
                 dailyFortunes.Add(fortune);
             }
 
+            ReTry(dailyFortunes, LuckyItemList, dailyFortunesList);
+            ReTry(dailyFortunes, luckyColors, dailyFortunesList);
+
             dailyFortunes = dailyFortunes.OrderBy(f => f.rank).ToList();
             List<Fortune> high = dailyFortunes.Where(f => f.rank <= 3);
             List<Fortune> mid = dailyFortunes.Where(f => 4 <= f.rank && f.rank <= 9);
@@ -86,6 +89,31 @@ public class CreateFortunes
         Save("Fortunes", fortunes);
     }
 
+    static void ReTry(List<Fortune> dailyFortunes, List<string> LuckyItemList, List<List<Fortune>> dailyFortunesList)
+    {
+        bool retry = dailyFortunes.Select(dailyFortune => dailyFortune.item).Contains("");
+        int count = 0;
+        while (retry)
+        {
+            var luckyItems = new List<string>(LuckyItemList);
+            foreach (var dailyFortune in dailyFortunes)
+            {
+                dailyFortune.item = PopRandomWithoutLast7Days(luckyItems, dailyFortunesList, dailyFortune.constellation_id);
+            }
+            retry = dailyFortunes.Select(dailyFortune => dailyFortune.item).Contains("");
+            count++;
+            if (count > 100)
+            {
+                Debug.LogError("無限ループ");
+                break;
+            }
+        }
+        if (count > 0)
+        {
+            Debug.Log("再抽選回数 " + count);
+        }
+    }
+
     static string PopRandomWithoutLast7Days(List<string> luckyItems, List<List<Fortune>> dailyFortunesList, string constellationId)
     {
         if (dailyFortunesList.Count == 0) return luckyItems.PopRandom();
@@ -97,7 +125,7 @@ public class CreateFortunes
             .Select(dailyFortune => dailyFortune.item)
             .ToList();
 
-        string luckyItem = luckyItems.PopRandom(isRetry: luckyItem => last7DaysLuckyItems.Contains(luckyItem));
+        string luckyItem = luckyItems.PopRandom(ignore: luckyItem => last7DaysLuckyItems.Contains(luckyItem));
         if (string.IsNullOrEmpty(luckyItem)) return "";
         return luckyItem;
     }
@@ -133,14 +161,14 @@ public class CreateFortunes
         int rank = ranks.GetRandom();
         if (beforeRank <= 3)
         {
-            rank = ranks.PopRandom(isRetry: rank => rank <= 3);
+            rank = ranks.PopRandom(ignore: rank => rank <= 3);
             // Debug.Log("前が3位いないのとき " + rank);
             return rank;
         }
 
         if (10 <= beforeRank)
         {
-            rank = ranks.PopRandom(isRetry: rank => 10 <= rank);
+            rank = ranks.PopRandom(ignore: rank => 10 <= rank);
             // Debug.Log("前が10位以上のとき " + rank);
             return rank;
         }
