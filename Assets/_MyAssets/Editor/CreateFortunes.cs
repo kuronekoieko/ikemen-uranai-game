@@ -145,6 +145,11 @@ public class CreateFortunes
         int rank = ranks.GetRandom();
         if (beforeRank <= 3)
         {
+            if (ranks.All(rank => rank <= 3))
+            {
+                Debug.LogError("順位が異常");
+                return 0;
+            }
             while (rank <= 3)
             {
                 rank = ranks.GetRandom();
@@ -157,6 +162,11 @@ public class CreateFortunes
 
         if (10 <= beforeRank)
         {
+            if (ranks.All(rank => 10 <= rank))
+            {
+                Debug.LogError("順位が異常");
+                return 0;
+            }
             while (10 <= rank)
             {
                 rank = ranks.GetRandom();
