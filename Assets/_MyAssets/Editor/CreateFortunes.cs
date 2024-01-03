@@ -12,28 +12,35 @@ using System.Reflection;
 
 public class CreateFortunes
 {
-    static Constellation[] Constellations;
-    static LuckyItem[] LuckyItems;
-    static LuckyColor[] LuckyColors;
 
     [MenuItem("MyTool/Create Fortunes")]
     static async void Start()
     {
-        Constellations = await CSVManager.Instance.DeserializeAsync<Constellation>("Constellation");
-        LuckyItems = await CSVManager.Instance.DeserializeAsync<LuckyItem>("Fortunes/LuckyItems");
-        LuckyColors = await CSVManager.Instance.DeserializeAsync<LuckyColor>("Fortunes/LuckyColors");
+        Debug.Log("計算開始");
 
+        var Constellations = await CSVManager.Instance.DeserializeAsync<Constellation>("Constellation");
+        var LuckyItems = await CSVManager.Instance.DeserializeAsync<LuckyItem>("Fortunes/LuckyItems");
+        var LuckyColors = await CSVManager.Instance.DeserializeAsync<LuckyColor>("Fortunes/LuckyColors");
 
+        var LuckyItemList = LuckyItems.Select(luckyItem => luckyItem.name).ToList();
+        var LuckyColorList = LuckyColors.Select(luckyColor => luckyColor.name).ToList();
+        var rankList = Enumerable.Range(1, 12).ToList();
+        var msgNoList = Enumerable.Range(1, 20).ToList();
         var dateTimes = GenerateDateList(365 * 10);
 
-        List<Fortune> fortunes = new();
+        var fortunes = new List<Fortune>();
+        var dailyFortunesList = new List<List<Fortune>>();
+
 
         foreach (var dateTime in dateTimes)
         {
-            var luckyItems = LuckyItems.ToList();
-            var luckyColors = LuckyColors.ToList();
-            var ranks = Enumerable.Range(1, 12).ToList();
-            var msgNos = Enumerable.Range(1, 20).ToList();
+            var luckyItems = new List<string>(LuckyItemList);
+            var luckyColors = new List<string>(LuckyColorList);
+            var ranks = new List<int>(rankList);
+            var msgNos = new List<int>(msgNoList);
+            var dailyFortunes = new List<Fortune>();
+            var beforeDailyFortunes = dailyFortunesList.LastOrDefault();
+
 
             foreach (var constellation in Constellations)
             {
@@ -41,15 +48,139 @@ public class CreateFortunes
                 {
                     date_time = dateTime.ToStringDate(),
                     constellation_id = constellation.id,
-                    rank = ranks.PopRandom(),
-                    item = luckyItems.PopRandom().name,
-                    color = luckyColors.PopRandom().name,
+                    rank = GetBeforeRank(beforeDailyFortunes, constellation.id),
+                    item = PopRandomWithoutLast7Days(luckyItems, dailyFortunesList, constellation.id),
+                    color = PopRandomWithoutLast7Days(luckyColors, dailyFortunesList, constellation.id),
                     msg_id = msgNos.PopRandom(),
                 };
-                fortunes.Add(fortune);
+                dailyFortunes.Add(fortune);
+            }
+
+            ReTry(dailyFortunes, LuckyItemList, dailyFortunesList);
+            ReTry(dailyFortunes, luckyColors, dailyFortunesList);
+            SetRanks(dailyFortunes, ranks);
+
+            fortunes.AddRange(dailyFortunes);
+            dailyFortunesList.Add(dailyFortunes);
+
+            if (dateTime.Day == DateTime.DaysInMonth(dateTime.Year, dateTime.Month))
+            {
+                await UniTask.DelayFrame(1);
+                var progress = (float)fortunes.Count / (float)(dateTimes.Count * 12) * 100f;
+                Debug.Log("計算中 " + Mathf.FloorToInt(progress) + "%");
             }
         }
         Save("Fortunes", fortunes);
+    }
+
+    static void ReTry(List<Fortune> dailyFortunes, List<string> LuckyItemList, List<List<Fortune>> dailyFortunesList)
+    {
+        bool retry = dailyFortunes.Select(dailyFortune => dailyFortune.item).Contains("");
+        int count = 0;
+        while (retry)
+        {
+            var luckyItems = new List<string>(LuckyItemList);
+            foreach (var dailyFortune in dailyFortunes)
+            {
+                dailyFortune.item = PopRandomWithoutLast7Days(luckyItems, dailyFortunesList, dailyFortune.constellation_id);
+            }
+            retry = dailyFortunes.Select(dailyFortune => dailyFortune.item).Contains("");
+            count++;
+            if (count > 100)
+            {
+                Debug.LogError("無限ループ");
+                break;
+            }
+        }
+        if (count > 0)
+        {
+            // Debug.Log("再抽選回数 " + count);
+        }
+    }
+
+    static string PopRandomWithoutLast7Days(List<string> luckyItems, List<List<Fortune>> dailyFortunesList, string constellationId)
+    {
+        if (dailyFortunesList.Count == 0) return luckyItems.PopRandom();
+
+        var last7DaysDailyFortunesList = dailyFortunesList.ReverseList().Take(7).ToList().ReverseList();
+        var last7DaysLuckyItems = last7DaysDailyFortunesList
+            .Select(dailyFortunes => dailyFortunes.FirstOrDefault(dailyFortune => dailyFortune.constellation_id == constellationId))
+            .Where(dailyFortune => dailyFortune != null)
+            .Select(dailyFortune => dailyFortune.item)
+            .ToList();
+
+        string luckyItem = luckyItems.PopRandom(ignore: luckyItem => last7DaysLuckyItems.Contains(luckyItem));
+        if (string.IsNullOrEmpty(luckyItem)) return "";
+        return luckyItem;
+    }
+
+    static void SetRanks(List<Fortune> dailyFortunes, List<int> ranks)
+    {
+        dailyFortunes = dailyFortunes.OrderBy(f => f.rank).ToList();
+        List<Fortune> high = dailyFortunes.Where(f => f.rank <= 3);
+        List<Fortune> mid = dailyFortunes.Where(f => 4 <= f.rank && f.rank <= 9);
+        List<Fortune> low = dailyFortunes.Where(f => 10 <= f.rank);
+
+        dailyFortunes = new();
+        dailyFortunes.AddRange(high);
+        dailyFortunes.AddRange(low);
+        dailyFortunes.AddRange(mid);
+
+        foreach (var dailyFortune in dailyFortunes)
+        {
+            dailyFortune.rank = PopRandomRank(dailyFortune.rank, ranks);
+            if (dailyFortune.rank == 0) DebugUtils.LogJsonError("順位が異常", dailyFortune);
+        }
+
+        dailyFortunes = dailyFortunes.OrderBy(f => f.constellation_id).ToList();
+    }
+
+
+    static int GetBeforeRank(List<Fortune> beforeDailyFortunes, string constellationId)
+    {
+        if (beforeDailyFortunes == null) return 0;
+        foreach (var fortune in beforeDailyFortunes)
+        {
+            if (fortune.constellation_id == constellationId)
+            {
+                return fortune.rank;
+            }
+        }
+
+        return 0;
+    }
+
+    static int PopRandomRank(int beforeRank, List<int> ranks)
+    {
+        if (ranks.Count == 0)
+        {
+            // Debug.Log("要素数０");
+            return default;
+        }
+
+        if (beforeRank == 0)
+        {
+            return ranks.PopRandom();
+        }
+
+        int rank = ranks.GetRandom();
+        if (beforeRank <= 3)
+        {
+            rank = ranks.PopRandom(ignore: rank => rank <= 3);
+            // Debug.Log("前が3位いないのとき " + rank);
+            return rank;
+        }
+
+        if (10 <= beforeRank)
+        {
+            rank = ranks.PopRandom(ignore: rank => 10 <= rank);
+            // Debug.Log("前が10位以上のとき " + rank);
+            return rank;
+        }
+
+        rank = ranks.PopRandom();
+        // Debug.Log("その他 " + rank);
+        return rank;
     }
 
     static List<DateTime> GenerateDateList(int days)
@@ -70,6 +201,8 @@ public class CreateFortunes
 
     static void Save(string fileName, List<Fortune> fortunes)
     {
+        Debug.Log("書き込み開始");
+
         string path = Application.dataPath + @"/_MyAssets/CSV/Fortunes/" + fileName + ".csv";
         using StreamWriter sw = File.CreateText(path);
 
@@ -91,8 +224,10 @@ public class CreateFortunes
 
         sw.WriteLine(titleLine);
 
-        foreach (var fortune in fortunes)
+
+        for (int i = 0; i < fortunes.Count; i++)
         {
+            var fortune = fortunes[i];
             string line = "";
             foreach (FieldInfo field in fields)
             {
@@ -101,6 +236,8 @@ public class CreateFortunes
 
             sw.WriteLine(line);
         }
+
+
         AssetDatabase.Refresh();
         Debug.Log("生成完了 " + fileName);
     }
