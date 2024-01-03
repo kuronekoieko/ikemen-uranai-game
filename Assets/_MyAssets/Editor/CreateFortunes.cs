@@ -22,8 +22,8 @@ public class CreateFortunes
         var LuckyItems = await CSVManager.Instance.DeserializeAsync<LuckyItem>("Fortunes/LuckyItems");
         var LuckyColors = await CSVManager.Instance.DeserializeAsync<LuckyColor>("Fortunes/LuckyColors");
 
-        var LuckyItemList = LuckyItems.ToList();
-        var LuckyColorList = LuckyColors.ToList();
+        var LuckyItemList = LuckyItems.Select(luckyItem => luckyItem.name).ToList();
+        var LuckyColorList = LuckyColors.Select(luckyColor => luckyColor.name).ToList();
         var rankList = Enumerable.Range(1, 12).ToList();
         var msgNoList = Enumerable.Range(1, 20).ToList();
         var dateTimes = GenerateDateList(2);
@@ -34,8 +34,8 @@ public class CreateFortunes
 
         foreach (var dateTime in dateTimes)
         {
-            var luckyItems = new List<LuckyItem>(LuckyItemList);
-            var luckyColors = new List<LuckyColor>(LuckyColorList);
+            var luckyItems = new List<string>(LuckyItemList);
+            var luckyColors = new List<string>(LuckyColorList);
             var ranks = new List<int>(rankList);
             var msgNos = new List<int>(msgNoList);
             var dailyFortunes = new List<Fortune>();
@@ -49,8 +49,8 @@ public class CreateFortunes
                     date_time = dateTime.ToStringDate(),
                     constellation_id = constellation.id,
                     rank = GetBeforeRank(beforeDailyFortunes, constellation.id),
-                    item = PopRandomWithoutLast7Days(luckyItems, dailyFortunesList, constellation).name,
-                    color = luckyColors.PopRandom().name,
+                    item = PopRandomWithoutLast7Days(luckyItems, dailyFortunesList, constellation.id),
+                    color = PopRandomWithoutLast7Days(luckyColors, dailyFortunesList, constellation.id),
                     msg_id = msgNos.PopRandom(),
                 };
                 dailyFortunes.Add(fortune);
@@ -86,26 +86,26 @@ public class CreateFortunes
         Save("Fortunes", fortunes);
     }
 
-    static LuckyItem PopRandomWithoutLast7Days(List<LuckyItem> luckyItems, List<List<Fortune>> dailyFortunesList, Constellation constellation)
+    static string PopRandomWithoutLast7Days(List<string> luckyItems, List<List<Fortune>> dailyFortunesList, string constellationId)
     {
         if (dailyFortunesList.Count == 0) return luckyItems.PopRandom();
 
         var last7DaysDailyFortunesList = dailyFortunesList.ReverseList().Take(7).ToList().ReverseList();
         var last7DaysLuckyItems = last7DaysDailyFortunesList
-            .Select(dailyFortunes => dailyFortunes.FirstOrDefault(dailyFortune => dailyFortune.constellation_id == constellation.id))
+            .Select(dailyFortunes => dailyFortunes.FirstOrDefault(dailyFortune => dailyFortune.constellation_id == constellationId))
             .Where(dailyFortune => dailyFortune != null)
             .Select(dailyFortune => dailyFortune.item)
             .ToList();
 
-        bool invalid = luckyItems.All(luckyItem => last7DaysLuckyItems.Contains(luckyItem.name));
+        bool invalid = luckyItems.All(luckyItem => last7DaysLuckyItems.Contains(luckyItem));
         if (invalid)
         {
             Debug.LogError("アイテムがありません");
-            return new LuckyItem();
+            return "";
         }
 
-        LuckyItem luckyItem = luckyItems.GetRandom();
-        while (last7DaysLuckyItems.Contains(luckyItem.name))
+        string luckyItem = luckyItems.GetRandom();
+        while (last7DaysLuckyItems.Contains(luckyItem))
         {
             luckyItem = luckyItems.GetRandom();
         }
