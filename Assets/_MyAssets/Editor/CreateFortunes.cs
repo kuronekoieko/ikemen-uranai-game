@@ -104,12 +104,7 @@ public class CreateFortunes
             return "";
         }
 
-        string luckyItem = luckyItems.GetRandom();
-        while (last7DaysLuckyItems.Contains(luckyItem))
-        {
-            luckyItem = luckyItems.GetRandom();
-        }
-        luckyItems.Remove(luckyItem);
+        string luckyItem = luckyItems.PopRandom(isRetry: luckyItem => last7DaysLuckyItems.Contains(luckyItem));
 
         return luckyItem;
     }
@@ -150,13 +145,8 @@ public class CreateFortunes
                 Debug.LogError("順位が異常");
                 return 0;
             }
-            while (rank <= 3)
-            {
-                rank = ranks.GetRandom();
-            }
-            ranks.Remove(rank);
+            rank = ranks.PopRandom(isRetry: rank => rank <= 3);
             // Debug.Log("前が3位いないのとき " + rank);
-
             return rank;
         }
 
@@ -167,20 +157,13 @@ public class CreateFortunes
                 Debug.LogError("順位が異常");
                 return 0;
             }
-            while (10 <= rank)
-            {
-                rank = ranks.GetRandom();
-            }
-            ranks.Remove(rank);
+            rank = ranks.PopRandom(isRetry: rank => 10 <= rank);
             // Debug.Log("前が10位以上のとき " + rank);
-
             return rank;
         }
 
-        rank = ranks.GetRandom();
-        ranks.Remove(rank);
+        rank = ranks.PopRandom();
         // Debug.Log("その他 " + rank);
-
         return rank;
     }
 

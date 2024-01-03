@@ -29,6 +29,19 @@ public static class ListExtentions
         return list;
     }
 
+    public static T PopRandom<T>(this List<T> self, Func<T, bool> isRetry)
+    {
+        if (self.Count == 0) return default;
+        T t = self.GetRandom();
+        while (isRetry(t))
+        {
+            t = self.GetRandom();
+        }
+
+        self.Remove(t);
+        return t;
+    }
+
     public static T PopRandom<T>(this List<T> self)
     {
         if (self.Count == 0) return default;
