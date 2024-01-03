@@ -25,6 +25,8 @@ public class MyBuildPostprocessor : IPreprocessBuildWithReport
         OnPreprocessBuild_Android(report);
         // 1フレーム待たないと、次のログが出ない
         await UniTask.DelayFrame(1);
+        Debug.Log(EditorUserBuildSettings.development);
+
         FirebaseConfigManager.CreateFiles(EditorUserBuildSettings.development);
     }
 
@@ -34,7 +36,8 @@ public class MyBuildPostprocessor : IPreprocessBuildWithReport
         Debug.Log("OnPostProcessBuild buildTarget : " + buildTarget);
         // OnPostProcessBuild_IOS(buildTarget, path);
         OnPostProcessBuild_Android(buildTarget, path);
-        FirebaseConfigManager.CreateFiles(false);
+        // 実機に反映されるので危険
+        // FirebaseConfigManager.CreateFiles(false);
     }
 
     public void OnPreprocessBuild_Android(BuildReport report)
