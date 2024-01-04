@@ -39,6 +39,8 @@ public class MenuScreen : BaseScreen
         // Assets/_MyAssets/Audio/Voices/chara0001-rank02-msg01.wav
         var localPath = "Assets/_MyAssets/Audio/";
         var audioClip = await AssetBundleLoader.LoadAddressablesAsync<AudioClip>(localPath + test);
+        DebugUtils.LogJson(audioClip);
+
         AudioManager.Instance.PlayOneShot(audioClip);
 
         if (FirebaseAuthenticationManager.Instance.User == null)

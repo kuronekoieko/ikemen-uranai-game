@@ -38,4 +38,13 @@ public class AssetBundleLoader
         return a;
     }
 
+    public static async UniTask<T> DownloadAddressablesAsync<T>(string address) where T : UnityEngine.Object
+    {
+        Debug.Log("aaaaaaaaaa");
+        var a = await Addressables.DownloadDependenciesAsync(address).Task;
+        Debug.Log("bbbbbbbbbbb");
+
+        // var a = await Addressables.LoadAssetAsync<T>(address).Task;
+        return a as T;
+    }
 }
