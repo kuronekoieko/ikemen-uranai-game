@@ -69,7 +69,7 @@ public class HomeHeader : MonoBehaviour
 
     void ShowExp()
     {
-        var currentCharacter = GetCurrentCharacter();
+        var currentCharacter = SaveData.GetCurrentCharacter();
         if (currentCharacter == null)
         {
             characterLevelText.text = "Lv." + "999";
@@ -90,16 +90,6 @@ public class HomeHeader : MonoBehaviour
         }
         characterExpPerText.text = Mathf.FloorToInt(characterExpBarImage.fillAmount * 100) + "%";
 
-    }
-
-    SaveDataObjects.Character GetCurrentCharacter()
-    {
-        if (SaveData.characters == null) return null;
-        foreach (var character in SaveData.characters)
-        {
-            if (character.Key == SaveData.currentCharacterId) return character.Value;
-        }
-        return null;
     }
 
     DataBase.LevelData GetCurrentLevelData_Player(int playerLevel)
