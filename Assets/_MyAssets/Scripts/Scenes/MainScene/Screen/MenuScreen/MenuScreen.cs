@@ -37,6 +37,8 @@ public class MenuScreen : BaseScreen
         var test = "Voices/chara001-rank001-msg001.wav";
         // var audioClip = await FileDownloader.GetAudioClip(test);
         // Assets/_MyAssets/Audio/Voices/chara0001-rank02-msg01.wav
+        //  var url = await FirebaseStorageManager.Instance.GetURI("Assets/iOS/packedassets_assets_all_eb5b8a0c34c9328a6f6b8f39cce08d62.bundle");
+        //Debug.Log(url);       ;
         var localPath = "Assets/_MyAssets/Audio/";
         var audioClip = await AssetBundleLoader.LoadAddressablesAsync<AudioClip>(localPath + test);
         DebugUtils.LogJson(audioClip);
