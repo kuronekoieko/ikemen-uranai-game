@@ -34,7 +34,12 @@ public class AssetBundleLoader
 
     public static async UniTask<T> LoadAddressablesAsync<T>(string address) where T : UnityEngine.Object
     {
-        var a = await Addressables.LoadAssetAsync<T>(address).Task;
+        // string url = await FirebaseStorageManager.Instance.GetURI("catalog_0.json");
+        // await Addressables.LoadContentCatalogAsync(url);
+        Debug.Log("ロード開始");
+        T a = await Addressables.LoadAssetAsync<T>(address).Task;
+        Debug.Log("ロード終了");
+
         return a;
     }
 

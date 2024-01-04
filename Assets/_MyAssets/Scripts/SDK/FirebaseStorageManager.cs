@@ -52,6 +52,14 @@ public class FirebaseStorageManager : Singleton<FirebaseStorageManager>
             }
     */
 
+    public async void A()
+    {
+        StorageReference storageReference = storageRef.Child("Voices/catalog_0.hash");
+        var uri = await storageReference.GetDownloadUrlAsync();
+        Debug.Log(uri);
+
+    }
+
     public async UniTask<string> GetURI(string path)
     {
         Debug.Log("データベースアクセス開始 " + path);
