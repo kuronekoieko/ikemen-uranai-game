@@ -34,8 +34,9 @@ public class MenuScreen : BaseScreen
     {
         base.Open();
 
-        var test = "Voices/chara0001-rank01-msg01";
-        var audioClip = await FileDownloader.GetAudioClip(test);
+        var test = "Voices/chara0001-rank01-msg01.wav";
+        // var audioClip = await FileDownloader.GetAudioClip(test);
+        var audioClip = await AssetBundleLoader.LoadAddressablesAsync<AudioClip>(test);
         AudioManager.Instance.PlayOneShot(audioClip);
 
         if (FirebaseAuthenticationManager.Instance.User == null)
