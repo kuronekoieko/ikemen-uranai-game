@@ -31,6 +31,11 @@ public class SaveData
     [JsonIgnore]
     public DataBase.Constellation Constellation => GetConstellation(BirthDayDT);
 
+    public Character GetCurrentCharacter()
+    {
+        characters.TryGetValue(currentCharacterId, out Character character);
+        return character;
+    }
 
     public DataBase.Constellation GetConstellation(DateTime? birthDayDT)
     {
