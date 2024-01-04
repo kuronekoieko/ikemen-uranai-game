@@ -51,7 +51,28 @@ public class FirebaseDatabaseManager : Singleton<FirebaseDatabaseManager>
         return saveData;
     }
 
-    public async Task<Dictionary<string, SaveData>> GetUsers()
+    public async Task<List<SaveData>> GetUsers()
+    {
+        List<SaveData> saveDatas = new();
+
+        DataSnapshot snapshot = await reference.Child("users").GetValueAsync();
+
+        // https://www.project-unknown.jp/entry/firebase-login-vol3_1#DataSnapshot-snapshot--taskResult
+        IEnumerator<DataSnapshot> result = snapshot.Children.GetEnumerator();
+
+        while (result.MoveNext())
+        {
+            DataSnapshot data = result.Current;
+            string json = data.GetRawJsonValue();
+            if (string.IsNullOrEmpty(json)) continue;
+            SaveData saveData = JsonConvert.DeserializeObject<SaveData>(json);
+            saveDatas.Add(saveData);
+        }
+        return saveDatas;
+    }
+
+
+    public async Task<Dictionary<string, SaveData>> GetUsersDic()
     {
         Dictionary<string, SaveData> saveDatas = new();
 
