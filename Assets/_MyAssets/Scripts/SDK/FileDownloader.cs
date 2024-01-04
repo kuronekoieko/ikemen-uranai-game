@@ -138,7 +138,7 @@ public class FileDownloader
     public static string GetAudioFileName(string characterId, Fortune fortune)
     {
         // Voices/chara0001-rank04-msg14.wav
-        string fileName = "Voices/chara" + characterId + "-rank" + fortune.rank.ToString("D2") + "-msg" + fortune.msg_id.ToString("D2") + ".wav";
+        string fileName = "Voices/chara" + characterId + "-rank" + fortune.rank.ToString("D3") + "-msg" + fortune.msg_id.ToString("D3") + ".wav";
         return fileName;
     }
 }
