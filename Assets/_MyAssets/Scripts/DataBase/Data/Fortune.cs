@@ -15,6 +15,6 @@ namespace DataBase
         public int rank;
         public string item;
         public string color;
-        public int msg_id;  
+        public int msg_id;
     }
 }
