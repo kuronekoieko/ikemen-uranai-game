@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Cysharp.Threading.Tasks;
 using System;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using System.Threading.Tasks;
 
 public class AssetBundleLoader
 {
@@ -28,5 +31,11 @@ public class AssetBundleLoader
         }
     }
 
+
+    public static async UniTask<T> LoadAddressablesAsync<T>(string address) where T : UnityEngine.Object
+    {
+        var a = await Addressables.LoadAssetAsync<T>(address).Task;
+        return a;
+    }
 
 }
