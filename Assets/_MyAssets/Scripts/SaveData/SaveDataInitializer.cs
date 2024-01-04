@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using System.Linq;
 using System;
+using System.Threading.Tasks;
 
 public static class SaveDataInitializer
 {
@@ -18,9 +19,10 @@ public static class SaveDataInitializer
 
         await SaveDataManager.LoadOverWriteAsync(defaultSaveData);
         // DebugUtils.LogJson(SaveDataManager.SaveData);
-        if (string.IsNullOrEmpty(SaveDataManager.SaveData.displayUserId))
+        if (SaveDataManager.SaveData.userNumber == 0)
         {
-            SaveDataManager.SaveData.displayUserId = await CreateDisplayUserId(firebaseUserId);
+            SaveDataManager.SaveData.userNumber = await CreateUserNumberAsync();
+            SaveDataManager.SaveData.displayUserId = SaveDataManager.SaveData.userNumber.ToString("D8");
             SaveDataManager.Save();
         }
 
@@ -41,10 +43,16 @@ public static class SaveDataInitializer
         }
         return saveDataCharacters;
     }
+    static async Task<int> CreateUserNumberAsync()
+    {
+        var users = await FirebaseDatabaseManager.Instance.GetUsers();
+        var maxUserNumber = users.Select(user => user.userNumber).OrderByDescending(userNumber => userNumber).FirstOrDefault();
+        return maxUserNumber + 1;
+    }
 
     static async UniTask<string> CreateDisplayUserId(string firebaseUserId)
     {
-        var users = await FirebaseDatabaseManager.Instance.GetUsers();
+        var users = await FirebaseDatabaseManager.Instance.GetUsersDic();
         // TODO: ユーザーが削除されると、被る可能性がある
         int index = GetKeyIndex(users, firebaseUserId);
         return index.ToString("D8");

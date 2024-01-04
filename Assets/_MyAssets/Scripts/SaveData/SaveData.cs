@@ -11,6 +11,7 @@ using System.Linq;
 [JsonObject]
 public class SaveData
 {
+    public int userNumber;
     public string displayUserId;
     public string firebaseUserId;
     public string name;
@@ -19,7 +20,7 @@ public class SaveData
     public int jemFree;
     public int jemCharging;
     public string birthDay;
-    public string currentCharacterId = "0001";
+    public string currentCharacterId = "001";
     // 配列は使わない。dicにする→データ更新のときに上書きされずに、要素が追加されるため
     // 初期値nullにするとセーブデータがnullで上書きされる
     public Dictionary<string, Character> characters = new();
