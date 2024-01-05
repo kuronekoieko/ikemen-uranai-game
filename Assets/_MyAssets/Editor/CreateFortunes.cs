@@ -13,6 +13,123 @@ using UnityEngine.Events;
 
 public class CreateFortunes
 {
+    [MenuItem("MyTool/Check Fortunes")]
+    static async void A()
+    {
+        Debug.Log("計算開始");
+
+        // TextAsset a = await AssetBundleLoader.LoadAddressablesAsync<TextAsset>("Assets/_MyAssets/CSV/Fortunes/Fortunes.csv");
+        await CSVManager.Instance.InitializeAsync();
+        var fortunes = CSVManager.Instance.Fortunes;
+        var Constellations = CSVManager.Instance.Constellations;
+
+        List<Test> tests = CreateTests(fortunes, Constellations);
+
+
+
+        SaveTest("Test", tests);
+
+
+    }
+
+    static List<Test> CreateTests(Fortune[] fortunes, Constellation[] Constellations)
+    {
+        List<Test> tests = new();
+
+        foreach (var constellation in Constellations)
+        {
+            Test test = new()
+            {
+                constellation_id = constellation.id,
+            };
+            foreach (var fortune in fortunes)
+            {
+                if (constellation.id == fortune.constellation_id)
+                {
+                    test.luckyItemIds.Add(fortune.lucky_item_id);
+                    // test.luckyColorIds.Add(fortune.lucky_color_id);
+
+                }
+
+            }
+
+            tests.Add(test);
+        }
+
+        foreach (var constellation in Constellations)
+        {
+            Test test = new()
+            {
+                constellation_id = constellation.id,
+            };
+            foreach (var fortune in fortunes)
+            {
+                if (constellation.id == fortune.constellation_id)
+                {
+                    test.luckyItemIds.Add(fortune.lucky_color_id);
+                    // test.luckyColorIds.Add(fortune.lucky_color_id);
+
+                }
+
+            }
+
+            tests.Add(test);
+        }
+        return tests;
+    }
+
+    static void SaveTest(string fileName, List<Test> list)
+    {
+        Debug.Log("書き込み開始");
+
+        string path = Application.dataPath + @"/_MyAssets/CSV/Fortunes/" + fileName + ".csv";
+        using StreamWriter sw = File.CreateText(path);
+
+        string titleLine = "";
+
+
+        // クラスの変数を配列で取得
+        FieldInfo[] fields = typeof(Test).GetFields();
+
+        // 配列を反復処理して各変数にアクセス
+        foreach (FieldInfo field in fields)
+        {
+            //object value = field.GetValue(instance);
+            //Debug.Log(field.Name + ": " + value);
+            titleLine += field.Name + ",";
+        }
+
+
+
+        sw.WriteLine(titleLine);
+
+
+        for (int i = 0; i < list.Count; i++)
+        {
+            var item = list[i];
+            string line = "";
+
+            line += item.constellation_id + ",";
+
+            foreach (var luckyItemId in item.luckyItemIds)
+            {
+                line += luckyItemId + ",";
+            }
+            sw.WriteLine(line);
+        }
+
+
+        AssetDatabase.Refresh();
+        Debug.Log("生成完了 " + fileName);
+    }
+
+    public class Test
+    {
+        public string constellation_id;
+        public List<string> luckyItemIds = new();
+        //  public List<string> luckyColorIds = new();
+    }
+
 
     [MenuItem("MyTool/Create Fortunes")]
     static async void Start()
@@ -26,7 +143,7 @@ public class CreateFortunes
 
         var rankList = Enumerable.Range(1, 12).ToList();
         var msgNoList = Enumerable.Range(1, 20).ToList();
-        var dateTimes = GenerateDateList(10);
+        var dateTimes = GenerateDateList(365 * 10);
 
         var dailyFortunesList = new List<List<Fortune>>();
 
@@ -73,7 +190,12 @@ public class CreateFortunes
             fortunes.AddRange(dailyFortunes);
         }
 
+
         Save("Fortunes", fortunes);
+
+        List<Test> tests = CreateTests(fortunes.ToArray(), Constellations);
+
+        SaveTest("Test", tests);
     }
 
     static void SetLuckies(List<List<Fortune>> dailyFortunesList, List<Fortune> dailyFortunes, LuckyItem[] LuckyItemsOrigin, LuckyColor[] LuckyColorsOrigin)
@@ -233,7 +355,7 @@ public class CreateFortunes
         return dateList;
     }
 
-    static void Save(string fileName, List<Fortune> fortunes)
+    static void Save<T>(string fileName, List<T> list)
     {
         Debug.Log("書き込み開始");
 
@@ -244,7 +366,7 @@ public class CreateFortunes
 
 
         // クラスの変数を配列で取得
-        FieldInfo[] fields = typeof(Fortune).GetFields();
+        FieldInfo[] fields = typeof(T).GetFields();
 
         // 配列を反復処理して各変数にアクセス
         foreach (FieldInfo field in fields)
@@ -259,13 +381,26 @@ public class CreateFortunes
         sw.WriteLine(titleLine);
 
 
-        for (int i = 0; i < fortunes.Count; i++)
+        for (int i = 0; i < list.Count; i++)
         {
-            var fortune = fortunes[i];
+            var fortune = list[i];
             string line = "";
             foreach (FieldInfo field in fields)
             {
-                line += field.GetValue(fortune) + ",";
+                Debug.Log(field.FieldType.IsArray);
+                // メンバが配列の場合は要素ごとに処理
+                if (field.FieldType.IsArray)
+                {
+                    Array arrayValue = (Array)field.GetValue(fortune);
+                    for (int j = 0; j < arrayValue.Length; j++)
+                    {
+                        line += arrayValue.GetValue(j) + ",";
+                    }
+                }
+                else
+                {
+                    line += field.GetValue(fortune) + ",";
+                }
             }
 
             sw.WriteLine(line);
