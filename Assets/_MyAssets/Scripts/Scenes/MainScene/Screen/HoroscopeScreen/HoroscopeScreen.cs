@@ -92,9 +92,10 @@ public class HoroscopeScreen : BaseScreen
         if (constellation.EndDT == null) return;
 
         string name = constellation.name;
+        string latin_name = constellation.latin_name;
         string start = constellation.StartDT.Value.ToString("M/d");
         string end = constellation.EndDT.Value.ToString("M/d");
-        constellationNameText.text = $"{name}\n({start}~{end})";
+        constellationNameText.text = $"{name}/{latin_name}\n({start}~{end})";
     }
 
     void ShowFortune(Constellation constellation, Fortune fortune, string characterId)

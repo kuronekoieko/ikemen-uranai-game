@@ -26,7 +26,7 @@ public class CSVManager : Singleton<CSVManager>
         Characters = await DeserializeAsync<Character>("Characters");
         CharacterLevelDatas = await DeserializeAsync<LevelData>("CharacterLevel-Exp");
         PlayerLevelDatas = await DeserializeAsync<LevelData>("PlayerLevel-Exp");
-        Constellations = await DeserializeAsync<Constellation>("Constellation");
+        Constellations = await DeserializeAsync<Constellation>("Constellations");
         Fortunes = await DeserializeAsync<Fortune>("Fortunes");
         Hints = await DeserializeAsync<Hint>("Hint");
         LuckyItems = await DeserializeAsync<LuckyItem>("Fortunes/LuckyItems");
