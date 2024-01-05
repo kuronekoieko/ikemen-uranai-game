@@ -34,6 +34,8 @@ public class AssetBundleLoader
 
     public static async UniTask<T> LoadAddressablesAsync<T>(string address) where T : UnityEngine.Object
     {
+        Addressables.WebRequestOverride = EditWebRequestURL;
+
         // string url = await FirebaseStorageManager.Instance.GetURI("catalog_0.json");
         // await Addressables.LoadContentCatalogAsync(url);
         Debug.Log("ロード開始");
@@ -51,5 +53,16 @@ public class AssetBundleLoader
 
         // var a = await Addressables.LoadAssetAsync<T>(address).Task;
         return a as T;
+    }
+
+    // https://gist.github.com/anmq0502/a229a048f27c91e775aeabf40517a1bd
+    // firebaseはそのままダウンロードできない
+    static void EditWebRequestURL(UnityWebRequest request)
+    {
+        if (request.url.EndsWith(".bundle", StringComparison.OrdinalIgnoreCase) || request.url.EndsWith(".json", StringComparison.OrdinalIgnoreCase) || request.url.EndsWith(".hash", StringComparison.OrdinalIgnoreCase))
+        {
+            request.url = request.url + "?alt=media";
+            Debug.Log("EditWebRequestURL" + request.url);
+        }
     }
 }
