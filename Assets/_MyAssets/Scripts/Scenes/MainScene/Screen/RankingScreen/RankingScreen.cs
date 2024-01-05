@@ -5,12 +5,16 @@ using System.Linq;
 using DataBase;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RankingScreen : BaseScreen
 {
     [SerializeField] Transform content;
     RankingElement[] rankingElements;
     [SerializeField] TextMeshProUGUI titleText;
+    [SerializeField] Button myFortuneButton;
+    [SerializeField] Button homeButton;
+
 
     public override void Close()
     {
@@ -25,6 +29,18 @@ public class RankingScreen : BaseScreen
         {
             rankingElement.OnStart();
         }
+
+        myFortuneButton.onClick.AddListener(() =>
+        {
+            var constellation = SaveDataManager.SaveData.Constellation;
+            ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation, DateTime.Today, SaveDataManager.SaveData.currentCharacterId);
+        });
+
+        homeButton.onClick.AddListener(() =>
+        {
+            Close();
+            ScreenManager.Instance.Get<HomeScreen>().Open();
+        });
     }
 
     public override void Open()
