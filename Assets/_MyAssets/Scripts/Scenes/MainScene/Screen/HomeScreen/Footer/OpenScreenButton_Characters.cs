@@ -11,5 +11,6 @@ public class OpenScreenButton_Characters : BaseOpenScreenButton
     }
     public override void OnStart()
     {
+        Button.interactable = false;
     }
 }
