@@ -12,6 +12,7 @@ namespace DataBase
     {
         public string id;
         public string name;
+        public string latin_name;
         public string start;
         public string end;
 
