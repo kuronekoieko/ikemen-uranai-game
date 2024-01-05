@@ -5,6 +5,13 @@ using UnityEngine.UI;
 using System;
 public static class Extensions
 {
+
+    public static string ToNonNull(this string self)
+    {
+        if (string.IsNullOrEmpty(self)) return "";
+        return self;
+    }
+
     public static void SetLimitedText(this Text self, string originalText, int lineLimit)
     {
         self.verticalOverflow = VerticalWrapMode.Overflow;

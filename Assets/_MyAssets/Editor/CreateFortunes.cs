@@ -9,6 +9,7 @@ using UnityEditor;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using UnityEngine.Events;
 
 public class CreateFortunes
 {
@@ -18,24 +19,20 @@ public class CreateFortunes
     {
         Debug.Log("計算開始");
 
-        var Constellations = await CSVManager.Instance.DeserializeAsync<Constellation>("Constellation");
-        var LuckyItems = await CSVManager.Instance.DeserializeAsync<LuckyItem>("Fortunes/LuckyItems");
-        var LuckyColors = await CSVManager.Instance.DeserializeAsync<LuckyColor>("Fortunes/LuckyColors");
+        await CSVManager.Instance.InitializeAsync();
+        var Constellations = CSVManager.Instance.Constellations;
+        var LuckyItemsOrigin = CSVManager.Instance.LuckyItems;
+        var LuckyColorsOrigin = CSVManager.Instance.LuckyColors;
 
-        var LuckyItemList = LuckyItems.Select(luckyItem => luckyItem.name).ToList();
-        var LuckyColorList = LuckyColors.Select(luckyColor => luckyColor.name).ToList();
         var rankList = Enumerable.Range(1, 12).ToList();
         var msgNoList = Enumerable.Range(1, 20).ToList();
-        var dateTimes = GenerateDateList(365 * 10);
+        var dateTimes = GenerateDateList(10);
 
-        var fortunes = new List<Fortune>();
         var dailyFortunesList = new List<List<Fortune>>();
 
 
         foreach (var dateTime in dateTimes)
         {
-            var luckyItems = new List<string>(LuckyItemList);
-            var luckyColors = new List<string>(LuckyColorList);
             var ranks = new List<int>(rankList);
             var msgNos = new List<int>(msgNoList);
             var dailyFortunes = new List<Fortune>();
@@ -49,69 +46,106 @@ public class CreateFortunes
                     date_time = dateTime.ToStringDate(),
                     constellation_id = constellation.id,
                     rank = GetBeforeRank(beforeDailyFortunes, constellation.id),
-                    item = PopRandomWithoutLast7Days(luckyItems, dailyFortunesList, constellation.id),
-                    color = PopRandomWithoutLast7Days(luckyColors, dailyFortunesList, constellation.id),
+                    lucky_item_id = "",
+                    lucky_color_id = "",
                     msg_id = msgNos.PopRandom(),
                 };
                 dailyFortunes.Add(fortune);
             }
 
-            ReTry(dailyFortunes, LuckyItemList, dailyFortunesList);
-            ReTry(dailyFortunes, luckyColors, dailyFortunesList);
+            SetLuckies(dailyFortunesList, dailyFortunes, LuckyItemsOrigin, LuckyColorsOrigin);
+
             SetRanks(dailyFortunes, ranks);
 
-            fortunes.AddRange(dailyFortunes);
             dailyFortunesList.Add(dailyFortunes);
 
             if (dateTime.Day == DateTime.DaysInMonth(dateTime.Year, dateTime.Month))
             {
                 await UniTask.DelayFrame(1);
-                var progress = (float)fortunes.Count / (float)(dateTimes.Count * 12) * 100f;
+                var progress = (float)dailyFortunesList.Count / (float)dateTimes.Count * 100f;
                 Debug.Log("計算中 " + Mathf.FloorToInt(progress) + "%");
             }
         }
+
+        var fortunes = new List<Fortune>();
+        foreach (var dailyFortunes in dailyFortunesList)
+        {
+            fortunes.AddRange(dailyFortunes);
+        }
+
         Save("Fortunes", fortunes);
     }
 
-    static void ReTry(List<Fortune> dailyFortunes, List<string> LuckyItemList, List<List<Fortune>> dailyFortunesList)
+    static void SetLuckies(List<List<Fortune>> dailyFortunesList, List<Fortune> dailyFortunes, LuckyItem[] LuckyItemsOrigin, LuckyColor[] LuckyColorsOrigin)
     {
-        bool retry = dailyFortunes.Select(dailyFortune => dailyFortune.item).Contains("");
-        int count = 0;
-        while (retry)
+        bool retryLuckyItem = true;
+        bool retryLuckyColor = true;
+
+        int loopCount = 0;
+        while (retryLuckyItem || retryLuckyColor)
         {
-            var luckyItems = new List<string>(LuckyItemList);
+            var luckyItems = new List<LuckyItem>(LuckyItemsOrigin);
+            var luckyColors = new List<LuckyColor>(LuckyColorsOrigin);
             foreach (var dailyFortune in dailyFortunes)
             {
-                dailyFortune.item = PopRandomWithoutLast7Days(luckyItems, dailyFortunesList, dailyFortune.constellation_id);
+                var last7DaysFortunes = Last7DaysFortunes(dailyFortunesList, dailyFortune.constellation_id);
+
+                if (retryLuckyItem)
+                {
+                    var last7DaysLuckyItemIds = last7DaysFortunes
+                        .Select(dailyFortune => dailyFortune.lucky_item_id)
+                        .ToList();
+                    dailyFortune.lucky_item_id = PopRandomWithoutLast7Days_Id(luckyItems, last7DaysLuckyItemIds);
+                }
+                if (retryLuckyColor)
+                {
+                    var last7DaysLuckyColorIds = last7DaysFortunes
+                        .Select(dailyFortune => dailyFortune.lucky_color_id)
+                        .ToList();
+                    dailyFortune.lucky_color_id = PopRandomWithoutLast7Days_Id(luckyColors, last7DaysLuckyColorIds);
+                }
             }
-            retry = dailyFortunes.Select(dailyFortune => dailyFortune.item).Contains("");
-            count++;
-            if (count > 100)
+            retryLuckyItem = dailyFortunes.Select(dailyFortune => dailyFortune.lucky_item_id).Contains("");
+            retryLuckyColor = dailyFortunes.Select(dailyFortune => dailyFortune.lucky_color_id).Contains("");
+
+            loopCount++;
+            if (loopCount > 100)
             {
                 Debug.LogError("無限ループ");
                 break;
             }
         }
-        if (count > 0)
+        if (loopCount > 0)
         {
             // Debug.Log("再抽選回数 " + count);
         }
     }
 
-    static string PopRandomWithoutLast7Days(List<string> luckyItems, List<List<Fortune>> dailyFortunesList, string constellationId)
+
+    static string PopRandomWithoutLast7Days_Id<T>(List<T> baseLuckies, List<string> last7DaysBaseLuckyIds) where T : BaseLucky
     {
-        if (dailyFortunesList.Count == 0) return luckyItems.PopRandom();
+        T baseLucky = null;
+        if (last7DaysBaseLuckyIds.Count == 0)
+        {
+            baseLucky = baseLuckies.PopRandom();
+            if (baseLucky == null) return "";
+            if (string.IsNullOrEmpty(baseLucky.id)) return "";
+            return baseLucky.id;
+        }
 
+        baseLucky = baseLuckies.PopRandom(ignore: baseLucky => last7DaysBaseLuckyIds.Contains(baseLucky.id));
+        if (baseLucky == null) return "";
+        if (string.IsNullOrEmpty(baseLucky.id)) return "";
+        return baseLucky.id;
+    }
+
+    static List<Fortune> Last7DaysFortunes(List<List<Fortune>> dailyFortunesList, string constellationId)
+    {
         var last7DaysDailyFortunesList = dailyFortunesList.ReverseList().Take(7).ToList().ReverseList();
-        var last7DaysLuckyItems = last7DaysDailyFortunesList
+        var last7DaysDailyFortunes = last7DaysDailyFortunesList
             .Select(dailyFortunes => dailyFortunes.FirstOrDefault(dailyFortune => dailyFortune.constellation_id == constellationId))
-            .Where(dailyFortune => dailyFortune != null)
-            .Select(dailyFortune => dailyFortune.item)
-            .ToList();
-
-        string luckyItem = luckyItems.PopRandom(ignore: luckyItem => last7DaysLuckyItems.Contains(luckyItem));
-        if (string.IsNullOrEmpty(luckyItem)) return "";
-        return luckyItem;
+            .Where(dailyFortune => dailyFortune != null).ToList();
+        return last7DaysDailyFortunes;
     }
 
     static void SetRanks(List<Fortune> dailyFortunes, List<int> ranks)
@@ -240,22 +274,5 @@ public class CreateFortunes
 
         AssetDatabase.Refresh();
         Debug.Log("生成完了 " + fileName);
-    }
-
-
-    [Serializable]
-    [JsonObject]
-    public class LuckyItem
-    {
-        public string id;
-        public string name;
-    }
-
-    [Serializable]
-    [JsonObject]
-    public class LuckyColor
-    {
-        public string id;
-        public string name;
     }
 }
