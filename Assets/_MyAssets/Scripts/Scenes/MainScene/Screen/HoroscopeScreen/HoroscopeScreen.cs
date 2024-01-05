@@ -22,7 +22,8 @@ public class HoroscopeScreen : BaseScreen
     [SerializeField] TextMeshProUGUI luckyItemText;
     [SerializeField] TextMeshProUGUI luckyColorText;
 
-    // フッター =============================
+
+    [SerializeField] Button replayButton;
     [SerializeField] Button otherConstellationInfoButton;
     [SerializeField] Button homeButton;
 
@@ -31,7 +32,10 @@ public class HoroscopeScreen : BaseScreen
         base.OnStart();
         otherConstellationInfoButton.onClick.AddListener(OnClickOtherConstellationInfoButton);
         homeButton.onClick.AddListener(OnClickHomeButton);
+        replayButton.onClick.AddListener(OnClickReplayButton);
     }
+
+    AudioClip audioClip;
 
     public async void Open(Constellation constellation, DateTime dateTime, string characterId)
     {
@@ -51,7 +55,7 @@ public class HoroscopeScreen : BaseScreen
         string fileName = FileDownloader.GetAudioFileName(characterId, fortune);
 
         Debug.Log(fileName);
-        var audioClip = await FileDownloader.GetAudioClip(fileName);
+        audioClip = await FileDownloader.GetAudioClip(fileName);
 
         // TODO: 失敗したとき
         // var (fortunes, audioClip) = await UniTask.WhenAll(task1, task2);
@@ -90,7 +94,7 @@ public class HoroscopeScreen : BaseScreen
         string name = constellation.name;
         string start = constellation.StartDT.Value.ToString("M/d");
         string end = constellation.EndDT.Value.ToString("M/d");
-        constellationNameText.text = $"{name}({start}~{end})";
+        constellationNameText.text = $"{name}\n({start}~{end})";
     }
 
     void ShowFortune(Constellation constellation, Fortune fortune, string characterId)
@@ -145,6 +149,18 @@ public class HoroscopeScreen : BaseScreen
     {
         Close();
         ScreenManager.Instance.Get<HomeScreen>().Open();
+    }
+
+    void OnClickReplayButton()
+    {
+        if (audioClip != null)
+        {
+            AudioManager.Instance.PlayOneShot(audioClip);
+        }
+        else
+        {
+            Debug.LogError("音声がありません");
+        }
     }
 
     public override void Close()
