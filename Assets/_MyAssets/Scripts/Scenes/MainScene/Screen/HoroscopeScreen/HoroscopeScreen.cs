@@ -144,7 +144,8 @@ public class HoroscopeScreen : BaseScreen
 
     void OnClickOtherConstellationInfoButton()
     {
-        // Close();
+        Close();
+        ScreenManager.Instance.Get<RankingScreen>().Open();
     }
     void OnClickHomeButton()
     {
