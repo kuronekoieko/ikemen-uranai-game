@@ -51,7 +51,7 @@ public class HomeHeader : MonoBehaviour
         jemFreeText.text = SaveData.jemFree.ToString();
         jemChargingText.text = SaveData.jemCharging.ToString();
         dayText.text = DateTime.Now.ToString("MM d ddd", CultureInfo.CreateSpecificCulture("en-US"));
-        timeText.text = DateTime.Now.ToString("HH:mm:ss");
+        timeText.text = DateTime.Now.ToString("HH:mm");
 
         ShowExp();
 
@@ -124,7 +124,7 @@ public class HomeHeader : MonoBehaviour
 
     void OnClickChargingScreenButton()
     {
-
+        ScreenManager.Instance.Get<ChargingScreen>().Open();
     }
 
     void OnClickOpenMenuScreenButton()
