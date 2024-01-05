@@ -81,10 +81,11 @@ public class FileDownloader
         }
         else
         {
-            var assetBundleName = path.Replace("Voices/", "");
-            var audioClip = await AssetBundleLoader.DownloadAssetBundleAsync<AudioClip>(url, assetBundleName);
-            return audioClip;
+            // var assetBundleName = path.Replace("Voices/", "");
+            // var audioClip = await AssetBundleLoader.DownloadAssetBundleAsync<AudioClip>(url, assetBundleName);
+            //return audioClip;
         }
+        return null;
     }
 
     static void SaveLocal(byte[] audioData, string path)

@@ -35,23 +35,16 @@ public class AssetBundleLoader
     public static async UniTask<T> LoadAddressablesAsync<T>(string address) where T : UnityEngine.Object
     {
         Addressables.WebRequestOverride = EditWebRequestURL;
-
-        // string url = await FirebaseStorageManager.Instance.GetURI("catalog_0.json");
-        // await Addressables.LoadContentCatalogAsync(url);
-        Debug.Log("ロード開始");
+        // Debug.Log("ロード開始");
         T a = await Addressables.LoadAssetAsync<T>(address).Task;
-        Debug.Log("ロード終了");
-
+        // Debug.Log("ロード終了");
         return a;
     }
 
     public static async UniTask<T> DownloadAddressablesAsync<T>(string address) where T : UnityEngine.Object
     {
-        Debug.Log("aaaaaaaaaa");
+        Addressables.WebRequestOverride = EditWebRequestURL;
         var a = await Addressables.DownloadDependenciesAsync(address).Task;
-        Debug.Log("bbbbbbbbbbb");
-
-        // var a = await Addressables.LoadAssetAsync<T>(address).Task;
         return a as T;
     }
 
@@ -62,7 +55,7 @@ public class AssetBundleLoader
         if (request.url.EndsWith(".bundle", StringComparison.OrdinalIgnoreCase) || request.url.EndsWith(".json", StringComparison.OrdinalIgnoreCase) || request.url.EndsWith(".hash", StringComparison.OrdinalIgnoreCase))
         {
             request.url = request.url + "?alt=media";
-            Debug.Log("EditWebRequestURL" + request.url);
+            //  Debug.Log("EditWebRequestURL " + request.url);
         }
     }
 }
