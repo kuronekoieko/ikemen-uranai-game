@@ -141,4 +141,6 @@ public class FileDownloader
         string fileName = "Voices/chara" + characterId + "-rank" + fortune.rank.ToString("D3") + "-msg" + fortune.msg_id.ToString("D3") + ".wav";
         return fileName;
     }
+
+
 }
