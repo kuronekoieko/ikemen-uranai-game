@@ -5,26 +5,27 @@ using TMPro;
 using UnityEngine.UI;
 using DataBase;
 using System.Linq;
+using System;
 
 public class RankingElement : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI titleText;
     [SerializeField] TextMeshProUGUI subtitleText;
+    [SerializeField] Button button;
 
-
+    Constellation constellation;
     public void OnStart()
     {
-
-    }
-
-    public void OnOpen()
-    {
-
+        button.onClick.AddListener(() =>
+         {
+             ScreenManager.Instance.Get<RankingScreen>().Close();
+             ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation, DateTime.Today, SaveDataManager.SaveData.currentCharacterId);
+         });
     }
 
     public void Show(Fortune fortune)
     {
-        Constellation constellation = CSVManager.Instance.Constellations.FirstOrDefault(constellation => constellation.id == fortune.constellation_id);
+        constellation = CSVManager.Instance.Constellations.FirstOrDefault(constellation => constellation.id == fortune.constellation_id);
         LuckyItem luckyItem = CSVManager.Instance.LuckyItems.FirstOrDefault(luckyItem => luckyItem.id == fortune.lucky_item_id);
         LuckyColor luckyColor = CSVManager.Instance.LuckyColors.FirstOrDefault(luckyColor => luckyColor.id == fortune.lucky_color_id);
         titleText.text = $"{fortune.rank}位 {constellation.name}";
