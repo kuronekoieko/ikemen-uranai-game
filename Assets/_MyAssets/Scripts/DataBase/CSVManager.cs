@@ -17,6 +17,8 @@ public class CSVManager : Singleton<CSVManager>
     public Fortune[] Fortunes { get; private set; }
     public Hint[] Hints { get; private set; }
     public FortuneMessage[] FortuneMessages { get; private set; }
+    public LuckyItem[] LuckyItems { get; private set; }
+    public LuckyColor[] LuckyColors { get; private set; }
 
 
     public async UniTask InitializeAsync()
@@ -27,6 +29,8 @@ public class CSVManager : Singleton<CSVManager>
         Constellations = await DeserializeAsync<Constellation>("Constellation");
         Fortunes = await DeserializeAsync<Fortune>("Fortunes");
         Hints = await DeserializeAsync<Hint>("Hint");
+        LuckyItems = await DeserializeAsync<LuckyItem>("Fortunes/LuckyItems");
+        LuckyColors = await DeserializeAsync<LuckyColor>("Fortunes/LuckyColors");
 
         var fortuneMessageDics = await DeserializeAsync_StringDics("FortuneMessages");
         FortuneMessages = ToObjects(fortuneMessageDics).ToArray();

@@ -103,8 +103,26 @@ public class HoroscopeScreen : BaseScreen
         if (constellation == null) return;
 
         fortuneRankText.text = fortune.rank + "位";
-        luckyItemText.text = fortune.item;
-        luckyColorText.text = fortune.color;
+
+        LuckyItem luckyItem = CSVManager.Instance.LuckyItems.FirstOrDefault(luckyItem => luckyItem.id == fortune.lucky_item_id);
+        if (luckyItem != null && !string.IsNullOrEmpty(luckyItem.name))
+        {
+            luckyItemText.text = luckyItem.name.ToNonNull();
+        }
+        else
+        {
+            luckyItemText.text = "ラッキーアイテム";
+        }
+
+        LuckyColor luckyColor = CSVManager.Instance.LuckyColors.FirstOrDefault(luckyColor => luckyColor.id == fortune.lucky_color_id);
+        if (luckyColor != null && !string.IsNullOrEmpty(luckyColor.name))
+        {
+            luckyColorText.text = luckyColor.name.ToNonNull();
+        }
+        else
+        {
+            luckyColorText.text = "ラッキーカラー";
+        }
 
         var dataBaseCharacter = CSVManager.Instance.Characters.FirstOrDefault(c => c.id == SaveDataManager.SaveData.currentCharacterId);
         if (dataBaseCharacter == null) return;

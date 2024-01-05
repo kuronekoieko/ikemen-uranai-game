@@ -13,8 +13,8 @@ namespace DataBase
         public string date_time;
         public string constellation_id;
         public int rank;
-        public string item;
-        public string color;
+        public string lucky_item_id;
+        public string lucky_color_id;
         public int msg_id;
     }
 }
