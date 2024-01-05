@@ -35,7 +35,7 @@ public class AssetBundleLoader
     public static async UniTask<T> LoadAddressablesAsync<T>(string address) where T : UnityEngine.Object
     {
         Addressables.WebRequestOverride = EditWebRequestURL;
-        // Debug.Log("ロード開始");
+        Debug.Log("ロード開始 " + address);
         T a = await Addressables.LoadAssetAsync<T>(address).Task;
         // Debug.Log("ロード終了");
         return a;
