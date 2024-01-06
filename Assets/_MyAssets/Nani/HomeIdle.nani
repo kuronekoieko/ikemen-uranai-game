@@ -1,0 +1,11 @@
+
+@printer Home pos:50,63 visible:false 
+
+@back forest
+@char chitose.idle_03
+
+;ユーザーの操作を待つ
+@wait i
+
+ああああああああああああああああ
+

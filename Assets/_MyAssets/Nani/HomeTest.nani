@@ -1,16 +1,20 @@
 
-@printer Home pos:50,63 
+@printer Home pos:50,63 visible:false 
 
 @back forest
 @char chitose.idle_03
 
+;ユーザーの操作を待つ
+@wait i
+@startScript
+
 ああああああああああああああああ
+いいいいいいいいいいいいい
+うううううううううう
+ええええええええ
+おおおおおおおおお
 
-@back city
-@char chitose.idle_03
-おはよう
+@printer Home visible:false 
 
-@hide haru
-こんばんは
-
+@endScript
 @stop
