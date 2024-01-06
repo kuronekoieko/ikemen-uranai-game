@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ChargingScreen : BaseScreen
+public class SelectCharacterScreen : BaseScreen
 {
-
     [SerializeField] Button closeButton;
 
     public override void OnStart()
