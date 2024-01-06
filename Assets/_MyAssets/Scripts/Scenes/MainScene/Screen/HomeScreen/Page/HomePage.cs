@@ -29,6 +29,13 @@ public class HomePage : BasePage
     {
         var constellation = SaveDataManager.SaveData.Constellation;
         ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation, DateTime.Today, SaveDataManager.SaveData.currentCharacterId);
+
+        SaveDataManager.SaveData.isOpenedHoroscopeDic.TryGetValue(DateTime.Today.ToStringDate(), out bool isOpenedToday);
+        if (isOpenedToday == false)
+        {
+            SaveDataManager.SaveData.exp += 5;
+        }
+
         SaveDataManager.SaveData.isOpenedHoroscopeDic[DateTime.Today.ToStringDate()] = true;
         SaveDataManager.Save();
         todayHoroscopesButton.transform.DOKill(true);
@@ -38,6 +45,13 @@ public class HomePage : BasePage
     {
         var constellation = SaveDataManager.SaveData.Constellation;
         ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation, DateTime.Today.AddDays(1), SaveDataManager.SaveData.currentCharacterId);
+
+        SaveDataManager.SaveData.isOpenedHoroscopeDic.TryGetValue(DateTime.Today.AddDays(1).ToStringDate(), out bool isOpenedNextDay);
+        if (isOpenedNextDay == false)
+        {
+            SaveDataManager.SaveData.exp += 5;
+        }
+
         SaveDataManager.SaveData.isOpenedHoroscopeDic[DateTime.Today.AddDays(1).ToStringDate()] = true;
         SaveDataManager.Save();
         tomorrowHoroscopesButton.transform.DOKill(true);
