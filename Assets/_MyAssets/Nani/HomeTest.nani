@@ -1,0 +1,16 @@
+
+@printer Home pos:50,63 
+
+@back forest
+@char chitose.idle_03
+
+ああああああああああああああああ
+
+@back city
+@char chitose.idle_03
+おはよう
+
+@hide haru
+こんばんは
+
+@stop
