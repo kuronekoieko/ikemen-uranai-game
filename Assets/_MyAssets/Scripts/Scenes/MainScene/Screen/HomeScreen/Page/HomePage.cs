@@ -11,6 +11,7 @@ public class HomePage : BasePage
 {
     [SerializeField] Button todayHoroscopesButton;
     [SerializeField] Button tomorrowHoroscopesButton;
+    [SerializeField] Button selectCharacterScreenButton;
     [SerializeField] TextMeshProUGUI leftTimeText;
 
     readonly int openHour = 20;
@@ -23,6 +24,10 @@ public class HomePage : BasePage
         Initialize.Instance.OnUpdate += OnUpdate;
         todayHoroscopesButton.onClick.AddListener(OnClickTodayHoroscopesButton);
         tomorrowHoroscopesButton.onClick.AddListener(OnClickTomorrowHoroscopesButton);
+        selectCharacterScreenButton.onClick.AddListener(() =>
+        {
+            ScreenManager.Instance.Get<SelectCharacterScreen>().Open();
+        });
     }
 
     void OnClickTodayHoroscopesButton()
@@ -45,7 +50,6 @@ public class HomePage : BasePage
     {
         var constellation = SaveDataManager.SaveData.Constellation;
         ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation, DateTime.Today.AddDays(1), SaveDataManager.SaveData.currentCharacterId);
-
         SaveDataManager.SaveData.isOpenedHoroscopeDic.TryGetValue(DateTime.Today.AddDays(1).ToStringDate(), out bool isOpenedNextDay);
         if (isOpenedNextDay == false)
         {
