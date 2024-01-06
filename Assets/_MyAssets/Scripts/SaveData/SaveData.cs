@@ -24,6 +24,7 @@ public class SaveData
     // 配列は使わない。dicにする→データ更新のときに上書きされずに、要素が追加されるため
     // 初期値nullにするとセーブデータがnullで上書きされる
     public Dictionary<string, Character> characters = new();
+    public Dictionary<string, bool> isOpenedHoroscopeDic = new();
 
 
     [JsonIgnore]

@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using System;
 using MainScene;
+using DG.Tweening;
 
 public class HomePage : BasePage
 {
@@ -28,17 +29,43 @@ public class HomePage : BasePage
     {
         var constellation = SaveDataManager.SaveData.Constellation;
         ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation, DateTime.Today, SaveDataManager.SaveData.currentCharacterId);
+        SaveDataManager.SaveData.isOpenedHoroscopeDic[DateTime.Today.ToStringDate()] = true;
+        SaveDataManager.Save();
+        todayHoroscopesButton.transform.DOKill(true);
     }
 
     void OnClickTomorrowHoroscopesButton()
     {
         var constellation = SaveDataManager.SaveData.Constellation;
         ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation, DateTime.Today.AddDays(1), SaveDataManager.SaveData.currentCharacterId);
+        SaveDataManager.SaveData.isOpenedHoroscopeDic[DateTime.Today.AddDays(1).ToStringDate()] = true;
+        SaveDataManager.Save();
+        tomorrowHoroscopesButton.transform.DOKill(true);
     }
 
     public override void Open()
     {
         base.Open();
+
+        SaveDataManager.SaveData.isOpenedHoroscopeDic.TryGetValue(DateTime.Today.ToStringDate(), out bool isOpenedToday);
+        SaveDataManager.SaveData.isOpenedHoroscopeDic.TryGetValue(DateTime.Today.AddDays(1).ToStringDate(), out bool isOpenedNextDay);
+
+        if (isOpenedToday == false)
+        {
+            todayHoroscopesButton.transform
+                .DOPunchScale(Vector3.one * 0.1f, 2f, 3, 0.1f)
+                .SetEase(Ease.Linear)
+                .SetLoops(-1);
+        }
+
+        if (tomorrowHoroscopesButton.interactable && isOpenedNextDay == false)
+        {
+            tomorrowHoroscopesButton.transform
+                .DOPunchScale(Vector3.one * 0.1f, 2f, 3, 0.1f)
+                .SetEase(Ease.Linear)
+                .SetLoops(-1);
+        }
+
     }
 
     protected override void OnClose()
