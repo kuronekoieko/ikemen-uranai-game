@@ -31,13 +31,35 @@ public class HomePage : BasePage
         });
 
 
-        Debug.Log("IPointerClickHandler: " + gameObject.name);
+        string scriptName = "HomeTest";
         // https://naninovel.com/ja/guide/integration-options#%E6%89%8B%E5%8B%95%E5%88%9D%E6%9C%9F%E5%8C%96
         await RuntimeInitializer.InitializeAsync();
+
+        StartScriptCommand.OnScriptStarted += (currentScriptName) =>
+        {
+            if (currentScriptName == scriptName)
+            {
+                todayHoroscopesButton.gameObject.SetActive(false);
+                tomorrowHoroscopesButton.gameObject.SetActive(false);
+            }
+        };
+
+        EndScriptCommand.OnScriptEnded += (currentScriptName) =>
+        {
+            if (currentScriptName == scriptName)
+            {
+                todayHoroscopesButton.gameObject.SetActive(true);
+                tomorrowHoroscopesButton.gameObject.SetActive(true);
+            }
+        };
+
         var player = Engine.GetService<IScriptPlayer>();
-        await player.PreloadAndPlayAsync("HomeTest");
-        // var textPrinterManager = Engine.GetService<ITextPrinterManager>();
         // ツールバー Naninovel -> Resources -> Scripts でスクリプト割当
+        await player.PreloadAndPlayAsync(scriptName);
+
+        Debug.Log("終了");
+
+
     }
 
     void OnClickTodayHoroscopesButton()
