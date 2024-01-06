@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using System;
 using MainScene;
 using DG.Tweening;
+using Naninovel;
 
 public class HomePage : BasePage
 {
@@ -18,7 +19,7 @@ public class HomePage : BasePage
     readonly int closeHour = 0;
 
 
-    public override void OnStart()
+    public override async void OnStart()
     {
         base.OnStart();
         Initialize.Instance.OnUpdate += OnUpdate;
@@ -28,6 +29,15 @@ public class HomePage : BasePage
         {
             ScreenManager.Instance.Get<SelectCharacterScreen>().Open();
         });
+
+
+        Debug.Log("IPointerClickHandler: " + gameObject.name);
+        // https://naninovel.com/ja/guide/integration-options#%E6%89%8B%E5%8B%95%E5%88%9D%E6%9C%9F%E5%8C%96
+        await RuntimeInitializer.InitializeAsync();
+        var player = Engine.GetService<IScriptPlayer>();
+        await player.PreloadAndPlayAsync("HomeTest");
+        // var textPrinterManager = Engine.GetService<ITextPrinterManager>();
+        // ツールバー Naninovel -> Resources -> Scripts でスクリプト割当
     }
 
     void OnClickTodayHoroscopesButton()

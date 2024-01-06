@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
+using Naninovel;
+using System.Threading.Tasks;
 
 [RequireComponent(typeof(Collider2D))]
 public class CharacterController : MonoBehaviour, IPointerClickHandler
 {
-    void Start()
+    async void Start()
     {
+
     }
 
 
 
-    public void OnPointerClick(PointerEventData eventData)
+    public async void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("IPointerClickHandler: " + gameObject.name);
 
     }
+
 }
