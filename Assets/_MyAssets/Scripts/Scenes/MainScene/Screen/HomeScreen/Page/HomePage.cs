@@ -57,7 +57,7 @@ public class HomePage : BasePage
         // ツールバー Naninovel -> Resources -> Scripts でスクリプト割当
         await player.PreloadAndPlayAsync(scriptName);
 
-        Debug.Log("終了");
+        Debug.Log("Naninovel終了");
 
 
     }
