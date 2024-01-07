@@ -5,8 +5,8 @@ using UnityEngine.Networking;
 using Cysharp.Threading.Tasks;
 using System;
 using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
-using System.Threading.Tasks;
+using DataBase;
+using PlasticPipe.PlasticProtocol.Messages;
 
 public class AssetBundleLoader
 {
@@ -36,7 +36,15 @@ public class AssetBundleLoader
     {
         Addressables.WebRequestOverride = EditWebRequestURL;
         Debug.Log("ロード開始 " + address);
-        T a = await Addressables.LoadAssetAsync<T>(address).Task;
+        T a = default;
+        try
+        {
+            await Addressables.LoadAssetAsync<T>(address).Task;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("ロード失敗 " + address);
+        }
         // Debug.Log("ロード終了");
         return a;
     }
@@ -57,5 +65,12 @@ public class AssetBundleLoader
             request.url = request.url + "?alt=media";
             //  Debug.Log("EditWebRequestURL " + request.url);
         }
+    }
+
+    public static string GetAudioFileName(string characterId, Fortune fortune)
+    {
+        // Voices/chara0001-rank04-msg14.wav
+        string fileName = "Voices/chara" + characterId + "-rank" + fortune.rank.ToString("D3") + "-msg" + fortune.msg_id.ToString("D3") + ".wav";
+        return fileName;
     }
 }

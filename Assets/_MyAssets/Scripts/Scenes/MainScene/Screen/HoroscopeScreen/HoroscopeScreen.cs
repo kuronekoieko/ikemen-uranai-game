@@ -52,10 +52,10 @@ public class HoroscopeScreen : BaseScreen
 
 
         // var task1 = FileDownloader.GetFortunes(dateTime);
-        string fileName = FileDownloader.GetAudioFileName(characterId, fortune);
+        string fileName = AssetBundleLoader.GetAudioFileName(characterId, fortune);
 
         Debug.Log(fileName);
-        audioClip = await FileDownloader.GetAudioClip(fileName);
+        audioClip = await AssetBundleLoader.LoadAddressablesAsync<AudioClip>(fileName);
 
         // TODO: 失敗したとき
         // var (fortunes, audioClip) = await UniTask.WhenAll(task1, task2);
