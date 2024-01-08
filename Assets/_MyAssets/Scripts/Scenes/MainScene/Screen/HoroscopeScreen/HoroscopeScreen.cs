@@ -37,7 +37,7 @@ public class HoroscopeScreen : BaseScreen
 
     AudioClip audioClip;
 
-    public async void Open(Constellation constellation, DateTime dateTime, string characterId)
+    public async void Open(Constellation constellation, DateTime dateTime, SaveDataObjects.Character character)
     {
         if (constellation == null)
         {
@@ -52,7 +52,7 @@ public class HoroscopeScreen : BaseScreen
 
 
         // var task1 = FileDownloader.GetFortunes(dateTime);
-        string fileName = AssetBundleLoader.GetAudioFileName(characterId, fortune);
+        string fileName = AssetBundleLoader.GetAudioFileName(character, fortune);
 
         Debug.Log(fileName);
         audioClip = await AssetBundleLoader.LoadAddressablesAsync<AudioClip>(fileName);
@@ -69,7 +69,7 @@ public class HoroscopeScreen : BaseScreen
 
 
         ShowConstellation(constellation);
-        ShowFortune(constellation, fortune, characterId);
+        ShowFortune(constellation, fortune, character);
 
 
         if (audioClip != null)
@@ -98,7 +98,7 @@ public class HoroscopeScreen : BaseScreen
         constellationNameText.text = $"{name}/{latin_name}\n({start}~{end})";
     }
 
-    void ShowFortune(Constellation constellation, Fortune fortune, string characterId)
+    void ShowFortune(Constellation constellation, Fortune fortune, SaveDataObjects.Character character)
     {
         fortuneRankText.text = "XX" + "位";
         luckyItemText.text = "XXXX";
@@ -132,8 +132,10 @@ public class HoroscopeScreen : BaseScreen
         var dataBaseCharacter = CSVManager.Instance.Characters.FirstOrDefault(c => c.id == SaveDataManager.SaveData.currentCharacterId);
         if (dataBaseCharacter == null) return;
 
+        if (character == null) return;
+
         var fortuneMessage = CSVManager.Instance.FortuneMessages
-            .Where(f => f.character_id == characterId)
+            .Where(f => f.character_id == character.id)
             .FirstOrDefault(f => f.rank == fortune.rank);
 
         if (fortuneMessage == null) return;

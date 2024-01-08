@@ -77,10 +77,10 @@ namespace MainScene
 
             // var task1 = FileDownloader.DownloadFortune(DateTime.Today);
             // var task2 = FileDownloader.DownloadFortune(DateTime.Today.AddDays(1));
-            var todayAudioFileName = AssetBundleLoader.GetAudioFileName(SaveDataManager.SaveData.currentCharacterId, todayFortune);
+            var todayAudioFileName = AssetBundleLoader.GetAudioFileName(SaveDataManager.SaveData.GetCurrentCharacter(), todayFortune);
             var task3 = AssetBundleLoader.LoadAddressablesAsync<AudioClip>(todayAudioFileName);
 
-            var tomorrowAudioFileName = AssetBundleLoader.GetAudioFileName(SaveDataManager.SaveData.currentCharacterId, tomorrowFortune);
+            var tomorrowAudioFileName = AssetBundleLoader.GetAudioFileName(SaveDataManager.SaveData.GetCurrentCharacter(), tomorrowFortune);
             var task4 = AssetBundleLoader.LoadAddressablesAsync<AudioClip>(tomorrowAudioFileName);
     
             // var test = "Voices/chara0001-rank01-msg01";

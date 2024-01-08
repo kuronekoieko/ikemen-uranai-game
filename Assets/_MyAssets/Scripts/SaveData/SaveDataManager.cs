@@ -43,6 +43,7 @@ public static class SaveDataManager
         */
 
         _SaveData = await FirebaseDatabaseManager.Instance.GetUserData(_SaveData.firebaseUserId);
+
         // _SaveData ??= defaultSaveData;
 
 

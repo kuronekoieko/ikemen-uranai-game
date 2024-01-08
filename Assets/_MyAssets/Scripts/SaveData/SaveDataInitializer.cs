@@ -38,8 +38,7 @@ public static class SaveDataInitializer
             {
                 id = dataBaseCharacter.id
             };
-            saveDataCharacters.Add(newSaveDataCharacter.id, newSaveDataCharacter);
-
+            saveDataCharacters.Add(newSaveDataCharacter.IdToKey(), newSaveDataCharacter);
         }
         return saveDataCharacters;
     }

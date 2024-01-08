@@ -19,7 +19,7 @@ public class RankingElement : MonoBehaviour
         button.onClick.AddListener(() =>
          {
              ScreenManager.Instance.Get<RankingScreen>().Close();
-             ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation, DateTime.Today, SaveDataManager.SaveData.currentCharacterId);
+             ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation, DateTime.Today, SaveDataManager.SaveData.GetCurrentCharacter());
          });
     }
 

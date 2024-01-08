@@ -38,10 +38,11 @@ public class AssetBundleLoader
         }
     }
 
-    public static string GetAudioFileName(string characterId, Fortune fortune)
+    public static string GetAudioFileName(SaveDataObjects.Character character, Fortune fortune)
     {
+        if (character == null) return "";
         // Voices/chara0001-rank04-msg14.wav
-        string fileName = "Voices/chara" + characterId + "-rank" + fortune.rank.ToString("D3") + "-msg" + fortune.msg_id.ToString("D3") + ".wav";
+        string fileName = "Voices/" + character.IdToKey() + "-rank" + fortune.rank.ToString("D3") + "-msg" + fortune.msg_id.ToString("D3") + ".wav";
         return fileName;
     }
 }

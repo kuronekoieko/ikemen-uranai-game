@@ -10,8 +10,13 @@ namespace SaveDataObjects
     [JsonObject]
     public class Character
     {
-        public string id;
+        public int id;
         public int level = 1;
         public int exp = 200;
+
+        public string IdToKey()
+        {
+            return "chara" + id.ToString("D3");
+        }
     }
 }

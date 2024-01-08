@@ -10,7 +10,7 @@ namespace DataBase
     [JsonObject]
     public class FortuneMessage
     {
-        public string character_id;
+        public int character_id;
         public int rank;
         public string[] messages;
 
