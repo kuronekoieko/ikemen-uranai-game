@@ -4,10 +4,6 @@
 @back forest
 @char chitose.idle_03
 
-;ユーザーの操作を待つ
-@wait i
-@startScript
-
 ああああああああああああああああ
 いいいいいいいいいいいいい
 うううううううううう
@@ -15,6 +11,5 @@
 おおおおおおおおお
 
 @printer Home visible:false 
-
 @endScript
 @stop
