@@ -20,9 +20,11 @@ public class SaveData
     public int jemFree;
     public int jemCharging;
     public string birthDay;
-    public string currentCharacterId = "001";
+    public int currentCharacterId = 1;
     // 配列は使わない。dicにする→データ更新のときに上書きされずに、要素が追加されるため
     // 初期値nullにするとセーブデータがnullで上書きされる
+    // キーをintにすると、自動的に配列になってしまう
+    // キーをstringにしても、0埋めしないと勝手に配列になる
     public Dictionary<string, Character> characters = new();
     public Dictionary<string, bool> isOpenedHoroscopeDic = new();
 
@@ -35,8 +37,19 @@ public class SaveData
 
     public Character GetCurrentCharacter()
     {
-        characters.TryGetValue(currentCharacterId, out Character character);
-        return character;
+        return GetCharacter(currentCharacterId);
+    }
+
+    public Character GetCharacter(int characterId)
+    {
+        foreach (var pair in characters)
+        {
+            if (pair.Value.id == characterId)
+            {
+                return pair.Value;
+            }
+        }
+        return null;
     }
 
     public DataBase.Constellation GetConstellation(DateTime? birthDayDT)

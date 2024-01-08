@@ -24,7 +24,7 @@ public class SelectCharacterScreen : BaseScreen
         base.OnStart();
         closeButton.onClick.AddListener(Close);
         characterSelectPool.OnStart();
-        characterSelectPool.Show(CSVManager.Instance.Characters);
+        characterSelectPool.Show(CSVManager.Instance.Characters.OrderBy(character => character.id).ToArray());
 
         // https://tempura-kingdom.jp/snapscroll/
         snapScrollView.PageSize = Screen.width;
@@ -47,6 +47,8 @@ public class SelectCharacterScreen : BaseScreen
 
         selectButton.onClick.AddListener(() =>
         {
+            SaveDataManager.SaveData.currentCharacterId = snapScrollView.Page + 1;
+            SaveDataManager.Save();
             // キャラ切り替え
             Close();
         });
@@ -60,6 +62,10 @@ public class SelectCharacterScreen : BaseScreen
     public override void Open()
     {
         base.Open();
+
+        snapScrollView.Page = SaveDataManager.SaveData.currentCharacterId - 1;
+        snapScrollView.RefreshPage();
+        Debug.Log(snapScrollView.Page);
     }
 
     public override void Close()

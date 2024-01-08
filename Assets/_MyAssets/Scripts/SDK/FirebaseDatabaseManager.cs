@@ -46,8 +46,16 @@ public class FirebaseDatabaseManager : Singleton<FirebaseDatabaseManager>
         string json = snapshot.GetRawJsonValue();
         Debug.Log(json);
         if (string.IsNullOrEmpty(json)) return null;
-        SaveData saveData = JsonConvert.DeserializeObject<SaveData>(json);
-        DebugUtils.LogJson(saveData);
+        SaveData saveData = null;
+        try
+        {
+            saveData = JsonConvert.DeserializeObject<SaveData>(json);
+            DebugUtils.LogJson(saveData);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError(e);
+        }
         return saveData;
     }
 
@@ -65,7 +73,16 @@ public class FirebaseDatabaseManager : Singleton<FirebaseDatabaseManager>
             DataSnapshot data = result.Current;
             string json = data.GetRawJsonValue();
             if (string.IsNullOrEmpty(json)) continue;
-            SaveData saveData = JsonConvert.DeserializeObject<SaveData>(json);
+            SaveData saveData;
+            try
+            {
+                saveData = JsonConvert.DeserializeObject<SaveData>(json);
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError(e);
+                continue;
+            }
             saveDatas.Add(saveData);
         }
         return saveDatas;

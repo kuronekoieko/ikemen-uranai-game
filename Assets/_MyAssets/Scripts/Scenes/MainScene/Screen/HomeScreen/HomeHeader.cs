@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using System;
 using System.Globalization;
 using MainScene;
+using System.Linq;
 
 public class HomeHeader : MonoBehaviour
 {
@@ -111,15 +112,9 @@ public class HomeHeader : MonoBehaviour
         return null;
     }
 
-    DataBase.Character GetCharacterData(string characterId)
+    DataBase.Character GetCharacterData(int characterId)
     {
-        if (string.IsNullOrEmpty(characterId)) return null;
-
-        foreach (var character in CSVManager.Instance.Characters)
-        {
-            if (character.id == characterId) return character;
-        }
-        return null;
+        return CSVManager.Instance.Characters.FirstOrDefault(character => character.id == characterId);
     }
 
     void OnClickChargingScreenButton()

@@ -77,7 +77,7 @@ public class InputProfileScreen : BaseScreen
             SaveDataManager.SaveData.birthDay = birthDay;
             SaveDataManager.Save();
             var constellation = SaveDataManager.SaveData.Constellation;
-            ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation, DateTime.Today, SaveDataManager.SaveData.currentCharacterId);
+            ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation, DateTime.Today, SaveDataManager.SaveData.GetCurrentCharacter());
             Close();
         }
     }

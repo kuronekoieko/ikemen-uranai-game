@@ -69,10 +69,8 @@ public class CSVManager : Singleton<CSVManager>
 
     FortuneMessage ToFortuneMessage(Dictionary<string, string> stringDic)
     {
-        FortuneMessage instance = new()
-        {
-            character_id = stringDic["character_id"],
-        };
+        FortuneMessage instance = new();
+        int.TryParse(stringDic["character_id"], out instance.character_id);
         int.TryParse(stringDic["rank"], out instance.rank);
 
         List<string> messages = new();
