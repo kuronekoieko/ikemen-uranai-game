@@ -1,5 +1,6 @@
 
-@printer Home pos:50,63 visible:false 
+;@printer Home pos:50,63 visible:false 
+@printer Home visible:false 
 
 @back forest
 @char chitose.idle_03

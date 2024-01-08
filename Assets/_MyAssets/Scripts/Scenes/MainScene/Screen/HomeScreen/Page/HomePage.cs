@@ -8,6 +8,7 @@ using MainScene;
 using DG.Tweening;
 using Naninovel;
 using UnityEngine.EventSystems;
+using System.Drawing.Printing;
 
 public class HomePage : BasePage
 {
@@ -66,6 +67,8 @@ public class HomePage : BasePage
             conversationButton.gameObject.SetActive(true);
         };
 
+        var a = Engine.GetService<TextPrinterManager>();
+    
         var player = Engine.GetService<IScriptPlayer>();
         // ツールバー Naninovel -> Resources -> Scripts でスクリプト割当
         await player.PreloadAndPlayAsync(scriptNames.GetRandom());
