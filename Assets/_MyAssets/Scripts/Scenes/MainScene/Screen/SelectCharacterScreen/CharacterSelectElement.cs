@@ -15,6 +15,8 @@ public class CharacterSelectElement : ObjectPoolingElement
 
     public void Show(DataBase.Character character)
     {
-
+        nameText.text = character.name_jp;
+        cvText.text = "CV: " + character.voice_actor_jp;
+        descriptionText.text = character.description;
     }
 }

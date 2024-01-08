@@ -14,5 +14,6 @@ namespace DataBase
         public string id;
         public string name_jp;
         public string voice_actor_jp;
+        public string description;
     }
 }
