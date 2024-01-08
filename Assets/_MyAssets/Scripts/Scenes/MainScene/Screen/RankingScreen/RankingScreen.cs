@@ -32,6 +32,7 @@ public class RankingScreen : BaseScreen
 
         myFortuneButton.onClick.AddListener(() =>
         {
+            Close();
             var constellation = SaveDataManager.SaveData.Constellation;
             ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation, DateTime.Today, SaveDataManager.SaveData.currentCharacterId);
         });
