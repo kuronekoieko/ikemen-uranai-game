@@ -7,9 +7,11 @@ using System;
 using MainScene;
 using DG.Tweening;
 using Naninovel;
+using UnityEngine.EventSystems;
 
 public class HomePage : BasePage
 {
+    [SerializeField] Button conversationButton;
     [SerializeField] Button todayHoroscopesButton;
     [SerializeField] Button tomorrowHoroscopesButton;
     [SerializeField] Button selectCharacterScreenButton;
@@ -29,39 +31,49 @@ public class HomePage : BasePage
         {
             ScreenManager.Instance.Get<SelectCharacterScreen>().Open();
         });
+        conversationButton.onClick.AddListener(OnClickCharacter);
 
 
-        string scriptName = "HomeTest";
+        string scriptName = "HomeIdle";
         // https://naninovel.com/ja/guide/integration-options#%E6%89%8B%E5%8B%95%E5%88%9D%E6%9C%9F%E5%8C%96
         await RuntimeInitializer.InitializeAsync();
 
-        StartScriptCommand.OnScriptStarted += (currentScriptName) =>
-        {
-            if (currentScriptName == scriptName)
-            {
-                todayHoroscopesButton.gameObject.SetActive(false);
-                tomorrowHoroscopesButton.gameObject.SetActive(false);
-            }
-        };
 
-        EndScriptCommand.OnScriptEnded += (currentScriptName) =>
-        {
-            if (currentScriptName == scriptName)
-            {
-                todayHoroscopesButton.gameObject.SetActive(true);
-                tomorrowHoroscopesButton.gameObject.SetActive(true);
-            }
-        };
 
         var player = Engine.GetService<IScriptPlayer>();
         // ツールバー Naninovel -> Resources -> Scripts でスクリプト割当
         await player.PreloadAndPlayAsync(scriptName);
 
-        Debug.Log("Naninovel終了");
+        Debug.Log("Naninovel読み込み終了");
 
 
     }
 
+    async void OnClickCharacter()
+    {
+        Debug.Log("キャラクリック");
+        string[] scriptNames = new string[]
+        {
+            "HomeTest",
+            "HomeTest 1",
+            "HomeTest 2",
+        };
+
+        EndScriptCommand.OnScriptEnded += (currentScriptName) =>
+        {
+            todayHoroscopesButton.gameObject.SetActive(true);
+            tomorrowHoroscopesButton.gameObject.SetActive(true);
+            conversationButton.gameObject.SetActive(true);
+        };
+
+        var player = Engine.GetService<IScriptPlayer>();
+        // ツールバー Naninovel -> Resources -> Scripts でスクリプト割当
+        await player.PreloadAndPlayAsync(scriptNames.GetRandom());
+
+        todayHoroscopesButton.gameObject.SetActive(false);
+        tomorrowHoroscopesButton.gameObject.SetActive(false);
+        conversationButton.gameObject.SetActive(false);
+    }
     void OnClickTodayHoroscopesButton()
     {
         var constellation = SaveDataManager.SaveData.Constellation;

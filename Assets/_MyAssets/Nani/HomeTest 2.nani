@@ -1,0 +1,17 @@
+
+@printer Home pos:50,63 visible:false 
+
+@back forest
+@char chitose.idle_03
+
+
+ささささささささささささささささささ
+しししししししししししししししししし
+すすすすすすすすすすすすすすすすすす
+せせせせせせせせせせせせせせせせせせ
+そそそそそそそそそそそそそそそそそそ
+
+@printer Home visible:false 
+@endScript
+@stop
+
