@@ -7,7 +7,7 @@ public class ObjectPooling<T> : MonoBehaviour where T : ObjectPoolingElement
     [SerializeField] T prefab;
     [SerializeField] protected Transform parent;
 
-    protected List<T> list = new List<T>();
+    protected List<T> list = new();
 
     public virtual void OnStart()
     {
