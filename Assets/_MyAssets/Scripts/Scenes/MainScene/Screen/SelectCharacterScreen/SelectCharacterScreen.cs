@@ -32,7 +32,7 @@ public class SelectCharacterScreen : BaseScreen
         snapScrollView.Page = Array.IndexOf(CSVManager.Instance.Characters, character);
         snapScrollView.MaxPage = CSVManager.Instance.Characters.Length - 1;
         snapScrollView.OnPageChanged += OnPageChanged;
-        snapScrollView.RefreshPage();
+        snapScrollView.RefreshPage(false);
 
         leftButton.onClick.AddListener(() =>
         {
@@ -64,8 +64,7 @@ public class SelectCharacterScreen : BaseScreen
         base.Open();
 
         snapScrollView.Page = SaveDataManager.SaveData.currentCharacterId - 1;
-        snapScrollView.RefreshPage();
-        Debug.Log(snapScrollView.Page);
+        snapScrollView.RefreshPage(false);
     }
 
     public override void Close()
