@@ -9,12 +9,12 @@ public class ChargingPool : ObjectPooling<ChargingElement>
         base.OnStart();
     }
 
-    public void Show(DataBase.Character[] characters)
+    public void Show(DataBase.ChargingProduct[] chargingProducts)
     {
-        foreach (var item in characters)
+        foreach (var item in chargingProducts)
         {
             var instance = GetInstance();
-            instance.Show();
+            instance.Show(item);
         }
     }
 }

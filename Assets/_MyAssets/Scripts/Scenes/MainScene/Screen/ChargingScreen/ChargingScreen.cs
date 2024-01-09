@@ -14,7 +14,7 @@ public class ChargingScreen : BaseScreen
         base.OnStart();
         closeButton.onClick.AddListener(Close);
         chargingPool.OnStart();
-      //  chargingPool.Show();
+        chargingPool.Show(CSVManager.Instance.ChargingProducts);
     }
 
     public override void Open()
