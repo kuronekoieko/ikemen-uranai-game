@@ -604,6 +604,7 @@ namespace Mopsicus.Plugins {
         /// </summary>
         /// <param name="isVisible">true | false</param>
         public void SetVisible (bool isVisible) {
+            gameObject.SetActive(isVisible);
             if (!_isMobileInputCreated) {
                 _isVisibleOnCreate = isVisible;
                 return;
