@@ -3,13 +3,21 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Mopsicus.Plugins;
 
 public class MenuScreen : BaseScreen
 {
     [SerializeField] Button closeButton;
     [SerializeField] Button signInButton;
     [SerializeField] Button signOutButton;
+    [SerializeField] Button deleteButton;
+
     [SerializeField] TextMeshProUGUI uidText;
+    [SerializeField] MobileInputField mailAddressMIF;
+    [SerializeField] MobileInputField passwordMIF;
+    [SerializeField] TextMeshProUGUI signInResultText;
+
+
 
     public override void OnStart()
     {
@@ -17,17 +25,38 @@ public class MenuScreen : BaseScreen
         closeButton.onClick.AddListener(Close);
         signInButton.onClick.AddListener(async () =>
         {
-            await FirebaseAuthenticationManager.Instance.Initialize();
+            bool success = await FirebaseAuthenticationManager.Instance.ReauthenticateAsync(mailAddressMIF.Text, passwordMIF.Text);
+            if (success)
+            {
+                signInResultText.text = "登録成功";
+            }
+            else
+            {
+                signInResultText.text = "登録失敗";
+            }
             uidText.text = "uid: " + FirebaseAuthenticationManager.Instance.User.UserId;
         });
-        signOutButton.onClick.AddListener(async () =>
+
+        signOutButton.onClick.AddListener(() =>
+        {
+            FirebaseAuthenticationManager.Instance.SignOut();
+            uidText.text = "uid: ";
+            mailAddressMIF.Text = "";
+            passwordMIF.Text = "";
+        });
+
+        deleteButton.onClick.AddListener(async () =>
         {
             await FirebaseDatabaseManager.Instance.RemoveSaveData();
             await FirebaseAuthenticationManager.Instance.DeleteAsync();
             FirebaseAuthenticationManager.Instance.SignOut();
             uidText.text = "uid: ";
+            mailAddressMIF.Text = "";
+            passwordMIF.Text = "";
         });
 
+        mailAddressMIF.SetVisible(false);
+        passwordMIF.SetVisible(false);
     }
 
     public override async void Open()
@@ -52,11 +81,20 @@ public class MenuScreen : BaseScreen
         else
         {
             uidText.text = "uid: " + FirebaseAuthenticationManager.Instance.User.UserId;
+            mailAddressMIF.Text = FirebaseAuthenticationManager.Instance.User.Email;
+            //passwordMIF.Text = FirebaseAuthenticationManager.Instance.User
         }
+        signInResultText.text = "";
+
+        mailAddressMIF.SetVisible(true);
+        passwordMIF.SetVisible(true);
     }
 
     public override void Close()
     {
         base.Close();
+
+        mailAddressMIF.SetVisible(false);
+        passwordMIF.SetVisible(false);
     }
 }

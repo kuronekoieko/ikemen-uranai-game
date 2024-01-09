@@ -39,33 +39,34 @@ public class FirebaseAuthenticationManager : Singleton<FirebaseAuthenticationMan
         FirebaseAuth.DefaultInstance.SignOut();
     }
 
-    async UniTask ReauthenticateAsync()
+    public async UniTask<bool> ReauthenticateAsync(string mailAddress, string password)
     {
 
         // Get auth credentials from the user for re-authentication. The example below shows
         // email and password credentials but there are multiple possible providers,
         // such as GoogleAuthProvider or FacebookAuthProvider.
-        Firebase.Auth.Credential credential =
-            Firebase.Auth.EmailAuthProvider.GetCredential("user@example.com", "password1234");
+        Credential credential = EmailAuthProvider.GetCredential(mailAddress, password);
 
-        if (User != null)
+        bool success = false;
+        if (User == null) return success;
+
+        await User.ReauthenticateAsync(credential).ContinueWith(task =>
         {
-            await User.ReauthenticateAsync(credential).ContinueWith(task =>
+            if (task.IsCanceled)
             {
-                if (task.IsCanceled)
-                {
-                    Debug.LogError("ReauthenticateAsync was canceled.");
-                    return;
-                }
-                if (task.IsFaulted)
-                {
-                    Debug.LogError("ReauthenticateAsync encountered an error: " + task.Exception);
-                    return;
-                }
+                Debug.LogError("ReauthenticateAsync was canceled.");
+                return;
+            }
+            if (task.IsFaulted)
+            {
+                Debug.LogError("ReauthenticateAsync encountered an error: " + task.Exception);
+                return;
+            }
+            success = true;
+            Debug.Log("User reauthenticated successfully.");
+        });
 
-                Debug.Log("User reauthenticated successfully.");
-            });
-        }
+        return success;
     }
 
 
