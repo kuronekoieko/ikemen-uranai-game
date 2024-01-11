@@ -27,7 +27,7 @@ public class SelectCharacterScreen : BaseScreen
         characterSelectPool.Show(CSVManager.Instance.Characters.OrderBy(character => character.id).ToArray());
 
         // https://tempura-kingdom.jp/snapscroll/
-        snapScrollView.PageSize = Screen.width;
+        snapScrollView.PageSize = CanvasManager.Instance.CanvasScaler.referenceResolution.x;
         var character = CSVManager.Instance.Characters.FirstOrDefault(character => character.id == SaveDataManager.SaveData.currentCharacterId);
         snapScrollView.Page = Array.IndexOf(CSVManager.Instance.Characters, character);
         snapScrollView.MaxPage = CSVManager.Instance.Characters.Length - 1;
