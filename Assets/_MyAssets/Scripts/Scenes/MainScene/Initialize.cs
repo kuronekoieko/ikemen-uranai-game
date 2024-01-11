@@ -1,12 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
 using UnityEngine.Events;
-using System.Linq;
 using System;
-using System.Threading.Tasks;
+
 
 namespace MainScene
 {
@@ -56,7 +54,8 @@ namespace MainScene
             else
             {
                 var task1 = DownloadFilesAsync();
-                await UniTask.WhenAll(task0, task1);
+                var task2 = NaninovelInitializer.InitializeAsync();
+                await UniTask.WhenAll(task0, task1, task2);
 
                 ScreenManager.Instance.Get<HomeScreen>().Open();
             }
@@ -82,7 +81,7 @@ namespace MainScene
 
             var tomorrowAudioFileName = AssetBundleLoader.GetAudioFileName(SaveDataManager.SaveData.GetCurrentCharacter(), tomorrowFortune);
             var task4 = AssetBundleLoader.LoadAddressablesAsync<AudioClip>(tomorrowAudioFileName);
-    
+
             // var test = "Voices/chara0001-rank01-msg01";
             // var task5 = FileDownloader.GetAudioClip(test);
 
