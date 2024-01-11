@@ -14,7 +14,7 @@ public class InputProfileScreen : BaseScreen
     [SerializeField] ScrollSelector monthScrollSelector;
     [SerializeField] ScrollSelector dayScrollSelector;
     [SerializeField] Button nextButton;
-    [SerializeField] MobileInputField_TMP inputField;
+    [SerializeField] TMP_InputField inputField;
 
     public override void OnStart()
     {
@@ -39,7 +39,7 @@ public class InputProfileScreen : BaseScreen
         nextButton.onClick.AddListener(OnClickNextButton);
         Initialize.Instance.OnUpdate += OnUpdate;
         // スプラッシュの上に出てしまうため
-        inputField.SetVisible(false);
+        // inputField.SetVisible(false);
     }
 
     void OnUpdate()
@@ -76,7 +76,7 @@ public class InputProfileScreen : BaseScreen
         }
         else
         {
-            SaveDataManager.SaveData.name = inputField.Text;
+            SaveDataManager.SaveData.name = inputField.text;
             SaveDataManager.SaveData.birthDay = birthDay;
             SaveDataManager.Save();
             var constellation = SaveDataManager.SaveData.Constellation;
