@@ -57,7 +57,7 @@ public class MenuScreen : BaseScreen
             passwordMIF.Text = "";
             await SceneManager.LoadSceneAsync("Initialize");
         });
-
+        // スプラッシュの上に出てしまうため
         mailAddressMIF.SetVisible(false);
         passwordMIF.SetVisible(false);
     }
