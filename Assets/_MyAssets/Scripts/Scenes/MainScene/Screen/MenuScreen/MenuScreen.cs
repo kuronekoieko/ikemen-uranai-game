@@ -55,7 +55,7 @@ public class MenuScreen : BaseScreen
             uidText.text = "uid: ";
             mailAddressMIF.Text = "";
             passwordMIF.Text = "";
-            await SceneManager.LoadSceneAsync("Main");
+            await SceneManager.LoadSceneAsync("Initialize");
         });
 
         mailAddressMIF.SetVisible(false);
