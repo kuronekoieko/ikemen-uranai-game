@@ -38,6 +38,8 @@ public class InputProfileScreen : BaseScreen
 
         nextButton.onClick.AddListener(OnClickNextButton);
         Initialize.Instance.OnUpdate += OnUpdate;
+        // スプラッシュの上に出てしまうため
+        inputField.SetVisible(false);
     }
 
     void OnUpdate()
