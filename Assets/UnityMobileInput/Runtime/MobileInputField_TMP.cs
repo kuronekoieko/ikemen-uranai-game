@@ -73,6 +73,8 @@ namespace Mopsicus.Plugins
         /// </summary>
         public bool IsWithClearButton = true;
 
+        public bool IsCloseOnReturn = true;
+
         /// <summary>
         /// Type for return button
         /// </summary>
@@ -321,8 +323,22 @@ namespace Mopsicus.Plugins
             _inputObject.enabled = false;
             _inputObjectText.enabled = false;
 #endif
+            _inputObject.onValueChanged.AddListener(OnTextChanged);
         }
 
+        void OnTextChanged(string text)
+        {
+            if (!IsCloseOnReturn) return;
+            if (text.Contains("\n"))
+            {
+                // 何故かこの行が先じゃないとフォーカスが外れない
+                // 実機での完了ボタンのコールバックが呼べなかったため
+                SetFocus(false);
+                // Enterキーでの改行を防ぐため、改行文字を削除
+                text = text.Replace("\n", "");
+            }
+        }
+        
         /// <summary>
         /// Check position on each frame
         /// If changed - send to plugin
