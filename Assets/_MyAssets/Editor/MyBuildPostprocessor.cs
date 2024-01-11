@@ -34,7 +34,7 @@ public class MyBuildPostprocessor : IPreprocessBuildWithReport
     public static void OnPostProcessBuild(BuildTarget buildTarget, string path)
     {
         Debug.Log("OnPostProcessBuild buildTarget : " + buildTarget);
-        // OnPostProcessBuild_IOS(buildTarget, path);
+        OnPostProcessBuild_IOS(buildTarget, path);
         OnPostProcessBuild_Android(buildTarget, path);
         // 実機に反映されるので危険
         // FirebaseConfigManager.CreateFiles(false);
