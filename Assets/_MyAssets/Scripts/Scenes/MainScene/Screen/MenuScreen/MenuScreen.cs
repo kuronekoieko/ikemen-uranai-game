@@ -4,6 +4,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Mopsicus.Plugins;
+using UnityEngine.SceneManagement;
+using Cysharp.Threading.Tasks;
 
 public class MenuScreen : BaseScreen
 {
@@ -53,6 +55,7 @@ public class MenuScreen : BaseScreen
             uidText.text = "uid: ";
             mailAddressMIF.Text = "";
             passwordMIF.Text = "";
+            await SceneManager.LoadSceneAsync("Main");
         });
 
         mailAddressMIF.SetVisible(false);
