@@ -338,7 +338,7 @@ namespace Mopsicus.Plugins
                 text = text.Replace("\n", "");
             }
         }
-        
+
         /// <summary>
         /// Check position on each frame
         /// If changed - send to plugin
@@ -433,7 +433,7 @@ namespace Mopsicus.Plugins
             float ratio = rect.height / _inputObjectText.rectTransform.rect.height;
             _config.FontSize = ((float)_inputObjectText.fontSize) * ratio;
             _config.TextColor = _inputObjectText.color;
-            _config.Align = ConvertTextAlignmentOptionsToTextAnchor(_inputObjectText.alignment).ToString();
+            _config.Align = _inputObjectText.alignment.ToString();
             _config.ContentType = _inputObject.contentType.ToString();
             _config.BackgroundColor = _inputObject.colors.normalColor;
             _config.Multiline = (_inputObject.lineType == TMP_InputField.LineType.SingleLine) ? false : true;
