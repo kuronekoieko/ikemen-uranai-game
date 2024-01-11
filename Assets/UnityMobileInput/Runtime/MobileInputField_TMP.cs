@@ -417,7 +417,7 @@ namespace Mopsicus.Plugins
             float ratio = rect.height / _inputObjectText.rectTransform.rect.height;
             _config.FontSize = ((float)_inputObjectText.fontSize) * ratio;
             _config.TextColor = _inputObjectText.color;
-            _config.Align = _inputObjectText.alignment.ToString();
+            _config.Align = ConvertTextAlignmentOptionsToTextAnchor(_inputObjectText.alignment).ToString();
             _config.ContentType = _inputObject.contentType.ToString();
             _config.BackgroundColor = _inputObject.colors.normalColor;
             _config.Multiline = (_inputObject.lineType == TMP_InputField.LineType.SingleLine) ? false : true;
@@ -578,6 +578,23 @@ namespace Mopsicus.Plugins
             }
 
             this.Execute(data);
+        }
+
+        TextAnchor ConvertTextAlignmentOptionsToTextAnchor(TextAlignmentOptions alignmentOptions)
+        {
+            return alignmentOptions switch
+            {
+                TextAlignmentOptions.TopLeft => TextAnchor.UpperLeft,
+                TextAlignmentOptions.Top => TextAnchor.UpperCenter,
+                TextAlignmentOptions.TopRight => TextAnchor.UpperRight,
+                TextAlignmentOptions.Left => TextAnchor.MiddleLeft,
+                TextAlignmentOptions.Center => TextAnchor.MiddleCenter,
+                TextAlignmentOptions.Right => TextAnchor.MiddleRight,
+                TextAlignmentOptions.BottomLeft => TextAnchor.LowerLeft,
+                TextAlignmentOptions.Bottom => TextAnchor.LowerCenter,
+                TextAlignmentOptions.BottomRight => TextAnchor.LowerRight,
+                _ => TextAnchor.UpperLeft,// デフォルト値を設定しておく
+            };
         }
 
         /// <summary>
