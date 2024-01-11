@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using MainScene;
 using Cysharp.Threading.Tasks;
+using Mopsicus.Plugins;
 
 public class InputProfileScreen : BaseScreen
 {
@@ -13,7 +14,7 @@ public class InputProfileScreen : BaseScreen
     [SerializeField] ScrollSelector monthScrollSelector;
     [SerializeField] ScrollSelector dayScrollSelector;
     [SerializeField] Button nextButton;
-    [SerializeField] TMP_InputField inputField;
+    [SerializeField] MobileInputField_TMP inputField;
 
     public override void OnStart()
     {
@@ -73,7 +74,7 @@ public class InputProfileScreen : BaseScreen
         }
         else
         {
-            SaveDataManager.SaveData.name = inputField.text;
+            SaveDataManager.SaveData.name = inputField.Text;
             SaveDataManager.SaveData.birthDay = birthDay;
             SaveDataManager.Save();
             var constellation = SaveDataManager.SaveData.Constellation;
