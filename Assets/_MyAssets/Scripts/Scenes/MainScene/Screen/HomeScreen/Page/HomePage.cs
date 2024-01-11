@@ -60,6 +60,8 @@ public class HomePage : BasePage
             "HomeTest 2",
         };
 
+        var scriptName = scriptNames.GetRandom();
+        // Debug.Log(scriptName);
         EndScriptCommand.OnScriptEnded += (currentScriptName) =>
         {
             todayHoroscopesButton.gameObject.SetActive(true);
@@ -68,10 +70,10 @@ public class HomePage : BasePage
         };
 
         var a = Engine.GetService<TextPrinterManager>();
-    
+
         var player = Engine.GetService<IScriptPlayer>();
         // ツールバー Naninovel -> Resources -> Scripts でスクリプト割当
-        await player.PreloadAndPlayAsync(scriptNames.GetRandom());
+        await player.PreloadAndPlayAsync(scriptName);
 
         todayHoroscopesButton.gameObject.SetActive(false);
         tomorrowHoroscopesButton.gameObject.SetActive(false);
