@@ -94,6 +94,15 @@ public static class LocalPushNotification
 #endif
     }
 
+    public static void AddSchedule(string title, string message, int badgeCount, DateTime targetDateTime, string cannelId)
+    {
+        TimeSpan timeSpan = targetDateTime - DateTime.Now;
+        int sec = (int)timeSpan.TotalSeconds;
+        AddSchedule(title, message, badgeCount, sec, cannelId);
+    }
+
+
+
 
     // プッシュ通知を登録します。    
     public static void AddSchedule(string title, string message, int badgeCount, int elapsedTime, string cannelId)
