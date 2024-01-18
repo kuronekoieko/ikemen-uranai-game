@@ -22,6 +22,7 @@ public class SaveData
     public string birthDay;
     public int currentCharacterId = 1;
     public Notification notification = new();
+    public string lastLoginDateTime = "";
     // 配列は使わない。dicにする→データ更新のときに上書きされずに、要素が追加されるため
     // 初期値nullにするとセーブデータがnullで上書きされる
     // キーをintにすると、自動的に配列になってしまう
