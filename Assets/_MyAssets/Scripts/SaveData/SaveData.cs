@@ -28,16 +28,8 @@ public class SaveData
     // キーをintにすると、自動的に配列になってしまう
     // キーをstringにしても、0埋めしないと勝手に配列になる
     public Dictionary<string, Character> characters = new();
-    public Dictionary<string, bool> isOpenedHoroscopeDic = new();
+    public Dictionary<string, HoroscopeHistory> horoscopeHistories = new();
 
-    [Serializable]
-    [JsonObject]
-    public class Notification
-    {
-        public bool isOnTodayHoroscope = true;
-        public bool isOnNextDayHoroscope = true;
-        public bool isOnOthers = true;
-    }
 
 
     [JsonIgnore]

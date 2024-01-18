@@ -5,6 +5,7 @@ using UnityEngine;
 using System.Linq;
 using System;
 using System.Threading.Tasks;
+using SaveDataObjects;
 
 public static class SaveDataInitializer
 {
@@ -18,14 +19,29 @@ public static class SaveDataInitializer
         };
 
         await SaveDataManager.LoadOverWriteAsync(defaultSaveData);
-        // DebugUtils.LogJson(SaveDataManager.SaveData);
-        if (SaveDataManager.SaveData.userNumber == 0)
+
+        SaveData saveData = SaveDataManager.SaveData;
+
+        // DebugUtils.LogJson(saveData);
+        if (saveData.userNumber == 0)
         {
-            SaveDataManager.SaveData.userNumber = await CreateUserNumberAsync();
-            SaveDataManager.SaveData.displayUserId = SaveDataManager.SaveData.userNumber.ToString("D8");
-            SaveDataManager.Save();
+            saveData.userNumber = await CreateUserNumberAsync();
+            saveData.displayUserId = saveData.userNumber.ToString("D8");
         }
 
+        string key = DateTime.Today.ToStringDate();
+        bool existHistory = saveData.horoscopeHistories.TryGetValue(key, out HoroscopeHistory horoscopeHistory);
+        if (existHistory == false)
+        {
+            saveData.horoscopeHistories[key] = new HoroscopeHistory();
+        }
+
+        // 時刻も保存したいので
+        // 2024/01/18 23:19:23
+        saveData.lastLoginDateTime = DateTime.Now.ToString();
+
+        
+        SaveDataManager.Save();
     }
 
     static Dictionary<string, SaveDataObjects.Character> CreateCharacters(CSVManager cSVManager)

@@ -31,10 +31,6 @@ namespace MainScene
             await SaveDataInitializer.Initialize(
                 CSVManager.Instance,
                 FirebaseAuthenticationManager.Instance.User.UserId);
-            // 時刻も保存したいので
-            // 2024/01/18 23:19:23
-            SaveDataManager.SaveData.lastLoginDateTime = DateTime.Now.ToString();
-            SaveDataManager.Save();
 
             screenManager.OnStart();
 
