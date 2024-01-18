@@ -9,95 +9,84 @@ using Cysharp.Threading.Tasks;
 
 public class MenuScreen : BaseScreen
 {
-    [SerializeField] Button closeButton;
-    [SerializeField] Button signInButton;
-    [SerializeField] Button signOutButton;
-    [SerializeField] Button deleteButton;
-
-    [SerializeField] TextMeshProUGUI uidText;
-    [SerializeField] MobileInputField mailAddressMIF;
-    [SerializeField] MobileInputField passwordMIF;
-    [SerializeField] TextMeshProUGUI signInResultText;
+    [SerializeField] MenuElementPool menuElementPool;
 
 
 
     public override void OnStart()
     {
         base.OnStart();
-        closeButton.onClick.AddListener(Close);
-        signInButton.onClick.AddListener(async () =>
-        {
-            bool success = await FirebaseAuthenticationManager.Instance.ReauthenticateAsync(mailAddressMIF.Text, passwordMIF.Text);
-            if (success)
-            {
-                signInResultText.text = "登録成功";
-            }
-            else
-            {
-                signInResultText.text = "登録失敗";
-            }
-            uidText.text = "uid: " + FirebaseAuthenticationManager.Instance.User.UserId;
-        });
-
-        signOutButton.onClick.AddListener(() =>
-        {
-            FirebaseAuthenticationManager.Instance.SignOut();
-            uidText.text = "uid: ";
-            mailAddressMIF.Text = "";
-            passwordMIF.Text = "";
-        });
-
-        deleteButton.onClick.AddListener(async () =>
-        {
-            await FirebaseDatabaseManager.Instance.RemoveSaveData();
-            await FirebaseAuthenticationManager.Instance.DeleteAsync();
-            FirebaseAuthenticationManager.Instance.SignOut();
-            uidText.text = "uid: ";
-            mailAddressMIF.Text = "";
-            passwordMIF.Text = "";
-            await SceneManager.LoadSceneAsync("Initialize");
-        });
-        // スプラッシュの上に出てしまうため
-        mailAddressMIF.SetVisible(false);
-        passwordMIF.SetVisible(false);
+        menuElementPool.OnStart();
+        var menuElementObjs = new MenuElementObj[] {
+            new() {title= "遊び方",onClick= OnClick_HowToPlay },
+            new() {title= "よくある質問",onClick= OnClick_QA },
+            new() {title= "公式Twitterをフォローする",onClick= OnClick_X },
+            new() {title= "アプリをレビューする",onClick= OnClick_AppReview },
+            new() {title= "サポートへ問い合わせ",onClick= OnClick_ContactUs },
+            new() {title= "通知の設定",onClick= OnClick_Notification },
+            new() {title= "位置情報の設定",onClick= OnClick_Location },
+            new() {title= "機種変更",onClick= OnClick_Account },
+            new() {title= "利用規約",onClick= OnClick_TermsOfUse },
+            new() {title= "プライバシーポリシー",onClick= OnClick_PrivacyPolicy },
+            new() {title= "特商・資金決済法の表記",onClick= OnClick_CFLR },
+        };
+        menuElementPool.Show(menuElementObjs);
     }
 
-    public override async void Open()
+    public override void Open()
     {
         base.Open();
-
-        var test = "Voices/chara001-rank001-msg001.wav";
-        // var audioClip = await FileDownloader.GetAudioClip(test);
-        // Assets/_MyAssets/Audio/Voices/chara0001-rank02-msg01.wav
-        //  var url = await FirebaseStorageManager.Instance.GetURI("Assets/iOS/packedassets_assets_all_eb5b8a0c34c9328a6f6b8f39cce08d62.bundle");
-        //Debug.Log(url);       ;
-        var localPath = "Assets/_MyAssets/Audio/";
-        var audioClip = await AssetBundleLoader.LoadAddressablesAsync<AudioClip>(localPath + test);
-        DebugUtils.LogJson(audioClip);
-
-        AudioManager.Instance.PlayOneShot(audioClip);
-
-        if (FirebaseAuthenticationManager.Instance.User == null)
-        {
-            uidText.text = "uid: ";
-        }
-        else
-        {
-            uidText.text = "uid: " + FirebaseAuthenticationManager.Instance.User.UserId;
-            mailAddressMIF.Text = FirebaseAuthenticationManager.Instance.User.Email;
-            //passwordMIF.Text = FirebaseAuthenticationManager.Instance.User
-        }
-        signInResultText.text = "";
-
-        mailAddressMIF.SetVisible(true);
-        passwordMIF.SetVisible(true);
     }
 
     public override void Close()
     {
         base.Close();
+    }
 
-        mailAddressMIF.SetVisible(false);
-        passwordMIF.SetVisible(false);
+    void OnClick_HowToPlay()
+    {
+
+    }
+
+    void OnClick_QA()
+    {
+
+    }
+    void OnClick_X()
+    {
+
+    }
+    void OnClick_AppReview()
+    {
+
+    }
+    void OnClick_ContactUs()
+    {
+
+    }
+    void OnClick_Notification()
+    {
+
+    }
+    void OnClick_Location()
+    {
+
+    }
+    void OnClick_Account()
+    {
+
+    }
+    void OnClick_TermsOfUse()
+    {
+
+    }
+    void OnClick_PrivacyPolicy()
+    {
+
+    }
+    void OnClick_CFLR()
+    {
+        // 特商・資金決済法の表記
+
     }
 }
