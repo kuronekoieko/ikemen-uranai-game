@@ -16,13 +16,15 @@ public class HomePage : BasePage
     [SerializeField] Button todayHoroscopesButton;
     [SerializeField] Button tomorrowHoroscopesButton;
     [SerializeField] Button selectCharacterScreenButton;
+    [SerializeField] Button debugButton;
+
     [SerializeField] TextMeshProUGUI leftTimeText;
 
     readonly int openHour = 20;
     readonly int closeHour = 0;
 
 
-    public override async void OnStart()
+    public override void OnStart()
     {
         base.OnStart();
         Initialize.Instance.OnUpdate += OnUpdate;
@@ -33,6 +35,11 @@ public class HomePage : BasePage
             ScreenManager.Instance.Get<SelectCharacterScreen>().Open();
         });
         conversationButton.onClick.AddListener(OnClickCharacter);
+        debugButton.onClick.AddListener(() =>
+        {
+            ScreenManager.Instance.Get<DebugScreen>().Open();
+        });
+        debugButton.gameObject.SetActive(Debug.isDebugBuild);
     }
 
     async void OnClickCharacter()
