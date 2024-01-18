@@ -18,7 +18,6 @@ public class HomePage : BasePage
     [SerializeField] Button tomorrowHoroscopesButton;
     [SerializeField] Button selectCharacterScreenButton;
     [SerializeField] Button debugButton;
-
     [SerializeField] TextMeshProUGUI leftTimeText;
 
     readonly int openHour = 20;
@@ -87,8 +86,7 @@ public class HomePage : BasePage
 
         SaveDataManager.SaveData.horoscopeHistories[Key].isReadTodayHoroscope = true;
         SaveDataManager.Save();
-        // dokillは中断なので、中途半端なサイズで止まる
-        todayHoroscopesButton.transform.DOComplete(true);
+        todayHoroscopesButton.transform.DOKill(true);
     }
 
     void OnClickTomorrowHoroscopesButton()
@@ -105,8 +103,7 @@ public class HomePage : BasePage
 
         SaveDataManager.SaveData.horoscopeHistories[Key].isReadNextDayHoroscope = true;
         SaveDataManager.Save();
-        // dokillは中断なので、中途半端なサイズで止まる
-        tomorrowHoroscopesButton.transform.DOComplete(true);
+        tomorrowHoroscopesButton.transform.DOKill(true);
     }
 
     public override void Open()
@@ -122,7 +119,11 @@ public class HomePage : BasePage
             todayHoroscopesButton.transform
                 .DOPunchScale(Vector3.one * 0.1f, 2f, 3, 0.1f)
                 .SetEase(Ease.Linear)
-                .SetLoops(-1);
+                .SetLoops(-1)
+                .OnKill(() =>
+                {
+                    todayHoroscopesButton.transform.localScale = Vector3.one;
+                });
         }
 
         if (tomorrowHoroscopesButton.interactable && horoscopeHistory.isReadNextDayHoroscope == false)
@@ -130,7 +131,11 @@ public class HomePage : BasePage
             tomorrowHoroscopesButton.transform
                 .DOPunchScale(Vector3.one * 0.1f, 2f, 3, 0.1f)
                 .SetEase(Ease.Linear)
-                .SetLoops(-1);
+                .SetLoops(-1)
+                .OnKill(() =>
+                {
+                    todayHoroscopesButton.transform.localScale = Vector3.one;
+                });
         }
 
     }
