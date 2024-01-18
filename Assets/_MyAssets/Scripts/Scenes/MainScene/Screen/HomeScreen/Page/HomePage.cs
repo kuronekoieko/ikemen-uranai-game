@@ -9,6 +9,7 @@ using DG.Tweening;
 using Naninovel;
 using UnityEngine.EventSystems;
 using System.Drawing.Printing;
+using SaveDataObjects;
 
 public class HomePage : BasePage
 {
@@ -22,7 +23,8 @@ public class HomePage : BasePage
 
     readonly int openHour = 20;
     readonly int closeHour = 0;
-
+    HoroscopeHistory horoscopeHistory;
+    string Key => DateTime.Today.ToStringDate();
 
     public override void OnStart()
     {
@@ -76,40 +78,46 @@ public class HomePage : BasePage
         var constellation = SaveDataManager.SaveData.Constellation;
         ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation, DateTime.Today, SaveDataManager.SaveData.GetCurrentCharacter());
 
-        SaveDataManager.SaveData.isOpenedHoroscopeDic.TryGetValue(DateTime.Today.ToStringDate(), out bool isOpenedToday);
-        if (isOpenedToday == false)
+        if (horoscopeHistory == null) return;
+
+        if (horoscopeHistory.isReadTodayHoroscope == false)
         {
             SaveDataManager.SaveData.exp += 5;
         }
 
-        SaveDataManager.SaveData.isOpenedHoroscopeDic[DateTime.Today.ToStringDate()] = true;
+        SaveDataManager.SaveData.horoscopeHistories[Key].isReadTodayHoroscope = true;
         SaveDataManager.Save();
-        todayHoroscopesButton.transform.DOKill(true);
+        // dokillは中断なので、中途半端なサイズで止まる
+        todayHoroscopesButton.transform.DOComplete(true);
     }
 
     void OnClickTomorrowHoroscopesButton()
     {
         var constellation = SaveDataManager.SaveData.Constellation;
         ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation, DateTime.Today.AddDays(1), SaveDataManager.SaveData.GetCurrentCharacter());
-        SaveDataManager.SaveData.isOpenedHoroscopeDic.TryGetValue(DateTime.Today.AddDays(1).ToStringDate(), out bool isOpenedNextDay);
-        if (isOpenedNextDay == false)
+
+        if (horoscopeHistory == null) return;
+
+        if (horoscopeHistory.isReadNextDayHoroscope == false)
         {
             SaveDataManager.SaveData.exp += 5;
         }
 
-        SaveDataManager.SaveData.isOpenedHoroscopeDic[DateTime.Today.AddDays(1).ToStringDate()] = true;
+        SaveDataManager.SaveData.horoscopeHistories[Key].isReadNextDayHoroscope = true;
         SaveDataManager.Save();
-        tomorrowHoroscopesButton.transform.DOKill(true);
+        // dokillは中断なので、中途半端なサイズで止まる
+        tomorrowHoroscopesButton.transform.DOComplete(true);
     }
 
     public override void Open()
     {
         base.Open();
 
-        SaveDataManager.SaveData.isOpenedHoroscopeDic.TryGetValue(DateTime.Today.ToStringDate(), out bool isOpenedToday);
-        SaveDataManager.SaveData.isOpenedHoroscopeDic.TryGetValue(DateTime.Today.AddDays(1).ToStringDate(), out bool isOpenedNextDay);
+        SaveDataManager.SaveData.horoscopeHistories.TryGetValue(Key, out horoscopeHistory);
 
-        if (isOpenedToday == false)
+        if (horoscopeHistory == null) return;
+
+        if (horoscopeHistory.isReadTodayHoroscope == false)
         {
             todayHoroscopesButton.transform
                 .DOPunchScale(Vector3.one * 0.1f, 2f, 3, 0.1f)
@@ -117,7 +125,7 @@ public class HomePage : BasePage
                 .SetLoops(-1);
         }
 
-        if (tomorrowHoroscopesButton.interactable && isOpenedNextDay == false)
+        if (tomorrowHoroscopesButton.interactable && horoscopeHistory.isReadNextDayHoroscope == false)
         {
             tomorrowHoroscopesButton.transform
                 .DOPunchScale(Vector3.one * 0.1f, 2f, 3, 0.1f)
@@ -133,7 +141,6 @@ public class HomePage : BasePage
 
     void OnUpdate()
     {
-
         Show();
     }
 
