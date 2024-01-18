@@ -9,7 +9,6 @@ using Cysharp.Threading.Tasks;
 
 public class DebugScreen : BaseScreen
 {
-    [SerializeField] Button closeButton;
     [SerializeField] Button signInButton;
     [SerializeField] Button signOutButton;
     [SerializeField] Button deleteButton;
@@ -24,7 +23,6 @@ public class DebugScreen : BaseScreen
     public override void OnStart()
     {
         base.OnStart();
-        closeButton.onClick.AddListener(Close);
         signInButton.onClick.AddListener(async () =>
         {
             bool success = await FirebaseAuthenticationManager.Instance.ReauthenticateAsync(mailAddressMIF.Text, passwordMIF.Text);
