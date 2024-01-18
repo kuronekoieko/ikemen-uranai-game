@@ -21,12 +21,22 @@ public class SaveData
     public int jemCharging;
     public string birthDay;
     public int currentCharacterId = 1;
+    public Notification notification = new();
     // 配列は使わない。dicにする→データ更新のときに上書きされずに、要素が追加されるため
     // 初期値nullにするとセーブデータがnullで上書きされる
     // キーをintにすると、自動的に配列になってしまう
     // キーをstringにしても、0埋めしないと勝手に配列になる
     public Dictionary<string, Character> characters = new();
     public Dictionary<string, bool> isOpenedHoroscopeDic = new();
+
+    [Serializable]
+    [JsonObject]
+    public class Notification
+    {
+        public bool isOnTodayHoroscope = true;
+        public bool isOnNextDayHoroscope = true;
+        public bool isOnOthers = true;
+    }
 
 
     [JsonIgnore]
