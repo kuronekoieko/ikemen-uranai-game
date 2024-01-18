@@ -45,7 +45,7 @@ namespace MainScene
         async void CompleteInit()
         {
             var task0 = ScreenManager.Instance.Get<LoadingScreen>().ProgressTimer(1);
-            SetLocalPush();
+            ReturnLocalPushNotification.SetLocalPush();
 
             if (SaveDataManager.SaveData.BirthDayDT == null)
             {
@@ -68,50 +68,7 @@ namespace MainScene
             IsInitialized = true;
         }
 
-        void SetLocalPush()
-        {
-            //ログインしたらリセット
-            LocalPushNotification.AllClear();
-
-            Dictionary<int, string> messages = new()
-            {
-                {7,"アプリに戻ってきてね。イケボが待ってるよ！の文面1"},
-                {15,"アプリに戻ってきてね。イケボが待ってるよ！の文面2"},
-                {29,"アプリに戻ってきてね。イケボが待ってるよ！の文面3"},
-                {58,"アプリに戻ってきてね。イケボが待ってるよ！の文面4"},
-                {87,"アプリに戻ってきてね。イケボが待ってるよ！の文面5"},
-                {0,"アプリに戻ってきてね。イケボが待ってるよ！の文面の最後"},
-            };
-
-            foreach (var pair in messages)
-            {
-                string message = pair.Value;
-                int day = pair.Key;
-                if (day == 0) break;
-
-                LocalPushNotification.AddScheduleDays(
-                    Application.productName,
-                    message,
-                    1,
-                    day,
-                    "001"
-                );
-            }
-
-            for (int i = 1; i < 100; i++)
-            {
-                string message = messages[0];
-                int day = 87 + 29 * i;
-                LocalPushNotification.AddScheduleDays(
-                    Application.productName,
-                    message,
-                    1,
-                    day,
-                    "001"
-                );
-            }
-        }
-
+      
 
         async UniTask DownloadFilesAsync()
         {
