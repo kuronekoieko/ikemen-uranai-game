@@ -98,14 +98,18 @@ public static class LocalPushNotification
     {
         TimeSpan timeSpan = targetDateTime - DateTime.Now;
         int sec = (int)timeSpan.TotalSeconds;
-        AddSchedule(title, message, badgeCount, sec, cannelId);
+        AddScheduleSec(title, message, badgeCount, sec, cannelId);
+    }
+
+    public static void AddScheduleDays(string title, string message, int badgeCount, int elapsedDay, string cannelId)
+    {
+        int secPerDay = 60 * 60 * 24;
+        AddScheduleSec(title, message, badgeCount, secPerDay * elapsedDay, cannelId);
     }
 
 
-
-
     // プッシュ通知を登録します。    
-    public static void AddSchedule(string title, string message, int badgeCount, int elapsedTime, string cannelId)
+    public static void AddScheduleSec(string title, string message, int badgeCount, int elapsedTime, string cannelId)
     {
 #if UNITY_ANDROID && !UNITY_EDITOR
         SetAndroidNotification(title, message, badgeCount, elapsedTime, cannelId);
