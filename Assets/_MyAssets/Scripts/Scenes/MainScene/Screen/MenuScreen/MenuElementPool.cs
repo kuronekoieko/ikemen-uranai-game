@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class MenuElementPool : ObjectPooling<MenuElement>
 {
@@ -18,11 +17,4 @@ public class MenuElementPool : ObjectPooling<MenuElement>
             instance.Show(item);
         }
     }
-}
-
-
-public class MenuElementObj
-{
-    public string title;
-    public UnityAction onClick;
 }

@@ -17,20 +17,21 @@ public class MenuScreen : BaseScreen
     {
         base.OnStart();
         menuElementPool.OnStart();
-        var menuElementObjs = new MenuElementObj[] {
-            new() {title= "遊び方",onClick= OnClick_HowToPlay },
-            new() {title= "よくある質問",onClick= OnClick_QA },
-            new() {title= "公式Twitterをフォローする",onClick= OnClick_X },
-            new() {title= "アプリをレビューする",onClick= OnClick_AppReview },
-            new() {title= "サポートへ問い合わせ",onClick= OnClick_ContactUs },
-            new() {title= "通知の設定",onClick= OnClick_Notification },
-            new() {title= "位置情報の設定",onClick= OnClick_Location },
-            new() {title= "機種変更",onClick= OnClick_Account },
-            new() {title= "利用規約",onClick= OnClick_TermsOfUse },
-            new() {title= "プライバシーポリシー",onClick= OnClick_PrivacyPolicy },
-            new() {title= "特商・資金決済法の表記",onClick= OnClick_CFLR },
-        };
-        menuElementPool.Show(menuElementObjs);
+
+        var menuElementObjs = new List<MenuElementObj>();
+        menuElementObjs.Add(new() { title = "遊び方", onClick = OnClick_HowToPlay });
+        menuElementObjs.Add(new() { title = "よくある質問", onClick = OnClick_QA });
+        menuElementObjs.Add(new() { title = "公式Twitterをフォローする", onClick = OnClick_X });
+        menuElementObjs.Add(new() { title = "アプリをレビューする", onClick = OnClick_AppReview });
+        menuElementObjs.Add(new() { title = "サポートへ問い合わせ", onClick = OnClick_ContactUs });
+        menuElementObjs.Add(new() { title = "通知の設定", onClick = OnClick_Notification });
+        menuElementObjs.Add(new() { title = "位置情報の設定", onClick = OnClick_Location });
+        menuElementObjs.Add(new() { title = "機種変更", onClick = OnClick_Account });
+        menuElementObjs.Add(new() { title = "利用規約", onClick = OnClick_TermsOfUse });
+        menuElementObjs.Add(new() { title = "プライバシーポリシー", onClick = OnClick_PrivacyPolicy });
+        menuElementObjs.Add(new() { title = "特商・資金決済法の表記", onClick = OnClick_CFLR });
+
+        menuElementPool.Show(menuElementObjs.ToArray());
     }
 
     public override void Open()
