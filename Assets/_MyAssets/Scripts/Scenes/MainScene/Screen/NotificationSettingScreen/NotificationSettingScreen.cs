@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using log4net.DateFormatter;
 using UnityEngine;
 
 public class NotificationSettingScreen : BaseScreen
