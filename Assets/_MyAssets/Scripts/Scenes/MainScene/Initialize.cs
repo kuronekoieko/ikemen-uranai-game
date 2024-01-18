@@ -25,6 +25,7 @@ namespace MainScene
             await FirebaseAuthenticationManager.Instance.Initialize();
             FirebaseStorageManager.Instance.Initialize();
             FirebaseDatabaseManager.Instance.Initialize();
+            FirebaseCloudMessagingManager.Initialize();
 
             await CSVManager.Instance.InitializeAsync();
             await SaveDataInitializer.Initialize(
