@@ -21,6 +21,7 @@ public class NotificationSettingElement : ObjectPoolingElement
     {
         titleText.text = notificationSettingObj.title;
         onValueChanged = notificationSettingObj.onValueChanged;
+        toggle.isOn = notificationSettingObj.isOn;
     }
 
 
