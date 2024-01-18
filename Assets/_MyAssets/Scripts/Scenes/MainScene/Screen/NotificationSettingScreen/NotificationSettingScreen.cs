@@ -60,6 +60,14 @@ public class NotificationSettingScreen : BaseScreen
     {
         SaveDataManager.SaveData.notification.isOnOthers = isOn;
         SaveDataManager.Save();
+        if (isOn)
+        {
+            ReturnLocalPushNotification.SetLocalPush();
+        }
+        else
+        {
+            LocalPushNotification.AllClear();
+        }
     }
 
 }
