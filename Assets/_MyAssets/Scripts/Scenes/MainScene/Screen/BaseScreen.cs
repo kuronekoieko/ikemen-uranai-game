@@ -6,11 +6,14 @@ using UnityEngine.UI;
 public abstract class BaseScreen : MonoBehaviour
 {
     protected ScrollRect scrollRect;
+    [SerializeField] Button closeButton;
+
 
     public virtual void OnStart()
     {
         gameObject.SetActive(false);
         scrollRect = GetComponentInChildren<ScrollRect>();
+        if (closeButton) closeButton.onClick.AddListener(Close);
     }
 
     public virtual void Open()

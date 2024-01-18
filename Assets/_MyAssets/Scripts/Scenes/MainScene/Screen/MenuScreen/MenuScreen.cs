@@ -71,7 +71,7 @@ public class MenuScreen : BaseScreen
     }
     void OnClick_Notification()
     {
-
+        ScreenManager.Instance.Get<NotificationSettingScreen>().Open();
     }
     void OnClick_Location()
     {

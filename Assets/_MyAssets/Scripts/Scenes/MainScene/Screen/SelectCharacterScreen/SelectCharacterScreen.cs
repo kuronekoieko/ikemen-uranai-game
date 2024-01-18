@@ -9,7 +9,6 @@ using TMPro;
 
 public class SelectCharacterScreen : BaseScreen
 {
-    [SerializeField] Button closeButton;
     [SerializeField] SnapScrollView snapScrollView;
     [SerializeField] CharacterSelectPool characterSelectPool;
     [SerializeField] Button leftButton;
@@ -22,7 +21,6 @@ public class SelectCharacterScreen : BaseScreen
     public override void OnStart()
     {
         base.OnStart();
-        closeButton.onClick.AddListener(Close);
         characterSelectPool.OnStart();
         characterSelectPool.Show(CSVManager.Instance.Characters.OrderBy(character => character.id).ToArray());
 
