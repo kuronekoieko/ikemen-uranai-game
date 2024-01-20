@@ -21,6 +21,9 @@ public class HoroscopeScreen : BaseScreen
     [SerializeField] TextMeshProUGUI messageText;
     [SerializeField] TextMeshProUGUI luckyItemText;
     [SerializeField] TextMeshProUGUI luckyColorText;
+    [SerializeField] Image characterImage;
+    Sprite defaultCharacterSprite;
+
 
 
     [SerializeField] Button replayButton;
@@ -33,6 +36,7 @@ public class HoroscopeScreen : BaseScreen
         otherConstellationInfoButton.onClick.AddListener(OnClickOtherConstellationInfoButton);
         homeButton.onClick.AddListener(OnClickHomeButton);
         replayButton.onClick.AddListener(OnClickReplayButton);
+        defaultCharacterSprite = characterImage.sprite;
     }
 
     AudioClip audioClip;
@@ -68,6 +72,7 @@ public class HoroscopeScreen : BaseScreen
 
         ShowConstellation(constellation);
         ShowFortune(fortune, character);
+        ShowCharacter(character);
 
         if (audioClip != null)
         {
@@ -78,6 +83,8 @@ public class HoroscopeScreen : BaseScreen
             Debug.LogError("音声がありません");
         }
     }
+
+
 
     void ShowConstellation(Constellation constellation)
     {
@@ -122,6 +129,20 @@ public class HoroscopeScreen : BaseScreen
         if (string.IsNullOrEmpty(message) == false)
         {
             messageText.text = message;
+        }
+    }
+
+    async void ShowCharacter(SaveDataObjects.Character character)
+    {
+        string address = AssetBundleLoader.GetCharacterFullAddress(character.id);
+        Sprite sprite = await AssetBundleLoader.LoadAssetAsync<Sprite>(address);
+        if (sprite != null)
+        {
+            characterImage.sprite = sprite;
+        }
+        else
+        {
+            characterImage.sprite = defaultCharacterSprite;
         }
     }
 
