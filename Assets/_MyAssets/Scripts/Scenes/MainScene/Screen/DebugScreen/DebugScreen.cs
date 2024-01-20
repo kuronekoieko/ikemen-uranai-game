@@ -70,7 +70,7 @@ public class DebugScreen : BaseScreen
         //  var url = await FirebaseStorageManager.Instance.GetURI("Assets/iOS/packedassets_assets_all_eb5b8a0c34c9328a6f6b8f39cce08d62.bundle");
         //Debug.Log(url);       ;
         var localPath = "Assets/_MyAssets/Audio/";
-        var audioClip = await AssetBundleLoader.LoadAddressablesAsync<AudioClip>(localPath + test);
+        var audioClip = await AssetBundleLoader.LoadAssetAsync<AudioClip>(localPath + test);
         DebugUtils.LogJson(audioClip);
 
         AudioManager.Instance.PlayOneShot(audioClip);

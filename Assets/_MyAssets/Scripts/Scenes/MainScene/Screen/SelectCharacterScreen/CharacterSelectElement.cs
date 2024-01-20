@@ -22,7 +22,7 @@ public class CharacterSelectElement : ObjectPoolingElement
         descriptionText.text = character.description;
 
         string address = "Assets/_MyAssets/Images/Character/Full/" + character.id.ToString("D3") + ".png";
-        Sprite sprite = await AssetBundleLoader.LoadAddressablesAsync<Sprite>(address);
+        Sprite sprite = await AssetBundleLoader.LoadAssetAsync<Sprite>(address);
         if (sprite == null) return;
         characterImage.sprite = sprite;
     }

@@ -18,7 +18,7 @@ public class CreateFortunes
     {
         Debug.Log("計算開始");
 
-        // TextAsset a = await AssetBundleLoader.LoadAddressablesAsync<TextAsset>("Assets/_MyAssets/CSV/Fortunes/Fortunes.csv");
+        // TextAsset a = await AssetBundleLoader.LoadAssetAsync<TextAsset>("Assets/_MyAssets/CSV/Fortunes/Fortunes.csv");
         await CSVManager.Instance.InitializeAsync();
         var fortunes = CSVManager.Instance.Fortunes;
         var Constellations = CSVManager.Instance.Constellations;

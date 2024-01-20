@@ -5,13 +5,10 @@ using UnityEngine.Networking;
 using Cysharp.Threading.Tasks;
 using System;
 using UnityEngine.AddressableAssets;
-using System.Threading.Tasks;
-using System.Linq;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class AssetBundleLoader
 {
-    public static async UniTask<T> LoadAddressablesAsync<T>(string address) where T : UnityEngine.Object
+    public static async UniTask<T> LoadAssetAsync<T>(string address) where T : UnityEngine.Object
     {
         Addressables.WebRequestOverride = EditWebRequestURL;
         Debug.Log("ロード開始 " + address);
