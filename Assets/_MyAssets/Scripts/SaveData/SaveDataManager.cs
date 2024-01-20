@@ -15,7 +15,7 @@ public static class SaveDataManager
         //ユーザーデータオブジェクトからjson形式のstringを取得
         string jsonStr = JsonConvert.SerializeObject(SaveData, Formatting.Indented);
         // SavePlayerPrefs(jsonStr);
-        await FirebaseDatabaseManager.Instance.SendSaveData(SaveData);
+        await FirebaseDatabaseManager.SendSaveData(SaveData);
         Debug.Log(jsonStr);
     }
 
@@ -42,7 +42,7 @@ public static class SaveDataManager
         }
         */
 
-        _SaveData = await FirebaseDatabaseManager.Instance.GetUserData(_SaveData.firebaseUserId);
+        _SaveData = await FirebaseDatabaseManager.GetUserData(_SaveData.firebaseUserId);
 
         // _SaveData ??= defaultSaveData;
 
@@ -65,7 +65,7 @@ public static class SaveDataManager
                     JsonConvert.PopulateObject(jsonStr, _SaveData);
                 }
                 */
-        _SaveData = await FirebaseDatabaseManager.Instance.GetUserData(defaultSaveData.firebaseUserId);
+        _SaveData = await FirebaseDatabaseManager.GetUserData(defaultSaveData.firebaseUserId);
         _SaveData ??= defaultSaveData;
 
         //ユーザーデータ保存

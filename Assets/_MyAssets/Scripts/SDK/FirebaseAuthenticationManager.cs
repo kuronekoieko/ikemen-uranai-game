@@ -4,11 +4,11 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Firebase.Auth;
 
-public class FirebaseAuthenticationManager : Singleton<FirebaseAuthenticationManager>
+public static class FirebaseAuthenticationManager 
 {
-    public FirebaseUser User => FirebaseAuth.DefaultInstance.CurrentUser;
+    public static FirebaseUser User => FirebaseAuth.DefaultInstance.CurrentUser;
 
-    public async UniTask Initialize()
+    public static async UniTask Initialize()
     {
         if (User == null)
         {
@@ -17,7 +17,7 @@ public class FirebaseAuthenticationManager : Singleton<FirebaseAuthenticationMan
         }
     }
 
-    async UniTask SignInAnonymouslyAsync()
+    static async UniTask SignInAnonymouslyAsync()
     {
 
         try
@@ -34,12 +34,12 @@ public class FirebaseAuthenticationManager : Singleton<FirebaseAuthenticationMan
 
     }
 
-    public void SignOut()
+    public static void SignOut()
     {
         FirebaseAuth.DefaultInstance.SignOut();
     }
 
-    public async UniTask<bool> ReauthenticateAsync(string mailAddress, string password)
+    public static async UniTask<bool> ReauthenticateAsync(string mailAddress, string password)
     {
 
         // Get auth credentials from the user for re-authentication. The example below shows
@@ -70,7 +70,7 @@ public class FirebaseAuthenticationManager : Singleton<FirebaseAuthenticationMan
     }
 
 
-    public async UniTask DeleteAsync()
+    public static async UniTask DeleteAsync()
     {
         if (User == null) return;
 

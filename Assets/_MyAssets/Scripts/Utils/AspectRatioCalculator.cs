@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AspectRatioCalculator : Singleton<AspectRatioCalculator>
+public static class AspectRatioCalculator
 {
-
-    public Vector2Int GetAspectRatio(int w, int h)
+    public static Vector2Int GetAspectRatio(int w, int h)
     {
         int gcd = Gcd(w, h);
         Vector2Int aspectRatio = new Vector2Int();
@@ -20,7 +19,7 @@ public class AspectRatioCalculator : Singleton<AspectRatioCalculator>
     /// <param name="a"></param>
     /// <param name="b"></param>
     /// <returns></returns>
-    int Gcd(int a, int b)
+    static int Gcd(int a, int b)
     {
         if (a < b)
             // 引数を入替えて自分を呼び出す

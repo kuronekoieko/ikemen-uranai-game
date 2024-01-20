@@ -25,9 +25,9 @@ public class RankingElement : MonoBehaviour
 
     public void Show(Fortune fortune)
     {
-        constellation = CSVManager.Instance.Constellations.FirstOrDefault(constellation => constellation.id == fortune.constellation_id);
-        LuckyItem luckyItem = CSVManager.Instance.LuckyItems.FirstOrDefault(luckyItem => luckyItem.id == fortune.lucky_item_id);
-        LuckyColor luckyColor = CSVManager.Instance.LuckyColors.FirstOrDefault(luckyColor => luckyColor.id == fortune.lucky_color_id);
+        constellation = CSVManager.Constellations.FirstOrDefault(constellation => constellation.id == fortune.constellation_id);
+        LuckyItem luckyItem = CSVManager.LuckyItems.FirstOrDefault(luckyItem => luckyItem.id == fortune.lucky_item_id);
+        LuckyColor luckyColor = CSVManager.LuckyColors.FirstOrDefault(luckyColor => luckyColor.id == fortune.lucky_color_id);
         titleText.text = $"{fortune.rank}位 {constellation.name}";
         subtitleText.text = $"ラッキーアイテム {luckyItem.name}\nラッキーカラー {luckyColor.name}";
     }

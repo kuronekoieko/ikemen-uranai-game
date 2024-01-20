@@ -8,11 +8,11 @@ using SaveDataObjects;
 public static class SaveDataInitializer
 {
 
-    public static async UniTask Initialize(CSVManager cSVManager, string firebaseUserId)
+    public static async UniTask Initialize(DataBase.Character[] databaseCharacters, string firebaseUserId)
     {
         var defaultSaveData = new SaveData
         {
-            characters = CreateCharacters(cSVManager),
+            characters = CreateCharacters(databaseCharacters),
             firebaseUserId = firebaseUserId,
             userId = UserIdManager.DefaultUserId,
         };
@@ -41,11 +41,11 @@ public static class SaveDataInitializer
         SaveDataManager.Save();
     }
 
-    static Dictionary<string, Character> CreateCharacters(CSVManager cSVManager)
+    static Dictionary<string, Character> CreateCharacters(DataBase.Character[] databaseCharacters)
     {
         var saveDataCharacters = new Dictionary<string, Character>();
 
-        foreach (var dataBaseCharacter in cSVManager.Characters)
+        foreach (var dataBaseCharacter in databaseCharacters)
         {
             var newSaveDataCharacter = new Character()
             {

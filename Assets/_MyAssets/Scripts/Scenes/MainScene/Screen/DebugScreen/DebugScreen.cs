@@ -25,7 +25,7 @@ public class DebugScreen : BaseScreen
         base.OnStart();
         signInButton.onClick.AddListener(async () =>
         {
-            bool success = await FirebaseAuthenticationManager.Instance.ReauthenticateAsync(mailAddressMIF.Text, passwordMIF.Text);
+            bool success = await FirebaseAuthenticationManager.ReauthenticateAsync(mailAddressMIF.Text, passwordMIF.Text);
             if (success)
             {
                 signInResultText.text = "登録成功";
@@ -34,12 +34,12 @@ public class DebugScreen : BaseScreen
             {
                 signInResultText.text = "登録失敗";
             }
-            uidText.text = "uid: " + FirebaseAuthenticationManager.Instance.User.UserId;
+            uidText.text = "uid: " + FirebaseAuthenticationManager.User.UserId;
         });
 
         signOutButton.onClick.AddListener(() =>
         {
-            FirebaseAuthenticationManager.Instance.SignOut();
+            FirebaseAuthenticationManager.SignOut();
             uidText.text = "uid: ";
             mailAddressMIF.Text = "";
             passwordMIF.Text = "";
@@ -47,9 +47,9 @@ public class DebugScreen : BaseScreen
 
         deleteButton.onClick.AddListener(async () =>
         {
-            await FirebaseDatabaseManager.Instance.RemoveSaveData();
-            await FirebaseAuthenticationManager.Instance.DeleteAsync();
-            FirebaseAuthenticationManager.Instance.SignOut();
+            await FirebaseDatabaseManager.RemoveSaveData();
+            await FirebaseAuthenticationManager.DeleteAsync();
+            FirebaseAuthenticationManager.SignOut();
             uidText.text = "uid: ";
             mailAddressMIF.Text = "";
             passwordMIF.Text = "";
@@ -75,14 +75,14 @@ public class DebugScreen : BaseScreen
 
         AudioManager.Instance.PlayOneShot(audioClip);
 
-        if (FirebaseAuthenticationManager.Instance.User == null)
+        if (FirebaseAuthenticationManager.User == null)
         {
             uidText.text = "uid: ";
         }
         else
         {
-            uidText.text = "uid: " + FirebaseAuthenticationManager.Instance.User.UserId;
-            mailAddressMIF.Text = FirebaseAuthenticationManager.Instance.User.Email;
+            uidText.text = "uid: " + FirebaseAuthenticationManager.User.UserId;
+            mailAddressMIF.Text = FirebaseAuthenticationManager.User.Email;
             //passwordMIF.Text = FirebaseAuthenticationManager.Instance.User
         }
         signInResultText.text = "";

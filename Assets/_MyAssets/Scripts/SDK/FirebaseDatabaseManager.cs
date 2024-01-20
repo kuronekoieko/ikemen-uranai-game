@@ -11,36 +11,36 @@ using Newtonsoft.Json;
 
 
 
-public class FirebaseDatabaseManager : Singleton<FirebaseDatabaseManager>
+public static class FirebaseDatabaseManager 
 {
-    DatabaseReference reference;
+    static DatabaseReference reference;
 
-    public void Initialize()
+    public static void Initialize()
     {
         // Get the root reference location of the database.
         reference = FirebaseDatabase.DefaultInstance.RootReference;
     }
 
 
-    public async UniTask SendSaveData(SaveData saveData)
+    public static async UniTask SendSaveData(SaveData saveData)
     {
-        string userId = FirebaseAuthenticationManager.Instance.User.UserId;
+        string userId = FirebaseAuthenticationManager.User.UserId;
         // 空のidを送ると、サーバーのデータ全部消える
         if (string.IsNullOrEmpty(userId)) return;
         string json = JsonConvert.SerializeObject(saveData);
         await reference.Child("users").Child(userId).SetRawJsonValueAsync(json);
     }
 
-    public async UniTask RemoveSaveData()
+    public static async UniTask RemoveSaveData()
     {
-        string userId = FirebaseAuthenticationManager.Instance.User.UserId;
+        string userId = FirebaseAuthenticationManager.User.UserId;
         // 空のidを送ると、サーバーのデータ全部消える
         if (string.IsNullOrEmpty(userId)) return;
         await reference.Child("users").Child(userId).RemoveValueAsync();
     }
 
 
-    public async UniTask<SaveData> GetUserData(string userId)
+    public static async UniTask<SaveData> GetUserData(string userId)
     {
         DataSnapshot snapshot = await reference.Child("users").Child(userId).GetValueAsync();
         string json = snapshot.GetRawJsonValue();
@@ -59,7 +59,7 @@ public class FirebaseDatabaseManager : Singleton<FirebaseDatabaseManager>
         return saveData;
     }
 
-    public async Task<List<SaveData>> GetUsers()
+    public static async Task<List<SaveData>> GetUsers()
     {
         List<SaveData> saveDatas = new();
 
@@ -89,7 +89,7 @@ public class FirebaseDatabaseManager : Singleton<FirebaseDatabaseManager>
     }
 
 
-    public async Task<Dictionary<string, SaveData>> GetUsersDic()
+    public static async Task<Dictionary<string, SaveData>> GetUsersDic()
     {
         Dictionary<string, SaveData> saveDatas = new();
 
@@ -111,7 +111,7 @@ public class FirebaseDatabaseManager : Singleton<FirebaseDatabaseManager>
     }
 
 
-    void HandleValueChanged(object sender, ValueChangedEventArgs args)
+    static void HandleValueChanged(object sender, ValueChangedEventArgs args)
     {
         if (args.DatabaseError != null)
         {

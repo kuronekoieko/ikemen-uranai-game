@@ -35,7 +35,7 @@ public class LoadingScreen : BaseScreen
         uidText.text = "123456";
 
 
-        var hint = CSVManager.Instance.Hints.GetRandom();
+        var hint = CSVManager.Hints.GetRandom();
         if (hint == null) return;
 
         hintTitleText.text = hint.title;
