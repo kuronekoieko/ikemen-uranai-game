@@ -11,13 +11,13 @@ public class AssetBundleLoader
     public static async UniTask<T> LoadAssetAsync<T>(string address) where T : UnityEngine.Object
     {
         Addressables.WebRequestOverride = EditWebRequestURL;
-        Debug.Log("ロード開始 " + address);
+        // Debug.Log("ロード開始 " + address);
         T asset = null;
         bool exists = await ExistsAsync(address);
         if (exists)
         {
             asset = await Addressables.LoadAssetAsync<T>(address).Task;
-            Debug.Log("ロード終了 " + address);
+            // Debug.Log("ロード終了 " + address);
         }
         else
         {
@@ -35,6 +35,11 @@ public class AssetBundleLoader
             request.url = request.url + "?alt=media";
             //  Debug.Log("EditWebRequestURL " + request.url);
         }
+    }
+
+    public static string GetCharacterFullAddress(int characterId)
+    {
+        return "Assets/_MyAssets/Images/Character/Full/" + characterId.ToString("D3") + ".png";
     }
 
     public static string GetAudioFileName(SaveDataObjects.Character character, DataBase.Fortune fortune)
