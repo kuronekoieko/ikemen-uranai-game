@@ -47,6 +47,7 @@ public class HomePage : BasePage
             .Subscribe(async currentCharacterId =>
             {
                 await NaninovelInitializer.PlayHomeAsync(currentCharacterId);
+                OnScriptEnd();
             })
             .AddTo(this.gameObject);
     }
@@ -65,9 +66,7 @@ public class HomePage : BasePage
         // Debug.Log(scriptName);
         EndScriptCommand.OnScriptEnded += (currentScriptName) =>
         {
-            todayHoroscopesButton.gameObject.SetActive(true);
-            tomorrowHoroscopesButton.gameObject.SetActive(true);
-            conversationButton.gameObject.SetActive(true);
+            OnScriptEnd();
         };
 
         var a = Engine.GetService<TextPrinterManager>();
@@ -80,6 +79,14 @@ public class HomePage : BasePage
         tomorrowHoroscopesButton.gameObject.SetActive(false);
         conversationButton.gameObject.SetActive(false);
     }
+
+    void OnScriptEnd()
+    {
+        todayHoroscopesButton.gameObject.SetActive(true);
+        tomorrowHoroscopesButton.gameObject.SetActive(true);
+        conversationButton.gameObject.SetActive(true);
+    }
+
     void OnClickTodayHoroscopesButton()
     {
         var constellation = SaveDataManager.SaveData.Constellation;
