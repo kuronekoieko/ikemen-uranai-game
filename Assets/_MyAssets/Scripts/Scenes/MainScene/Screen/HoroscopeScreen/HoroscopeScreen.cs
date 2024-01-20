@@ -22,8 +22,9 @@ public class HoroscopeScreen : BaseScreen
     [SerializeField] TextMeshProUGUI luckyItemText;
     [SerializeField] TextMeshProUGUI luckyColorText;
     [SerializeField] Image characterImage;
+    [SerializeField] Image constellationImage;
     Sprite defaultCharacterSprite;
-
+    Sprite defaultConstellationSprite;
 
 
     [SerializeField] Button replayButton;
@@ -37,6 +38,7 @@ public class HoroscopeScreen : BaseScreen
         homeButton.onClick.AddListener(OnClickHomeButton);
         replayButton.onClick.AddListener(OnClickReplayButton);
         defaultCharacterSprite = characterImage.sprite;
+        defaultConstellationSprite = constellationImage.sprite;
     }
 
     AudioClip audioClip;
@@ -86,7 +88,7 @@ public class HoroscopeScreen : BaseScreen
 
 
 
-    void ShowConstellation(Constellation constellation)
+    async void ShowConstellation(Constellation constellation)
     {
         // iconImage.sprite=
         constellationNameText.text = "XXXX座/XXXX\n(XX/XX~XX/XX)";
@@ -100,6 +102,17 @@ public class HoroscopeScreen : BaseScreen
         string start = constellation.StartDT.Value.ToString("M/d");
         string end = constellation.EndDT.Value.ToString("M/d");
         constellationNameText.text = $"{name}/{latin_name}\n({start}~{end})";
+
+        string address = AssetBundleLoader.GetConstellationsFullAddress(constellation.id);
+        Sprite sprite = await AssetBundleLoader.LoadAssetAsync<Sprite>(address);
+        if (sprite != null)
+        {
+            constellationImage.sprite = sprite;
+        }
+        else
+        {
+            constellationImage.sprite = defaultConstellationSprite;
+        }
     }
 
     void ShowFortune(Fortune fortune, SaveDataObjects.Character character)

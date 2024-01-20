@@ -37,6 +37,17 @@ public class AssetBundleLoader
         }
     }
 
+    /// <summary>
+    /// 指定されたアドレスに紐づくアセットが存在する場合 true を返します
+    /// </summary>
+    static async UniTask<bool> ExistsAsync(object key)
+    {
+        var locations = await Addressables.LoadResourceLocationsAsync(key).Task;
+
+        return locations != null && locations.Count > 0;
+    }
+
+
     public static string GetCharacterFullAddress(int characterId)
     {
         return "Assets/_MyAssets/Images/Character/Full/" + characterId.ToString("D3") + ".png";
@@ -50,13 +61,8 @@ public class AssetBundleLoader
         return fileName;
     }
 
-    /// <summary>
-    /// 指定されたアドレスに紐づくアセットが存在する場合 true を返します
-    /// </summary>
-    static async UniTask<bool> ExistsAsync(object key)
+    public static string GetConstellationsFullAddress(string constellationsId)
     {
-        var locations = await Addressables.LoadResourceLocationsAsync(key).Task;
-
-        return locations != null && locations.Count > 0;
+        return "Assets/_MyAssets/Images/Constellations/" + constellationsId + ".png";
     }
 }
