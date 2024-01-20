@@ -6,10 +6,10 @@ using UnityEngine.UI;
 
 public class CharacterSelectElement : ObjectPoolingElement
 {
-    public TextMeshProUGUI nameText;
-    public TextMeshProUGUI cvText;
-    public TextMeshProUGUI descriptionText;
-    public Image characterImage;
+    [SerializeField] TextMeshProUGUI nameText;
+    [SerializeField] TextMeshProUGUI cvText;
+    [SerializeField] TextMeshProUGUI descriptionText;
+    [SerializeField] Image characterImage;
 
     public override void OnInstantiate()
     {
