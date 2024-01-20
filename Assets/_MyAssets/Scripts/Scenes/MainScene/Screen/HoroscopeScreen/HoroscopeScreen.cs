@@ -50,8 +50,6 @@ public class HoroscopeScreen : BaseScreen
         // TODO: 失敗したとき
         if (fortune == null) return;
 
-
-        // var task1 = FileDownloader.GetFortunes(dateTime);
         string fileName = AssetBundleLoader.GetAudioFileName(character, fortune);
 
         Debug.Log(fileName);
@@ -69,8 +67,7 @@ public class HoroscopeScreen : BaseScreen
 
 
         ShowConstellation(constellation);
-        ShowFortune(constellation, fortune, character);
-
+        ShowFortune(fortune, character);
 
         if (audioClip != null)
         {
@@ -98,14 +95,14 @@ public class HoroscopeScreen : BaseScreen
         constellationNameText.text = $"{name}/{latin_name}\n({start}~{end})";
     }
 
-    void ShowFortune(Constellation constellation, Fortune fortune, SaveDataObjects.Character character)
+    void ShowFortune(Fortune fortune, SaveDataObjects.Character character)
     {
         fortuneRankText.text = "XX" + "位";
         luckyItemText.text = "XXXX";
         luckyColorText.text = "XXXX";
         messageText.text = "XXXX";
 
-        if (constellation == null) return;
+        if (fortune == null) return;
 
         fortuneRankText.text = fortune.rank + "位";
 
@@ -121,18 +118,11 @@ public class HoroscopeScreen : BaseScreen
             luckyColorText.text = luckyColor.name.ToNonNull();
         }
 
-        var dataBaseCharacter = CSVManager.Instance.Characters.FirstOrDefault(c => c.id == SaveDataManager.SaveData.currentCharacterId);
-        if (dataBaseCharacter == null) return;
-
-        if (character == null) return;
-
-        var fortuneMessage = CSVManager.Instance.FortuneMessages
-            .Where(f => f.character_id == character.id)
-            .FirstOrDefault(f => f.rank == fortune.rank);
-
-        if (fortuneMessage == null) return;
-        // TODO: ロジック実装
-        messageText.text = fortuneMessage.messages.GetRandom();
+        var message = FortuneManager.GetFortuneMessage(character, fortune.rank);
+        if (string.IsNullOrEmpty(message) == false)
+        {
+            messageText.text = message;
+        }
     }
 
 

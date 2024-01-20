@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DataBase;
+using Sirenix.Utilities;
 using UnityEngine;
 
 public class FortuneManager
@@ -61,6 +62,30 @@ public class FortuneManager
         }
 
         return luckyColor;
+    }
+
+
+    public static string GetFortuneMessage(SaveDataObjects.Character saveDataCharacter, int rank)
+    {
+        int characterId = (saveDataCharacter != null) ? saveDataCharacter.id : 0;
+
+        var fortuneMessage = CSVManager.Instance.FortuneMessages
+            .Where(f => f.character_id == characterId)
+            .FirstOrDefault(f => f.rank == rank);
+
+        // idが存在しないときは、デフォルトキャラのメッセージ
+        // TODO: 仕様変わる可能性あり
+        if (fortuneMessage == null)
+        {
+            fortuneMessage = CSVManager.Instance.FortuneMessages
+                .FirstOrDefault(f => f.rank == rank);
+        }
+
+        if (fortuneMessage.messages.IsNullOrEmpty())
+        {
+            return null;
+        }
+        return fortuneMessage.messages.GetRandom();
     }
 
 }
