@@ -46,7 +46,7 @@ public class FortuneManager
         return luckyItem;
     }
 
-    public static LuckyColor GetLuckyColors(string lucky_item_id)
+    public static LuckyColor GetLuckyColor(string lucky_item_id)
     {
         LuckyColor luckyColor = CSVManager.Instance.LuckyColors.FirstOrDefault(luckyColor => luckyColor.id == lucky_item_id);
         var stuckLuckyColors = new List<LuckyColor>(CSVManager.Instance.LuckyColors);

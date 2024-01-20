@@ -115,7 +115,7 @@ public class HoroscopeScreen : BaseScreen
             luckyItemText.text = luckyItem.name;
         }
 
-        LuckyColor luckyColor = FortuneManager.GetLuckyColors(fortune.lucky_color_id);
+        LuckyColor luckyColor = FortuneManager.GetLuckyColor(fortune.lucky_color_id);
         if (luckyColor != null)
         {
             luckyColorText.text = luckyColor.name.ToNonNull();
