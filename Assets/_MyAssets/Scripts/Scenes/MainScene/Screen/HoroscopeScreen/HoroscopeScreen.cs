@@ -82,7 +82,7 @@ public class HoroscopeScreen : BaseScreen
     void ShowConstellation(Constellation constellation)
     {
         // iconImage.sprite=
-        constellationNameText.text = "XXXX座(XX/XX~XX/XX)";
+        constellationNameText.text = "XXXX座/XXXX\n(XX/XX~XX/XX)";
 
         if (constellation == null) return;
         if (constellation.StartDT == null) return;
