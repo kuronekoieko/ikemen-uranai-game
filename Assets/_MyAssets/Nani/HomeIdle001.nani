@@ -1,7 +1,8 @@
 
 @printer Home visible:false 
+@hideChars time:0
 
-@back forest
-@char 001.idle_03
+@back forest time:0
+@char 001.idle_03 time:0
 
 @stop
