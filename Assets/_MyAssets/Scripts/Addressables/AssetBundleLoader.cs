@@ -5,25 +5,17 @@ using UnityEngine.Networking;
 using Cysharp.Threading.Tasks;
 using System;
 using UnityEngine.AddressableAssets;
-using DataBase;
+using System.Threading.Tasks;
+using System.Linq;
 
 public class AssetBundleLoader
 {
-
     public static async UniTask<T> LoadAddressablesAsync<T>(string address) where T : UnityEngine.Object
     {
         Addressables.WebRequestOverride = EditWebRequestURL;
         Debug.Log("ロード開始 " + address);
-        T a = default;
-        try
-        {
-            await Addressables.LoadAssetAsync<T>(address).Task;
-        }
-        catch (Exception)
-        {
-            Debug.LogError("ロード失敗 " + address);
-        }
-        // Debug.Log("ロード終了");
+        T a = await Addressables.LoadAssetAsync<T>(address).Task;
+        Debug.Log("ロード終了 " + address);
         return a;
     }
 
@@ -38,7 +30,7 @@ public class AssetBundleLoader
         }
     }
 
-    public static string GetAudioFileName(SaveDataObjects.Character character, Fortune fortune)
+    public static string GetAudioFileName(SaveDataObjects.Character character, DataBase.Fortune fortune)
     {
         if (character == null) return "";
         // Voices/chara0001-rank04-msg14.wav

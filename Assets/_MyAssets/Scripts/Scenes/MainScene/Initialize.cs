@@ -39,8 +39,6 @@ namespace MainScene
             // ローディング画面を開いてから、スプラッシュを閉じる
             if (InitializeScene.Initialize.Instance) InitializeScene.Initialize.Instance.Close();
             CompleteInit();
-
-            await AssetBundleLoader.LoadAddressablesAsync<Texture2D>("Assets/_MyAssets/Images/Character/Full/002.png");
         }
 
 
