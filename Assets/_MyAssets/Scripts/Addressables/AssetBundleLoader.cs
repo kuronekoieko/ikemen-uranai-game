@@ -7,6 +7,7 @@ using System;
 using UnityEngine.AddressableAssets;
 using System.Threading.Tasks;
 using System.Linq;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class AssetBundleLoader
 {
@@ -14,9 +15,18 @@ public class AssetBundleLoader
     {
         Addressables.WebRequestOverride = EditWebRequestURL;
         Debug.Log("ロード開始 " + address);
-        T a = await Addressables.LoadAssetAsync<T>(address).Task;
-        Debug.Log("ロード終了 " + address);
-        return a;
+        T asset = null;
+        bool exists = await ExistsAsync(address);
+        if (exists)
+        {
+            asset = await Addressables.LoadAssetAsync<T>(address).Task;
+            Debug.Log("ロード終了 " + address);
+        }
+        else
+        {
+            Debug.LogWarning("ロード失敗 " + address);
+        }
+        return asset;
     }
 
     // https://gist.github.com/anmq0502/a229a048f27c91e775aeabf40517a1bd
@@ -36,5 +46,15 @@ public class AssetBundleLoader
         // Voices/chara0001-rank04-msg14.wav
         string fileName = "Voices/" + character.IdToKey() + "-rank" + fortune.rank.ToString("D3") + "-msg" + fortune.msg_id.ToString("D3") + ".wav";
         return fileName;
+    }
+
+    /// <summary>
+    /// 指定されたアドレスに紐づくアセットが存在する場合 true を返します
+    /// </summary>
+    static async UniTask<bool> ExistsAsync(object key)
+    {
+        var locations = await Addressables.LoadResourceLocationsAsync(key).Task;
+
+        return locations != null && locations.Count > 0;
     }
 }
