@@ -1,41 +1,77 @@
 {
   "project_info": {
-    "project_number": "191287597726",
-    "firebase_url": "https://ikevo-uranai-game-dev-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "ikevo-uranai-game-dev",
-    "storage_bucket": "ikevo-uranai-game-dev.appspot.com"
+    "project_number": "585716704007",
+    "firebase_url": "https://ikevo-uranai-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "ikevo-uranai",
+    "storage_bucket": "ikevo-uranai.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:191287597726:android:d79fc56fa740b12246398f",
+        "mobilesdk_app_id": "1:585716704007:android:74c3e2c7087b2229471ba2",
         "android_client_info": {
           "package_name": "com.ikemen.dev"
         }
       },
       "oauth_client": [
         {
-          "client_id": "191287597726-7dmirf2h1t9nf9hr43gq02a229c41liv.apps.googleusercontent.com",
+          "client_id": "585716704007-hqhn0ntg2ovl1ssodkgm33gh2tb90vrg.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCfvARfIQp-uQVQj67JB29N2vbJsq38p5Y"
+          "current_key": "AIzaSyCaG9F0jKHts5jwlXB2T8i3lMspCHy7Tak"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "191287597726-7dmirf2h1t9nf9hr43gq02a229c41liv.apps.googleusercontent.com",
+              "client_id": "585716704007-hqhn0ntg2ovl1ssodkgm33gh2tb90vrg.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "191287597726-0vu2o1oou9ff8a7v4r1o472sonoljsjo.apps.googleusercontent.com",
+              "client_id": "585716704007-p90p5mi02ffnn59dli57176h0hpt52ha.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.ikemen.dev"
+                "bundle_id": "com.ikevo.studio"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:585716704007:android:0ecb70de932da27c471ba2",
+        "android_client_info": {
+          "package_name": "com.ikevo.studio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "585716704007-hqhn0ntg2ovl1ssodkgm33gh2tb90vrg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaG9F0jKHts5jwlXB2T8i3lMspCHy7Tak"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "585716704007-hqhn0ntg2ovl1ssodkgm33gh2tb90vrg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "585716704007-p90p5mi02ffnn59dli57176h0hpt52ha.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ikevo.studio"
               }
             }
           ]
