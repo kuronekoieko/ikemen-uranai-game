@@ -72,7 +72,9 @@ public class MenuScreen : BaseScreen
     }
     async void OnClick_Location()
     {
-        await LocationService.Start();
+        bool succeeded = await LocationService.Start();
+        if (succeeded == false) OpenSettings.Open();
+
     }
     void OnClick_Account()
     {
