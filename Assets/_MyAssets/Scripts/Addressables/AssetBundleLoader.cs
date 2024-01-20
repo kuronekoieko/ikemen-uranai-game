@@ -8,7 +8,9 @@ using UnityEngine.AddressableAssets;
 
 public class AssetBundleLoader
 {
-    static readonly string addressHeader = "Assets/_MyAssets/AddressablesResources/";
+    static readonly string localAddressHeader = "Assets/_MyAssets/AddressablesResources/Local/";
+    static readonly string remoteAddressHeader = "Assets/_MyAssets/AddressablesResources/Remote/";
+
     public static async UniTask<T> LoadAssetAsync<T>(string address) where T : UnityEngine.Object
     {
         Addressables.WebRequestOverride = EditWebRequestURL;
@@ -49,7 +51,7 @@ public class AssetBundleLoader
 
     public static string GetCharacterFullAddress(int characterId)
     {
-        return addressHeader + "Character/Full/" + characterId.ToString("D3") + ".png";
+        return localAddressHeader + "Character/Full/" + characterId.ToString("D3") + ".png";
     }
 
     public static string GetAudioFileName(SaveDataObjects.Character character, DataBase.Fortune fortune)
@@ -57,11 +59,11 @@ public class AssetBundleLoader
         if (character == null) return "";
         // Voices/chara0001-rank04-msg14.wav
         string fileName = "Voices/" + character.IdToKey() + "-rank" + fortune.rank.ToString("D3") + "-msg" + fortune.msg_id.ToString("D3") + ".wav";
-        return addressHeader + fileName;
+        return remoteAddressHeader + fileName;
     }
 
     public static string GetConstellationsFullAddress(string constellationsId)
     {
-        return addressHeader + "Constellations/" + constellationsId + ".png";
+        return localAddressHeader + "Constellations/" + constellationsId + ".png";
     }
 }
