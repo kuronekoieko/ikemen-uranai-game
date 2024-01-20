@@ -23,7 +23,7 @@ public class HomePage : BasePage
     readonly int openHour = 20;
     readonly int closeHour = 0;
     HoroscopeHistory horoscopeHistory;
-    string Key => DateTime.Today.ToStringDate();
+    string Key => DateTime.Today.ToDateKey();
 
     public override void OnStart()
     {

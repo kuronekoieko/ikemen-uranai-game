@@ -27,7 +27,7 @@ public static class SaveDataInitializer
             saveData.userId = await UserIdManager.CreateNewUserId();
         }
 
-        string key = DateTime.Today.ToStringDate();
+        string key = DateTime.Today.ToDateKey();
         bool existHistory = saveData.horoscopeHistories.TryGetValue(key, out HoroscopeHistory horoscopeHistory);
         if (existHistory == false)
         {

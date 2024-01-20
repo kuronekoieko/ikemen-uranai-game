@@ -160,7 +160,7 @@ public class CreateFortunes
             {
                 Fortune fortune = new()
                 {
-                    date_time = dateTime.ToStringDate(),
+                    date_time = dateTime.ToDateKey(),
                     constellation_id = constellation.id,
                     rank = GetBeforeRank(beforeDailyFortunes, constellation.id),
                     lucky_item_id = "",

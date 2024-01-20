@@ -65,7 +65,7 @@ public static class Extensions
         }
     }
 
-    public static string ToStringDate(this DateTime self)
+    public static string ToDateKey(this DateTime self)
     {
         return self.ToString("yyyy-MM-dd");
     }

@@ -51,7 +51,7 @@ public class RankingScreen : BaseScreen
         titleText.text = DateTime.Now.ToString("M/d") + DateTime.Now.ToString("ddd") + " 今日の運勢ランキング";
 
         var dailyFortunes = CSVManager.Instance.Fortunes
-            .Where(fortune => fortune.date_time == DateTime.Today.ToStringDate())
+            .Where(fortune => fortune.date_time == DateTime.Today.ToDateKey())
             .OrderBy(fortune => fortune.rank)
             .ToArray();
 
