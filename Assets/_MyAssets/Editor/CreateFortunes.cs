@@ -19,9 +19,9 @@ public class CreateFortunes
         Debug.Log("計算開始");
 
         // TextAsset a = await AssetBundleLoader.LoadAssetAsync<TextAsset>("Assets/_MyAssets/CSV/Fortunes/Fortunes.csv");
-        await CSVManager.Instance.InitializeAsync();
-        var fortunes = CSVManager.Instance.Fortunes;
-        var Constellations = CSVManager.Instance.Constellations;
+        await CSVManager.InitializeAsync();
+        var fortunes = CSVManager.Fortunes;
+        var Constellations = CSVManager.Constellations;
 
         List<Test> tests = CreateTests(fortunes, Constellations);
 
@@ -136,10 +136,10 @@ public class CreateFortunes
     {
         Debug.Log("計算開始");
 
-        await CSVManager.Instance.InitializeAsync();
-        var Constellations = CSVManager.Instance.Constellations;
-        var LuckyItemsOrigin = CSVManager.Instance.LuckyItems;
-        var LuckyColorsOrigin = CSVManager.Instance.LuckyColors;
+        await CSVManager.InitializeAsync();
+        var Constellations = CSVManager.Constellations;
+        var LuckyItemsOrigin = CSVManager.LuckyItems;
+        var LuckyColorsOrigin = CSVManager.LuckyColors;
 
         var rankList = Enumerable.Range(1, 12).ToList();
         var msgNoList = Enumerable.Range(1, 20).ToList();

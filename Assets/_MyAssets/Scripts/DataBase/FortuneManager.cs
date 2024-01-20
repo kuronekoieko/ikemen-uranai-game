@@ -17,7 +17,7 @@ public class FortuneManager
         bool success = fortunesDic.TryGetValue(key, out Fortune fortune);
         if (success == false)
         {
-            fortune = CSVManager.Instance.Fortunes
+            fortune = CSVManager.Fortunes
                  .Where(f => f.date_time == dateTime.ToDateKey())
                  .FirstOrDefault(f => f.constellation_id == constellation_id);
         }
@@ -32,8 +32,8 @@ public class FortuneManager
 
     public static LuckyItem GetLuckyItem(string lucky_item_id)
     {
-        LuckyItem luckyItem = CSVManager.Instance.LuckyItems.FirstOrDefault(luckyItem => luckyItem.id == lucky_item_id);
-        var stuckLuckyItems = new List<LuckyItem>(CSVManager.Instance.LuckyItems);
+        LuckyItem luckyItem = CSVManager.LuckyItems.FirstOrDefault(luckyItem => luckyItem.id == lucky_item_id);
+        var stuckLuckyItems = new List<LuckyItem>(CSVManager.LuckyItems);
 
         while (luckyItem == null || string.IsNullOrEmpty(luckyItem.name))
         {
@@ -49,8 +49,8 @@ public class FortuneManager
 
     public static LuckyColor GetLuckyColor(string lucky_item_id)
     {
-        LuckyColor luckyColor = CSVManager.Instance.LuckyColors.FirstOrDefault(luckyColor => luckyColor.id == lucky_item_id);
-        var stuckLuckyColors = new List<LuckyColor>(CSVManager.Instance.LuckyColors);
+        LuckyColor luckyColor = CSVManager.LuckyColors.FirstOrDefault(luckyColor => luckyColor.id == lucky_item_id);
+        var stuckLuckyColors = new List<LuckyColor>(CSVManager.LuckyColors);
 
         while (luckyColor == null || string.IsNullOrEmpty(luckyColor.name))
         {
@@ -69,7 +69,7 @@ public class FortuneManager
     {
         int characterId = (saveDataCharacter != null) ? saveDataCharacter.id : 0;
 
-        var fortuneMessage = CSVManager.Instance.FortuneMessages
+        var fortuneMessage = CSVManager.FortuneMessages
             .Where(f => f.character_id == characterId)
             .FirstOrDefault(f => f.rank == rank);
 
@@ -77,7 +77,7 @@ public class FortuneManager
         // TODO: 仕様変わる可能性あり
         if (fortuneMessage == null)
         {
-            fortuneMessage = CSVManager.Instance.FortuneMessages
+            fortuneMessage = CSVManager.FortuneMessages
                 .FirstOrDefault(f => f.rank == rank);
         }
 

@@ -9,11 +9,11 @@ using System;
 using UnityEngine.Events;
 using Cysharp.Threading.Tasks;
 
-public class FirebaseStorageManager : Singleton<FirebaseStorageManager>
+public static class FirebaseStorageManager
 {
-    StorageReference storageRef;
+    static StorageReference storageRef;
 
-    public void Initialize()
+    public static void Initialize()
     {
         storageRef = FirebaseStorage.DefaultInstance.RootReference;
     }
@@ -52,7 +52,7 @@ public class FirebaseStorageManager : Singleton<FirebaseStorageManager>
             }
     */
 
-    public async void A()
+    public static async void A()
     {
         StorageReference storageReference = storageRef.Child("Voices/catalog_0.hash");
         var uri = await storageReference.GetDownloadUrlAsync();
@@ -60,7 +60,7 @@ public class FirebaseStorageManager : Singleton<FirebaseStorageManager>
 
     }
 
-    public async UniTask<string> GetURI(string path)
+    public static async UniTask<string> GetURI(string path)
     {
         Debug.Log("データベースアクセス開始 " + path);
         StorageReference storageReference = storageRef.Child(path);
@@ -79,7 +79,7 @@ public class FirebaseStorageManager : Singleton<FirebaseStorageManager>
         return "";
     }
 
-    public async UniTask<string> DownloadCsvFile(string url)
+    public static async UniTask<string> DownloadCsvFile(string url)
     {
         Debug.Log("csvダウンロード開始");
 
@@ -102,7 +102,7 @@ public class FirebaseStorageManager : Singleton<FirebaseStorageManager>
         }
     }
 
-    public async UniTask<DownloadedAudio> DownloadAudio(string url)
+    public static async UniTask<DownloadedAudio> DownloadAudio(string url)
     {
         if (string.IsNullOrEmpty(url)) return null;
 
@@ -142,7 +142,7 @@ public class FirebaseStorageManager : Singleton<FirebaseStorageManager>
         public byte[] data;
     }
 
-    private async Task<Sprite> LoadTexture(string uri)
+    private static async Task<Sprite> LoadTexture(string uri)
     {
         Sprite sprite = null;
         // Debug.Log("画像のダウンロード開始");

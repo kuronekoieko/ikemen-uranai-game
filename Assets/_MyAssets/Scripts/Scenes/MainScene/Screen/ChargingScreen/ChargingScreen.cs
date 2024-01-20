@@ -12,7 +12,7 @@ public class ChargingScreen : BaseScreen
     {
         base.OnStart();
         chargingPool.OnStart();
-        chargingPool.Show(CSVManager.Instance.ChargingProducts);
+        chargingPool.Show(CSVManager.ChargingProducts);
     }
 
     public override void Open()

@@ -95,7 +95,7 @@ public class HomeHeader : MonoBehaviour
 
     DataBase.LevelData GetCurrentLevelData_Player(int playerLevel)
     {
-        foreach (var levelData in CSVManager.Instance.PlayerLevelDatas)
+        foreach (var levelData in CSVManager.PlayerLevelDatas)
         {
             if (levelData.level == playerLevel) return levelData;
         }
@@ -105,7 +105,7 @@ public class HomeHeader : MonoBehaviour
     DataBase.LevelData GetCurrentLevelData_Character(SaveDataObjects.Character currentCharacter)
     {
         if (currentCharacter == null) return null;
-        foreach (var levelData in CSVManager.Instance.CharacterLevelDatas)
+        foreach (var levelData in CSVManager.CharacterLevelDatas)
         {
             if (levelData.level == currentCharacter.level) return levelData;
         }
@@ -114,7 +114,7 @@ public class HomeHeader : MonoBehaviour
 
     DataBase.Character GetCharacterData(int characterId)
     {
-        return CSVManager.Instance.Characters.FirstOrDefault(character => character.id == characterId);
+        return CSVManager.Characters.FirstOrDefault(character => character.id == characterId);
     }
 
     void OnClickChargingScreenButton()

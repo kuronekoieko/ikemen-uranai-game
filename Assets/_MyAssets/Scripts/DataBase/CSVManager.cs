@@ -7,22 +7,22 @@ using System.IO;
 using System.Linq;
 
 
-public class CSVManager : Singleton<CSVManager>
+public static class CSVManager
 {
     // 各オブジェクト内の変数名はcsvのキーと同じにする
-    public Character[] Characters { get; private set; }
-    public LevelData[] CharacterLevelDatas { get; private set; }
-    public LevelData[] PlayerLevelDatas { get; private set; }
-    public Constellation[] Constellations { get; private set; }
-    public Fortune[] Fortunes { get; private set; }
-    public Hint[] Hints { get; private set; }
-    public FortuneMessage[] FortuneMessages { get; private set; }
-    public LuckyItem[] LuckyItems { get; private set; }
-    public LuckyColor[] LuckyColors { get; private set; }
-    public ChargingProduct[] ChargingProducts { get; private set; }
+    public static Character[] Characters { get; private set; }
+    public static LevelData[] CharacterLevelDatas { get; private set; }
+    public static LevelData[] PlayerLevelDatas { get; private set; }
+    public static Constellation[] Constellations { get; private set; }
+    public static Fortune[] Fortunes { get; private set; }
+    public static Hint[] Hints { get; private set; }
+    public static FortuneMessage[] FortuneMessages { get; private set; }
+    public static LuckyItem[] LuckyItems { get; private set; }
+    public static LuckyColor[] LuckyColors { get; private set; }
+    public static ChargingProduct[] ChargingProducts { get; private set; }
 
 
-    public async UniTask InitializeAsync()
+    public static async UniTask InitializeAsync()
     {
         Characters = await DeserializeAsync<Character>("Characters");
         CharacterLevelDatas = await DeserializeAsync<LevelData>("CharacterLevel-Exp");
@@ -37,7 +37,7 @@ public class CSVManager : Singleton<CSVManager>
         FortuneMessages = ToObjects(fortuneMessageDics).ToArray();
     }
 
-    public async UniTask<T[]> DeserializeAsync<T>(string fileName)
+    public static async UniTask<T[]> DeserializeAsync<T>(string fileName)
     {
         // パスに拡張子つけない
         string path = "CSV/" + fileName;
@@ -52,7 +52,7 @@ public class CSVManager : Singleton<CSVManager>
 
 
 
-    async UniTask<List<Dictionary<string, string>>> DeserializeAsync_StringDics(string fileName)
+    static async UniTask<List<Dictionary<string, string>>> DeserializeAsync_StringDics(string fileName)
     {
         // パスに拡張子つけない
         string path = "CSV/" + fileName;
@@ -68,7 +68,7 @@ public class CSVManager : Singleton<CSVManager>
     }
 
 
-    FortuneMessage ToFortuneMessage(Dictionary<string, string> stringDic)
+    static FortuneMessage ToFortuneMessage(Dictionary<string, string> stringDic)
     {
         FortuneMessage instance = new();
         int.TryParse(stringDic["character_id"], out instance.character_id);
@@ -89,7 +89,7 @@ public class CSVManager : Singleton<CSVManager>
     }
 
 
-    List<FortuneMessage> ToObjects(List<Dictionary<string, string>> stringDics)
+    static List<FortuneMessage> ToObjects(List<Dictionary<string, string>> stringDics)
     {
         List<FortuneMessage> instances = new();
 
@@ -104,7 +104,7 @@ public class CSVManager : Singleton<CSVManager>
     }
 
 
-    List<Dictionary<string, string>> CSVToStringDics(List<string[]> stringLists)
+    static List<Dictionary<string, string>> CSVToStringDics(List<string[]> stringLists)
     {
         List<Dictionary<string, string>> datas = new();
         string[] keys = stringLists[0];
@@ -123,7 +123,7 @@ public class CSVManager : Singleton<CSVManager>
         return datas;
     }
 
-    List<string[]> CSVToStringLists(string csvText)
+    static List<string[]> CSVToStringLists(string csvText)
     {
         StringReader reader = new(csvText);
         List<string[]> csvDatas = new(); // CSVの中身を入れるリスト;

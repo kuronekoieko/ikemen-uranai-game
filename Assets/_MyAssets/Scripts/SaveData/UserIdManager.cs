@@ -20,7 +20,7 @@ public static class UserIdManager
 
     public static async UniTask<string> CreateNewUserId()
     {
-        var users = await FirebaseDatabaseManager.Instance.GetUsers();
+        var users = await FirebaseDatabaseManager.GetUsers();
         int maxUserNumber = users.Max(user => Parse(user.userId));
         int newUserIdInt = maxUserNumber + 1;
         return ToString(newUserIdInt);

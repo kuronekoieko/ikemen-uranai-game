@@ -59,7 +59,7 @@ public class SaveData
         // Debug.Log(birthDayDT);
         if (birthDayDT == null) return null;
 
-        var orderedConstellations = CSVManager.Instance.Constellations
+        var orderedConstellations = CSVManager.Constellations
             .OrderBy(c => (birthDayDT.Value - c.StartDT.Value).Days).ToArray();
 
         // startとendの間だと山羊座のときにnull

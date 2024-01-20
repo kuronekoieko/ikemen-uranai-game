@@ -12,15 +12,15 @@ public class HoroscopeScreenTest
     [Test]
     public async void ConsumePoints()
     {
-        await CSVManager.Instance.InitializeAsync();
+        await CSVManager.InitializeAsync();
 
-        List<DateTime> testDatas = CSVManager.Instance.Constellations.Select(c => c.StartDT.Value).ToList();
-        testDatas.AddRange(CSVManager.Instance.Constellations.Select(c => c.EndDT.Value).ToList());
+        List<DateTime> testDatas = CSVManager.Constellations.Select(c => c.StartDT.Value).ToList();
+        testDatas.AddRange(CSVManager.Constellations.Select(c => c.EndDT.Value).ToList());
 
         List<bool> results = new();
         SaveData saveData = new();
 
-        foreach (var testData in CSVManager.Instance.Constellations)
+        foreach (var testData in CSVManager.Constellations)
         {
             // Debug.Log("==================================");
             var constellation = saveData.GetConstellation(testData.StartDT);
