@@ -56,7 +56,7 @@ namespace MainScene
             else
             {
                 var task1 = DownloadFilesAsync();
-                var task2 = NaninovelInitializer.InitializeAsync();
+                var task2 = NaninovelInitializer.InitializeAsync(SaveDataManager.SaveData.currentCharacterId);
                 await UniTask.WhenAll(task0, task1, task2);
 
                 ScreenManager.Instance.Get<HomeScreen>().Open();
