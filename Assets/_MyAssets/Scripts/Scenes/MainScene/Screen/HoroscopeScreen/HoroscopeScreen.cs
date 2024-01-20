@@ -53,7 +53,7 @@ public class HoroscopeScreen : BaseScreen
         string fileName = AssetBundleLoader.GetAudioFileName(character, fortune);
 
         Debug.Log(fileName);
-        audioClip = await AssetBundleLoader.LoadAddressablesAsync<AudioClip>(fileName);
+        audioClip = await AssetBundleLoader.LoadAssetAsync<AudioClip>(fileName);
 
         // TODO: 失敗したとき
         // var (fortunes, audioClip) = await UniTask.WhenAll(task1, task2);
