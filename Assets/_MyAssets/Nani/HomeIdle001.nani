@@ -1,0 +1,7 @@
+
+@printer Home visible:false 
+
+@back forest
+@char 001.idle_03
+
+@stop

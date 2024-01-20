@@ -10,6 +10,7 @@ using Naninovel;
 using UnityEngine.EventSystems;
 using System.Drawing.Printing;
 using SaveDataObjects;
+using UniRx;
 
 public class HomePage : BasePage
 {
@@ -41,6 +42,13 @@ public class HomePage : BasePage
             ScreenManager.Instance.Get<DebugScreen>().Open();
         });
         debugButton.gameObject.SetActive(Debug.isDebugBuild);
+
+        this.ObserveEveryValueChanged(currentCharacterId => SaveDataManager.SaveData.currentCharacterId)
+            .Subscribe(async currentCharacterId =>
+            {
+                await NaninovelInitializer.PlayHomeAsync(currentCharacterId);
+            })
+            .AddTo(this.gameObject);
     }
 
     async void OnClickCharacter()
