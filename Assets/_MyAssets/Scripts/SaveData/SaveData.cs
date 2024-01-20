@@ -11,8 +11,7 @@ using System.Linq;
 [JsonObject]
 public class SaveData
 {
-    public int userNumber;
-    public string displayUserId;
+    public string userId;
     public string firebaseUserId;
     public string name;
     public int level = 1;
