@@ -18,6 +18,7 @@ public class CreateHomeTexts
 
         DateTime dateTime = DateTime.Now;
         var homeText = CSVManager.GetHomeText(dateTime);
+        Debug.Log(homeText.FileName);
 
     }
 
@@ -83,6 +84,9 @@ public class CreateHomeTexts
             sw.WriteLine("");
         }
 
+        sw.WriteLine("@printer Home visible:false");
+        sw.WriteLine("@endScript");
+        sw.WriteLine("@stop");
 
 
         AssetDatabase.Refresh();

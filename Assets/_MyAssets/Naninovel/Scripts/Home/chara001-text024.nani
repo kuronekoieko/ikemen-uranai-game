@@ -10,3 +10,6 @@ text_id=24の3行目
 
 text_id=24の4行目
 
+@printer Home visible:false
+@endScript
+@stop
