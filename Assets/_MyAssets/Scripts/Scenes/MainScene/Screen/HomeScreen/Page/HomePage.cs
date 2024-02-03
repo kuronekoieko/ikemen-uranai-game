@@ -46,7 +46,7 @@ public class HomePage : BasePage
         this.ObserveEveryValueChanged(currentCharacterId => SaveDataManager.SaveData.currentCharacterId)
             .Subscribe(async currentCharacterId =>
             {
-                await NaninovelInitializer.PlayHomeAsync(currentCharacterId);
+                await NaninovelManager.PlayHomeAsync(currentCharacterId);
                 OnScriptEnd();
             })
             .AddTo(this.gameObject);
@@ -69,7 +69,7 @@ public class HomePage : BasePage
             OnScriptEnd();
         };
 
-        await NaninovelInitializer.PlayAsync(scriptName);
+        await NaninovelManager.PlayAsync(scriptName);
 
         todayHoroscopesButton.gameObject.SetActive(false);
         tomorrowHoroscopesButton.gameObject.SetActive(false);
