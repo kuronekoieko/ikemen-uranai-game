@@ -13,6 +13,13 @@ namespace DataBase
         public int day_id;
         public string day_name;
         public int priority;
-        public string[] keys;
+        public bool is_sun;
+        public bool is_mon;
+        public bool is_tue;
+        public bool is_wed;
+        public bool is_thu;
+        public bool is_fri;
+        public bool is_sat;
+        public bool is_hol;
     }
 }
