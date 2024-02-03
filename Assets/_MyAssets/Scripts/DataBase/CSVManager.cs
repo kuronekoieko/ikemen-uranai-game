@@ -43,10 +43,18 @@ public static class CSVManager
         string path = "CSV/" + fileName;
         var result = await Resources.LoadAsync<TextAsset>(path);
         var textAsset = result as TextAsset;
-        if (textAsset == null) Debug.LogError("csv読み込みに失敗しました: " + path);
+        if (textAsset == null)
+        {
+            Debug.LogError("csv読み込みに失敗しました: " + path);
+            return null;
+        }
 
         var ary = CSVSerializer.Deserialize<T>(textAsset.text);
-        if (ary == null) Debug.LogError("csvデシリアライズに失敗しました: " + fileName);
+        if (ary == null)
+        {
+            Debug.LogError("csvデシリアライズに失敗しました: " + fileName);
+            return null;
+        }
         return ary;
     }
 

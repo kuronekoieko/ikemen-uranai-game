@@ -1,0 +1,12 @@
+@char chara002.idle001
+@voice Assets/_MyAssets/AddressablesResources/Remote/Voices/chara002-voice001.wav
+text_id=14の1行目
+
+@char chara002.idle002
+@voice Assets/_MyAssets/AddressablesResources/Remote/Voices/chara002-voice002.wav
+text_id=14の2行目
+
+text_id=14の3行目
+
+text_id=14の4行目
+
