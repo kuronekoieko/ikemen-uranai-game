@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using DataBase;
 using Cysharp.Threading.Tasks;
-using System;
-using Newtonsoft.Json;
 using UnityEditor;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 
 public class CreateHomeTexts
 {
@@ -52,8 +49,10 @@ public class CreateHomeTexts
     {
         Debug.Log("書き込み開始");
 
+
         string fileName = charaKey + "-" + textKey;
         string path = Application.dataPath + @"/_MyAssets/Nani/Home/" + fileName + ".nani";
+        // Debug.Log(path);
         using StreamWriter sw = File.CreateText(path);
 
         // 念のため並び替え
@@ -74,7 +73,6 @@ public class CreateHomeTexts
             sw.WriteLine(charaText.text);
             sw.WriteLine("");
         }
-
 
 
 

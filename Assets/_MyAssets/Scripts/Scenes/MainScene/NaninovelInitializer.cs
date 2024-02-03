@@ -19,8 +19,13 @@ public class NaninovelInitializer : MonoBehaviour
     public static async Cysharp.Threading.Tasks.UniTask PlayHomeAsync(int characterId)
     {
         string scriptName = "HomeIdle" + characterId.ToString("D3");
+        await PlayAsync(scriptName);
+    }
+
+    public static async Cysharp.Threading.Tasks.UniTask PlayAsync(string scriptName)
+    {
         var player = Engine.GetService<IScriptPlayer>();
         // ツールバー Naninovel -> Resources -> Scripts でスクリプト割当
-        await player.PreloadAndPlayAsync(scriptName);
+        await player.PreloadAndPlayAsync(scriptName + ".nani");
     }
 }
