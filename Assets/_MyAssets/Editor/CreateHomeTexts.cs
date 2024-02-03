@@ -16,7 +16,8 @@ public class CreateHomeTexts
         Debug.Log("計算開始");
         await CSVManager.InitializeAsync();
 
-        DateTime dateTime = DateTime.Now;
+        DateTime dateTime = "2024/12/24 21:00".ToDateTime();
+        Debug.Log(dateTime);
         var homeText = CSVManager.GetHomeText(dateTime);
         Debug.Log(homeText.FileName);
         DebugUtils.LogJson(homeText);

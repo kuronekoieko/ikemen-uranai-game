@@ -204,7 +204,12 @@ public static class CSVManager
             .Where(homeText =>
             {
                 if (homeText.time.priority == 0) return true;
-                return homeText.time.StartDT() <= dateTime && dateTime <= homeText.time.EndDT();
+                TimeSpan startTimeOfDay = homeText.time.StartTimeOfDay();
+                TimeSpan endTimeOfDay = homeText.time.EndTimeOfDay();
+
+                Debug.Log(startTimeOfDay + " - " + endTimeOfDay);
+
+                return startTimeOfDay <= dateTime.TimeOfDay && dateTime.TimeOfDay <= endTimeOfDay;
             })
             .GroupBy(homeText => homeText.Priority)
             .OrderByDescending(group => group.Key)

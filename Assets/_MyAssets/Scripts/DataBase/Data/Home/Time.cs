@@ -15,7 +15,15 @@ namespace DataBase
         public int priority;
         public string start;
         public string end;
-        public DateTime StartDT() => start.ToDateTime();
-        public DateTime EndDT() => end.ToDateTime();
+        public TimeSpan StartTimeOfDay() => start.ToDateTime().TimeOfDay;
+        public TimeSpan EndTimeOfDay()
+        {
+            TimeSpan endTimeOfDay = end.ToDateTime().TimeOfDay;
+            if (endTimeOfDay == TimeSpan.Zero)
+            {
+                endTimeOfDay = new TimeSpan(24, 0, 0);
+            }
+            return endTimeOfDay;
+        }
     }
 }
