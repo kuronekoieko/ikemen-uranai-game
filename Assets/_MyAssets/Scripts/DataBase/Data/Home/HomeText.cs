@@ -19,13 +19,7 @@ namespace DataBase
         public Date date = new();
         public Day day = new();
         public Time time = new();
-        public string GetFileName()
-        {
-            return "chara" + chara_id.ToString("D3") + "-text" + text_id.ToString("D3");
-        }
-        public int GetPriority()
-        {
-            return date.priority + day.priority + time.priority;
-        }
+        public string FileName => "chara" + chara_id.ToString("D3") + "-text" + text_id.ToString("D3");
+        public int Priority => date.priority + day.priority + time.priority;
     }
 }

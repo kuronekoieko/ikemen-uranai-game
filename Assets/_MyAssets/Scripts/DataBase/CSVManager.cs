@@ -21,9 +21,6 @@ public static class CSVManager
     public static LuckyColor[] LuckyColors { get; private set; }
     public static ChargingProduct[] ChargingProducts { get; private set; }
     public static HomeText[] HomeTexts { get; private set; }
-    public static Date[] Dates { get; private set; }
-    public static Day[] Days { get; private set; }
-    public static DataBase.Time[] Times { get; private set; }
 
     public static async UniTask InitializeAsync()
     {
@@ -44,9 +41,9 @@ public static class CSVManager
     static async UniTask InitHomeText()
     {
         HomeTexts = await DeserializeAsync<HomeText>("Home/HomeTexts");
-        Dates = await DeserializeAsync<Date>("Home/Dates");
-        Days = await DeserializeAsync<Day>("Home/Days");
-        Times = await DeserializeAsync<DataBase.Time>("Home/Times");
+        var Dates = await DeserializeAsync<Date>("Home/Dates");
+        var Days = await DeserializeAsync<Day>("Home/Days");
+        var Times = await DeserializeAsync<DataBase.Time>("Home/Times");
 
         foreach (var homeText in HomeTexts)
         {
@@ -56,17 +53,17 @@ public static class CSVManager
                 Debug.LogError($"id:{homeText.id} date が存在しません");
             }
             homeText.day = Days.FirstOrDefault(date => date.day_id == homeText.day_id);
-            if (homeText.date == null)
+            if (homeText.day == null)
             {
                 Debug.LogError($"id:{homeText.id} day が存在しません");
             }
             homeText.time = Times.FirstOrDefault(date => date.time_id == homeText.time_id);
-            if (homeText.date == null)
+            if (homeText.time == null)
             {
                 Debug.LogError($"id:{homeText.id} time が存在しません");
             }
 
-            // DebugUtils.LogJson(homeText);
+            //DebugUtils.LogJson(homeText);
         }
 
     }

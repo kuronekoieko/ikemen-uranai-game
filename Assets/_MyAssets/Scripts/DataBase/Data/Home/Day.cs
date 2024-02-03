@@ -13,6 +13,6 @@ namespace DataBase
         public int day_id;
         public string day_name;
         public int priority;
-        public string keys;
+        public string[] keys;
     }
 }
