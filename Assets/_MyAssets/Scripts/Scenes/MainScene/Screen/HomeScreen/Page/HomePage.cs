@@ -69,11 +69,7 @@ public class HomePage : BasePage
             OnScriptEnd();
         };
 
-        var a = Engine.GetService<TextPrinterManager>();
-
-        var player = Engine.GetService<IScriptPlayer>();
-        // ツールバー Naninovel -> Resources -> Scripts でスクリプト割当
-        await player.PreloadAndPlayAsync(scriptName);
+        await NaninovelInitializer.PlayAsync(scriptName);
 
         todayHoroscopesButton.gameObject.SetActive(false);
         tomorrowHoroscopesButton.gameObject.SetActive(false);

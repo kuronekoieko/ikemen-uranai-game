@@ -62,7 +62,7 @@ namespace MainScene
 
             ScreenManager.Instance.Get<LoadingScreen>().Close();
 
-
+            //await NaninovelInitializer.PlayAsync("Home/chara001-text001");
             IsInitialized = true;
         }
 
