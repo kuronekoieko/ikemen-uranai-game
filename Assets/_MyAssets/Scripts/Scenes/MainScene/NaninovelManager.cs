@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Naninovel;
 
-public class NaninovelInitializer : MonoBehaviour
+public class NaninovelManager : MonoBehaviour
 {
     public static async Cysharp.Threading.Tasks.UniTask InitializeAsync(int characterId)
     {
