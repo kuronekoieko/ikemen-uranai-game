@@ -14,5 +14,6 @@ namespace DataBase
         public string date_name;
         public int priority;
         public string date;
+        public DateTime DateDT() => date.ToDateTime();
     }
 }

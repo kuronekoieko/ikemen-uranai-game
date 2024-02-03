@@ -15,5 +15,7 @@ namespace DataBase
         public int priority;
         public string start;
         public string end;
+        public DateTime StartDT() => start.ToDateTime();
+        public DateTime EndDT() => end.ToDateTime();
     }
 }

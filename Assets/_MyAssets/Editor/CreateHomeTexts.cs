@@ -16,26 +16,7 @@ public class CreateHomeTexts
         Debug.Log("計算開始");
         await CSVManager.InitializeAsync();
 
-        foreach (var homeText in CSVManager.HomeTexts)
-        {
-            homeText.date = CSVManager.Dates.FirstOrDefault(date => date.date_id == homeText.date_id);
-            if (homeText.date == null)
-            {
-                Debug.LogError($"id:{homeText.id} date が存在しません");
-            }
-            homeText.day = CSVManager.Days.FirstOrDefault(date => date.day_id == homeText.day_id);
-            if (homeText.date == null)
-            {
-                Debug.LogError($"id:{homeText.id} day が存在しません");
-            }
-            homeText.time = CSVManager.Times.FirstOrDefault(date => date.time_id == homeText.time_id);
-            if (homeText.date == null)
-            {
-                Debug.LogError($"id:{homeText.id} time が存在しません");
-            }
-
-           // DebugUtils.LogJson(homeText);
-        }
+ 
 
 
     }
