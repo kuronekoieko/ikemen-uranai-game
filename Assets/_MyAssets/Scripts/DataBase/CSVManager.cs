@@ -193,7 +193,7 @@ public static class CSVManager
                 }
                 else
                 {
-                    return true;
+                    return false;
                 }
             })
             .Where(homeText =>
@@ -207,7 +207,7 @@ public static class CSVManager
                 return homeText.time.StartDT() <= dateTime && dateTime <= homeText.time.EndDT();
             })
             .GroupBy(homeText => homeText.Priority)
-            .OrderBy(group => group.Key)
+            .OrderByDescending(group => group.Key)
             .FirstOrDefault();
 
         if (group == null)

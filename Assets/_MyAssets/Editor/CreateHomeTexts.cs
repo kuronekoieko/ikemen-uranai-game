@@ -19,7 +19,7 @@ public class CreateHomeTexts
         DateTime dateTime = DateTime.Now;
         var homeText = CSVManager.GetHomeText(dateTime);
         Debug.Log(homeText.FileName);
-
+        DebugUtils.LogJson(homeText);
     }
 
 
