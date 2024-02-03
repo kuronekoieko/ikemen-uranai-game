@@ -10,11 +10,22 @@ namespace DataBase
     [JsonObject]
     public class HomeText
     {
-        public string id;
-        public string chara_id;
-        public string date_id;
-        public string day_id;
-        public string time_id;
-        public string text_id;
+        public int id;
+        public int chara_id;
+        public int date_id;
+        public int day_id;
+        public int time_id;
+        public int text_id;
+        public Date date = new();
+        public Day day = new();
+        public Time time = new();
+        public string GetFileName()
+        {
+            return "chara" + chara_id.ToString("D3") + "-text" + text_id.ToString("D3");
+        }
+        public int GetPriority()
+        {
+            return date.priority + day.priority + time.priority;
+        }
     }
 }

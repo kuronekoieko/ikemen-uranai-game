@@ -6,24 +6,45 @@ using Cysharp.Threading.Tasks;
 using UnityEditor;
 using System.IO;
 using System.Linq;
+using Unity.VisualScripting;
 
 public class CreateHomeTexts
 {
+    [MenuItem("MyTool/Home Text/Test")]
+    static async void Test()
+    {
+        Debug.Log("計算開始");
+        await CSVManager.InitializeAsync();
 
-    static HomeText[] HomeTexts;
-    static Date[] Dates;
-    static Day[] Days;
-    static DataBase.Time[] Times;
+        foreach (var homeText in CSVManager.HomeTexts)
+        {
+            homeText.date = CSVManager.Dates.FirstOrDefault(date => date.date_id == homeText.date_id);
+            if (homeText.date == null)
+            {
+                Debug.LogError($"id:{homeText.id} date が存在しません");
+            }
+            homeText.day = CSVManager.Days.FirstOrDefault(date => date.day_id == homeText.day_id);
+            if (homeText.date == null)
+            {
+                Debug.LogError($"id:{homeText.id} day が存在しません");
+            }
+            homeText.time = CSVManager.Times.FirstOrDefault(date => date.time_id == homeText.time_id);
+            if (homeText.date == null)
+            {
+                Debug.LogError($"id:{homeText.id} time が存在しません");
+            }
+
+           // DebugUtils.LogJson(homeText);
+        }
+
+
+    }
+
 
     [MenuItem("MyTool/Home Text/Create Nani")]
     static async void CreateNani()
     {
         Debug.Log("計算開始");
-
-        // HomeTexts = await CSVManager.DeserializeAsync<HomeText>("Home/HomeTexts");
-        // Dates = await CSVManager.DeserializeAsync<Date>("Home/Dates");
-        // Days = await CSVManager.DeserializeAsync<Day>("Home/Days");
-        // Times = await CSVManager.DeserializeAsync<DataBase.Time>("Home/Times");
         int chara_id = 0;
 
         while (true)
