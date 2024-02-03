@@ -56,10 +56,19 @@ public class CreateHomeTexts
         string path = Application.dataPath + @"/_MyAssets/Nani/Home/" + fileName + ".nani";
         using StreamWriter sw = File.CreateText(path);
 
+        // 念のため並び替え
+        list.OrderBy(charaText => charaText.line);
+
         foreach (var charaText in list)
         {
-            sw.WriteLine("@char " + charaKey + "." + charaText.animation_id);
-            sw.WriteLine("@voice " + charaText.voice_id);
+            if (!charaText.animation_id.Contains("-") && !string.IsNullOrEmpty(charaText.animation_id))
+            {
+                sw.WriteLine("@char " + charaKey + "." + charaText.animation_id);
+            }
+            if (!charaText.voice_id.Contains("-") && !string.IsNullOrEmpty(charaText.voice_id))
+            {
+                sw.WriteLine("@voice " + charaText.voice_id);
+            }
             sw.WriteLine(charaText.text);
             sw.WriteLine("");
         }

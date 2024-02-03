@@ -12,7 +12,7 @@ namespace DataBase
     public class CharaText
     {
         public int text_id;
-        public string line;
+        public int line;
         public string text;
         public string animation_id;
         public string voice_id;
