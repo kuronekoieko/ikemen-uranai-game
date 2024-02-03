@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using DataBase;
 using System.IO;
 using System.Linq;
+using System;
 
 
 public static class CSVManager
@@ -20,7 +21,7 @@ public static class CSVManager
     public static LuckyItem[] LuckyItems { get; private set; }
     public static LuckyColor[] LuckyColors { get; private set; }
     public static ChargingProduct[] ChargingProducts { get; private set; }
-    public static HomeText[] HomeTexts { get; private set; }
+    static HomeText[] HomeTexts;
 
     public static async UniTask InitializeAsync()
     {
@@ -175,6 +176,54 @@ public static class CSVManager
             csvDatas.Add(line.Split(',')); // , 区切りでリストに追加
         }
         return csvDatas;
+    }
+
+    public static HomeText GetHomeText(DateTime dateTime)
+    {
+
+        bool isHoliday = false;
+
+        var group = HomeTexts
+            .Where(homeText =>
+            {
+                if (homeText.date.priority == 0) return true;
+                if (DateTime.TryParse(homeText.date.date, out DateTime dateDT))
+                {
+                    return dateDT == dateTime.Date;
+                }
+                else
+                {
+                    return true;
+                }
+            })
+            .Where(homeText =>
+            {
+                if (homeText.day.priority == 0) return true;
+                return homeText.day.IsIncludeDay(dateTime.DayOfWeek);
+            })
+            .Where(homeText =>
+            {
+                if (homeText.time.priority == 0) return true;
+                return homeText.time.StartDT() <= dateTime && dateTime <= homeText.time.EndDT();
+            })
+            .GroupBy(homeText => homeText.Priority)
+            .OrderBy(group => group.Key)
+            .FirstOrDefault();
+
+        if (group == null)
+        {
+            Debug.LogError("ホーム会話がみつかりません");
+            return null;
+        }
+
+        foreach (var homeText in group.ToArray())
+        {
+            // DebugUtils.LogJson(homeText);
+            // Debug.Log(homeText.date.date_name + " " + homeText.day.day_name + " " + homeText.time.time_name + " " + homeText.Priority);
+        }
+        //var randomHomeText = group.ToArray().GetRandom();
+
+        return group.ToArray().GetRandom();
     }
 }
 
