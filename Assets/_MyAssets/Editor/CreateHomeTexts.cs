@@ -49,9 +49,8 @@ public class CreateHomeTexts
     {
         Debug.Log("書き込み開始");
 
-
         string fileName = charaKey + "-" + textKey;
-        string path = Application.dataPath + @"/_MyAssets/Nani/Home/" + fileName + ".nani";
+        string path = Application.dataPath + @"/_MyAssets/Naninovel/Scripts/Home/" + fileName + ".nani";
         // Debug.Log(path);
         using StreamWriter sw = File.CreateText(path);
 
