@@ -3,6 +3,6 @@
 @hideChars time:0
 
 @back forest time:0
-@char 003.idle_03 time:0 pos:50,-60
+@char cahra003.idle003 time:0 pos:50,-60
 
 @stop
