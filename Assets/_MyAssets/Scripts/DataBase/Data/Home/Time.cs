@@ -18,12 +18,18 @@ namespace DataBase
         public TimeSpan StartTimeOfDay() => start.ToDateTime().TimeOfDay;
         public TimeSpan EndTimeOfDay()
         {
-            TimeSpan endTimeOfDay = end.ToDateTime().TimeOfDay;
-            if (endTimeOfDay == TimeSpan.Zero)
+            if (TimeSpan.TryParse(end, out TimeSpan timeSpan))
             {
-                endTimeOfDay = new TimeSpan(24, 0, 0);
+                // Debug.Log(end + " aaaaaaaaaaaaa " + timeSpan);
+                return timeSpan;
             }
-            return endTimeOfDay;
+            else
+            {
+                // Debug.Log(end + " bbbbbbbbbb " + timeSpan);
+                // 24時がパースできないので、ここで24時に変換する
+                // その他の理由でパースできない場合も、endなので最大値で設定
+                return new TimeSpan(24, 0, 0);
+            }
         }
     }
 }

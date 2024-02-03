@@ -207,7 +207,7 @@ public static class CSVManager
                 TimeSpan startTimeOfDay = homeText.time.StartTimeOfDay();
                 TimeSpan endTimeOfDay = homeText.time.EndTimeOfDay();
 
-                Debug.Log(startTimeOfDay + " - " + endTimeOfDay);
+                // Debug.Log(startTimeOfDay + " - " + endTimeOfDay);
 
                 return startTimeOfDay <= dateTime.TimeOfDay && dateTime.TimeOfDay <= endTimeOfDay;
             })
