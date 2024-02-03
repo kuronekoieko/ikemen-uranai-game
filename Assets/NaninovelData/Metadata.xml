@@ -8,7 +8,11 @@
       &lt;Actor&gt;
         &lt;Id&gt;haru&lt;/Id&gt;
         &lt;Type&gt;Characters&lt;/Type&gt;
-        &lt;Appearances /&gt;
+        &lt;Appearances&gt;
+          &lt;string&gt;idle_01&lt;/string&gt;
+          &lt;string&gt;idle_02&lt;/string&gt;
+          &lt;string&gt;idle_03&lt;/string&gt;
+        &lt;/Appearances&gt;
         &lt;Description /&gt;
       &lt;/Actor&gt;
       &lt;Actor&gt;
@@ -20,7 +24,11 @@
       &lt;Actor&gt;
         &lt;Id&gt;chitose&lt;/Id&gt;
         &lt;Type&gt;Characters&lt;/Type&gt;
-        &lt;Appearances /&gt;
+        &lt;Appearances&gt;
+          &lt;string&gt;idle_01&lt;/string&gt;
+          &lt;string&gt;idle_02&lt;/string&gt;
+          &lt;string&gt;idle_03&lt;/string&gt;
+        &lt;/Appearances&gt;
         &lt;Description /&gt;
       &lt;/Actor&gt;
       &lt;Actor&gt;

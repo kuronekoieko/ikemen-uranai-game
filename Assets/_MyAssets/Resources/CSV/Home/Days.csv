@@ -1,0 +1,6 @@
+day_id,day_name,priority,keys
+1,毎日,0,all
+2,月,10,mon
+3,火―木,10,"tue,wed,thu"
+4,金,10,fri
+5,土日祝日,20,"sat,sun"
