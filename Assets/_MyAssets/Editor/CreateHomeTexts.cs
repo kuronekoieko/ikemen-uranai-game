@@ -7,6 +7,7 @@ using UnityEditor;
 using System.IO;
 using System.Linq;
 using Unity.VisualScripting;
+using System;
 
 public class CreateHomeTexts
 {
@@ -16,10 +17,51 @@ public class CreateHomeTexts
         Debug.Log("計算開始");
         await CSVManager.InitializeAsync();
 
- 
+        DateTime dateTime = DateTime.Now;
+        bool isHoliday = false;
+
+        var homeTexts = CSVManager.HomeTexts
+            .Where(homeText =>
+            {
+                if (homeText.date.priority == 0) return true;
+                if (DateTime.TryParse(homeText.date.date, out DateTime dateDT))
+                {
+                    return dateDT == dateTime.Date;
+                }
+                else
+                {
+                    return true;
+                }
+            })
+            .Where(homeText =>
+            {
+                if (homeText.day.priority == 0) return true;
+                return homeText.day.IsIncludeDay(dateTime.DayOfWeek);
+            })
+            .Where(homeText =>
+            {
+                if (homeText.time.priority == 0) return true;
+                return homeText.time.StartDT() <= dateTime && dateTime <= homeText.time.EndDT();
+            });
+
+        var group = homeTexts.GroupBy(homeText => homeText.Priority)
+            .OrderBy(group => group.Key)
+            .FirstOrDefault();
+        if (group == null)
+        {
+            Debug.LogError("ホーム会話がみつかりません");
+            return;
+        }
+
+        foreach (var homeText in group.ToArray())
+        {
+            // DebugUtils.LogJson(homeText);
+            Debug.Log(homeText.date.date_name + " " + homeText.day.day_name + " " + homeText.time.time_name + " " + homeText.Priority);
+        }
 
 
     }
+
 
 
     [MenuItem("MyTool/Home Text/Create Nani")]

@@ -11,6 +11,8 @@ using UnityEngine.EventSystems;
 using System.Drawing.Printing;
 using SaveDataObjects;
 using UniRx;
+using DataBase;
+using System.Linq;
 
 public class HomePage : BasePage
 {
@@ -55,21 +57,18 @@ public class HomePage : BasePage
     async void OnClickCharacter()
     {
         Debug.Log("キャラクリック");
-        string[] scriptNames = new string[]
-        {
-            "HomeTest",
-            "HomeTest 1",
-            "HomeTest 2",
-        };
 
-        var scriptName = scriptNames.GetRandom();
+        var homeText = GetHomeText();
+
+        if (homeText == null) return;
+
         // Debug.Log(scriptName);
         EndScriptCommand.OnScriptEnded += (currentScriptName) =>
         {
             OnScriptEnd();
         };
 
-        await NaninovelManager.PlayAsync(scriptName);
+        await NaninovelManager.PlayAsync("Home/" + homeText.FileName);
 
         todayHoroscopesButton.gameObject.SetActive(false);
         tomorrowHoroscopesButton.gameObject.SetActive(false);
@@ -182,5 +181,54 @@ public class HomePage : BasePage
     {
         bool isOpenTomorrowHoroscope = openHour <= now.Hour || now.Hour < closeHour;
         return isOpenTomorrowHoroscope;
+    }
+
+    HomeText GetHomeText()
+    {
+
+        DateTime dateTime = DateTime.Now;
+        bool isHoliday = false;
+
+        var homeTexts = CSVManager.HomeTexts
+            .Where(homeText =>
+            {
+                if (homeText.date.priority == 0) return true;
+                if (DateTime.TryParse(homeText.date.date, out DateTime dateDT))
+                {
+                    return dateDT == dateTime.Date;
+                }
+                else
+                {
+                    return true;
+                }
+            })
+            .Where(homeText =>
+            {
+                if (homeText.day.priority == 0) return true;
+                return homeText.day.IsIncludeDay(dateTime.DayOfWeek);
+            })
+            .Where(homeText =>
+            {
+                if (homeText.time.priority == 0) return true;
+                return homeText.time.StartDT() <= dateTime && dateTime <= homeText.time.EndDT();
+            });
+
+        var group = homeTexts.GroupBy(homeText => homeText.Priority)
+            .OrderBy(group => group.Key)
+            .FirstOrDefault();
+        if (group == null)
+        {
+            Debug.LogError("ホーム会話がみつかりません");
+            return null;
+        }
+
+        foreach (var homeText in group.ToArray())
+        {
+            // DebugUtils.LogJson(homeText);
+            // Debug.Log(homeText.date.date_name + " " + homeText.day.day_name + " " + homeText.time.time_name + " " + homeText.Priority);
+        }
+        //var randomHomeText = group.ToArray().GetRandom();
+
+        return group.ToArray().GetRandom();
     }
 }

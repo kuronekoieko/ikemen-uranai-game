@@ -21,5 +21,21 @@ namespace DataBase
         public bool is_fri;
         public bool is_sat;
         public bool is_hol;
+
+
+        public bool IsIncludeDay(DayOfWeek dayOfWeek)
+        {
+            return dayOfWeek switch
+            {
+                DayOfWeek.Sunday => is_sun,
+                DayOfWeek.Monday => is_mon,
+                DayOfWeek.Tuesday => is_tue,
+                DayOfWeek.Wednesday => is_wed,
+                DayOfWeek.Thursday => is_thu,
+                DayOfWeek.Friday => is_fri,
+                DayOfWeek.Saturday => is_sat,
+                _ => false,
+            };
+        }
     }
 }

@@ -63,7 +63,7 @@ public static class CSVManager
                 Debug.LogError($"id:{homeText.id} time が存在しません");
             }
 
-            DebugUtils.LogJson(homeText);
+            //DebugUtils.LogJson(homeText);
         }
 
     }
