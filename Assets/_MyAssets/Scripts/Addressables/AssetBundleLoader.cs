@@ -62,6 +62,13 @@ public class AssetBundleLoader
         return remoteAddressHeader + fileName;
     }
 
+    public static string GetShortVoiceAddress(string charaKey, string voiceId)
+    {
+        // Voices/chara001-voice002.wav
+        string fileName = "Voices/" + charaKey + "-" + voiceId + ".wav";
+        return remoteAddressHeader + fileName;
+    }
+
     public static string GetConstellationsFullAddress(string constellationsId)
     {
         return localAddressHeader + "Constellations/" + constellationsId + ".png";
