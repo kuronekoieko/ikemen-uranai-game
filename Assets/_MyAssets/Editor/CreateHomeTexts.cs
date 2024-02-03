@@ -24,24 +24,31 @@ public class CreateHomeTexts
         // Dates = await CSVManager.DeserializeAsync<Date>("Home/Dates");
         // Days = await CSVManager.DeserializeAsync<Day>("Home/Days");
         // Times = await CSVManager.DeserializeAsync<DataBase.Time>("Home/Times");
-        int chara_id = 1;
-        string charaKey = "chara" + chara_id.ToString("D3");
-        var charaTexts = await CSVManager.DeserializeAsync<CharaText>("Home/" + charaKey);
+        int chara_id = 0;
 
-
-        var groups = charaTexts.GroupBy(charaText => charaText.text_id);
-
-        foreach (var group in groups)
+        while (true)
         {
-            var list = group.ToList();
-            var charaText = list[0];
-            string textKey = "text" + charaText.text_id.ToString("D3");
-            await SaveToNani(charaKey, textKey, list);
+            chara_id += 1;
+            string charaKey = "chara" + chara_id.ToString("D3");
+            var charaTexts = await CSVManager.DeserializeAsync<CharaText>("Home/" + charaKey);
+            if (charaTexts == null) break;
+
+            var groups = charaTexts.GroupBy(charaText => charaText.text_id);
+
+            foreach (var group in groups)
+            {
+                var list = group.ToList();
+                var charaText = list[0];
+                string textKey = "text" + charaText.text_id.ToString("D3");
+                await SaveToNani(charaKey, textKey, list);
+            }
         }
 
 
 
 
+
+        Debug.Log("終了");
 
     }
 
