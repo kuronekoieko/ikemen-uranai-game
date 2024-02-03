@@ -57,8 +57,9 @@ public class HomePage : BasePage
     async void OnClickCharacter()
     {
         Debug.Log("キャラクリック");
+        DateTime dateTime = DateTime.Now;
 
-        var homeText = GetHomeText();
+        var homeText = CSVManager.GetHomeText(dateTime);
 
         if (homeText == null) return;
 
@@ -183,52 +184,5 @@ public class HomePage : BasePage
         return isOpenTomorrowHoroscope;
     }
 
-    HomeText GetHomeText()
-    {
 
-        DateTime dateTime = DateTime.Now;
-        bool isHoliday = false;
-
-        var homeTexts = CSVManager.HomeTexts
-            .Where(homeText =>
-            {
-                if (homeText.date.priority == 0) return true;
-                if (DateTime.TryParse(homeText.date.date, out DateTime dateDT))
-                {
-                    return dateDT == dateTime.Date;
-                }
-                else
-                {
-                    return true;
-                }
-            })
-            .Where(homeText =>
-            {
-                if (homeText.day.priority == 0) return true;
-                return homeText.day.IsIncludeDay(dateTime.DayOfWeek);
-            })
-            .Where(homeText =>
-            {
-                if (homeText.time.priority == 0) return true;
-                return homeText.time.StartDT() <= dateTime && dateTime <= homeText.time.EndDT();
-            });
-
-        var group = homeTexts.GroupBy(homeText => homeText.Priority)
-            .OrderBy(group => group.Key)
-            .FirstOrDefault();
-        if (group == null)
-        {
-            Debug.LogError("ホーム会話がみつかりません");
-            return null;
-        }
-
-        foreach (var homeText in group.ToArray())
-        {
-            // DebugUtils.LogJson(homeText);
-            // Debug.Log(homeText.date.date_name + " " + homeText.day.day_name + " " + homeText.time.time_name + " " + homeText.Priority);
-        }
-        //var randomHomeText = group.ToArray().GetRandom();
-
-        return group.ToArray().GetRandom();
-    }
 }
