@@ -10,9 +10,9 @@ namespace DataBase
     [JsonObject]
     public class Day
     {
-        public string day_id;
+        public int day_id;
         public string day_name;
-        public string priority;
+        public int priority;
         public string keys;
     }
 }

@@ -10,9 +10,9 @@ namespace DataBase
     [JsonObject]
     public class Time
     {
-        public string time_id;
+        public int time_id;
         public string time_name;
-        public string priority;
+        public int priority;
         public string start;
         public string end;
     }

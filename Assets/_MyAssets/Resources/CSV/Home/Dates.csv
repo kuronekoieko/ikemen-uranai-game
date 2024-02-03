@@ -1,4 +1,4 @@
-day_id,date_name,priority,date
+date_id,date_name,priority,date
 1,通常日,0,-
 2,祝日,100,
 3,ゴールデンウィーク,200,

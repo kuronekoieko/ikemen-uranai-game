@@ -20,7 +20,10 @@ public static class CSVManager
     public static LuckyItem[] LuckyItems { get; private set; }
     public static LuckyColor[] LuckyColors { get; private set; }
     public static ChargingProduct[] ChargingProducts { get; private set; }
-
+    public static HomeText[] HomeTexts { get; private set; }
+    public static Date[] Dates { get; private set; }
+    public static Day[] Days { get; private set; }
+    public static DataBase.Time[] Times { get; private set; }
 
     public static async UniTask InitializeAsync()
     {
@@ -35,6 +38,37 @@ public static class CSVManager
         ChargingProducts = await DeserializeAsync<ChargingProduct>("ChargingProducts");
         var fortuneMessageDics = await DeserializeAsync_StringDics("FortuneMessages");
         FortuneMessages = ToObjects(fortuneMessageDics).ToArray();
+        await InitHomeText();
+    }
+
+    static async UniTask InitHomeText()
+    {
+        HomeTexts = await DeserializeAsync<HomeText>("Home/HomeTexts");
+        Dates = await DeserializeAsync<Date>("Home/Dates");
+        Days = await DeserializeAsync<Day>("Home/Days");
+        Times = await DeserializeAsync<DataBase.Time>("Home/Times");
+
+        foreach (var homeText in HomeTexts)
+        {
+            homeText.date = Dates.FirstOrDefault(date => date.date_id == homeText.date_id);
+            if (homeText.date == null)
+            {
+                Debug.LogError($"id:{homeText.id} date が存在しません");
+            }
+            homeText.day = Days.FirstOrDefault(date => date.day_id == homeText.day_id);
+            if (homeText.date == null)
+            {
+                Debug.LogError($"id:{homeText.id} day が存在しません");
+            }
+            homeText.time = Times.FirstOrDefault(date => date.time_id == homeText.time_id);
+            if (homeText.date == null)
+            {
+                Debug.LogError($"id:{homeText.id} time が存在しません");
+            }
+
+            // DebugUtils.LogJson(homeText);
+        }
+
     }
 
     public static async UniTask<T[]> DeserializeAsync<T>(string fileName)
