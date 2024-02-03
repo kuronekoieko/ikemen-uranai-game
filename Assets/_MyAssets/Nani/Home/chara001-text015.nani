@@ -1,0 +1,16 @@
+@char chara001.idle001
+@voice voice001
+text_id=15の1行目
+
+@char chara001.idle002
+@voice voice002
+text_id=15の2行目
+
+@char chara001.-
+@voice -
+text_id=15の3行目
+
+@char chara001.-
+@voice -
+text_id=15の4行目
+
