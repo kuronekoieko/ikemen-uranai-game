@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if !UNITY_EDITOR && UNITY_IOS
+using System.Runtime.InteropServices;
+#endif
 
 public static class OpenSettings 
 {
