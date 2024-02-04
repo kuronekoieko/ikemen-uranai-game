@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Naninovel;
 using UnityEngine;
 
-[CommandAlias("startScript")] // このエイリアス名でスクリプトからコマンドを呼び出す(@endScript)
+[CommandAlias("startScript")] // このエイリアス名でスクリプトからコマンドを呼び出す()
 public class StartScriptCommand : Command
 {
     public static event Action<string> OnScriptStarted;

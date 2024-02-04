@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using Naninovel;
 using UnityEngine;
 
-[CommandAlias("endScript")] // このエイリアス名でスクリプトからコマンドを呼び出す(@endScript)
+[CommandAlias("endScript")] // このエイリアス名でスクリプトからコマンドを呼び出す()
 public class EndScriptCommand : Command
 {
-    public static event Action<string> OnScriptEnded;
+    public static Action<string> OnScriptEnded;
     //static bool isRunningNaniNovelScript;
 
     public override UniTask ExecuteAsync(AsyncToken asyncToken = default)

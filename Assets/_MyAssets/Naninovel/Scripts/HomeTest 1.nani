@@ -4,6 +4,5 @@
 けけけけけけけけけけけけけけけけけけ
 ここここここここここここここここここ
 
-@printer Home visible:false 
-@endScript
+@printer Home visible:false
 @stop

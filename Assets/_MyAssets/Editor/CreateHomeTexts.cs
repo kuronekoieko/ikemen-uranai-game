@@ -123,7 +123,7 @@ public class CreateHomeTexts
         }
 
         sw.WriteLine("@printer Home visible:false");
-        sw.WriteLine("@endScript");
+        //sw.WriteLine("");
         sw.WriteLine("@stop");
 
 
