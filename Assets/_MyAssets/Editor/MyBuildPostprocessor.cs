@@ -22,7 +22,7 @@ public class MyBuildPostprocessor : IPreprocessBuildWithReport
     public async void OnPreprocessBuild(BuildReport report)
     {
         Debug.Log("OnPreprocessBuild");
-        OnPreprocessBuild_Android(report);
+        // OnPreprocessBuild_Android(report);
         // 1フレーム待たないと、次のログが出ない
         await UniTask.DelayFrame(1);
         Debug.Log(EditorUserBuildSettings.development);
@@ -35,7 +35,7 @@ public class MyBuildPostprocessor : IPreprocessBuildWithReport
     {
         Debug.Log("OnPostProcessBuild buildTarget : " + buildTarget);
         OnPostProcessBuild_IOS(buildTarget, path);
-        OnPostProcessBuild_Android(buildTarget, path);
+        //  OnPostProcessBuild_Android(buildTarget, path);
         // 実機に反映されるので危険
         // FirebaseConfigManager.CreateFiles(false);
     }
@@ -143,10 +143,10 @@ public class MyBuildPostprocessor : IPreprocessBuildWithReport
         if (EditorUserBuildSettings.development)
         {
             //日付とか
-            //string dateName = DateTime.Today.ToString("MMdd");
+            string dateName = DateTime.Today.ToString("MMdd");
 
             //アプリ名
-            // plist.root.SetString("CFBundleDisplayName", $"{dateName}_{Application.productName}");
+             plist.root.SetString("CFBundleDisplayName", $"{dateName}_{Application.productName}");
 
             //bundleId
             // pbxProject.SetBuildProperty(target, "PRODUCT_BUNDLE_IDENTIFIER", Application.identifier + ".dev");
