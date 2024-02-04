@@ -22,7 +22,6 @@ public class CreateHomeTexts
         foreach (var item in holidays)
         {
             Debug.Log(item);
-
         }
     }
 
@@ -31,10 +30,14 @@ public class CreateHomeTexts
     {
         Debug.Log("計算開始");
         await CSVManager.InitializeAsync();
+        await FirebaseRemoteConfigManager.InitializeAsync();
 
-        DateTime dateTime = "2024/12/24 21:00".ToDateTime();
+        DateTime dateTime = "2024/1/8 21:00".ToDateTime();
         Debug.Log(dateTime);
-        var homeText = CSVManager.GetHomeText(dateTime);
+
+        var holidays = await GoogleCalendarAPI.GetHolidaysAsync(dateTime.Year);
+        var homeText = HomeTextManager.GetHomeText(dateTime, holidays, CSVManager.HomeTexts);
+
         Debug.Log(homeText.FileName);
         DebugUtils.LogJson(homeText);
     }

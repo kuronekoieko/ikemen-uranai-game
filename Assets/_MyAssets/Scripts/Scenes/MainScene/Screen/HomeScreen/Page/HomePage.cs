@@ -59,7 +59,9 @@ public class HomePage : BasePage
         Debug.Log("キャラクリック");
         DateTime dateTime = DateTime.Now;
 
-        var homeText = CSVManager.GetHomeText(dateTime);
+        // TODO: キャッシュ
+        var holidays = await GoogleCalendarAPI.GetHolidaysAsync(DateTime.Now.Year);
+        var homeText = HomeTextManager.GetHomeText(dateTime, holidays, CSVManager.HomeTexts);
 
         if (homeText == null) return;
 
