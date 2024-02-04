@@ -1,10 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Calendar.v3;
-using Google.Apis.Services;
-using Google.Apis.Util.Store;
 using Newtonsoft.Json.Linq;
 using System;
 using Cysharp.Threading.Tasks;
@@ -14,8 +10,20 @@ using System.Linq;
 
 public class GoogleCalendarAPI
 {
+    static readonly Dictionary<int, HashSet<DateTime>> holidaysDic = new();
+
     public static async UniTask<HashSet<DateTime>> GetHolidaysAsync(int year)
     {
+        bool exists = holidaysDic.TryGetValue(year, out HashSet<DateTime> holidays);
+        if (exists) return holidays;
+        holidays = await RequestHolidaysAsync(year);
+        holidaysDic.Add(year, holidays);
+        return holidays;
+    }
+
+    static async UniTask<HashSet<DateTime>> RequestHolidaysAsync(int year)
+    {
+        Debug.Log("googleカレンダー アクセス開始");
         var key = await FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.google_calender_api_key);
         var holidaysId = "japanese__ja@holiday.calendar.google.com";
         var startDate = new DateTime(year, 1, 1).ToString("yyyy-MM-dd") + "T00%3A00%3A00.000Z";
@@ -33,6 +41,8 @@ public class GoogleCalendarAPI
             DateTime.TryParse(i["start"]["date"].ToString(), out DateTime dateTime);
             return dateTime;
         });
+        Debug.Log("googleカレンダー アクセス終了");
+
         return new HashSet<DateTime>(days);
     }
 }
