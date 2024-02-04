@@ -100,3 +100,6 @@ GoogleService-Info.plist.meta
 
 # addressableのビルドファイルは不要
 ServerData/
+
+# firebaseのキャッシュファイル
+remote_config_data
