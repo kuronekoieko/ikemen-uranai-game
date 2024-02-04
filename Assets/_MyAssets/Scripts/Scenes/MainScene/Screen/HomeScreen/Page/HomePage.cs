@@ -8,7 +8,6 @@ using MainScene;
 using DG.Tweening;
 using Naninovel;
 using UnityEngine.EventSystems;
-using System.Drawing.Printing;
 using SaveDataObjects;
 using UniRx;
 using DataBase;
