@@ -23,6 +23,24 @@ public class CreateHomeTexts
         {
             Debug.Log(item);
         }
+        Debug.Log("--------------------");
+        
+        holidays = await GoogleCalendarAPI.GetHolidaysAsync(2024);
+
+        foreach (var item in holidays)
+        {
+            Debug.Log(item);
+        }
+
+        Debug.Log("--------------------");
+
+
+        holidays = await GoogleCalendarAPI.GetHolidaysAsync(2025);
+
+        foreach (var item in holidays)
+        {
+            Debug.Log(item);
+        }
     }
 
     [MenuItem("MyTool/Home Text/Test")]

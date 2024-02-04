@@ -38,7 +38,13 @@ public class HomePage : BasePage
         {
             ScreenManager.Instance.Get<SelectCharacterScreen>().Open();
         });
-        conversationButton.onClick.AddListener(OnClickCharacter);
+        conversationButton.onClick.AddListener(async () =>
+        {
+            // 連打対策
+            conversationButton.interactable = false;
+            await OnClickCharacter();
+            conversationButton.interactable = true;
+        });
         debugButton.onClick.AddListener(() =>
         {
             ScreenManager.Instance.Get<DebugScreen>().Open();
@@ -54,12 +60,11 @@ public class HomePage : BasePage
             .AddTo(this.gameObject);
     }
 
-    async void OnClickCharacter()
+    async UniTask OnClickCharacter()
     {
         Debug.Log("キャラクリック");
         DateTime dateTime = DateTime.Now;
 
-        // TODO: キャッシュ
         var holidays = await GoogleCalendarAPI.GetHolidaysAsync(DateTime.Now.Year);
         var homeText = HomeTextManager.GetHomeText(dateTime, holidays, CSVManager.HomeTexts);
 

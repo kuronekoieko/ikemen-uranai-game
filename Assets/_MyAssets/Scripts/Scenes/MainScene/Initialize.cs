@@ -27,6 +27,7 @@ namespace MainScene
             FirebaseDatabaseManager.Initialize();
             FirebaseCloudMessagingManager.Initialize();
             FirebaseRemoteConfigManager.InitializeAsync().Forget();
+            GoogleCalendarAPI.GetHolidaysAsync(DateTime.Now.Year).Forget();
 
             await CSVManager.InitializeAsync();
             await SaveDataInitializer.Initialize(CSVManager.Characters, FirebaseAuthenticationManager.User.UserId);
