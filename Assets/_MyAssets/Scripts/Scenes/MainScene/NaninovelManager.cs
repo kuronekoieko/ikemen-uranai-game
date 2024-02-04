@@ -5,14 +5,18 @@ using Naninovel;
 
 public class NaninovelManager
 {
+    static bool IsInitialized = false;
+
     public static async Cysharp.Threading.Tasks.UniTask InitializeAsync(int characterId)
     {
-        Debug.Log("Naninovel読み込み開始");
+        Debug.Log("Naninovel 初期化開始");
+        IsInitialized = false;
         // https://naninovel.com/ja/guide/integration-options#%E6%89%8B%E5%8B%95%E5%88%9D%E6%9C%9F%E5%8C%96
         await RuntimeInitializer.InitializeAsync();
-        await PlayHomeAsync(characterId);
+        IsInitialized = true;
+        Debug.Log("Naninovel 初期化終了");
 
-        Debug.Log("Naninovel読み込み終了");
+        await PlayHomeAsync(characterId);
     }
 
     public static async Cysharp.Threading.Tasks.UniTask PlayHomeAsync(int characterId)
@@ -23,7 +27,10 @@ public class NaninovelManager
 
     public static async Cysharp.Threading.Tasks.UniTask PlayAsync(string scriptName)
     {
-        Debug.Log(scriptName + ".nani");
+        //await UniTask.WaitUntil(() => IsInitialized).Timeout(new TimeSpan(0, 0, 10));
+        if (IsInitialized == false) return;
+
+        Debug.Log("Naninovel " + scriptName + ".nani");
         var player = Engine.GetService<IScriptPlayer>();
         // ツールバー Naninovel -> Resources -> Scripts でスクリプト割当
         await player.PreloadAndPlayAsync(scriptName + ".nani");
