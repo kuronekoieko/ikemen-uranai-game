@@ -17,6 +17,7 @@ public class GoogleCalendarAPI
         bool exists = holidaysDic.TryGetValue(year, out HashSet<DateTime> holidays);
         if (exists) return holidays;
         holidays = await RequestHolidaysAsync(year);
+        if (holidays == null) return null;
         if (!holidaysDic.ContainsKey(year))
         {
             holidaysDic.Add(year, holidays);
@@ -28,6 +29,11 @@ public class GoogleCalendarAPI
     {
         Debug.Log("googleカレンダー アクセス開始");
         var key = await FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.google_calender_api_key);
+        if (string.IsNullOrEmpty(key))
+        {
+            Debug.LogError("GoogleCalendarAPI key: " + key);
+            return null;
+        }
         var holidaysId = "japanese__ja@holiday.calendar.google.com";
         var startDate = new DateTime(year, 1, 1).ToString("yyyy-MM-dd") + "T00%3A00%3A00.000Z";
         var endDate = new DateTime(year, 12, 31).ToString("yyyy-MM-dd") + "T00%3A00%3A00.000Z";
@@ -35,8 +41,18 @@ public class GoogleCalendarAPI
 
         var url = $"https://www.googleapis.com/calendar/v3/calendars/{holidaysId}/events?key={key}&timeMin={startDate}&timeMax={endDate}&maxResults={maxCount}&orderBy=startTime&singleEvents=true";
         var client = new WebClient() { Encoding = System.Text.Encoding.UTF8 };
-        var json = await client.DownloadStringTaskAsync(url);
-        client.Dispose();
+        var json = "";
+        try
+        {
+            json = await client.DownloadStringTaskAsync(url);
+            client.Dispose();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("GoogleCalendarAPI key: " + key);
+            Debug.LogError("GoogleCalendarAPI \n" + e);
+            return null;
+        }
 
         var o = JObject.Parse(json);
         var days = o["items"].Select(i =>
