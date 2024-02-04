@@ -34,8 +34,15 @@ public class NaninovelManager
         var player = Engine.GetService<IScriptPlayer>();
         // 現在のスクリプトを止めてから再生
         player.ResetService();
-        // ツールバー Naninovel -> Resources -> Scripts でスクリプト割当
-        await player.PreloadAndPlayAsync(scriptAddress + ".nani");
+
+        try
+        {
+            await player.PreloadAndPlayAsync(scriptAddress + ".nani");
+        }
+        catch (System.Exception)
+        {
+            Debug.LogError("Naninovel " + scriptAddress + ".nani の読み込み失敗");
+        }
         // 再生終了の検知
         await UniTask.WaitWhile(() => player.Playing);
         Debug.Log("Naninovel " + scriptAddress + ".nani 終了");
