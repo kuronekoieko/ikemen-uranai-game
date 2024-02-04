@@ -50,14 +50,6 @@ public class HomePage : BasePage
             ScreenManager.Instance.Get<DebugScreen>().Open();
         });
         debugButton.gameObject.SetActive(Debug.isDebugBuild);
-
-        this.ObserveEveryValueChanged(currentCharacterId => SaveDataManager.SaveData.currentCharacterId)
-            .Subscribe(async currentCharacterId =>
-            {
-                await NaninovelManager.PlayHomeAsync(currentCharacterId);
-                OnScriptEnd();
-            })
-            .AddTo(this.gameObject);
     }
 
     async UniTask OnClickCharacter()
@@ -77,21 +69,19 @@ public class HomePage : BasePage
         // Debug.Log(scriptName);
         EndScriptCommand.OnScriptEnded += (currentScriptName) =>
         {
-            OnScriptEnd();
+            EnableButtons(true);
         };
 
         await NaninovelManager.PlayAsync("Home/" + homeText.FileName);
 
-        todayHoroscopesButton.gameObject.SetActive(false);
-        tomorrowHoroscopesButton.gameObject.SetActive(false);
-        conversationButton.gameObject.SetActive(false);
+        EnableButtons(false);
     }
 
-    void OnScriptEnd()
+    public void EnableButtons(bool enabled)
     {
-        todayHoroscopesButton.gameObject.SetActive(true);
-        tomorrowHoroscopesButton.gameObject.SetActive(true);
-        conversationButton.gameObject.SetActive(true);
+        todayHoroscopesButton.gameObject.SetActive(enabled);
+        tomorrowHoroscopesButton.gameObject.SetActive(enabled);
+        conversationButton.gameObject.SetActive(enabled);
     }
 
     void OnClickTodayHoroscopesButton()
