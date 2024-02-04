@@ -66,15 +66,9 @@ public class HomePage : BasePage
 
         if (homeText == null) return;
 
-        // Debug.Log(scriptName);
-        EndScriptCommand.OnScriptEnded += (currentScriptName) =>
-        {
-            EnableButtons(true);
-        };
-
-        await NaninovelManager.PlayAsync("Home/" + homeText.FileName);
-
         EnableButtons(false);
+        await NaninovelManager.PlayAsync("Home/" + homeText.FileName);
+        EnableButtons(true);
     }
 
     public void EnableButtons(bool enabled)

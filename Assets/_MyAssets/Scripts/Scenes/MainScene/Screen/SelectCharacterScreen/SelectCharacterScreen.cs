@@ -43,36 +43,31 @@ public class SelectCharacterScreen : BaseScreen
             snapScrollView.RefreshPage();
         });
 
-        selectButton.onClick.AddListener(async () =>
+        selectButton.onClick.AddListener(() =>
         {
+            OnClickSelectButton();
+        });
+    }
+
+    async void OnClickSelectButton()
+    {
+
+
+
+        if (SaveDataManager.SaveData.currentCharacterId != snapScrollView.Page + 1)
+        {
+            SaveDataManager.SaveData.currentCharacterId = snapScrollView.Page + 1;
+            SaveDataManager.Save();
+
             // 連打対策
             selectButton.interactable = false;
+            await NaninovelManager.PlayHomeAsync(SaveDataManager.SaveData.currentCharacterId);
+            selectButton.interactable = true;
 
+            PageManager.Instance.Get<HomePage>().EnableButtons(true);
+        }
 
-            if (SaveDataManager.SaveData.currentCharacterId != snapScrollView.Page + 1)
-            {
-                SaveDataManager.SaveData.currentCharacterId = snapScrollView.Page + 1;
-                SaveDataManager.Save();
-                await NaninovelManager.PlayHomeAsync(SaveDataManager.SaveData.currentCharacterId);
-                PageManager.Instance.Get<HomePage>().EnableButtons(true);
-                EndScriptCommand.OnScriptEnded += (currentScriptName) =>
-                {
-                    if (currentScriptName.Contains("HomeIdle"))
-                    {
-                        Close();
-                        selectButton.interactable = true;
-                    }
-                };
-            }
-            else
-            {
-                Close();
-                selectButton.interactable = true;
-            }
-
-
-
-        });
+        Close();
     }
 
     void OnPageChanged()

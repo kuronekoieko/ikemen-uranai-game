@@ -25,17 +25,19 @@ public class NaninovelManager
         await PlayAsync(scriptName);
     }
 
-    public static async Cysharp.Threading.Tasks.UniTask PlayAsync(string scriptName)
+    public static async Cysharp.Threading.Tasks.UniTask PlayAsync(string scriptAddress)
     {
         //await UniTask.WaitUntil(() => IsInitialized).Timeout(new TimeSpan(0, 0, 10));
         if (IsInitialized == false) return;
 
-        Debug.Log("Naninovel " + scriptName + ".nani 再生");
+        Debug.Log("Naninovel " + scriptAddress + ".nani 再生");
         var player = Engine.GetService<IScriptPlayer>();
         // 現在のスクリプトを止めてから再生
         player.ResetService();
         // ツールバー Naninovel -> Resources -> Scripts でスクリプト割当
-        await player.PreloadAndPlayAsync(scriptName + ".nani");
-
+        await player.PreloadAndPlayAsync(scriptAddress + ".nani");
+        // 再生終了の検知
+        await UniTask.WaitWhile(() => player.Playing);
+        Debug.Log("Naninovel " + scriptAddress + ".nani 終了");
     }
 }
