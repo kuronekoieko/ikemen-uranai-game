@@ -32,6 +32,8 @@ public class NaninovelManager
 
         Debug.Log("Naninovel " + scriptName + ".nani");
         var player = Engine.GetService<IScriptPlayer>();
+        // 現在のスクリプトを止めてから再生
+        player.ResetService();
         // ツールバー Naninovel -> Resources -> Scripts でスクリプト割当
         await player.PreloadAndPlayAsync(scriptName + ".nani");
     }
