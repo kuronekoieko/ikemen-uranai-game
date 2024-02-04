@@ -8,11 +8,12 @@ using UnityEngine;
 public static class HomeTextManager
 {
 
-    public static HomeText GetHomeText(DateTime dateTime, HashSet<DateTime> holidays, HomeText[] homeTexts)
+    public static HomeText GetHomeText(int characterId, DateTime dateTime, HashSet<DateTime> holidays, HomeText[] homeTexts)
     {
         bool isHoliday = holidays.Any(holiday => holiday.Date == dateTime.Date);
 
         var group = homeTexts
+            .Where(homeText => homeText.chara_id == characterId)
             .Where(homeText =>
             {
                 if (homeText.date.priority == 0) return true;

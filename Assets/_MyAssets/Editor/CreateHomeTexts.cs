@@ -24,7 +24,7 @@ public class CreateHomeTexts
             Debug.Log(item);
         }
         Debug.Log("--------------------");
-        
+
         holidays = await GoogleCalendarAPI.GetHolidaysAsync(2024);
 
         foreach (var item in holidays)
@@ -54,7 +54,7 @@ public class CreateHomeTexts
         Debug.Log(dateTime);
 
         var holidays = await GoogleCalendarAPI.GetHolidaysAsync(dateTime.Year);
-        var homeText = HomeTextManager.GetHomeText(dateTime, holidays, CSVManager.HomeTexts);
+        var homeText = HomeTextManager.GetHomeText(1, dateTime, holidays, CSVManager.HomeTexts);
 
         Debug.Log(homeText.FileName);
         DebugUtils.LogJson(homeText);
