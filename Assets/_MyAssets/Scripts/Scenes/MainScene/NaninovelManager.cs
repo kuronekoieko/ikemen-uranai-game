@@ -30,11 +30,12 @@ public class NaninovelManager
         //await UniTask.WaitUntil(() => IsInitialized).Timeout(new TimeSpan(0, 0, 10));
         if (IsInitialized == false) return;
 
-        Debug.Log("Naninovel " + scriptName + ".nani");
+        Debug.Log("Naninovel " + scriptName + ".nani 再生");
         var player = Engine.GetService<IScriptPlayer>();
         // 現在のスクリプトを止めてから再生
         player.ResetService();
         // ツールバー Naninovel -> Resources -> Scripts でスクリプト割当
         await player.PreloadAndPlayAsync(scriptName + ".nani");
+
     }
 }
