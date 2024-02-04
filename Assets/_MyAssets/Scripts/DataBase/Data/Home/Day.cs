@@ -23,9 +23,9 @@ namespace DataBase
         public bool is_hol;
 
 
-        public bool IsIncludeDay(DayOfWeek dayOfWeek)
+        public bool IsIncludeDay(DayOfWeek dayOfWeek, bool isHoliday)
         {
-            return dayOfWeek switch
+            bool isIncludeDay = dayOfWeek switch
             {
                 DayOfWeek.Sunday => is_sun,
                 DayOfWeek.Monday => is_mon,
@@ -36,6 +36,10 @@ namespace DataBase
                 DayOfWeek.Saturday => is_sat,
                 _ => false,
             };
+
+            bool isIncludeHoliday = isHoliday ? is_hol : false;
+
+            return isIncludeDay || isIncludeHoliday;
         }
     }
 }
