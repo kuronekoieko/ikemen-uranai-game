@@ -16,6 +16,7 @@ public abstract class BaseOpenScreenButton : BaseButton, IPointerDownHandler, IP
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (Button.interactable == false) return;
         transform.DOScale(Vector3.one * 1.1f, duration);
     }
 
