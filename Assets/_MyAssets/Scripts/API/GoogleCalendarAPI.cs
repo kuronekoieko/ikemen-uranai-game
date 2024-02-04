@@ -31,7 +31,6 @@ public class GoogleCalendarAPI
     {
         Debug.Log("googleカレンダー アクセス開始");
         var key = await FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.google_calender_api_key);
-        //key = "aaaa";
         if (string.IsNullOrEmpty(key))
         {
             Debug.LogError("GoogleCalendarAPI key: " + key);
@@ -52,7 +51,6 @@ public class GoogleCalendarAPI
         }
         catch (Exception e)
         {
-            Debug.LogError("GoogleCalendarAPI key: " + key);
             Debug.LogError("GoogleCalendarAPI \n" + e);
             return null;
         }
