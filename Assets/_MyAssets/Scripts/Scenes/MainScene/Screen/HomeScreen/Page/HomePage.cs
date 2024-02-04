@@ -67,7 +67,7 @@ public class HomePage : BasePage
         if (homeText == null) return;
 
         EnableButtons(false);
-        await NaninovelManager.PlayAsync("Home/" + homeText.FileName);
+        await NaninovelManager.PlayAsync(homeText.FileName);
         EnableButtons(true);
     }
 

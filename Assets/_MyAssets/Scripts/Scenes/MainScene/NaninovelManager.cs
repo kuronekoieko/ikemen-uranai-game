@@ -37,7 +37,7 @@ public class NaninovelManager
 
         try
         {
-            await player.PreloadAndPlayAsync(scriptAddress + ".nani");
+            await player.PreloadAndPlayAsync(scriptAddress);
         }
         catch (System.Exception)
         {
