@@ -26,6 +26,7 @@ namespace MainScene
             FirebaseStorageManager.Initialize();
             FirebaseDatabaseManager.Initialize();
             FirebaseCloudMessagingManager.Initialize();
+            FirebaseRemoteConfigManager.InitializeAsync().Forget();
 
             await CSVManager.InitializeAsync();
             await SaveDataInitializer.Initialize(CSVManager.Characters, FirebaseAuthenticationManager.User.UserId);

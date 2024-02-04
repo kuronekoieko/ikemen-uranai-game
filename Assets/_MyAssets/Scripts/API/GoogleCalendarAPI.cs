@@ -16,7 +16,7 @@ public class GoogleCalendarAPI
 {
     public static async UniTask<HashSet<DateTime>> GetHolidaysAsync(int year)
     {
-        var key = "";
+        var key = await FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.google_calender_api_key);
         var holidaysId = "japanese__ja@holiday.calendar.google.com";
         var startDate = new DateTime(year, 1, 1).ToString("yyyy-MM-dd") + "T00%3A00%3A00.000Z";
         var endDate = new DateTime(year, 12, 31).ToString("yyyy-MM-dd") + "T00%3A00%3A00.000Z";
