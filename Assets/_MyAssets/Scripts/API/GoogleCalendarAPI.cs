@@ -17,7 +17,10 @@ public class GoogleCalendarAPI
         bool exists = holidaysDic.TryGetValue(year, out HashSet<DateTime> holidays);
         if (exists) return holidays;
         holidays = await RequestHolidaysAsync(year);
-        holidaysDic.Add(year, holidays);
+        if (!holidaysDic.ContainsKey(year))
+        {
+            holidaysDic.Add(year, holidays);
+        }
         return holidays;
     }
 
