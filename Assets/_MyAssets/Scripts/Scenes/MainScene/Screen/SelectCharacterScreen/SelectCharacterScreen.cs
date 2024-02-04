@@ -43,12 +43,35 @@ public class SelectCharacterScreen : BaseScreen
             snapScrollView.RefreshPage();
         });
 
-        selectButton.onClick.AddListener(() =>
+        selectButton.onClick.AddListener(async () =>
         {
-            SaveDataManager.SaveData.currentCharacterId = snapScrollView.Page + 1;
-            SaveDataManager.Save();
-            // キャラ切り替え
-            Close();
+            // 連打対策
+            selectButton.interactable = false;
+
+
+            if (SaveDataManager.SaveData.currentCharacterId != snapScrollView.Page + 1)
+            {
+                SaveDataManager.SaveData.currentCharacterId = snapScrollView.Page + 1;
+                SaveDataManager.Save();
+                await NaninovelManager.PlayHomeAsync(SaveDataManager.SaveData.currentCharacterId);
+                PageManager.Instance.Get<HomePage>().EnableButtons(true);
+                EndScriptCommand.OnScriptEnded += (currentScriptName) =>
+                {
+                    if (currentScriptName.Contains("HomeIdle"))
+                    {
+                        Close();
+                        selectButton.interactable = true;
+                    }
+                };
+            }
+            else
+            {
+                Close();
+                selectButton.interactable = true;
+            }
+
+
+
         });
     }
 
