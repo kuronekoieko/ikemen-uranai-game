@@ -10,6 +10,21 @@ using System;
 
 public class CreateHomeTexts
 {
+
+    [MenuItem("MyTool/Google Calender Test")]
+    static async void GoogleCalenderTest()
+    {
+        Debug.Log("計算開始");
+
+        var holidays = await GoogleCalendarAPI.GetHolidaysAsync(2024);
+
+        foreach (var item in holidays)
+        {
+            Debug.Log(item);
+
+        }
+    }
+
     [MenuItem("MyTool/Home Text/Test")]
     static async void Test()
     {
