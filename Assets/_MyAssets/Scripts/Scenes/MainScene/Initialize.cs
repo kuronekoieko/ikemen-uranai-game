@@ -46,17 +46,17 @@ namespace MainScene
         {
             var task0 = ScreenManager.Instance.Get<LoadingScreen>().ProgressTimer(1);
             ReturnLocalPushNotification.SetLocalPush();
+            var task2 = NaninovelManager.InitializeAsync(SaveDataManager.SaveData.currentCharacterId);
 
             if (SaveDataManager.SaveData.BirthDayDT == null)
             {
-                await UniTask.WhenAll(task0);
+                await UniTask.WhenAll(task0, task2);
 
                 ScreenManager.Instance.Get<InputProfileScreen>().Open();
             }
             else
             {
                 var task1 = DownloadFilesAsync();
-                var task2 = NaninovelManager.InitializeAsync(SaveDataManager.SaveData.currentCharacterId);
                 await UniTask.WhenAll(task0, task1, task2);
 
                 ScreenManager.Instance.Get<HomeScreen>().Open();
