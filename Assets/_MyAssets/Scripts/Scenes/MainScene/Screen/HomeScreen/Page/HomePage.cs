@@ -57,12 +57,12 @@ public class HomePage : BasePage
         DateTime dateTime = DateTime.Now;
 
         var holidays = await GoogleCalendarAPI.GetHolidaysAsync(DateTime.Now.Year);
+
         var homeText = HomeTextManager.GetHomeText(
             SaveDataManager.SaveData.currentCharacterId,
             dateTime,
             holidays,
             CSVManager.HomeTexts);
-
         if (homeText == null) return;
 
         EnableButtons(false);

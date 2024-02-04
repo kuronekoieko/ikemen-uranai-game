@@ -17,7 +17,9 @@ public class GoogleCalendarAPI
         bool exists = holidaysDic.TryGetValue(year, out HashSet<DateTime> holidays);
         if (exists) return holidays;
         holidays = await RequestHolidaysAsync(year);
-        if (holidays == null) return null;
+
+        // 祝日が取れなくても、最悪平日として会話を続ける方が止まるより良い
+        if (holidays == null) return new();
         if (!holidaysDic.ContainsKey(year))
         {
             holidaysDic.Add(year, holidays);
@@ -29,6 +31,7 @@ public class GoogleCalendarAPI
     {
         Debug.Log("googleカレンダー アクセス開始");
         var key = await FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.google_calender_api_key);
+        //key = "aaaa";
         if (string.IsNullOrEmpty(key))
         {
             Debug.LogError("GoogleCalendarAPI key: " + key);
