@@ -27,7 +27,7 @@ public class MyBuildPostprocessor : IPreprocessBuildWithReport
         await UniTask.DelayFrame(1);
         Debug.Log(EditorUserBuildSettings.development);
 
-        FirebaseConfigManager.CreateFiles(EditorUserBuildSettings.development);
+       // FirebaseConfigManager.CreateFiles(EditorUserBuildSettings.development);
     }
 
     [PostProcessBuild]
