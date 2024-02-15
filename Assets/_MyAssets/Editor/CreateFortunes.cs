@@ -4,12 +4,10 @@ using UnityEngine;
 using DataBase;
 using Cysharp.Threading.Tasks;
 using System;
-using Newtonsoft.Json;
 using UnityEditor;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using UnityEngine.Events;
 
 public class CreateFortunes
 {
@@ -342,7 +340,7 @@ public class CreateFortunes
         List<DateTime> dateList = new();
 
         // 現在の日付を取得
-        DateTime currentDate = new(2023, 12, 1);
+        DateTime currentDate = new(2024, 1, 1);
 
         // 5年分の日付を生成してリストに追加
         for (int i = 0; i < days; i++)
