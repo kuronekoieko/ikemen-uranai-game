@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,29 @@ public static class ReturnLocalPushNotification
         LocalPushNotification.AllClear();
 
         if (SaveDataManager.SaveData.notification.isOnOthers == false) return;
+
+        for (int i = 0; i < 7; i++)
+        {
+            DateTime morningDT = DateTime.Today.AddDays(i).AddHours(8).AddMinutes(30);
+            LocalPushNotification.AddSchedule(
+                   Application.productName,
+                   "今日の運勢をチェックしてね",
+                   1,
+                   morningDT,
+                   "001"
+               );
+
+            DateTime nightDT = DateTime.Today.AddDays(i).AddHours(21);
+            LocalPushNotification.AddSchedule(
+                   Application.productName,
+                   "明日の運勢が公開されたよ",
+                   1,
+                   nightDT,
+                   "001"
+               );
+        }
+
+
 
         Dictionary<int, string> messages = new()
         {
