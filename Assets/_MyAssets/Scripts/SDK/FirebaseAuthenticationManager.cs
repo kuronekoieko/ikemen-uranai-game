@@ -4,7 +4,7 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Firebase.Auth;
 
-public static class FirebaseAuthenticationManager 
+public static class FirebaseAuthenticationManager
 {
     public static FirebaseUser User => FirebaseAuth.DefaultInstance.CurrentUser;
 
@@ -23,8 +23,7 @@ public static class FirebaseAuthenticationManager
         try
         {
             var firebaseUser = await FirebaseAuth.DefaultInstance.SignInAnonymouslyAsync();
-            Debug.LogFormat("User signed in successfully: {0} ({1})",
-                firebaseUser.DisplayName, firebaseUser.UserId);
+            // Debug.LogFormat("User signed in successfully: {0} ({1})", firebaseUser.DisplayName, firebaseUser.UserId);
             // DebugUtils.LogJson(firebaseUser);
         }
         catch (System.Exception e)
