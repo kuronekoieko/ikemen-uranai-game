@@ -27,7 +27,7 @@ public class MyBuildPostprocessor : IPreprocessBuildWithReport
         await UniTask.DelayFrame(1);
         Debug.Log(EditorUserBuildSettings.development);
 
-       // FirebaseConfigManager.CreateFiles(EditorUserBuildSettings.development);
+        // FirebaseConfigManager.CreateFiles(EditorUserBuildSettings.development);
     }
 
     [PostProcessBuild]
@@ -146,7 +146,7 @@ public class MyBuildPostprocessor : IPreprocessBuildWithReport
             string dateName = DateTime.Today.ToString("MMdd");
 
             //アプリ名
-             plist.root.SetString("CFBundleDisplayName", $"{dateName}_{Application.productName}");
+            plist.root.SetString("CFBundleDisplayName", $"{dateName}_{Application.productName}");
 
             //bundleId
             // pbxProject.SetBuildProperty(target, "PRODUCT_BUNDLE_IDENTIFIER", Application.identifier + ".dev");
@@ -159,6 +159,11 @@ public class MyBuildPostprocessor : IPreprocessBuildWithReport
         //pbxProject.AddCapability(target, PBXCapabilityType.BackgroundModes);
         //pbxProject.AddCapability(target, PBXCapabilityType.BackgroundModes, "Background fetch");
         //pbxProject.AddCapability(target, PBXCapabilityType.BackgroundModes, "Remote notifications");
+
+        // https://github.com/nhn/gpm.unity/blob/main/docs/WebView/README.en.md
+        // GPMWebView.bundle (adding GPMWebView.bundle to Copy Bundle Resources in Build Phases)
+        var webViewBundleGuid = pbxProject.AddFile("Frameworks/GPM/WebView/Plugins/IOS/GPMWebView.bundle", "GPMWebView.bundle", PBXSourceTree.Build);
+        pbxProject.AddFileToBuild(target, webViewBundleGuid);
 
         plist.WriteToFile(plistPath);
         pbxProject.WriteToFile(projectPath);
