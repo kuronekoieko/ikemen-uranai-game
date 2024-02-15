@@ -8,6 +8,12 @@ public static class WebView
 {
     public static void OpenURL(string url)
     {
+        if (Application.isEditor)
+        {
+            Application.OpenURL(url);
+            return;
+        }
+
         // https://github.com/nhn/gpm.unity/blob/main/docs/WebView/README.en.md
         GpmWebView.ShowUrl(
             url,
