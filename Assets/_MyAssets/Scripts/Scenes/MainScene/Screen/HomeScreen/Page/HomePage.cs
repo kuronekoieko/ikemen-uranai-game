@@ -91,6 +91,7 @@ public class HomePage : BasePage
 
         SaveDataManager.SaveData.horoscopeHistories[Key].isReadTodayHoroscope = true;
         SaveDataManager.Save();
+        ReturnLocalPushNotification.SetLocalPush();
         todayHoroscopesButton.transform.DOKill(true);
     }
 
@@ -108,6 +109,7 @@ public class HomePage : BasePage
 
         SaveDataManager.SaveData.horoscopeHistories[Key].isReadNextDayHoroscope = true;
         SaveDataManager.Save();
+        ReturnLocalPushNotification.SetLocalPush();
         tomorrowHoroscopesButton.transform.DOKill(true);
     }
 
