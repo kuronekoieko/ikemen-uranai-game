@@ -6,29 +6,6 @@ using UnityEngine;
 
 public static class WebView
 {
-    public static void OpenURL_(string url)
-    {
-        url = url.TrimStart().TrimEnd();
-        if (Application.isEditor)
-        {
-            Application.OpenURL(url);
-            return;
-        }
-        var webViewObject = new GameObject("WebViewObject").AddComponent<WebViewObject>();
-
-        // 初期化
-        webViewObject.Init(
-            // NOTE: iOSでUIWebViewではなくWKWebViewを利用する(現在はほぼ必須な設定項目だと思ってもらえれば)
-            enableWKWebView: true
-        );
-
-        // URLを読み込みWebViewを表示する
-        webViewObject.SetVisibility(true);
-        webViewObject.LoadURL(url);
-
-    }
-
-
     public static void OpenURL(string url)
     {
         // https://github.com/nhn/gpm.unity/blob/main/docs/WebView/README.en.md
@@ -43,7 +20,7 @@ public static class WebView
                 backgroundColor = "#FFFFFF",
                 isNavigationBarVisible = true,
                 navigationBarColor = "#4B96E6",
-                title = "The page title.",
+                title = "",
                 isBackButtonVisible = true,
                 isForwardButtonVisible = true,
                 isCloseButtonVisible = true,
