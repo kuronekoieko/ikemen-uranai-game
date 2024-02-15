@@ -98,6 +98,7 @@ public static class LocalPushNotification
     {
         TimeSpan timeSpan = targetDateTime - DateTime.Now;
         int sec = (int)timeSpan.TotalSeconds;
+        if (sec <= 0) return;
         AddScheduleSec(title, message, badgeCount, sec, cannelId);
     }
 

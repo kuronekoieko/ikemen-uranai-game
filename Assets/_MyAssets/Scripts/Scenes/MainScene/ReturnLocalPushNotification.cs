@@ -29,6 +29,7 @@ public static class ReturnLocalPushNotification
                    morningDT,
                    "001"
                );
+            //  Debug.Log(morningDT);
         }
 
         for (int i = 0; i < 7; i++)
@@ -43,6 +44,8 @@ public static class ReturnLocalPushNotification
                    nightDT,
                    "001"
                );
+            // Debug.Log(nightDT);
+
         }
 
         Dictionary<int, string> messages = new()
@@ -69,6 +72,8 @@ public static class ReturnLocalPushNotification
                 dateTime,
                 "001"
             );
+            //  Debug.Log(dateTime);
+
         }
 
         for (int i = 1; i < 100; i++)
@@ -84,6 +89,7 @@ public static class ReturnLocalPushNotification
                 dateTime,
                 "001"
             );
+            //  Debug.Log(dateTime);
         }
     }
 
