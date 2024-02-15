@@ -126,7 +126,7 @@ public class CreateFortunes
     public class Test
     {
         public string constellation_id;
-        public List<string> luckyItemIds = new();
+        public List<int> luckyItemIds = new();
         //  public List<string> luckyColorIds = new();
     }
 
@@ -163,8 +163,8 @@ public class CreateFortunes
                     date_time = dateTime.ToDateKey(),
                     constellation_id = constellation.id,
                     rank = GetBeforeRank(beforeDailyFortunes, constellation.id),
-                    lucky_item_id = "",
-                    lucky_color_id = "",
+                    lucky_item_id = 0,
+                    lucky_color_id = 0,
                     msg_id = msgNos.PopRandom(),
                 };
                 dailyFortunes.Add(fortune);
@@ -227,8 +227,8 @@ public class CreateFortunes
                     dailyFortune.lucky_color_id = PopRandomWithoutLast7Days_Id(luckyColors, last7DaysLuckyColorIds);
                 }
             }
-            retryLuckyItem = dailyFortunes.Select(dailyFortune => dailyFortune.lucky_item_id).Contains("");
-            retryLuckyColor = dailyFortunes.Select(dailyFortune => dailyFortune.lucky_color_id).Contains("");
+            retryLuckyItem = dailyFortunes.Select(dailyFortune => dailyFortune.lucky_item_id).Contains(0);
+            retryLuckyColor = dailyFortunes.Select(dailyFortune => dailyFortune.lucky_color_id).Contains(0);
 
             loopCount++;
             if (loopCount > 100)
@@ -244,20 +244,18 @@ public class CreateFortunes
     }
 
 
-    static string PopRandomWithoutLast7Days_Id<T>(List<T> baseLuckies, List<string> last7DaysBaseLuckyIds) where T : BaseLucky
+    static int PopRandomWithoutLast7Days_Id<T>(List<T> baseLuckies, List<int> last7DaysBaseLuckyIds) where T : BaseLucky
     {
         T baseLucky = null;
         if (last7DaysBaseLuckyIds.Count == 0)
         {
             baseLucky = baseLuckies.PopRandom();
-            if (baseLucky == null) return "";
-            if (string.IsNullOrEmpty(baseLucky.id)) return "";
+            if (baseLucky == null) return 0;
             return baseLucky.id;
         }
 
         baseLucky = baseLuckies.PopRandom(ignore: baseLucky => last7DaysBaseLuckyIds.Contains(baseLucky.id));
-        if (baseLucky == null) return "";
-        if (string.IsNullOrEmpty(baseLucky.id)) return "";
+        if (baseLucky == null) return 0;
         return baseLucky.id;
     }
 
