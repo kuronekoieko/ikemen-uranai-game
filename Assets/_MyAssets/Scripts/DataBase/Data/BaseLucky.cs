@@ -11,7 +11,7 @@ namespace DataBase
     [JsonObject]
     public class BaseLucky
     {
-        public string id;
+        public int id;
         public string name;
     }
 }

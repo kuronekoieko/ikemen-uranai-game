@@ -30,7 +30,7 @@ public class FortuneManager
         return fortune;
     }
 
-    public static LuckyItem GetLuckyItem(string lucky_item_id)
+    public static LuckyItem GetLuckyItem(int lucky_item_id)
     {
         LuckyItem luckyItem = CSVManager.LuckyItems.FirstOrDefault(luckyItem => luckyItem.id == lucky_item_id);
         var stuckLuckyItems = new List<LuckyItem>(CSVManager.LuckyItems);
@@ -47,7 +47,7 @@ public class FortuneManager
         return luckyItem;
     }
 
-    public static LuckyColor GetLuckyColor(string lucky_item_id)
+    public static LuckyColor GetLuckyColor(int lucky_item_id)
     {
         LuckyColor luckyColor = CSVManager.LuckyColors.FirstOrDefault(luckyColor => luckyColor.id == lucky_item_id);
         var stuckLuckyColors = new List<LuckyColor>(CSVManager.LuckyColors);
