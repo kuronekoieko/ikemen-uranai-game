@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,6 +10,7 @@ namespace InitializeScene
     public class Initialize : SingletonMonoBehaviour<Initialize>
     {
         [SerializeField] PopupManager popupManager;
+        [SerializeField] Image splashImage;
 
         async void Start()
         {
@@ -21,7 +23,7 @@ namespace InitializeScene
 
         public void Close()
         {
-            gameObject.SetActive(false);
+            splashImage.gameObject.SetActive(false);
         }
     }
 

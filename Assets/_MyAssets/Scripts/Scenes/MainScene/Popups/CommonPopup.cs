@@ -39,8 +39,6 @@ public class CommonPopup : BasePopup
         string positive,
         string negative = "")
     {
-        base.Open().Forget();
-
         titleText.text = title;
         messageText.text = message;
         pButtonText.text = positive;
@@ -55,6 +53,8 @@ public class CommonPopup : BasePopup
         // ボタンの入力待ち
         UniTask pBtn = positiveButtonEvent.OnInvokeAsync();
         UniTask nBtn = negativeButtonEvent.OnInvokeAsync();
+
+        await base.Open();
 
         var btnIndex = await UniTask.WhenAny(pBtn, nBtn);
         var isSelectedPositive = btnIndex == 0;

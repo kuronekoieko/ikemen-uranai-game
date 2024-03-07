@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
-using System.Linq;
 
 public class OnlineCheckPopup : CommonPopup
 {
@@ -39,10 +38,14 @@ public class OnlineCheckPopup : CommonPopup
     public async UniTask<bool> CheckOnlineUntilOnline()
     {
         bool isOnline = await CheckOnline();
+
+        if (isOnline) return isOnline;
+
         await PopupManager.Instance.GetPopup<LoadingPopup>().Open();
 
         while (isOnline == false)
         {
+            await UniTaskUtils.DelaySecond(0.5f);
             isOnline = await CheckOnline();
         }
         await PopupManager.Instance.GetPopup<LoadingPopup>().Close();
@@ -50,4 +53,14 @@ public class OnlineCheckPopup : CommonPopup
         return isOnline;
 
     }
+
+    public async void StartCheckOnlineLoop()
+    {
+        while (true)
+        {
+            await CheckOnlineUntilOnline();
+            await UniTaskUtils.DelaySecond(3);
+        }
+    }
+
 }
