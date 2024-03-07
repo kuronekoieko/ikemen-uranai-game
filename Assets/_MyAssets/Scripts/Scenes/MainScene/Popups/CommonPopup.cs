@@ -22,7 +22,7 @@ public class CommonPopup : BasePopup
         Action onClickPositiveButton = null,
         Action onClickNegativeButton = null)
     {
-        base.Open();
+        base.Open().Forget();
         if (onClickPositiveButton != null) base.onClickPositiveButton = onClickPositiveButton;
         if (onClickNegativeButton != null) base.onClickNegativeButton = onClickNegativeButton;
         titleText.text = title;
@@ -39,7 +39,7 @@ public class CommonPopup : BasePopup
         string positive,
         string negative = "")
     {
-        base.Open();
+        base.Open().Forget();
 
         titleText.text = title;
         messageText.text = message;
@@ -58,6 +58,8 @@ public class CommonPopup : BasePopup
 
         var btnIndex = await UniTask.WhenAny(pBtn, nBtn);
         var isSelectedPositive = btnIndex == 0;
+        await UniTask.Delay((int)(animDuration * 1000));
+        await UniTask.DelayFrame(1);
         return isSelectedPositive;
     }
 }

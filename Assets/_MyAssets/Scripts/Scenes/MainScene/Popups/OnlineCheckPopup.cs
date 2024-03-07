@@ -24,8 +24,6 @@ public class OnlineCheckPopup : CommonPopup
                     "インターネットに接続されていません",
                     "OK"
                 );
-                // 若干間を開けないと、再チェックのときにポップアップが出ない
-                await UniTaskUtils.DelaySecond(0.5f);
                 break;
             case OnlineChecker.Result.Status.Canceled:
                 break;
@@ -41,15 +39,13 @@ public class OnlineCheckPopup : CommonPopup
     public async UniTask<bool> CheckOnlineUntilOnline()
     {
         bool isOnline = await CheckOnline();
-        PopupManager.Instance.GetPopup<LoadingPopup>().Open();
+        await PopupManager.Instance.GetPopup<LoadingPopup>().Open();
 
         while (isOnline == false)
         {
-            // await UniTaskUtils.DelaySecond(1f);
             isOnline = await CheckOnline();
-            // await UniTaskUtils.DelaySecond(1f);
         }
-        PopupManager.Instance.GetPopup<LoadingPopup>().Close();
+        await PopupManager.Instance.GetPopup<LoadingPopup>().Close();
 
         return isOnline;
 

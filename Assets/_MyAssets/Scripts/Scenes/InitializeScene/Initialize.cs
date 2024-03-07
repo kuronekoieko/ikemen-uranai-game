@@ -13,14 +13,10 @@ namespace InitializeScene
         async void Start()
         {
             popupManager.OnStart();
-            // Debug.Log("入力待ち");
-            // await UniTask.WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
 
             await PopupManager.Instance.GetPopup<OnlineCheckPopup>().CheckOnlineUntilOnline();
-
             DontDestroyOnLoad(gameObject);
             await SceneManager.LoadSceneAsync("Main");
-            // asyncOperation.allowSceneActivation = false;
         }
 
         public void Close()
