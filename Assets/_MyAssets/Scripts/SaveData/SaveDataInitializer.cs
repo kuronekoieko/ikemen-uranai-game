@@ -21,11 +21,8 @@ public static class SaveDataInitializer
 
         SaveData saveData = SaveDataManager.SaveData;
 
-        // セーブデータの新規作成
-        if (saveData.userId == defaultSaveData.userId)
-        {
-            saveData.userId = await UserIdManager.CreateNewUserId();
-        }
+        // セーブデータのチェック＆新規作成
+        saveData.userId = await UserIdManager.ValidateUserId(saveData.userId);
 
         string key = DateTime.Today.ToDateKey();
         bool existHistory = saveData.horoscopeHistories.TryGetValue(key, out HoroscopeHistory horoscopeHistory);
