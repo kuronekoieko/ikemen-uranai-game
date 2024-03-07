@@ -37,4 +37,21 @@ public class OnlineCheckPopup : CommonPopup
 
         return isOnline;
     }
+
+    public async UniTask<bool> CheckOnlineUntilOnline()
+    {
+        bool isOnline = await CheckOnline();
+        PopupManager.Instance.GetPopup<LoadingPopup>().Open();
+
+        while (isOnline == false)
+        {
+            // await UniTaskUtils.DelaySecond(1f);
+            isOnline = await CheckOnline();
+            // await UniTaskUtils.DelaySecond(1f);
+        }
+        PopupManager.Instance.GetPopup<LoadingPopup>().Close();
+
+        return isOnline;
+
+    }
 }
