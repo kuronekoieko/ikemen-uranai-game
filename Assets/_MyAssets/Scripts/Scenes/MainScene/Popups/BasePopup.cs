@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.Events;
 using System;
+using Cysharp.Threading.Tasks;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class BasePopup : MonoBehaviour
@@ -15,6 +16,7 @@ public class BasePopup : MonoBehaviour
 
     protected Action onClickNegativeButton { get; set; }
     protected Action onClickPositiveButton { get; set; }
+    protected float animDuration = 0.2f;
 
 
     public virtual void OnStart()
@@ -37,44 +39,41 @@ public class BasePopup : MonoBehaviour
         }
     }
 
-    public void Close()
+    public async UniTask Close()
     {
-        OnClose();
+        await OnClose();
     }
 
-    protected virtual void OnClose()
+    protected virtual async UniTask OnClose()
     {
         onClickNegativeButton = null;
         onClickPositiveButton = null;
 
-        canvasGroup.DOFade(0f, 0.2f)
-        .OnComplete(() =>
-        {
-            gameObject.SetActive(false);
-        });
+        await canvasGroup.DOFade(0f, animDuration).AsyncWaitForCompletion();
+        gameObject.SetActive(false);
     }
 
 
     void OnClickNegativeButton()
     {
         onClickNegativeButton?.Invoke();
-        OnClose();
+        OnClose().Forget();
     }
 
     void OnClickPositiveButton()
     {
         onClickPositiveButton?.Invoke();
-        OnClose();
+        OnClose().Forget();
     }
 
-    public virtual void Open()
+    public virtual async UniTask Open()
     {
         // 今いる自分の階層の一番下に移動して、一番手前に表示されます。
         transform.SetAsLastSibling();
 
         gameObject.SetActive(true);
         canvasGroup.alpha = 0;
-        canvasGroup.DOFade(1f, 0.2f);
+        await canvasGroup.DOFade(1f, animDuration).AsyncWaitForCompletion();
     }
 
 }
