@@ -15,7 +15,9 @@ public static class UserIdManager
     // 原神のuid仕様
     // https://genshin-impact.fandom.com/ja/wiki/%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BCID
 
-    static int DefaultUserIdInt => (int)Mathf.Pow(10, 9);
+    // 10の9乗は、0が9個なので10桁
+    // idは9桁にしたいので、10の8乗にする
+    static int DefaultUserIdInt => (int)Mathf.Pow(10, 9 - 1);
     public static string DefaultUserId => ToString(DefaultUserIdInt);
 
     public static async UniTask<string> CreateNewUserId()
