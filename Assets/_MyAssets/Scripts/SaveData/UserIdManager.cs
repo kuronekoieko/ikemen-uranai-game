@@ -17,20 +17,37 @@ public static class UserIdManager
 
     // 10の9乗は、0が9個なので10桁
     // idは9桁にしたいので、10の8乗にする
-    static int DefaultUserIdInt => (int)Mathf.Pow(10, 9 - 1);
+    static int DefaultUserIdInt => (int)Mathf.Pow(10, userIdLength - 1);
     public static string DefaultUserId => ToString(DefaultUserIdInt);
+    static readonly int userIdLength = 9;
+
+    public static async UniTask<string> ValidateUserId(string userId)
+    {
+        if (userId == DefaultUserId)
+        {
+            userId = await CreateNewUserId();
+        }
+        if (userId.Length != userIdLength)
+        {
+            userId = await CreateNewUserId();
+        }
+
+        return userId;
+    }
 
     public static async UniTask<string> CreateNewUserId()
     {
         var users = await FirebaseDatabaseManager.GetUsers();
-        int maxUserNumber = users.Max(user => Parse(user.userId));
+        int maxUserNumber = users
+            .Where(user => user.userId.Length == userIdLength)
+            .Max(user => Parse(user.userId));
         int newUserIdInt = maxUserNumber + 1;
         return ToString(newUserIdInt);
     }
 
     static string ToString(int userIdInt)
     {
-        return userIdInt.ToString("D9");
+        return userIdInt.ToString($"D{userIdLength}");
     }
 
     public static int Parse(string id)
