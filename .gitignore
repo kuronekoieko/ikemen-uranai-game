@@ -93,10 +93,6 @@ ProjectSettings/EditorSettings.asset
 google-services-desktop.json
 google-services-desktop.json.meta
 StreamingAssets.meta
-google-services.json
-google-services.json.meta
-GoogleService-Info.plist
-GoogleService-Info.plist.meta
 
 # addressableのビルドファイルは不要
 ServerData/
