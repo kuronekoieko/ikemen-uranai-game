@@ -19,11 +19,13 @@ public class OnlineCheckPopup : CommonPopup
                 isOnline = true;
                 break;
             case OnlineChecker.Result.Status.Error:
-                Show(
+                await ShowAsync(
                     "",
                     "インターネットに接続されていません",
                     "OK"
                 );
+                // 若干間を開けないと、再チェックのときにポップアップが出ない
+                await UniTaskUtils.DelaySecond(0.5f);
                 break;
             case OnlineChecker.Result.Status.Canceled:
                 break;
