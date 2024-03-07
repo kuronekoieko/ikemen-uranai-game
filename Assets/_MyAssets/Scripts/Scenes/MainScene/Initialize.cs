@@ -12,6 +12,7 @@ namespace MainScene
     public class Initialize : SingletonMonoBehaviour<Initialize>
     {
         [SerializeField] ScreenManager screenManager;
+        [SerializeField] PopupManager popupManager;
         bool IsInitialized;
 
         public UnityAction OnUpdate = () => { };
@@ -33,6 +34,7 @@ namespace MainScene
             await SaveDataInitializer.Initialize(CSVManager.Characters, FirebaseAuthenticationManager.User.UserId);
 
             screenManager.OnStart();
+            popupManager.OnStart();
 
             ScreenManager.Instance.Get<LoadingScreen>().Open();
 
@@ -44,20 +46,21 @@ namespace MainScene
 
         async void CompleteInit()
         {
-            var task0 = ScreenManager.Instance.Get<LoadingScreen>().ProgressTimer(1);
+            var loadingScreenTask = ScreenManager.Instance.Get<LoadingScreen>().ProgressTimer(1);
             ReturnLocalPushNotification.SetLocalPush();
-            var task2 = NaninovelManager.InitializeAsync(SaveDataManager.SaveData.currentCharacterId);
+            var naninovelTask = NaninovelManager.InitializeAsync(SaveDataManager.SaveData.currentCharacterId);
+            var onlineCheckTask = popupManager.GetPopup<OnlineCheckPopup>().CheckOnline();
 
             if (SaveDataManager.SaveData.BirthDayDT == null)
             {
-                await UniTask.WhenAll(task0, task2);
+                await UniTask.WhenAll(loadingScreenTask, naninovelTask, onlineCheckTask);
 
                 ScreenManager.Instance.Get<InputProfileScreen>().Open();
             }
             else
             {
-                var task1 = DownloadFilesAsync();
-                await UniTask.WhenAll(task0, task1, task2);
+                var downLoadTask = DownloadFilesAsync();
+                await UniTask.WhenAll(loadingScreenTask, downLoadTask, naninovelTask, onlineCheckTask);
 
                 ScreenManager.Instance.Get<HomeScreen>().Open();
             }
