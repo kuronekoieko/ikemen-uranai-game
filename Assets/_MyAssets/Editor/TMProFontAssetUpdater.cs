@@ -48,6 +48,8 @@ namespace TMPFontReplacer
         {
             foreach (TextMeshProUGUI tmp in FindObjectsOfType<TextMeshProUGUI>(true))
             {
+                tmp.font = f;
+                continue;
                 if (tmp.font == null)
                 {
                     Debug.Log(tmp.text);
