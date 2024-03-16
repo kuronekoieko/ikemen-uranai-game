@@ -44,14 +44,14 @@ public class HomeHeader : MonoBehaviour
         // セーブデータがロードされないため
         if (SaveData == null) return;
 
-        playerLevelText.text = "Lv." + SaveData.level.ToString();
+        playerLevelText.text = SaveData.level.ToString();
         var levelData = GetCurrentLevelData_Player(SaveData.level);
         playerExpBarImage.fillAmount = (float)SaveData.exp / (float)levelData.exp;
         playerExpPerText.text = Mathf.FloorToInt(playerExpBarImage.fillAmount * 100) + "%";
 
         jemFreeText.text = SaveData.jemFree.ToString();
         jemChargingText.text = SaveData.jemCharging.ToString();
-        dayText.text = DateTime.Now.ToString("MM d ddd", CultureInfo.CreateSpecificCulture("en-US"));
+        dayText.text = DateTime.Now.ToString("M/d     ddd", CultureInfo.CreateSpecificCulture("en-US"));
         timeText.text = DateTime.Now.ToString("HH:mm");
 
         ShowExp();
