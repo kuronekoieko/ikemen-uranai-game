@@ -10,29 +10,22 @@ public class HomeScreen : BaseScreen
     [SerializeField] HomeFooter homeFooter;
     [SerializeField] PageManager pageManager;
 
-    [SerializeField] GameObject character;
-
-
     public override void OnStart()
     {
         base.OnStart();
+        // フッターの初期化でページ遷移したいので、pageManagerが先
+        pageManager.OnStart();
         homeHeader.OnStart();
         homeFooter.OnStart();
-        pageManager.OnStart();
-        //character.SetActive(false);
     }
 
     public override void Open()
     {
         base.Open();
-        PageManager.Instance.Get<HomePage>().Open();
-        // character.SetActive(true);
-
     }
 
     public override void Close()
     {
         base.Close();
-        // character.SetActive(false);
     }
 }

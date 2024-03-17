@@ -5,15 +5,15 @@ using TMPro;
 using UnityEngine.UI;
 using System;
 using UnityEngine.Events;
+using Cysharp.Threading.Tasks;
 
 public class HomeFooter : MonoBehaviour
 {
-    FooterToggle[] footerToggles;
     [SerializeField] FooterToggleData[] footerToggleDatas;
 
-    public void OnStart()
+    public async void OnStart()
     {
-        footerToggles = GetComponentsInChildren<FooterToggle>(true);
+        FooterToggle[] footerToggles = GetComponentsInChildren<FooterToggle>(true);
         foreach (var footerToggle in footerToggles)
         {
             footerToggle.gameObject.SetActive(false);
@@ -21,12 +21,17 @@ public class HomeFooter : MonoBehaviour
         }
         FooterToggle footerTogglePrefab = footerToggles[0];
 
+        var newfooterToggles = new List<FooterToggle>();
         foreach (var footerToggleData in footerToggleDatas)
         {
             FooterToggle footerToggle = Instantiate(footerTogglePrefab, transform);
             footerToggle.OnStart(footerToggleData);
             footerToggle.gameObject.SetActive(true);
+            newfooterToggles.Add(footerToggle);
+            Debug.Log(footerToggleData.name);
         }
+        // await UniTask.DelayFrame(1);
+        newfooterToggles[0].toggle.isOn = true;
     }
 
     public void Home()

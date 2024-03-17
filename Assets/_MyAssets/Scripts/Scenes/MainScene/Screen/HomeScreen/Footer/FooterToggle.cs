@@ -10,7 +10,7 @@ using DG.Tweening;
 public class FooterToggle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
 
-    [SerializeField] Toggle toggle;
+    public Toggle toggle;
     [SerializeField] TextMeshProUGUI text;
     [SerializeField] Image badgeImage;
     readonly float duration = 0.2f;
@@ -32,6 +32,9 @@ public class FooterToggle : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         toggle.gameObject.SetActive(footerToggleData.active);
 
         badgeImage.gameObject.SetActive(false);
+        // これがないと、最後のだけtrueになってしまう
+        // 1フレーム待っても変更されない
+        toggle.isOn = false;
     }
 
     public void OnPointerDown(PointerEventData eventData)
