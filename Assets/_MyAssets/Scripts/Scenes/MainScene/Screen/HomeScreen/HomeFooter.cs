@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using UnityEngine.Events;
 
 public class HomeFooter : MonoBehaviour
 {
@@ -27,6 +28,28 @@ public class HomeFooter : MonoBehaviour
             footerToggle.gameObject.SetActive(true);
         }
     }
+
+    public void Home()
+    {
+        PageManager.Instance.Get<HomePage>().Open();
+    }
+    public void Story()
+    {
+        PageManager.Instance.Get<StoryPage>().Open();
+    }
+    public void Horoscope()
+    {
+        PageManager.Instance.Get<HoroscopePage>().Open();
+    }
+    public void Gacha()
+    {
+        PageManager.Instance.Get<GachaPage>().Open();
+    }
+    public void Character()
+    {
+        PageManager.Instance.Get<CharactersPage>().Open();
+    }
+
 }
 
 [Serializable]
@@ -35,4 +58,7 @@ public class FooterToggleData
     public string name;
     public Sprite onSprite;
     public Sprite offSprite;
+    public UnityEvent onSelected;
+    public bool interactable = true;
+    public bool active = true;
 }
