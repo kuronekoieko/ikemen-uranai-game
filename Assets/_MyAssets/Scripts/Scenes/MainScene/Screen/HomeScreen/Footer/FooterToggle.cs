@@ -5,10 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using DG.Tweening;
-using System;
 using UnityEngine.Events;
-using MainScene;
-using UniRx;
 
 public class FooterToggle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
@@ -67,12 +64,4 @@ public class FooterToggle : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     }
 }
 
-[Serializable]
-public class FooterToggleData
-{
-    public string name;
-    public Sprite onSprite;
-    public Sprite offSprite;
-    public bool interactable = true;
-    public bool active = true;
-}
+
