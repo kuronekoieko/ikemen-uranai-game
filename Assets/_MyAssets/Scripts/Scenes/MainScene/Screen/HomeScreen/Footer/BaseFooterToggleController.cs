@@ -20,6 +20,11 @@ public class BaseFooterToggleController : MonoBehaviour
     {
         footerToggle.SetSelectedAction(onSelected);
     }
+
+    public void ToggleOn(bool isOn)
+    {
+        footerToggle.ToggleOn(isOn);
+    }
 }
 
 [Serializable]

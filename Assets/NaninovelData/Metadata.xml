@@ -39,7 +39,7 @@
         &lt;Id&gt;chara001&lt;/Id&gt;
         &lt;Type&gt;Characters&lt;/Type&gt;
         &lt;Appearances /&gt;
-        &lt;Description /&gt;
+        &lt;Description&gt;{CharaName}&lt;/Description&gt;
       &lt;/Actor&gt;
       &lt;Actor&gt;
         &lt;Id&gt;chara002&lt;/Id&gt;
