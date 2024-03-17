@@ -55,7 +55,7 @@ public class HomePageTest
 
         foreach (var testData in testDatas)
         {
-            var a = HomePage.IsOpenTomorrowHoroscope(
+            var a = TomorrowHoroscopeButton.IsUnlock(
                 now: testData.now,
                 openHour: openHour,
                 closeHour: closeHour
