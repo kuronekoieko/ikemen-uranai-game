@@ -59,9 +59,11 @@ public class HomePage : BasePage
 
     public void EnableButtons(bool enabled)
     {
+        conversationButton.gameObject.SetActive(enabled);
+
+        return;
         todayHoroscopesButton.gameObject.SetActive(enabled);
         tomorrowHoroscopesButton.gameObject.SetActive(enabled);
-        conversationButton.gameObject.SetActive(enabled);
     }
 
 
