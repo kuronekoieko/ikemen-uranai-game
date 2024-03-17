@@ -15,12 +15,13 @@ public class HomeToggle : BaseFooterToggleController
             .AddTo(gameObject);
     }
 
+
     bool IsShowBadge()
     {
         if (PageManager.Instance == null) return false;
         bool isNotificationTodayHoroscope = PageManager.Instance.Get<HomePage>().IsNotificationTodayHoroscope();
         bool isNotificationNextDayHoroscope = PageManager.Instance.Get<HomePage>().IsNotificationNextDayHoroscope();
-        return isNotificationTodayHoroscope && isNotificationNextDayHoroscope;
+        return isNotificationTodayHoroscope || isNotificationNextDayHoroscope;
     }
 
     public void Home()

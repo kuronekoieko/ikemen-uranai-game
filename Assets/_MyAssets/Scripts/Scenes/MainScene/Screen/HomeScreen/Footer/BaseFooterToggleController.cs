@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using System;
 
 public class BaseFooterToggleController : MonoBehaviour
 {
@@ -19,6 +20,14 @@ public class BaseFooterToggleController : MonoBehaviour
     {
         footerToggle.SetSelectedAction(onSelected);
     }
+}
 
-
+[Serializable]
+public class FooterToggleData
+{
+    public string name;
+    public Sprite onSprite;
+    public Sprite offSprite;
+    public bool interactable = true;
+    public bool active = true;
 }
