@@ -17,6 +17,7 @@ public class HomeFooter : MonoBehaviour
         {
             footerToggleController.OnStart();
         }
+        footerToggleControllers[0].ToggleOn(true);
     }
 }
 
