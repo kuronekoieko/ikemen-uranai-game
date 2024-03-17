@@ -11,7 +11,7 @@ public class HomeFooter : MonoBehaviour
 {
     [SerializeField] FooterToggleData[] footerToggleDatas;
 
-    public async void OnStart()
+    public void OnStart()
     {
         FooterToggle[] footerToggles = GetComponentsInChildren<FooterToggle>(true);
         foreach (var footerToggle in footerToggles)
@@ -21,17 +21,16 @@ public class HomeFooter : MonoBehaviour
         }
         FooterToggle footerTogglePrefab = footerToggles[0];
 
-        var newfooterToggles = new List<FooterToggle>();
+        var newFooterToggles = new List<FooterToggle>();
         foreach (var footerToggleData in footerToggleDatas)
         {
             FooterToggle footerToggle = Instantiate(footerTogglePrefab, transform);
             footerToggle.OnStart(footerToggleData);
             footerToggle.gameObject.SetActive(true);
-            newfooterToggles.Add(footerToggle);
+            newFooterToggles.Add(footerToggle);
             Debug.Log(footerToggleData.name);
         }
-        // await UniTask.DelayFrame(1);
-        newfooterToggles[0].toggle.isOn = true;
+        newFooterToggles[0].toggle.isOn = true;
     }
 
     public void Home()
