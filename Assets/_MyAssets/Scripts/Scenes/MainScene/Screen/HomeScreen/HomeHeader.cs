@@ -22,6 +22,7 @@ public class HomeHeader : MonoBehaviour
     [SerializeField] TextMeshProUGUI characterExpPerText;
     [SerializeField] Image characterExpBarImage;
 
+    [SerializeField] TextMeshProUGUI dateText;
     [SerializeField] TextMeshProUGUI dayText;
     [SerializeField] TextMeshProUGUI timeText;
     [SerializeField] Button chargingScreenButton;
@@ -51,7 +52,9 @@ public class HomeHeader : MonoBehaviour
 
         jemFreeText.text = SaveData.jemFree.ToString();
         jemChargingText.text = SaveData.jemCharging.ToString();
-        dayText.text = DateTime.Now.ToString("M/d     ddd", CultureInfo.CreateSpecificCulture("en-US"));
+        dateText.text = DateTime.Now.ToString("M/d");
+        dayText.text = DateTime.Now.ToString("ddd", CultureInfo.CreateSpecificCulture("en-US"));
+
         timeText.text = DateTime.Now.ToString("HH:mm");
 
         ShowExp();
