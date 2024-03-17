@@ -103,3 +103,6 @@ remote_config_data
 #ビルド時だけ出るファイル
 Assets/AddressableAssetsData/link.xml
 Assets/AddressableAssetsData/link.xml.meta
+
+#unity recorder
+Recordings/*
