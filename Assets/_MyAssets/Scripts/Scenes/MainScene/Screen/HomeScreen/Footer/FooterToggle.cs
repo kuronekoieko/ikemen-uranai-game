@@ -5,36 +5,45 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using DG.Tweening;
-
+using System;
+using UnityEngine.Events;
+using MainScene;
+using UniRx;
 
 public class FooterToggle : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
 
-    public Toggle toggle;
+    [SerializeField] Toggle toggle;
     [SerializeField] TextMeshProUGUI text;
     [SerializeField] Image badgeImage;
     readonly float duration = 0.2f;
 
 
-    public void OnStart(FooterToggleData footerToggleData)
+    public void OnStart(FooterToggleData footerToggleData, ToggleGroup toggleGroup)
     {
+        toggle.group = toggleGroup;
         text.text = footerToggleData.name;
         toggle.image.sprite = footerToggleData.offSprite;
         if (toggle.graphic.TryGetComponent(out Image graphicImage))
         {
             graphicImage.sprite = footerToggleData.onSprite;
         }
-        toggle.onValueChanged.AddListener((isOn) =>
-        {
-            if (isOn) footerToggleData.onSelected.Invoke();
-        });
+
         toggle.interactable = footerToggleData.interactable;
         toggle.gameObject.SetActive(footerToggleData.active);
 
-        badgeImage.gameObject.SetActive(false);
+        SetActiveBadge(false);
         // これがないと、最後のだけtrueになってしまう
         // 1フレーム待っても変更されない
         toggle.isOn = false;
+    }
+
+    public virtual void SetSelectedAction(UnityAction onSelected)
+    {
+        toggle.onValueChanged.AddListener((isOn) =>
+        {
+            if (isOn) onSelected.Invoke();
+        });
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -47,5 +56,23 @@ public class FooterToggle : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     {
         transform.DOScale(Vector3.one, duration);
     }
+    public void ToggleOn(bool isOn)
+    {
+        toggle.isOn = isOn;
+    }
 
+    public void SetActiveBadge(bool active)
+    {
+        badgeImage.gameObject.SetActive(active);
+    }
+}
+
+[Serializable]
+public class FooterToggleData
+{
+    public string name;
+    public Sprite onSprite;
+    public Sprite offSprite;
+    public bool interactable = true;
+    public bool active = true;
 }
