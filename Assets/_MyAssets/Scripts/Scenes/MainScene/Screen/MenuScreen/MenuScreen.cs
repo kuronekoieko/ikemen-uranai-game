@@ -11,7 +11,8 @@ public class MenuScreen : BaseScreen
 {
     [SerializeField] MenuElementPool menuElementPool;
 
-
+    [TextArea]
+    [SerializeField] string termsOfUseStr;
 
     public override void OnStart()
     {
@@ -83,8 +84,8 @@ public class MenuScreen : BaseScreen
     }
     void OnClick_TermsOfUse()
     {
-        WebView.OpenURL("https://ikebo.jp/kiyaku");
-
+        // WebView.OpenURL("https://ikebo.jp/kiyaku");
+        ScreenManager.Instance.Get<DescriptionScreen>().Open("利用規約", termsOfUseStr);
     }
     void OnClick_PrivacyPolicy()
     {
