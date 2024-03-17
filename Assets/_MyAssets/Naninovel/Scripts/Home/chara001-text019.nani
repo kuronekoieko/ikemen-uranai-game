@@ -1,15 +1,14 @@
 @char chara001.idle001
 @voice Assets/_MyAssets/AddressablesResources/Remote/Voices/chara001-voice001.wav
-text_id=19の1行目
+アモン​・リード: text_id=19の1行目
 
 @char chara001.idle002
 @voice Assets/_MyAssets/AddressablesResources/Remote/Voices/chara001-voice002.wav
-text_id=19の2行目
+アモン​・リード: text_id=19の2行目
 
-text_id=19の3行目
+アモン​・リード: text_id=19の3行目
 
-text_id=19の4行目
+アモン​・リード: text_id=19の4行目
 
 @printer Home visible:false
-
 @stop

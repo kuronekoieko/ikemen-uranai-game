@@ -68,9 +68,13 @@ public class CreateHomeTexts
         Debug.Log("計算開始");
         int chara_id = 0;
 
+        await CSVManager.InitializeAsync();
+
         while (true)
         {
             chara_id += 1;
+            var character = CSVManager.Characters.Where(character => character.id == chara_id).FirstOrDefault();
+
             string charaKey = "chara" + chara_id.ToString("D3");
             var charaTexts = await CSVManager.DeserializeAsync<CharaText>("Home/" + charaKey);
             if (charaTexts == null) break;
@@ -82,7 +86,7 @@ public class CreateHomeTexts
                 var list = group.ToList();
                 var charaText = list[0];
                 string textKey = "text" + charaText.text_id.ToString("D3");
-                await SaveToNani(charaKey, textKey, list);
+                await SaveToNani(charaKey, textKey, list, character.name_jp);
             }
         }
 
@@ -94,9 +98,10 @@ public class CreateHomeTexts
 
     }
 
-    static async UniTask SaveToNani(string charaKey, string textKey, List<CharaText> list)
+    static async UniTask SaveToNani(string charaKey, string textKey, List<CharaText> list, string charaName)
     {
         Debug.Log("書き込み開始");
+
 
         string fileName = charaKey + "-" + textKey;
         string path = Application.dataPath + @"/_MyAssets/Naninovel/Scripts/Home/" + fileName + ".nani";
@@ -105,6 +110,7 @@ public class CreateHomeTexts
 
         // 念のため並び替え
         list.OrderBy(charaText => charaText.line);
+
 
         foreach (var charaText in list)
         {
@@ -118,7 +124,7 @@ public class CreateHomeTexts
                 string voicePath = AssetBundleLoader.GetShortVoiceAddress(charaKey, charaText.voice_id);
                 sw.WriteLine("@voice " + voicePath);
             }
-            sw.WriteLine(charaText.text);
+            sw.WriteLine(charaName + ": " + charaText.text);
             sw.WriteLine("");
         }
 
