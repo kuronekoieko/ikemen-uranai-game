@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
 using System;
 using UnityEngine.Events;
-using Cysharp.Threading.Tasks;
+using MainScene;
+using UniRx;
 
 public class HomeFooter : MonoBehaviour
 {
@@ -13,56 +12,11 @@ public class HomeFooter : MonoBehaviour
 
     public void OnStart()
     {
-        FooterToggle[] footerToggles = GetComponentsInChildren<FooterToggle>(true);
-        foreach (var footerToggle in footerToggles)
+        var footerToggleControllers = GetComponentsInChildren<BaseFooterToggleController>(true);
+        foreach (var footerToggleController in footerToggleControllers)
         {
-            footerToggle.gameObject.SetActive(false);
-            // footerToggle.OnStart();
+            footerToggleController.OnStart();
         }
-        FooterToggle footerTogglePrefab = footerToggles[0];
-
-        var newFooterToggles = new List<FooterToggle>();
-        foreach (var footerToggleData in footerToggleDatas)
-        {
-            FooterToggle footerToggle = Instantiate(footerTogglePrefab, transform);
-            footerToggle.OnStart(footerToggleData);
-            footerToggle.gameObject.SetActive(true);
-            newFooterToggles.Add(footerToggle);
-            Debug.Log(footerToggleData.name);
-        }
-        newFooterToggles[0].toggle.isOn = true;
     }
-
-    public void Home()
-    {
-        PageManager.Instance.Get<HomePage>().Open();
-    }
-    public void Story()
-    {
-        PageManager.Instance.Get<StoryPage>().Open();
-    }
-    public void Horoscope()
-    {
-        PageManager.Instance.Get<HoroscopePage>().Open();
-    }
-    public void Gacha()
-    {
-        PageManager.Instance.Get<GachaPage>().Open();
-    }
-    public void Character()
-    {
-        PageManager.Instance.Get<CharactersPage>().Open();
-    }
-
 }
 
-[Serializable]
-public class FooterToggleData
-{
-    public string name;
-    public Sprite onSprite;
-    public Sprite offSprite;
-    public UnityEvent onSelected;
-    public bool interactable = true;
-    public bool active = true;
-}

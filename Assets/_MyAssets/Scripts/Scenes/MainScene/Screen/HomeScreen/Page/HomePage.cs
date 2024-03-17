@@ -117,11 +117,7 @@ public class HomePage : BasePage
     {
         base.Open();
 
-        SaveDataManager.SaveData.horoscopeHistories.TryGetValue(Key, out horoscopeHistory);
-
-        if (horoscopeHistory == null) return;
-
-        if (horoscopeHistory.isReadTodayHoroscope == false)
+        if (IsNotificationTodayHoroscope())
         {
             todayHoroscopesButton.transform
                 .DOPunchScale(Vector3.one * 0.1f, 2f, 3, 0.1f)
@@ -133,7 +129,7 @@ public class HomePage : BasePage
                 });
         }
 
-        if (tomorrowHoroscopesButton.interactable && horoscopeHistory.isReadNextDayHoroscope == false)
+        if (IsNotificationNextDayHoroscope())
         {
             tomorrowHoroscopesButton.transform
                 .DOPunchScale(Vector3.one * 0.1f, 2f, 3, 0.1f)
@@ -145,6 +141,24 @@ public class HomePage : BasePage
                 });
         }
 
+    }
+
+    public bool IsNotificationTodayHoroscope()
+    {
+        if (SaveDataManager.SaveData == null) return false;
+        if (SaveDataManager.SaveData.horoscopeHistories == null) return false;
+        SaveDataManager.SaveData.horoscopeHistories.TryGetValue(Key, out horoscopeHistory);
+        if (horoscopeHistory == null) return false;
+        return horoscopeHistory.isReadTodayHoroscope == false;
+    }
+
+    public bool IsNotificationNextDayHoroscope()
+    {
+        if (SaveDataManager.SaveData == null) return false;
+        if (SaveDataManager.SaveData.horoscopeHistories == null) return false;
+        SaveDataManager.SaveData.horoscopeHistories.TryGetValue(Key, out horoscopeHistory);
+        if (horoscopeHistory == null) return false;
+        return tomorrowHoroscopesButton.interactable && horoscopeHistory.isReadNextDayHoroscope == false;
     }
 
     protected override void OnClose()
