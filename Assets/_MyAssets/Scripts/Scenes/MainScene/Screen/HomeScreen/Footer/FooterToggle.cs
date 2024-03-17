@@ -30,7 +30,10 @@ public class FooterToggle : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         });
         toggle.interactable = footerToggleData.interactable;
         toggle.gameObject.SetActive(footerToggleData.active);
+
+        badgeImage.gameObject.SetActive(false);
     }
+
     public void OnPointerDown(PointerEventData eventData)
     {
         if (toggle.interactable == false) return;
