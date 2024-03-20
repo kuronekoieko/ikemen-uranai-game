@@ -5,10 +5,20 @@ using UnityEngine;
 
 public static class ReturnLocalPushNotification
 {
-    public static void SetLocalPush()
+    public static async void SetLocalPush()
     {
         //ログインしたらリセット
         LocalPushNotification.AllClear();
+
+        int local_push_test_sec = await FirebaseRemoteConfigManager.GetInt(FirebaseRemoteConfigManager.Key.local_push_test_sec);
+
+        LocalPushNotification.AddScheduleSec(
+            Application.productName,
+            "てすと",
+            1,
+            local_push_test_sec,
+            "001"
+        );
 
         if (SaveDataManager.SaveData.notification.isOnOthers == false) return;
 
