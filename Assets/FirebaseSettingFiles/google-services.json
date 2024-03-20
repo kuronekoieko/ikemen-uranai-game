@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "191287597726",
-    "firebase_url": "https://ikevo-uranai-game-dev-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "ikevo-uranai-game-dev",
-    "storage_bucket": "ikevo-uranai-game-dev.appspot.com"
+    "project_number": "755216785003",
+    "firebase_url": "https://ikevo-uranai-game-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "ikevo-uranai-game",
+    "storage_bucket": "ikevo-uranai-game.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:191287597726:android:d79fc56fa740b12246398f",
+        "mobilesdk_app_id": "1:755216785003:android:364537c2ad0f2066fedb2e",
         "android_client_info": {
-          "package_name": "com.ikemen.dev"
+          "package_name": "com.ikemen"
         }
       },
       "oauth_client": [
         {
-          "client_id": "191287597726-7dmirf2h1t9nf9hr43gq02a229c41liv.apps.googleusercontent.com",
+          "client_id": "755216785003-9h3r3ae24j9lmuqcprmacokf00klvfan.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCfvARfIQp-uQVQj67JB29N2vbJsq38p5Y"
+          "current_key": "AIzaSyAz7aWTb5QEQQZOaou7pksbjBN4zm53v-c"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "191287597726-7dmirf2h1t9nf9hr43gq02a229c41liv.apps.googleusercontent.com",
+              "client_id": "755216785003-9h3r3ae24j9lmuqcprmacokf00klvfan.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "191287597726-0vu2o1oou9ff8a7v4r1o472sonoljsjo.apps.googleusercontent.com",
+              "client_id": "755216785003-h1b1p0t9ujsg8if56fd0ntqt53jj7e5c.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.ikemen.dev"
+                "bundle_id": "com.ikemen"
               }
             }
           ]
