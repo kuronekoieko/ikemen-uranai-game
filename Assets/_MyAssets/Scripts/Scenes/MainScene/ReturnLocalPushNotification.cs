@@ -5,25 +5,23 @@ using UnityEngine;
 
 public static class ReturnLocalPushNotification
 {
-    public static async void SetLocalPush()
+    public static void SetLocalPush()
     {
         //ログインしたらリセット
         LocalPushNotification.AllClear();
         Debug.Log("LocalPushNotification: 通知設定");
 
-        int local_push_test_sec = await FirebaseRemoteConfigManager.GetInt(FirebaseRemoteConfigManager.Key.local_push_test_sec);
 
-        LocalPushNotification.AddScheduleSec(
-            Application.productName,
-            "てすと",
-            1,
-            local_push_test_sec,
-            "001"
-        );
+        // iosは、badgeCountでそれそれの通知を区別しているため、badgeCountが同じだと上書きされて消える
+        // badgeCountは、勝手に加算されるわけではなく、指定した数が表示される
+        // 例)badgeCount=40のときは、アイコンに「40」が出る
 
-        return;
+        // Test();
+        // return;
 
         if (SaveDataManager.SaveData.notification.isOnOthers == false) return;
+
+        var configs = new List<LocalPushNotification.Config>();
 
         string Key = DateTime.Today.ToDateKey();
         bool isReadTodayHoroscope = SaveDataManager.SaveData.horoscopeHistories[Key].isReadTodayHoroscope;
@@ -35,13 +33,15 @@ public static class ReturnLocalPushNotification
             if (i == 0 && isReadTodayHoroscope) continue;
 
             DateTime morningDT = DateTime.Today.AddDays(i).AddHours(8).AddMinutes(30);
-            LocalPushNotification.AddSchedule(
-                   Application.productName,
-                   "今日の運勢をチェックしてね",
-                   1,
-                   morningDT,
-                   "001"
-               );
+
+            LocalPushNotification.Config config = new()
+            {
+                title = Application.productName,
+                message = "今日の運勢をチェックしてね",
+                targetDateTime = morningDT,
+                cannelId = "001",
+            };
+            configs.Add(config);
             //  Debug.Log(morningDT);
         }
 
@@ -50,13 +50,15 @@ public static class ReturnLocalPushNotification
             if (i == 0 && isReadNextDayHoroscope) continue;
 
             DateTime nightDT = DateTime.Today.AddDays(i).AddHours(21);
-            LocalPushNotification.AddSchedule(
-                   Application.productName,
-                   "明日の運勢が公開されたよ",
-                   1,
-                   nightDT,
-                   "001"
-               );
+
+            LocalPushNotification.Config config = new()
+            {
+                title = Application.productName,
+                message = "明日の運勢が公開されたよ",
+                targetDateTime = nightDT,
+                cannelId = "001",
+            };
+            configs.Add(config);
             // Debug.Log(nightDT);
 
         }
@@ -78,15 +80,15 @@ public static class ReturnLocalPushNotification
             if (day == 0) break;
             DateTime dateTime = DateTime.Today.AddDays(day).AddHours(8).AddMinutes(30);
 
-            LocalPushNotification.AddSchedule(
-                Application.productName,
-                message,
-                1,
-                dateTime,
-                "001"
-            );
+            LocalPushNotification.Config config = new()
+            {
+                title = Application.productName,
+                message = message,
+                targetDateTime = dateTime,
+                cannelId = "001",
+            };
+            configs.Add(config);
             //  Debug.Log(dateTime);
-
         }
 
         for (int i = 1; i < 100; i++)
@@ -95,15 +97,46 @@ public static class ReturnLocalPushNotification
             int day = 87 + 29 * i;
             DateTime dateTime = DateTime.Today.AddDays(day).AddHours(8).AddMinutes(30);
 
-            LocalPushNotification.AddSchedule(
-                Application.productName,
-                message,
-                1,
-                dateTime,
-                "001"
-            );
+            LocalPushNotification.Config config = new()
+            {
+                title = Application.productName,
+                message = message,
+                targetDateTime = dateTime,
+                cannelId = "001",
+            };
+            configs.Add(config);
+
             //  Debug.Log(dateTime);
         }
+
+        LocalPushNotification.AddSchedules(configs);
+    }
+
+    static async void Test()
+    {
+        int local_push_test_sec = await FirebaseRemoteConfigManager.GetInt(FirebaseRemoteConfigManager.Key.local_push_test_sec);
+        int local_push_test_count = await FirebaseRemoteConfigManager.GetInt(FirebaseRemoteConfigManager.Key.local_push_test_count);
+        int local_push_test_duration = await FirebaseRemoteConfigManager.GetInt(FirebaseRemoteConfigManager.Key.local_push_test_duration);
+        var configs = new List<LocalPushNotification.Config>();
+
+
+        for (int i = 0; i < local_push_test_count; i++)
+        {
+            LocalPushNotification.Config config = new()
+            {
+                title = Application.productName,
+                message = "てすと " + i,
+                targetDateTime = DateTime.Now.AddSeconds(local_push_test_sec),
+                cannelId = i.ToString("D3"),
+            };
+            configs.Add(config);
+            local_push_test_sec += local_push_test_duration;
+        }
+
+
+        LocalPushNotification.AddSchedules(configs);
+
+
     }
 
 }

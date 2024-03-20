@@ -7,6 +7,7 @@ using Unity.Notifications.iOS;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -15,7 +16,6 @@ using UnityEngine;
 /// // ローカルプッシュ通知送信クラス
 public static class LocalPushNotification
 {
-
     // Androidで使用するプッシュ通知用のチャンネルを登録する。    
     public static void RegisterChannel(string cannelId, string title, string description)
     {
@@ -95,29 +95,60 @@ public static class LocalPushNotification
 #endif
     }
 
-    public static void AddSchedule(string title, string message, int badgeCount, DateTime targetDateTime, string cannelId)
+
+    public static void AddSchedules(List<Config> configs)
     {
-        TimeSpan timeSpan = targetDateTime - DateTime.Now;
-        int sec = (int)timeSpan.TotalSeconds;
-        if (sec <= 0) return;
-        AddScheduleSec(title, message, badgeCount, sec, cannelId);
+        var orderedConfigs = configs.
+            OrderBy(config => config.targetDateTime)
+            .Where(config => config.targetDateTime > DateTime.Now)
+            .ToList();
+        int badgeCount = 0;
+        foreach (var config in orderedConfigs)
+        {
+            badgeCount++;
+            AddSchedule(config, badgeCount);
+            //DebugUtils.LogJson("LocalPushNotification: ", config);
+        }
     }
 
-    public static void AddScheduleDays(string title, string message, int badgeCount, int elapsedDay, string cannelId)
+    static void AddSchedule(Config config, int badgeCount)
+    {
+        TimeSpan timeSpan = config.targetDateTime - DateTime.Now;
+        int sec = (int)timeSpan.TotalSeconds;
+        if (sec <= 0) return;
+        Config_Sec config_Sec = new()
+        {
+            title = config.title,
+            message = config.message,
+            elapsedTime = sec,
+            badgeCount = badgeCount,
+            cannelId = config.cannelId,
+        };
+        AddScheduleSec(config_Sec);
+    }
+
+    public static void AddScheduleDays(string title, string message, int elapsedDay, string cannelId)
     {
         int secPerDay = 60 * 60 * 24;
-        AddScheduleSec(title, message, badgeCount, secPerDay * elapsedDay, cannelId);
+        Config_Sec config = new()
+        {
+            title = title,
+            message = message,
+            elapsedTime = secPerDay * elapsedDay,
+            cannelId = cannelId,
+        };
+        AddScheduleSec(config);
     }
 
 
     // プッシュ通知を登録します。    
-    public static void AddScheduleSec(string title, string message, int badgeCount, int elapsedTime, string cannelId)
+    static void AddScheduleSec(Config_Sec config)
     {
 #if UNITY_ANDROID && !UNITY_EDITOR
-        SetAndroidNotification(title, message, badgeCount, elapsedTime, cannelId);
+        SetAndroidNotification(config.title, config.message, config.badgeCount, config.elapsedTime, config.cannelId);
 #endif
 #if UNITY_IOS && !UNITY_EDITOR
-        SetIOSNotification(title, message, badgeCount, elapsedTime);
+        SetIOSNotification(config.title, config.message, config.badgeCount, config.elapsedTime);
 #endif
     }
 
@@ -131,6 +162,7 @@ public static class LocalPushNotification
         iOSNotificationCenter.ScheduleNotification(new iOSNotification()
         {
             //プッシュ通知を個別に取り消しなどをする場合はこのIdentifierを使用します。(未検証)
+            // Identifierで通知を区別しているため、同じだと上書きされて前のが消える
             Identifier = $"_notification_{badgeCount}",
             Title = title,
             Body = message,
@@ -170,4 +202,22 @@ public static class LocalPushNotification
 
     }
 #endif
+
+    public class Config
+    {
+        public string title;
+        public string message;
+        public string cannelId;
+        public DateTime targetDateTime;
+    }
+
+    public class Config_Sec
+    {
+        public string title;
+        public string message;
+        public string cannelId;
+        public int badgeCount;
+        public int elapsedTime;
+    }
+
 }
