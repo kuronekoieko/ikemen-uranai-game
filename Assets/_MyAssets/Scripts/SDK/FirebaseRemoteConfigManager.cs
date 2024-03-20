@@ -30,8 +30,19 @@ public static class FirebaseRemoteConfigManager
     return FirebaseRemoteConfig.DefaultInstance.GetValue(key).StringValue;
   }
 
+  public static async UniTask<int> GetInt(string key)
+  {
+    await UniTask.WaitUntil(() => IsInitialized).Timeout(new TimeSpan(0, 0, 10));
+    return (int)FirebaseRemoteConfig.DefaultInstance.GetValue(key).LongValue;
+  }
+
   public static class Key
   {
     public static string google_calender_api_key = "google_calender_api_key";
+    public static string local_push_test_sec = "local_push_test_sec";
+
+
+
+
   }
 }
