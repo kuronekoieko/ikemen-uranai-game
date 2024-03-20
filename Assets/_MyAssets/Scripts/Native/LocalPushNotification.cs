@@ -39,6 +39,7 @@ public static class LocalPushNotification
     /// 通知をすべてクリアーします。   
     public static void AllClear()
     {
+        Debug.Log("LocalPushNotification: AllClear");
 #if UNITY_ANDROID && !UNITY_EDITOR
         // Androidの通知をすべて削除します。
         AndroidNotificationCenter.CancelAllScheduledNotifications();

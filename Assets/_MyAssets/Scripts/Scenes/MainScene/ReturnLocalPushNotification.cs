@@ -9,6 +9,7 @@ public static class ReturnLocalPushNotification
     {
         //ログインしたらリセット
         LocalPushNotification.AllClear();
+        Debug.Log("LocalPushNotification: 通知設定");
 
         int local_push_test_sec = await FirebaseRemoteConfigManager.GetInt(FirebaseRemoteConfigManager.Key.local_push_test_sec);
 
@@ -19,6 +20,8 @@ public static class ReturnLocalPushNotification
             local_push_test_sec,
             "001"
         );
+
+        return;
 
         if (SaveDataManager.SaveData.notification.isOnOthers == false) return;
 
