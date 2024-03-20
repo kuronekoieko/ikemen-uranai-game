@@ -40,9 +40,7 @@ public static class FirebaseRemoteConfigManager
   {
     public static string google_calender_api_key = "google_calender_api_key";
     public static string local_push_test_sec = "local_push_test_sec";
-
-
-
-
+    public static string local_push_test_count = "local_push_test_count";
+    public static string local_push_test_duration = "local_push_test_duration";
   }
 }
