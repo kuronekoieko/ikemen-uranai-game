@@ -22,6 +22,10 @@ namespace MainScene
             IsInitialized = false;
 
             Application.targetFrameRate = 60;
+            // https://qiita.com/norimatsu_yusuke/items/5babc03b27a1715bb56c
+            // 同時押し無効
+            Input.multiTouchEnabled = false;
+
             await FirebaseAuthenticationManager.Initialize();
             FirebaseStorageManager.Initialize();
             FirebaseDatabaseManager.Initialize();
