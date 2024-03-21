@@ -33,6 +33,46 @@ namespace MainScene
             FirebaseRemoteConfigManager.InitializeAsync().Forget();
             GoogleCalendarAPI.GetHolidaysAsync(DateTime.Now.Year).Forget();
 
+
+            bool is_maintenance = await FirebaseRemoteConfigManager.GetBool(FirebaseRemoteConfigManager.Key.is_maintenance);
+            if (is_maintenance)
+            {
+                await PopupManager.Instance.GetCommonPopup().ShowAsync(
+                        "",
+                        "メンテナンス中です\nしばらく時間をおいてお試しください。",
+                        "OK"
+                    );
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+#else
+                Application.Quit();
+#endif
+                return;
+            }
+
+
+            string latestVersion = await FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.latest_version);
+
+            if (latestVersion.TrimStart().TrimStart() != Application.version.TrimStart().TrimStart())
+            {
+                await PopupManager.Instance.GetCommonPopup().ShowAsync(
+                        "",
+                        "最新バージョンがあります。\nアプリをアップデートしてください。",
+                        "OK"
+                    );
+                Application.OpenURL("https://apps.apple.com/jp/charts/iphone");
+
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+#else
+                Application.Quit();
+#endif
+                return;
+            }
+
+
+
+
             await CSVManager.InitializeAsync();
             await SaveDataInitializer.Initialize(CSVManager.Characters, FirebaseAuthenticationManager.User.UserId);
 
