@@ -31,7 +31,6 @@ public class MenuScreen : BaseScreen
         menuElementObjs.Add(new() { title = "利用規約", onClick = OnClick_TermsOfUse });
         menuElementObjs.Add(new() { title = "プライバシーポリシー", onClick = OnClick_PrivacyPolicy });
         menuElementObjs.Add(new() { title = "特商・資金決済法の表記", onClick = OnClick_Disclaimer });
-        //menuElementObjs.Add(new() { title = "test", onClick = () => { WebView.OpenURL("https://www.google.co.jp/"); } });
 
         menuElementPool.Show(menuElementObjs.ToArray());
     }
@@ -48,16 +47,16 @@ public class MenuScreen : BaseScreen
 
     void OnClick_HowToPlay()
     {
-        WebView.OpenURL("https://ikebo.jp/howto");
+        WebView.OpenURL(URLs.HowToPlay);
     }
 
     void OnClick_QA()
     {
-        WebView.OpenURL("https://ikebo.jp/faq");
+        WebView.OpenURL(URLs.QA);
     }
     void OnClick_X()
     {
-        Application.OpenURL("https://twitter.com/ikebo");
+        Application.OpenURL(URLs.X);
     }
     void OnClick_AppReview()
     {
@@ -65,7 +64,7 @@ public class MenuScreen : BaseScreen
     }
     void OnClick_ContactUs()
     {
-        WebView.OpenURL("https://ikebo.jp/support");
+        WebView.OpenURL(URLs.ContactUs);
     }
     void OnClick_Notification()
     {
@@ -77,22 +76,21 @@ public class MenuScreen : BaseScreen
     }
     void OnClick_Account()
     {
-        WebView.OpenURL("https://ikebo.jp/transfer");
-
+        WebView.OpenURL(URLs.Account);
     }
     void OnClick_TermsOfUse()
     {
-        // WebView.OpenURL("https://ikebo.jp/kiyaku");
+        // WebView.OpenURL(URLs.TermsOfUse);
         ScreenManager.Instance.Get<DescriptionScreen>().Open("利用規約", termsOfUseStr);
     }
     void OnClick_PrivacyPolicy()
     {
-        WebView.OpenURL("https://ikebo.jp/privacypolicy");
+        WebView.OpenURL(URLs.PrivacyPolicy);
 
     }
     void OnClick_Disclaimer()
     {
         // 特商・資金決済法の表記
-        WebView.OpenURL("https://ikebo.jp/disclaimer");
+        WebView.OpenURL(URLs.Disclaimer);
     }
 }
