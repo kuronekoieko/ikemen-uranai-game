@@ -36,11 +36,19 @@ public static class FirebaseRemoteConfigManager
     return (int)FirebaseRemoteConfig.DefaultInstance.GetValue(key).LongValue;
   }
 
+  public static async UniTask<bool> GetBool(string key)
+  {
+    await UniTask.WaitUntil(() => IsInitialized).Timeout(new TimeSpan(0, 0, 10));
+    return FirebaseRemoteConfig.DefaultInstance.GetValue(key).BooleanValue;
+  }
+
   public static class Key
   {
     public static string google_calender_api_key = "google_calender_api_key";
     public static string local_push_test_sec = "local_push_test_sec";
     public static string local_push_test_count = "local_push_test_count";
     public static string local_push_test_duration = "local_push_test_duration";
+    public static string is_maintenance = "is_maintenance";
+    public static string latest_version = "latest_version";
   }
 }
