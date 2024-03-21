@@ -60,7 +60,7 @@ namespace MainScene
                         "最新バージョンがあります。\nアプリをアップデートしてください。",
                         "OK"
                     );
-                Application.OpenURL("https://apps.apple.com/jp/charts/iphone");
+                Application.OpenURL(URLs.APP_STORE_PAGE);
 
 #if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = false;
