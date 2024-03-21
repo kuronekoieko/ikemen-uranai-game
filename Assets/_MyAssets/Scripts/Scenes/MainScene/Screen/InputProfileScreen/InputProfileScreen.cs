@@ -61,7 +61,7 @@ public class InputProfileScreen : BaseScreen
         dayScrollSelector.SelectIndex(0);
     }
 
-    void OnClickNextButton()
+    async void OnClickNextButton()
     {
         int month = monthScrollSelector.SelectedIndex + 1;
         int day = dayScrollSelector.SelectedIndex + 1;
@@ -78,7 +78,7 @@ public class InputProfileScreen : BaseScreen
         {
             SaveDataManager.SaveData.name = inputField.text;
             SaveDataManager.SaveData.birthDay = birthDay;
-            SaveDataManager.Save();
+            await SaveDataManager.SaveAsync();
             var constellation = SaveDataManager.SaveData.Constellation;
             ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation, DateTime.Today, SaveDataManager.SaveData.GetCurrentCharacter());
             Close();

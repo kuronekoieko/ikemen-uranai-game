@@ -33,12 +33,6 @@ public class TodayHoroscopeButton : BaseHoroscopeButton
 
     protected async override void OnClick()
     {
-        var constellation = SaveDataManager.SaveData.Constellation;
-        ScreenManager.Instance.Get<HoroscopeScreen>().Open(
-            constellation,
-            DateTime.Today,
-            SaveDataManager.SaveData.GetCurrentCharacter());
-
         HoroscopeHistory horoscopeHistory = await GetHoroscopeHistory();
 
         if (horoscopeHistory == null) return;
@@ -49,8 +43,14 @@ public class TodayHoroscopeButton : BaseHoroscopeButton
         }
 
         SaveDataManager.SaveData.horoscopeHistories[Key].isReadTodayHoroscope = true;
-        SaveDataManager.Save();
+        await SaveDataManager.SaveAsync();
         ReturnLocalPushNotification.SetLocalPush();
         button.transform.DOKill(true);
+
+        var constellation = SaveDataManager.SaveData.Constellation;
+        ScreenManager.Instance.Get<HoroscopeScreen>().Open(
+            constellation,
+            DateTime.Today,
+            SaveDataManager.SaveData.GetCurrentCharacter());
     }
 }

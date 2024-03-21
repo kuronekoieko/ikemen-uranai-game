@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 
 
 
-public static class FirebaseDatabaseManager 
+public static class FirebaseDatabaseManager
 {
     static DatabaseReference reference;
 
@@ -24,6 +24,8 @@ public static class FirebaseDatabaseManager
 
     public static async UniTask SendSaveData(SaveData saveData)
     {
+        await PopupManager.Instance.GetPopup<OnlineCheckPopup>().CheckOnlineUntilOnline();
+
         string userId = FirebaseAuthenticationManager.User.UserId;
         // 空のidを送ると、サーバーのデータ全部消える
         if (string.IsNullOrEmpty(userId)) return;
@@ -33,6 +35,8 @@ public static class FirebaseDatabaseManager
 
     public static async UniTask RemoveSaveData()
     {
+        await PopupManager.Instance.GetPopup<OnlineCheckPopup>().CheckOnlineUntilOnline();
+
         string userId = FirebaseAuthenticationManager.User.UserId;
         // 空のidを送ると、サーバーのデータ全部消える
         if (string.IsNullOrEmpty(userId)) return;
@@ -42,6 +46,8 @@ public static class FirebaseDatabaseManager
 
     public static async UniTask<SaveData> GetUserData(string userId)
     {
+        await PopupManager.Instance.GetPopup<OnlineCheckPopup>().CheckOnlineUntilOnline();
+
         DataSnapshot snapshot = await reference.Child("users").Child(userId).GetValueAsync();
         string json = snapshot.GetRawJsonValue();
         Debug.Log(json);
@@ -61,6 +67,8 @@ public static class FirebaseDatabaseManager
 
     public static async Task<List<SaveData>> GetUsers()
     {
+        await PopupManager.Instance.GetPopup<OnlineCheckPopup>().CheckOnlineUntilOnline();
+
         List<SaveData> saveDatas = new();
 
         DataSnapshot snapshot = await reference.Child("users").GetValueAsync();
