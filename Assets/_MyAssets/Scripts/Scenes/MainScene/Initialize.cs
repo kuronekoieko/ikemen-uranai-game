@@ -66,7 +66,6 @@ namespace MainScene
 
             //await NaninovelInitializer.PlayAsync("Home/chara001-text001");
             IsInitialized = true;
-            if (PopupManager.Instance != null) PopupManager.Instance.GetPopup<OnlineCheckPopup>().StartCheckOnlineLoop();
         }
 
 

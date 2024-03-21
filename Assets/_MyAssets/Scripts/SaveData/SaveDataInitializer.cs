@@ -35,7 +35,7 @@ public static class SaveDataInitializer
         // 2024/01/18 23:19:23
         saveData.lastLoginDateTime = DateTime.Now.ToString();
 
-        SaveDataManager.Save();
+        await SaveDataManager.SaveAsync();
     }
 
     static Dictionary<string, Character> CreateCharacters(DataBase.Character[] databaseCharacters)

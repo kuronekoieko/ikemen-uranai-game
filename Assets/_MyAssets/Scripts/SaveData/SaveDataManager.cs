@@ -10,7 +10,7 @@ public static class SaveDataManager
     public static SaveData SaveData => _SaveData;
     private static SaveData _SaveData;
 
-    public static async void Save()
+    public static async UniTask SaveAsync()
     {
         //ユーザーデータオブジェクトからjson形式のstringを取得
         string jsonStr = JsonConvert.SerializeObject(SaveData, Formatting.Indented);
@@ -20,10 +20,10 @@ public static class SaveDataManager
     }
 
 
-    public static void Replace(SaveData t)
+    public static async void Replace(SaveData t)
     {
         _SaveData = t;
-        Save();
+        await SaveAsync();
     }
 
     public static async UniTask Load()
@@ -48,7 +48,7 @@ public static class SaveDataManager
 
 
         //ユーザーデータ保存
-        Save();
+        await SaveAsync();
     }
 
     public static async UniTask LoadOverWriteAsync(SaveData defaultSaveData)
@@ -69,7 +69,7 @@ public static class SaveDataManager
         _SaveData ??= defaultSaveData;
 
         //ユーザーデータ保存
-        Save();
+        await SaveAsync();
     }
 
 

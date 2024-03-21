@@ -51,13 +51,10 @@ public class SelectCharacterScreen : BaseScreen
 
     async void OnClickSelectButton()
     {
-
-
-
         if (SaveDataManager.SaveData.currentCharacterId != snapScrollView.Page + 1)
         {
             SaveDataManager.SaveData.currentCharacterId = snapScrollView.Page + 1;
-            SaveDataManager.Save();
+            await SaveDataManager.SaveAsync();
 
             // 連打対策
             selectButton.interactable = false;
