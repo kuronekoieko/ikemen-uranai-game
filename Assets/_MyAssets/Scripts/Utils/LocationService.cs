@@ -7,13 +7,14 @@ using UnityEngine;
 public class LocationService
 {
     // https://docs.unity3d.com/ja/current/ScriptReference/LocationService.Start.html
-    public static async UniTask<bool> Start()
+    public static async void Start()
     {
         // Check if the user has location service enabled.
         if (!Input.location.isEnabledByUser)
         {
-            Debug.Log("not enabled by user");
-            return false;
+            Debug.Log("LocationService: " + "not enabled by user");
+            OpenSettings.Open();
+            return;
         }
 
         // Starts the location service.
@@ -27,28 +28,25 @@ public class LocationService
         // If the service didn't initialize in 20 seconds this cancels location service use.
         if (result == 1)
         {
-            Debug.Log("Timed out");
-            return false;
+            Debug.Log("LocationService: " + "Timed out");
+            return;
         }
 
-        // If the connection failed this cancels location service use.
-        if (Input.location.status == LocationServiceStatus.Failed)
+        Debug.Log("LocationService: " + Input.location.status);
+
+        switch (Input.location.status)
         {
-            Debug.Log("Unable to determine device location");
-
-            // Stops the location service if there is no need to query location updates continuously.
-            Input.location.Stop();
-            return false;
+            case LocationServiceStatus.Stopped:
+                break;
+            case LocationServiceStatus.Running:
+                break;
+            case LocationServiceStatus.Failed:
+                OpenSettings.Open();
+                break;
+            default:
+                break;
         }
-        else
-        {
-            // If the connection succeeded, this retrieves the device's current location and displays it in the Console window.
-            Debug.Log("Location: " + Input.location.lastData.latitude + " " + Input.location.lastData.longitude + " " + Input.location.lastData.altitude + " " + Input.location.lastData.horizontalAccuracy + " " + Input.location.lastData.timestamp);
-
-            // Stops the location service if there is no need to query location updates continuously.
-            Input.location.Stop();
-            return true;
-        }
-
+        Input.location.Stop();
+        Debug.Log("LocationService: " + Input.location.status);
     }
 }
