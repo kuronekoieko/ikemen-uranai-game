@@ -71,11 +71,9 @@ public class MenuScreen : BaseScreen
     {
         ScreenManager.Instance.Get<NotificationSettingScreen>().Open();
     }
-    async void OnClick_Location()
+    void OnClick_Location()
     {
-        bool succeeded = await LocationService.Start();
-        if (succeeded == false) OpenSettings.Open();
-
+        LocationService.Start();
     }
     void OnClick_Account()
     {
