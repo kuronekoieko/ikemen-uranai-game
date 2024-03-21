@@ -12,6 +12,12 @@ namespace InitializeScene
         [SerializeField] PopupManager popupManager;
         [SerializeField] Image splashImage;
 
+        [RuntimeInitializeOnLoadMethod]
+        static void RuntimeInitializeOnLoad()
+        {
+            SceneManager.LoadScene(0);
+        }
+
         async void Start()
         {
             popupManager.OnStart();
