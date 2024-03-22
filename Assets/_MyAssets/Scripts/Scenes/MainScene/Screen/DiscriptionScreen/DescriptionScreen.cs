@@ -17,7 +17,7 @@ public class DescriptionScreen : BaseScreen
         base.OnStart();
     }
 
-    public void Open(string title, string description)
+    public void Open(string title, string url)
     {
         base.Open();
 
@@ -37,11 +37,18 @@ public class DescriptionScreen : BaseScreen
         // Debug.Log(bodyRT.rect.xMax);
         // Debug.Log(rectTransform.rect.height / 2 - bodyRT.rect.yMax);
 
-        Vector2 bodyPos_BottomLeftFromCenter = bodyRT.anchoredPosition - bodyRT.rect.size / 2;
+
+        Debug.Log(bodyRT.rect.position);
+        Debug.Log(rectTransform.rect.position);
+
+        Vector2 vector2 = bodyRT.rect.position - rectTransform.rect.position;
+        Debug.Log(vector2);
+
+        // Vector2 bodyPos_BottomLeftFromCenter = bodyRT.anchoredPosition - bodyRT.rect.size / 2;
 
         // Debug.Log(bodyPos_BottomLeftFromCenter);
 
-        Vector2 pos_BottomLeftFromBottomLeftFrom = bodyPos_BottomLeftFromCenter + rectTransform.rect.size / 2;
+        // Vector2 pos_BottomLeftFromBottomLeftFrom = bodyPos_BottomLeftFromCenter + rectTransform.rect.size / 2;
         // Debug.Log(pos_BottomLeftFromBottomLeftFrom);
 
         // Debug.Log(poFromScreensBottomLeft);
@@ -55,16 +62,25 @@ public class DescriptionScreen : BaseScreen
 
         Rect rect = new
         (
-            pos_BottomLeftFromBottomLeftFrom.x * CanvasManager.Instance.Rate,
-            pos_BottomLeftFromBottomLeftFrom.y * CanvasManager.Instance.Rate,
+            vector2.x * CanvasManager.Instance.Rate,
+            vector2.y * CanvasManager.Instance.Rate,
             bodyRT.rect.width * CanvasManager.Instance.Rate,
             bodyRT.rect.height * CanvasManager.Instance.Rate
         );
-        Debug.Log(rect);
 
-        WebView.OpenURL(URLs.Account, rect.ToRectInt());
+        // rect.x = await FirebaseRemoteConfigManager.GetInt(FirebaseRemoteConfigManager.Key.test_x);
+        // rect.y = await FirebaseRemoteConfigManager.GetInt(FirebaseRemoteConfigManager.Key.test_y);
+        // rect.width = await FirebaseRemoteConfigManager.GetInt(FirebaseRemoteConfigManager.Key.test_w);
+        // rect.height = await FirebaseRemoteConfigManager.GetInt(FirebaseRemoteConfigManager.Key.test_h);
+        Debug.Log(rect.ToRectInt());
+
+
+        // WebView.OpenURL(URLs.Account, rect.ToRectInt());
+        url = "https://www.google.co.jp/";
+        WebView.OpenURL(url, rect.ToRectInt());
+
         titleText.text = title;
-        descriptionText.text = description;
+        // descriptionText.text = description;
 
         // dummyRT.size = new Vector2(rect.width, rect.height);
         // dummyRT.anchoredPosition = new Vector3(rect.x, rect.y);

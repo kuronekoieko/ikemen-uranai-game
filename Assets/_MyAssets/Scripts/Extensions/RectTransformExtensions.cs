@@ -99,11 +99,37 @@ public static class RectTransformExtensions
     public static RectInt ToRectInt(this Rect self)
     {
         RectInt rectInt = new(
-            Mathf.FloorToInt(self.x),
-            Mathf.FloorToInt(self.y),
+            Mathf.CeilToInt(self.x),
+            Mathf.CeilToInt(self.y),
             Mathf.CeilToInt(self.width),
             Mathf.CeilToInt(self.height)
         );
         return rectInt;
+    }
+
+    public static Rect ToRect(this RectInt self)
+    {
+        Rect rect = new(
+            self.x,
+            self.y,
+            self.width,
+            self.height
+        );
+        return rect;
+    }
+
+    /// <summary>
+    /// Rect構造体の情報を元に領域を決定する
+    /// https://nekojara.city/unity-rect-transform-corners#Rect%E6%A7%8B%E9%80%A0%E4%BD%93%E3%81%A7%E6%8C%87%E5%AE%9A%E3%81%99%E3%82%8B/// 
+    /// </summary>
+    public static void SetRect(this RectTransform rt, in Rect rect)
+    {
+        // アンカー領域を左下に設定する
+        rt.anchorMin = Vector2.zero;
+        rt.anchorMax = Vector2.zero;
+
+        // 親の左下を原点に、指定された矩形の位置を設定する
+        rt.offsetMin = rect.min;
+        rt.offsetMax = rect.max;
     }
 }

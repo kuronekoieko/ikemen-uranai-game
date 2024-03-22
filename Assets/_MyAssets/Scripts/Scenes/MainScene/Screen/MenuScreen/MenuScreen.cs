@@ -47,12 +47,12 @@ public class MenuScreen : BaseScreen
 
     void OnClick_HowToPlay()
     {
-        WebView.OpenURL(URLs.HowToPlay);
+        ScreenManager.Instance.Get<DescriptionScreen>().Open("遊び方", URLs.HowToPlay);
     }
 
     void OnClick_QA()
     {
-        WebView.OpenURL(URLs.QA);
+        ScreenManager.Instance.Get<DescriptionScreen>().Open("よくある質問", URLs.QA);
     }
     void OnClick_X()
     {
@@ -64,7 +64,7 @@ public class MenuScreen : BaseScreen
     }
     void OnClick_ContactUs()
     {
-        WebView.OpenURL(URLs.ContactUs);
+        ScreenManager.Instance.Get<DescriptionScreen>().Open("サポートへ問い合わせ", URLs.ContactUs);
     }
     void OnClick_Notification()
     {
@@ -76,21 +76,20 @@ public class MenuScreen : BaseScreen
     }
     void OnClick_Account()
     {
-        WebView.OpenURL(URLs.Account);
+        ScreenManager.Instance.Get<DescriptionScreen>().Open("機種変更", URLs.Account);
     }
     void OnClick_TermsOfUse()
     {
-        // WebView.OpenURL(URLs.TermsOfUse);
-        ScreenManager.Instance.Get<DescriptionScreen>().Open("利用規約", termsOfUseStr);
+        ScreenManager.Instance.Get<DescriptionScreen>().Open("利用規約", URLs.TermsOfUse);
     }
     void OnClick_PrivacyPolicy()
     {
-        WebView.OpenURL(URLs.PrivacyPolicy);
+        ScreenManager.Instance.Get<DescriptionScreen>().Open("プライバシーポリシー", URLs.PrivacyPolicy);
 
     }
     void OnClick_Disclaimer()
     {
         // 特商・資金決済法の表記
-        WebView.OpenURL(URLs.Disclaimer);
+        ScreenManager.Instance.Get<DescriptionScreen>().Open("特商・資金決済法の表記", URLs.Disclaimer);
     }
 }

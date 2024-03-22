@@ -4,6 +4,7 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using UnityEngine.Events;
 using System;
+using UnityEngine.SceneManagement;
 
 
 namespace MainScene
@@ -15,6 +16,12 @@ namespace MainScene
         bool IsInitialized;
 
         public UnityAction OnUpdate = () => { };
+
+        [RuntimeInitializeOnLoadMethod]
+        static void RuntimeInitializeOnLoad()
+        {
+            SceneManager.LoadScene(0);
+        }
 
         private async void Start()
         {
