@@ -25,4 +25,6 @@ public class CanvasManager : SingletonMonoBehaviour<CanvasManager>
         }
     }
     CanvasScaler _canvasScaler;
+
+    public float Rate => Screen.width / CanvasScaler.referenceResolution.x;
 }
