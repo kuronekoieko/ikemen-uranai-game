@@ -6,31 +6,22 @@ using UnityEngine;
 
 public static class WebView
 {
-    public static void OpenURL(string url)
-    {
-        int height = (int)CanvasManager.Instance.CanvasScaler.referenceResolution.y;
-        int width = (int)CanvasManager.Instance.CanvasScaler.referenceResolution.x;
-        // OpenURL(url, width, height);
-    }
-
     public static void Close()
     {
         if (Application.isEditor)
         {
             //Application.OpenURL(url);
-            DummyWebview.Instance.Close();
             return;
         }
         GpmWebView.Close();
 
     }
 
-    public static void OpenURL(string url, RectInt rect)
+    public static void OpenURL(string url, Rect rect)
     {
         if (Application.isEditor)
         {
             //Application.OpenURL(url);
-            DummyWebview.Instance.Show(rect);
             return;
         }
 
@@ -61,17 +52,13 @@ public static class WebView
                 "USER_ CUSTOM_SCHEME"
             });
 
+        RectInt rectInt = rect.ToRectInt();
+
+        // Configurationでも設定できるが、反映されないのでこっちで
         GpmWebView.SetMargins(0, 0, 0, 0);
-        // 左上原点
-        GpmWebView.SetPosition(rect.x, rect.y);
-        GpmWebView.SetSize(rect.width, rect.height);
-
-
-        Debug.Log("GpmWebView: " + GpmWebView.GetX());
-        Debug.Log("GpmWebView: " + GpmWebView.GetY());
-        Debug.Log("GpmWebView: " + GpmWebView.GetWidth());
-        Debug.Log("GpmWebView: " + GpmWebView.GetHeight());
-
+        // 左上原点、yは下が正
+        GpmWebView.SetPosition(rectInt.x, rectInt.y);
+        GpmWebView.SetSize(rectInt.width, rectInt.height);
     }
 
     static void OnCallback(
