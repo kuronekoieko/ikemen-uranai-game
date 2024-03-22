@@ -46,24 +46,17 @@ public class SelectCharacterScreen : BaseScreen
             return UniTask.DelayFrame(0);
         });
 
-        selectButton.AddListener(() =>
-        {
-            OnClickSelectButton();
-            return UniTask.DelayFrame(0);
-        });
+        selectButton.AddListener(OnClickSelectButton);
     }
 
-    async void OnClickSelectButton()
+    async UniTask OnClickSelectButton()
     {
         if (SaveDataManager.SaveData.currentCharacterId != snapScrollView.Page + 1)
         {
             SaveDataManager.SaveData.currentCharacterId = snapScrollView.Page + 1;
             await SaveDataManager.SaveAsync();
 
-            // 連打対策
-            // selectButton.interactable = false;
             await NaninovelManager.PlayHomeAsync(SaveDataManager.SaveData.currentCharacterId);
-            // selectButton.interactable = true;
 
             PageManager.Instance.Get<HomePage>().EnableButtons(true);
         }
