@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class NotificationSettingScreen : BaseScreen
 {
     [SerializeField] NotificationSettingPool notificationSettingPool;
+    [SerializeField] TextMeshProUGUI titleText;
 
 
 
@@ -36,8 +38,9 @@ public class NotificationSettingScreen : BaseScreen
         notificationSettingPool.Show(notificationSettingObjs.ToArray());
     }
 
-    public override void Open()
+    public void Open(string title)
     {
+        titleText.text = title;
         base.Open();
     }
 

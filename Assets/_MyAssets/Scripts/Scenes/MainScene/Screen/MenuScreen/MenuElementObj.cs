@@ -6,5 +6,5 @@ using UnityEngine.Events;
 public class MenuElementObj
 {
     public string title;
-    public UnityAction onClick;
+    public UnityAction<string> onClick;
 }
