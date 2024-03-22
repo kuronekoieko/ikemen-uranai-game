@@ -15,7 +15,14 @@ public static class WebView
 
     public static void Close()
     {
+        if (Application.isEditor)
+        {
+            //Application.OpenURL(url);
+            DummyWebview.Instance.Close();
+            return;
+        }
         GpmWebView.Close();
+
     }
 
     public static void OpenURL(string url, RectInt rect)
@@ -23,6 +30,7 @@ public static class WebView
         if (Application.isEditor)
         {
             //Application.OpenURL(url);
+            DummyWebview.Instance.Show(rect);
             return;
         }
 
@@ -31,7 +39,7 @@ public static class WebView
             url,
             new GpmWebViewRequest.Configuration()
             {
-                style = GpmWebViewStyle.FULLSCREEN,
+                style = GpmWebViewStyle.POPUP,
                 orientation = GpmOrientation.PORTRAIT,
                 isClearCookie = true,
                 isClearCache = true,
@@ -43,19 +51,7 @@ public static class WebView
                 isForwardButtonVisible = true,
                 isCloseButtonVisible = true,
                 supportMultipleWindows = true,
-                size = new GpmWebViewRequest.Size
-                {
-                    height = rect.height,
-                    width = rect.width,
-                },
-                position = new GpmWebViewRequest.Position
-                {
-                    x = rect.x,
-                    y = rect.y,
-                },
-#if  UNITY_EDITOR
-                contentMode = GpmWebViewContentMode.RECOMMENDED
-#elif UNITY_IOS
+#if  UNITY_IOS
                 contentMode = GpmWebViewContentMode.MOBILE
 #endif
             },
@@ -64,6 +60,17 @@ public static class WebView
             {
                 "USER_ CUSTOM_SCHEME"
             });
+
+        GpmWebView.SetMargins(0, 0, 0, 0);
+        // 左上原点
+        GpmWebView.SetPosition(rect.x, rect.y);
+        GpmWebView.SetSize(rect.width, rect.height);
+
+
+        Debug.Log("GpmWebView: " + GpmWebView.GetX());
+        Debug.Log("GpmWebView: " + GpmWebView.GetY());
+        Debug.Log("GpmWebView: " + GpmWebView.GetWidth());
+        Debug.Log("GpmWebView: " + GpmWebView.GetHeight());
 
     }
 
