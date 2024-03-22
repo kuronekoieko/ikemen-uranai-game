@@ -39,7 +39,7 @@ public class TomorrowHoroscopeButton : BaseHoroscopeButton
         return horoscopeHistory.isReadNextDayHoroscope == false && button.interactable;
     }
 
-    protected async override void OnClick()
+    protected async override UniTask OnClick()
     {
         HoroscopeHistory horoscopeHistory = await GetHoroscopeHistory();
         if (horoscopeHistory == null) return;

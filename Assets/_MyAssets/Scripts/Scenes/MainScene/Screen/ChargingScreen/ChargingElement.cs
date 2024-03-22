@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,9 +17,9 @@ public class ChargingElement : ObjectPoolingElement
 
     public void OnStart()
     {
-        button.onClick.AddListener(() =>
+        button.AddListener(() =>
         {
-
+            return UniTask.DelayFrame(0);
         });
     }
 

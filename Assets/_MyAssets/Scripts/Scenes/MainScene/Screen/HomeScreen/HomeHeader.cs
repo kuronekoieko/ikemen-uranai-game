@@ -7,6 +7,7 @@ using System;
 using System.Globalization;
 using MainScene;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 
 public class HomeHeader : MonoBehaviour
 {
@@ -34,8 +35,8 @@ public class HomeHeader : MonoBehaviour
 
     public void OnStart()
     {
-        chargingScreenButton.onClick.AddListener(OnClickChargingScreenButton);
-        openMenuScreenButton.onClick.AddListener(OnClickOpenMenuScreenButton);
+        chargingScreenButton.AddListener(OnClickChargingScreenButton);
+        openMenuScreenButton.AddListener(OnClickOpenMenuScreenButton);
         Initialize.Instance.OnUpdate += OnUpdate;
     }
 
@@ -120,13 +121,16 @@ public class HomeHeader : MonoBehaviour
         return CSVManager.Characters.FirstOrDefault(character => character.id == characterId);
     }
 
-    void OnClickChargingScreenButton()
+    UniTask OnClickChargingScreenButton()
     {
         ScreenManager.Instance.Get<ChargingScreen>().Open();
+        return UniTask.DelayFrame(0);
     }
 
-    void OnClickOpenMenuScreenButton()
+    UniTask OnClickOpenMenuScreenButton()
     {
         ScreenManager.Instance.Get<MenuScreen>().Open();
+        return UniTask.DelayFrame(0);
+
     }
 }

@@ -15,7 +15,7 @@ public abstract class BaseHoroscopeButton : MonoBehaviour
 
     public virtual void OnStart()
     {
-        button.onClick.AddListener(OnClick);
+        button.AddListener(OnClick);
     }
 
     public virtual void OnOpen()
@@ -44,6 +44,6 @@ public abstract class BaseHoroscopeButton : MonoBehaviour
             });
     }
 
-    protected abstract void OnClick();
+    protected abstract UniTask OnClick();
 
 }

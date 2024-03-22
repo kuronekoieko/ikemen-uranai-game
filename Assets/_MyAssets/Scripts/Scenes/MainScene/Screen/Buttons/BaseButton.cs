@@ -18,7 +18,7 @@ public abstract class BaseButton : MonoBehaviour
 
     void Awake()
     {
-        Button.onClick.AddListener(OnClick);
+        //Button.AddListener(OnClick);
     }
 
     public abstract void OnClick();

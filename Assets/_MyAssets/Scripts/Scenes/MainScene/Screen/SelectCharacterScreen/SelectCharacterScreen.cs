@@ -6,6 +6,7 @@ using SnapScroll;
 using System.Linq;
 using System;
 using TMPro;
+using Cysharp.Threading.Tasks;
 
 public class SelectCharacterScreen : BaseScreen
 {
@@ -32,20 +33,23 @@ public class SelectCharacterScreen : BaseScreen
         snapScrollView.OnPageChanged += OnPageChanged;
         snapScrollView.RefreshPage(false);
 
-        leftButton.onClick.AddListener(() =>
+        leftButton.AddListener(() =>
         {
             snapScrollView.Page = Mathf.Clamp(snapScrollView.Page - 1, 0, snapScrollView.MaxPage);
             snapScrollView.RefreshPage();
+            return UniTask.DelayFrame(0);
         });
-        rightButton.onClick.AddListener(() =>
+        rightButton.AddListener(() =>
         {
             snapScrollView.Page = Mathf.Clamp(snapScrollView.Page + 1, 0, snapScrollView.MaxPage);
             snapScrollView.RefreshPage();
+            return UniTask.DelayFrame(0);
         });
 
-        selectButton.onClick.AddListener(() =>
+        selectButton.AddListener(() =>
         {
             OnClickSelectButton();
+            return UniTask.DelayFrame(0);
         });
     }
 
@@ -57,9 +61,9 @@ public class SelectCharacterScreen : BaseScreen
             await SaveDataManager.SaveAsync();
 
             // 連打対策
-            selectButton.interactable = false;
+            // selectButton.interactable = false;
             await NaninovelManager.PlayHomeAsync(SaveDataManager.SaveData.currentCharacterId);
-            selectButton.interactable = true;
+            // selectButton.interactable = true;
 
             PageManager.Instance.Get<HomePage>().EnableButtons(true);
         }
@@ -80,8 +84,9 @@ public class SelectCharacterScreen : BaseScreen
         snapScrollView.RefreshPage(false);
     }
 
-    public override void Close()
+    public override UniTask Close()
     {
         base.Close();
+        return UniTask.DelayFrame(0);
     }
 }

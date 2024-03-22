@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Cysharp.Threading.Tasks;
 
 public class NotificationSettingScreen : BaseScreen
 {
@@ -44,9 +45,10 @@ public class NotificationSettingScreen : BaseScreen
         base.Open();
     }
 
-    public override void Close()
+    public override UniTask Close()
     {
         base.Close();
+        return UniTask.DelayFrame(0);
     }
 
     async void OnValueChanged_NextDay(bool isOn)

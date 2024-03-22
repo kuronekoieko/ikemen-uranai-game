@@ -72,8 +72,9 @@ public class LoadingScreen : BaseScreen
     }
 
 
-    public override void Close()
+    public override UniTask Close()
     {
         base.Close();
+        return UniTask.DelayFrame(0);
     }
 }

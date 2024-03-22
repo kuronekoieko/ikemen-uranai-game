@@ -36,7 +36,7 @@ public class InputProfileScreen : BaseScreen
         dayScrollSelector.OnStart(days);
 
 
-        nextButton.onClick.AddListener(OnClickNextButton);
+        nextButton.AddListener(OnClickNextButton);
         Initialize.Instance.OnUpdate += OnUpdate;
         // スプラッシュの上に出てしまうため
         // inputField.SetVisible(false);
@@ -61,7 +61,7 @@ public class InputProfileScreen : BaseScreen
         dayScrollSelector.SelectIndex(0);
     }
 
-    async void OnClickNextButton()
+    async UniTask OnClickNextButton()
     {
         int month = monthScrollSelector.SelectedIndex + 1;
         int day = dayScrollSelector.SelectedIndex + 1;
@@ -81,12 +81,13 @@ public class InputProfileScreen : BaseScreen
             await SaveDataManager.SaveAsync();
             var constellation = SaveDataManager.SaveData.Constellation;
             ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation, DateTime.Today, SaveDataManager.SaveData.GetCurrentCharacter());
-            Close();
+            await Close();
         }
     }
 
-    public override void Close()
+    public override UniTask Close()
     {
         base.Close();
+        return UniTask.DelayFrame(0);
     }
 }

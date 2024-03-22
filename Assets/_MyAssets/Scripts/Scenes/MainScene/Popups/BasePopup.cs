@@ -22,8 +22,16 @@ public class BasePopup : MonoBehaviour
     public virtual void OnStart()
     {
         gameObject.SetActive(false);
-        if (negativeButton) negativeButton.onClick.AddListener(OnClickNegativeButton);
-        if (positiveButton) positiveButton.onClick.AddListener(OnClickPositiveButton);
+        if (negativeButton) negativeButton.AddListener(() =>
+        {
+            OnClickNegativeButton();
+            return UniTask.DelayFrame(0);
+        });
+        if (positiveButton) positiveButton.AddListener(() =>
+        {
+            OnClickPositiveButton();
+            return UniTask.DelayFrame(0);
+        });
         tag = "Popup";
         canvasGroup = GetComponent<CanvasGroup>();
         AddImage();

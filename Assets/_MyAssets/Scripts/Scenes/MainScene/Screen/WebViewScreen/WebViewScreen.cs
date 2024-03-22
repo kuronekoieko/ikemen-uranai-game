@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Cysharp.Threading.Tasks;
 
 public class WebViewScreen : BaseScreen
 {
@@ -45,9 +46,10 @@ public class WebViewScreen : BaseScreen
         GUI.Box(rect, "web view");
     }
 
-    public override void Close()
+    public override UniTask Close()
     {
         WebView.Close();
         base.Close();
+        return UniTask.DelayFrame(0);
     }
 }

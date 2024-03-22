@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using DataBase;
 using TMPro;
 using UnityEngine;
@@ -16,9 +17,10 @@ public class RankingScreen : BaseScreen
     [SerializeField] Button homeButton;
 
 
-    public override void Close()
+    public override UniTask Close()
     {
         base.Close();
+        return UniTask.DelayFrame(0);
     }
 
     public override void OnStart()
@@ -30,16 +32,16 @@ public class RankingScreen : BaseScreen
             rankingElement.OnStart();
         }
 
-        myFortuneButton.onClick.AddListener(() =>
+        myFortuneButton.AddListener(async () =>
         {
-            Close();
+            await Close();
             var constellation = SaveDataManager.SaveData.Constellation;
             ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation, DateTime.Today, SaveDataManager.SaveData.GetCurrentCharacter());
         });
 
-        homeButton.onClick.AddListener(() =>
+        homeButton.AddListener(async () =>
         {
-            Close();
+            await Close();
             ScreenManager.Instance.Get<HomeScreen>().Open();
         });
     }

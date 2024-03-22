@@ -34,9 +34,9 @@ public class HoroscopeScreen : BaseScreen
     public override void OnStart()
     {
         base.OnStart();
-        otherConstellationInfoButton.onClick.AddListener(OnClickOtherConstellationInfoButton);
-        homeButton.onClick.AddListener(OnClickHomeButton);
-        replayButton.onClick.AddListener(OnClickReplayButton);
+        otherConstellationInfoButton.AddListener(OnClickOtherConstellationInfoButton);
+        homeButton.AddListener(OnClickHomeButton);
+        replayButton.AddListener(OnClickReplayButton);
         defaultCharacterSprite = characterImage.sprite;
         defaultConstellationSprite = constellationImage.sprite;
     }
@@ -63,7 +63,7 @@ public class HoroscopeScreen : BaseScreen
 
         // TODO: 失敗したとき
         // var (fortunes, audioClip) = await UniTask.WhenAll(task1, task2);
-        ScreenManager.Instance.Get<LoadingScreen>().Close();
+        await ScreenManager.Instance.Get<LoadingScreen>().Close();
 
         base.Open();
 
@@ -160,18 +160,20 @@ public class HoroscopeScreen : BaseScreen
     }
 
 
-    void OnClickOtherConstellationInfoButton()
+    UniTask OnClickOtherConstellationInfoButton()
     {
         Close();
         ScreenManager.Instance.Get<RankingScreen>().Open();
+        return UniTask.DelayFrame(0);
     }
-    void OnClickHomeButton()
+    UniTask OnClickHomeButton()
     {
         Close();
         ScreenManager.Instance.Get<HomeScreen>().Open();
+        return UniTask.DelayFrame(0);
     }
 
-    void OnClickReplayButton()
+    UniTask OnClickReplayButton()
     {
         if (audioClip != null)
         {
@@ -181,10 +183,13 @@ public class HoroscopeScreen : BaseScreen
         {
             Debug.LogError("音声がありません");
         }
+        return UniTask.DelayFrame(0);
     }
 
-    public override void Close()
+    public override UniTask Close()
     {
         base.Close();
+        return UniTask.DelayFrame(0);
     }
 }
+

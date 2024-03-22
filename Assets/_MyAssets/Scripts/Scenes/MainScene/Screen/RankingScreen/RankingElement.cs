@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using DataBase;
 using System.Linq;
 using System;
+using Cysharp.Threading.Tasks;
 
 public class RankingElement : MonoBehaviour
 {
@@ -16,11 +17,12 @@ public class RankingElement : MonoBehaviour
     Constellation constellation;
     public void OnStart()
     {
-        button.onClick.AddListener(() =>
-         {
-             ScreenManager.Instance.Get<RankingScreen>().Close();
-             ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation, DateTime.Today, SaveDataManager.SaveData.GetCurrentCharacter());
-         });
+        button.AddListener(() =>
+        {
+            ScreenManager.Instance.Get<RankingScreen>().Close();
+            ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation, DateTime.Today, SaveDataManager.SaveData.GetCurrentCharacter());
+            return UniTask.DelayFrame(0);
+        });
     }
 
     public void Show(Fortune fortune)
