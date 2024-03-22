@@ -11,8 +11,6 @@ public class MenuScreen : BaseScreen
 {
     [SerializeField] MenuElementPool menuElementPool;
 
-    [TextArea]
-    [SerializeField] string termsOfUseStr;
 
     public override void OnStart()
     {
@@ -45,51 +43,49 @@ public class MenuScreen : BaseScreen
         base.Close();
     }
 
-    void OnClick_HowToPlay()
+    void OnClick_HowToPlay(string title)
     {
-        ScreenManager.Instance.Get<WebViewScreen>().Open("遊び方", URLs.HowToPlay);
+        ScreenManager.Instance.Get<WebViewScreen>().Open(title, URLs.HowToPlay);
     }
-
-    void OnClick_QA()
+    void OnClick_QA(string title)
     {
-        ScreenManager.Instance.Get<WebViewScreen>().Open("よくある質問", URLs.QA);
+        ScreenManager.Instance.Get<WebViewScreen>().Open(title, URLs.QA);
     }
-    void OnClick_X()
+    void OnClick_X(string title)
     {
         Application.OpenURL(URLs.X);
     }
-    void OnClick_AppReview()
+    void OnClick_AppReview(string title)
     {
         InAppReviewManager.RequestReview();
     }
-    void OnClick_ContactUs()
+    void OnClick_ContactUs(string title)
     {
-        ScreenManager.Instance.Get<WebViewScreen>().Open("サポートへ問い合わせ", URLs.ContactUs);
+        ScreenManager.Instance.Get<WebViewScreen>().Open(title, URLs.ContactUs);
     }
-    void OnClick_Notification()
+    void OnClick_Notification(string title)
     {
-        ScreenManager.Instance.Get<NotificationSettingScreen>().Open();
+        ScreenManager.Instance.Get<NotificationSettingScreen>().Open(title);
     }
-    void OnClick_Location()
+    void OnClick_Location(string title)
     {
         LocationService.Start();
     }
-    void OnClick_Account()
+    void OnClick_Account(string title)
     {
-        ScreenManager.Instance.Get<WebViewScreen>().Open("機種変更", URLs.Account);
+        ScreenManager.Instance.Get<WebViewScreen>().Open(title, URLs.Account);
     }
-    void OnClick_TermsOfUse()
+    void OnClick_TermsOfUse(string title)
     {
-        ScreenManager.Instance.Get<WebViewScreen>().Open("利用規約", URLs.TermsOfUse);
+        ScreenManager.Instance.Get<WebViewScreen>().Open(title, URLs.TermsOfUse);
     }
-    void OnClick_PrivacyPolicy()
+    void OnClick_PrivacyPolicy(string title)
     {
-        ScreenManager.Instance.Get<WebViewScreen>().Open("プライバシーポリシー", URLs.PrivacyPolicy);
-
+        ScreenManager.Instance.Get<WebViewScreen>().Open(title, URLs.PrivacyPolicy);
     }
-    void OnClick_Disclaimer()
+    void OnClick_Disclaimer(string title)
     {
         // 特商・資金決済法の表記
-        ScreenManager.Instance.Get<WebViewScreen>().Open("特商・資金決済法の表記", URLs.Disclaimer);
+        ScreenManager.Instance.Get<WebViewScreen>().Open(title, URLs.Disclaimer);
     }
 }

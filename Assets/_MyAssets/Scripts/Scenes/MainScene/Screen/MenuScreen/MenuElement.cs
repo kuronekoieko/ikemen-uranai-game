@@ -9,7 +9,7 @@ public class MenuElement : ObjectPoolingElement
 {
     public TextMeshProUGUI titleText;
     [SerializeField] Button button;
-    UnityAction onClick;
+    UnityAction<string> onClick;
 
 
     public override void OnInstantiate()
@@ -26,6 +26,6 @@ public class MenuElement : ObjectPoolingElement
 
     void OnClick()
     {
-        onClick?.Invoke();
+        onClick?.Invoke(titleText.text);
     }
 }
