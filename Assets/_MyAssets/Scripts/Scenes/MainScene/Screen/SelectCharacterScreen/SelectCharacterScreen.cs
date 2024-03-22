@@ -68,7 +68,7 @@ public class SelectCharacterScreen : BaseScreen
             PageManager.Instance.Get<HomePage>().EnableButtons(true);
         }
 
-        Close();
+        await Close();
     }
 
     void OnPageChanged()
