@@ -21,7 +21,7 @@ public class DummyWebview : SingletonMonoBehaviour<DummyWebview>
         // rectTransform.sizeDelta = rect.size;
         //rectTransform.anchoredPosition = rect.position;
 
-        // rectTransform.SetRect(rect.ToRect());
+        rectTransform.SetRect(rect.ToRect());
         // Debug.Log("DummyWebview: " + rectTransform.rect);
 
     }

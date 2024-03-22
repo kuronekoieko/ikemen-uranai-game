@@ -24,7 +24,7 @@ public class DescriptionScreen : BaseScreen
         // Debug.Log(bodyRT.sizeDelta);
         //Debug.Log(bodyRT.rect);
         //  Debug.Log(bodyRT.rect.position);
-        //Debug.Log(bodyRT.position);
+        //  Debug.Log(bodyRT.position);
         //Debug.Log(bodyRT.anchoredPosition);
         // Debug.Log(bodyRT.anchorMax);
         // Debug.Log(bodyRT.anchorMin);
@@ -38,21 +38,29 @@ public class DescriptionScreen : BaseScreen
         // Debug.Log(rectTransform.rect.height / 2 - bodyRT.rect.yMax);
 
 
-        Debug.Log(bodyRT.rect.position);
-        Debug.Log(rectTransform.rect.position);
 
-        Vector2 vector2 = bodyRT.rect.position - rectTransform.rect.position;
-        Debug.Log(vector2);
+        //  Debug.Log(bodyRT.anchoredPosition);
+        // Debug.Log(rectTransform.rect.center);
+        //Debug.Log(rectTransform.rect.min);
+
+        // Vector2 pos_TopLeftFromCenter = bodyRT.anchoredPosition + bodyRT.rect.size / 2;
+        Vector2 pos_TopLeftFromCenter = bodyRT.anchoredPosition + new Vector2(-bodyRT.rect.size.x, bodyRT.rect.size.y) / 2;
+
+        Debug.Log(pos_TopLeftFromCenter);
+
+        Vector2 pos_TopLeftFromTopLeft = pos_TopLeftFromCenter + new Vector2(rectTransform.rect.size.x, -rectTransform.rect.size.y) / 2;
+        Debug.Log(pos_TopLeftFromTopLeft);
+        pos_TopLeftFromTopLeft.y = -pos_TopLeftFromTopLeft.y;
 
         // Vector2 bodyPos_BottomLeftFromCenter = bodyRT.anchoredPosition - bodyRT.rect.size / 2;
 
-        // Debug.Log(bodyPos_BottomLeftFromCenter);
+        //Debug.Log(bodyPos_BottomLeftFromCenter);
 
         // Vector2 pos_BottomLeftFromBottomLeftFrom = bodyPos_BottomLeftFromCenter + rectTransform.rect.size / 2;
         // Debug.Log(pos_BottomLeftFromBottomLeftFrom);
 
         // Debug.Log(poFromScreensBottomLeft);
-        // yが248になればOK
+        // yが398になればOK
 
         // Rect
         // https://docs.unity.cn/ja/2021.3/ScriptReference/Rect.html
@@ -61,12 +69,12 @@ public class DescriptionScreen : BaseScreen
 
 
         Rect rect = new
-        (
-            vector2.x * CanvasManager.Instance.Rate,
-            vector2.y * CanvasManager.Instance.Rate,
-            bodyRT.rect.width * CanvasManager.Instance.Rate,
-            bodyRT.rect.height * CanvasManager.Instance.Rate
-        );
+(
+    pos_TopLeftFromTopLeft.x * CanvasManager.Instance.Rate,
+    pos_TopLeftFromTopLeft.y * CanvasManager.Instance.Rate,
+    bodyRT.rect.width * CanvasManager.Instance.Rate,
+    bodyRT.rect.height * CanvasManager.Instance.Rate
+);
 
         // rect.x = await FirebaseRemoteConfigManager.GetInt(FirebaseRemoteConfigManager.Key.test_x);
         // rect.y = await FirebaseRemoteConfigManager.GetInt(FirebaseRemoteConfigManager.Key.test_y);
