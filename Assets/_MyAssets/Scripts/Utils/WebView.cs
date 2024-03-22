@@ -8,9 +8,21 @@ public static class WebView
 {
     public static void OpenURL(string url)
     {
+        int height = (int)CanvasManager.Instance.CanvasScaler.referenceResolution.y;
+        int width = (int)CanvasManager.Instance.CanvasScaler.referenceResolution.x;
+        // OpenURL(url, width, height);
+    }
+
+    public static void Close()
+    {
+        GpmWebView.Close();
+    }
+
+    public static void OpenURL(string url, RectInt rect)
+    {
         if (Application.isEditor)
         {
-            Application.OpenURL(url);
+            //Application.OpenURL(url);
             return;
         }
 
@@ -24,14 +36,26 @@ public static class WebView
                 isClearCookie = true,
                 isClearCache = true,
                 backgroundColor = "#FFFFFF",
-                isNavigationBarVisible = true,
+                isNavigationBarVisible = false,
                 navigationBarColor = "#4B96E6",
                 title = "",
                 isBackButtonVisible = true,
                 isForwardButtonVisible = true,
                 isCloseButtonVisible = true,
                 supportMultipleWindows = true,
-#if UNITY_IOS
+                size = new GpmWebViewRequest.Size
+                {
+                    height = rect.height,
+                    width = rect.width,
+                },
+                position = new GpmWebViewRequest.Position
+                {
+                    x = rect.x,
+                    y = rect.y,
+                },
+#if  UNITY_EDITOR
+                contentMode = GpmWebViewContentMode.RECOMMENDED
+#elif UNITY_IOS
                 contentMode = GpmWebViewContentMode.MOBILE
 #endif
             },

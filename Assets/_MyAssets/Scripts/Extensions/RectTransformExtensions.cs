@@ -95,4 +95,15 @@ public static class RectTransformExtensions
     }
 
     #endregion
+
+    public static RectInt ToRectInt(this Rect self)
+    {
+        RectInt rectInt = new(
+            Mathf.FloorToInt(self.x),
+            Mathf.FloorToInt(self.y),
+            Mathf.CeilToInt(self.width),
+            Mathf.CeilToInt(self.height)
+        );
+        return rectInt;
+    }
 }
