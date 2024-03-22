@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Cysharp.Threading.Tasks;
 
 public class HomeScreen : BaseScreen
 {
@@ -24,8 +25,9 @@ public class HomeScreen : BaseScreen
         base.Open();
     }
 
-    public override void Close()
+    public override UniTask Close()
     {
         base.Close();
+        return UniTask.DelayFrame(0);
     }
 }

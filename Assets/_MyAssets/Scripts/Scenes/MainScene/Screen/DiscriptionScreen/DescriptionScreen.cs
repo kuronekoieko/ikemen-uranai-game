@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Cysharp.Threading.Tasks;
 
 public class DescriptionScreen : BaseScreen
 {
@@ -21,9 +22,9 @@ public class DescriptionScreen : BaseScreen
         titleText.text = title;
         descriptionText.text = description;
     }
-
-    public override void Close()
+    public override UniTask Close()
     {
         base.Close();
+        return UniTask.DelayFrame(0);
     }
 }

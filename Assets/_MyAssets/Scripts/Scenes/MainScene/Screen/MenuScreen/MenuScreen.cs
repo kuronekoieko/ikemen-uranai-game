@@ -38,54 +38,66 @@ public class MenuScreen : BaseScreen
         base.Open();
     }
 
-    public override void Close()
+    public override UniTask Close()
     {
         base.Close();
+        return UniTask.DelayFrame(0);
     }
 
-    void OnClick_HowToPlay(string title)
+    UniTask OnClick_HowToPlay(string title)
     {
         ScreenManager.Instance.Get<WebViewScreen>().Open(title, URLs.HowToPlay);
+        return UniTask.DelayFrame(0);
     }
-    void OnClick_QA(string title)
+    UniTask OnClick_QA(string title)
     {
         ScreenManager.Instance.Get<WebViewScreen>().Open(title, URLs.QA);
+        return UniTask.DelayFrame(0);
     }
-    void OnClick_X(string title)
+    UniTask OnClick_X(string title)
     {
         Application.OpenURL(URLs.X);
+        return UniTask.DelayFrame(0);
     }
-    void OnClick_AppReview(string title)
+    UniTask OnClick_AppReview(string title)
     {
         InAppReviewManager.RequestReview();
+        return UniTask.DelayFrame(0);
     }
-    void OnClick_ContactUs(string title)
+    UniTask OnClick_ContactUs(string title)
     {
         ScreenManager.Instance.Get<WebViewScreen>().Open(title, URLs.ContactUs);
+        return UniTask.DelayFrame(0);
     }
-    void OnClick_Notification(string title)
+    UniTask OnClick_Notification(string title)
     {
         ScreenManager.Instance.Get<NotificationSettingScreen>().Open(title);
+        return UniTask.DelayFrame(0);
     }
-    void OnClick_Location(string title)
+    UniTask OnClick_Location(string title)
     {
         LocationService.Start();
+        return UniTask.DelayFrame(0);
     }
-    void OnClick_Account(string title)
+    UniTask OnClick_Account(string title)
     {
         ScreenManager.Instance.Get<WebViewScreen>().Open(title, URLs.Account);
+        return UniTask.DelayFrame(0);
     }
-    void OnClick_TermsOfUse(string title)
+    UniTask OnClick_TermsOfUse(string title)
     {
         ScreenManager.Instance.Get<WebViewScreen>().Open(title, URLs.TermsOfUse);
+        return UniTask.DelayFrame(0);
     }
-    void OnClick_PrivacyPolicy(string title)
+    UniTask OnClick_PrivacyPolicy(string title)
     {
         ScreenManager.Instance.Get<WebViewScreen>().Open(title, URLs.PrivacyPolicy);
+        return UniTask.DelayFrame(0);
     }
-    void OnClick_Disclaimer(string title)
+    UniTask OnClick_Disclaimer(string title)
     {
         // 特商・資金決済法の表記
         ScreenManager.Instance.Get<WebViewScreen>().Open(title, URLs.Disclaimer);
+        return UniTask.DelayFrame(0);
     }
 }

@@ -31,7 +31,7 @@ public class TodayHoroscopeButton : BaseHoroscopeButton
         return horoscopeHistory.isReadTodayHoroscope == false;
     }
 
-    protected async override void OnClick()
+    protected async override UniTask OnClick()
     {
         HoroscopeHistory horoscopeHistory = await GetHoroscopeHistory();
 

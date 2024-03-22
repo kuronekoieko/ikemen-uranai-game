@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-using Naninovel;
+using Cysharp.Threading.Tasks;
+//using Naninovel;
 
 
 public class HomePage : BasePage
@@ -20,20 +21,16 @@ public class HomePage : BasePage
         base.OnStart();
         todayHoroscopesButton.OnStart();
         tomorrowHoroscopesButton.OnStart();
-        selectCharacterScreenButton.onClick.AddListener(() =>
+        selectCharacterScreenButton.AddListener(() =>
         {
             ScreenManager.Instance.Get<SelectCharacterScreen>().Open();
+            return UniTask.DelayFrame(0);
         });
-        conversationButton.onClick.AddListener(async () =>
-        {
-            // 連打対策
-            conversationButton.interactable = false;
-            await OnClickCharacter();
-            conversationButton.interactable = true;
-        });
-        debugButton.onClick.AddListener(() =>
+        conversationButton.AddListener(OnClickCharacter);
+        debugButton.AddListener(() =>
         {
             ScreenManager.Instance.Get<DebugScreen>().Open();
+            return UniTask.DelayFrame(0);
         });
         debugButton.gameObject.SetActive(Debug.isDebugBuild);
     }

@@ -4,17 +4,19 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using Cysharp.Threading.Tasks;
+using System;
 
 public class MenuElement : ObjectPoolingElement
 {
     public TextMeshProUGUI titleText;
     [SerializeField] Button button;
-    UnityAction<string> onClick;
+    Func<string, UniTask> onClick;
 
 
     public override void OnInstantiate()
     {
-        button.onClick.AddListener(OnClick);
+        button.AddListener(OnClick);
     }
 
     public void Show(MenuElementObj menuElementObj)
@@ -24,8 +26,8 @@ public class MenuElement : ObjectPoolingElement
     }
 
 
-    void OnClick()
+    UniTask OnClick()
     {
-        onClick?.Invoke(titleText.text);
+        return onClick(titleText.text);
     }
 }

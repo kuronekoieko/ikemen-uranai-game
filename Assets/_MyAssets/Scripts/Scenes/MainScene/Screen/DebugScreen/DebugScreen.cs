@@ -23,7 +23,7 @@ public class DebugScreen : BaseScreen
     public override void OnStart()
     {
         base.OnStart();
-        signInButton.onClick.AddListener(async () =>
+        signInButton.AddListener(async () =>
         {
             bool success = await FirebaseAuthenticationManager.ReauthenticateAsync(mailAddressMIF.Text, passwordMIF.Text);
             if (success)
@@ -37,27 +37,44 @@ public class DebugScreen : BaseScreen
             uidText.text = "uid: " + FirebaseAuthenticationManager.User.UserId;
         });
 
-        signOutButton.onClick.AddListener(() =>
+        signOutButton.AddListener(() =>
         {
             FirebaseAuthenticationManager.SignOut();
             uidText.text = "uid: ";
             mailAddressMIF.Text = "";
             passwordMIF.Text = "";
+            return UniTask.DelayFrame(0);
         });
 
-        deleteButton.onClick.AddListener(async () =>
-        {
-            await FirebaseDatabaseManager.RemoveSaveData();
-            await FirebaseAuthenticationManager.DeleteAsync();
-            FirebaseAuthenticationManager.SignOut();
-            uidText.text = "uid: ";
-            mailAddressMIF.Text = "";
-            passwordMIF.Text = "";
-            await SceneManager.LoadSceneAsync("Initialize");
-        });
+        deleteButton.AddListener(OnClickDeleteButton);
         // スプラッシュの上に出てしまうため
         mailAddressMIF.SetVisible(false);
         passwordMIF.SetVisible(false);
+    }
+
+    async UniTask OnClickSignInButton()
+    {
+        bool success = await FirebaseAuthenticationManager.ReauthenticateAsync(mailAddressMIF.Text, passwordMIF.Text);
+        if (success)
+        {
+            signInResultText.text = "登録成功";
+        }
+        else
+        {
+            signInResultText.text = "登録失敗";
+        }
+        uidText.text = "uid: " + FirebaseAuthenticationManager.User.UserId;
+    }
+
+    async UniTask OnClickDeleteButton()
+    {
+        await FirebaseDatabaseManager.RemoveSaveData();
+        await FirebaseAuthenticationManager.DeleteAsync();
+        FirebaseAuthenticationManager.SignOut();
+        uidText.text = "uid: ";
+        mailAddressMIF.Text = "";
+        passwordMIF.Text = "";
+        await SceneManager.LoadSceneAsync("Initialize");
     }
 
     public override async void Open()
@@ -91,11 +108,12 @@ public class DebugScreen : BaseScreen
         passwordMIF.SetVisible(true);
     }
 
-    public override void Close()
+    public override UniTask Close()
     {
         base.Close();
 
         mailAddressMIF.SetVisible(false);
         passwordMIF.SetVisible(false);
+        return UniTask.DelayFrame(0);
     }
 }
