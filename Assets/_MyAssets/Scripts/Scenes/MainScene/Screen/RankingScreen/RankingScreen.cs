@@ -41,7 +41,7 @@ public class RankingScreen : BaseScreen
         {
             await Close();
             var constellation = SaveDataManager.SaveData.Constellation;
-            ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation, DateTime.Today, SaveDataManager.SaveData.GetCurrentCharacter());
+            await ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation, DateTime.Today, SaveDataManager.SaveData.GetCurrentCharacter());
         });
 
         homeButton.AddListener(async () =>
