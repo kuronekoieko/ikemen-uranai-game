@@ -77,7 +77,7 @@ public class TomorrowHoroscopeButton : BaseHoroscopeButton
             var tomorrowHoroscopeDT = today.AddHours(openHour);
             // 表示が秒数切捨てなので、１分足す
             TimeSpan timeSpan = tomorrowHoroscopeDT - now + new TimeSpan(0, 1, 0);
-            leftTimeText.text = "占いまで\nあと" + timeSpan.ToString(@"h\時\間m\分");
+            leftTimeText.text = timeSpan.ToString(@"h\:m");
         }
 
         leftTimeText.gameObject.SetActive(!isUnlock);
