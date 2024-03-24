@@ -11,11 +11,11 @@ using UnityEngine.UI;
 public class RankingScreen : BaseScreen
 {
     [SerializeField] Transform content;
-    RankingElement[] rankingElements;
+    List<RankingElement> rankingElements = new();
     [SerializeField] TextMeshProUGUI titleText;
     [SerializeField] Button myFortuneButton;
     [SerializeField] Button homeButton;
-
+    [SerializeField] RankingElement rankingElement;
 
     public override UniTask Close()
     {
@@ -26,7 +26,12 @@ public class RankingScreen : BaseScreen
     public override void OnStart()
     {
         base.OnStart();
-        rankingElements = content.GetComponentsInChildren<RankingElement>();
+
+        rankingElements.Add(rankingElement);
+        for (int i = 0; i < 11; i++)
+        {
+            rankingElements.Add(Instantiate(rankingElement, content));
+        }
         foreach (var rankingElement in rankingElements)
         {
             rankingElement.OnStart();
@@ -50,7 +55,8 @@ public class RankingScreen : BaseScreen
     {
         base.Open();
 
-        titleText.text = DateTime.Now.ToString("M/d") + DateTime.Now.ToString("ddd") + " 今日の運勢ランキング";
+        // titleText.text = DateTime.Now.ToString("M/d") + DateTime.Now.ToString("ddd") + " 今日の運勢ランキング";
+        titleText.text = DateTime.Now.ToString("M/d");
 
         var dailyFortunes = CSVManager.Fortunes
             .Where(fortune => fortune.date_time == DateTime.Today.ToDateKey())
