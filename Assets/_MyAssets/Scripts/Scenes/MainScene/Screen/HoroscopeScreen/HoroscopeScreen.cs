@@ -44,7 +44,7 @@ public class HoroscopeScreen : BaseScreen
 
     AudioClip audioClip;
 
-    public async void Open(Constellation constellation, DateTime dateTime, SaveDataObjects.Character character)
+    public async UniTask Open(Constellation constellation, DateTime dateTime, SaveDataObjects.Character character)
     {
         if (constellation == null)
         {
@@ -172,11 +172,11 @@ public class HoroscopeScreen : BaseScreen
         ScreenManager.Instance.Get<RankingScreen>().Open();
         return UniTask.DelayFrame(0);
     }
-    UniTask OnClickHomeButton()
+    async UniTask OnClickHomeButton()
     {
-        Close();
+        await Close();
         ScreenManager.Instance.Get<HomeScreen>().Open();
-        return UniTask.DelayFrame(0);
+        await ScreenManager.Instance.Get<RankingScreen>().Close();
     }
 
     UniTask OnClickReplayButton()

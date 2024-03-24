@@ -21,12 +21,7 @@ public class RankingElement : MonoBehaviour
 
     public void OnStart()
     {
-        button.AddListener(() =>
-        {
-            ScreenManager.Instance.Get<RankingScreen>().Close();
-            ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation, DateTime.Today, SaveDataManager.SaveData.GetCurrentCharacter());
-            return UniTask.DelayFrame(0);
-        });
+        button.AddListener(OnClick);
         defaultConstellationSprite = constellationImage.sprite;
 
     }
@@ -53,5 +48,10 @@ public class RankingElement : MonoBehaviour
         }
 
         constellationImage.sprite = sprite;
+    }
+
+    async UniTask OnClick()
+    {
+        await ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation, DateTime.Today, SaveDataManager.SaveData.GetCurrentCharacter());
     }
 }
