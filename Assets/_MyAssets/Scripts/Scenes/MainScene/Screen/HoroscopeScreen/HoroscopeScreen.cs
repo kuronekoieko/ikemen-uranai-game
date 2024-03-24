@@ -13,16 +13,15 @@ public class HoroscopeScreen : BaseScreen
 
     // ヘッダー =============================
     [SerializeField] TextMeshProUGUI screenTitleText;
+    [SerializeField] Image constellationImage;
 
     // ボディー =============================
-    [SerializeField] Image iconImage;
     [SerializeField] TextMeshProUGUI constellationNameText;
     [SerializeField] TextMeshProUGUI fortuneRankText;
     [SerializeField] TextMeshProUGUI messageText;
     [SerializeField] TextMeshProUGUI luckyItemText;
     [SerializeField] TextMeshProUGUI luckyColorText;
     [SerializeField] Image characterImage;
-    [SerializeField] Image constellationImage;
     Sprite defaultCharacterSprite;
     Sprite defaultConstellationSprite;
 
@@ -30,6 +29,8 @@ public class HoroscopeScreen : BaseScreen
     [SerializeField] Button replayButton;
     [SerializeField] Button otherConstellationInfoButton;
     [SerializeField] Button homeButton;
+    [SerializeField] Sprite[] constellationSprites;
+
 
     public override void OnStart()
     {
@@ -88,7 +89,7 @@ public class HoroscopeScreen : BaseScreen
 
 
 
-    async void ShowConstellation(Constellation constellation)
+    void ShowConstellation(Constellation constellation)
     {
         // iconImage.sprite=
         constellationNameText.text = "XXXX座/XXXX\n(XX/XX~XX/XX)";
@@ -103,16 +104,21 @@ public class HoroscopeScreen : BaseScreen
         string end = constellation.EndDT.Value.ToString("M/d");
         constellationNameText.text = $"{name}/{latin_name}\n({start}~{end})";
 
-        string address = AssetBundleLoader.GetConstellationsFullAddress(constellation.id);
-        Sprite sprite = await AssetBundleLoader.LoadAssetAsync<Sprite>(address);
-        if (sprite != null)
-        {
-            constellationImage.sprite = sprite;
-        }
-        else
+        bool success = int.TryParse(constellation.id, out int idInt);
+        if (success == false)
         {
             constellationImage.sprite = defaultConstellationSprite;
+            return;
         }
+        constellationSprites.TryGetValue(idInt - 1, out Sprite sprite);
+        if (sprite == null)
+        {
+            constellationImage.sprite = defaultConstellationSprite;
+            return;
+        }
+
+        constellationImage.sprite = sprite;
+
     }
 
     void ShowFortune(Fortune fortune, SaveDataObjects.Character character)
