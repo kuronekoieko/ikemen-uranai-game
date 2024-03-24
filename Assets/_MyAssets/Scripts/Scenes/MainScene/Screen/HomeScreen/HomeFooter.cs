@@ -8,8 +8,6 @@ using UniRx;
 
 public class HomeFooter : MonoBehaviour
 {
-    [SerializeField] FooterToggleData[] footerToggleDatas;
-
     public void OnStart()
     {
         var footerToggleControllers = GetComponentsInChildren<BaseFooterToggleController>(true);

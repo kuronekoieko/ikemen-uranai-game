@@ -33,6 +33,7 @@ public class FooterToggleData
     public string name;
     public Sprite onSprite;
     public Sprite offSprite;
+    public Sprite nameSprite;
     public bool interactable = true;
     public bool active = true;
 }

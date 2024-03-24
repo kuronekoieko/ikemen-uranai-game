@@ -13,13 +13,16 @@ public class FooterToggle : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     [SerializeField] Toggle toggle;
     [SerializeField] TextMeshProUGUI text;
     [SerializeField] Image badgeImage;
+    [SerializeField] Image nameImage;
+
     readonly float duration = 0.2f;
 
 
     public void OnStart(FooterToggleData footerToggleData, ToggleGroup toggleGroup)
     {
         toggle.group = toggleGroup;
-        text.text = footerToggleData.name;
+        // text.text = footerToggleData.name;
+        nameImage.sprite = footerToggleData.nameSprite;
         toggle.image.sprite = footerToggleData.offSprite;
         if (toggle.graphic.TryGetComponent(out Image graphicImage))
         {
