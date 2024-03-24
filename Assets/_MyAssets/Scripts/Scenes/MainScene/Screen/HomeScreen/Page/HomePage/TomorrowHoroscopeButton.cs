@@ -55,7 +55,7 @@ public class TomorrowHoroscopeButton : BaseHoroscopeButton
         transform.DOKill(true);
 
         var constellation = SaveDataManager.SaveData.Constellation;
-        ScreenManager.Instance.Get<HoroscopeScreen>().Open(
+        await ScreenManager.Instance.Get<HoroscopeScreen>().Open(
             constellation,
             DateTime.Today.AddDays(1),
             SaveDataManager.SaveData.GetCurrentCharacter());

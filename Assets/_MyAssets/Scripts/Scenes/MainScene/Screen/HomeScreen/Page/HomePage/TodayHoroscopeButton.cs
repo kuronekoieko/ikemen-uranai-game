@@ -48,7 +48,7 @@ public class TodayHoroscopeButton : BaseHoroscopeButton
         button.transform.DOKill(true);
 
         var constellation = SaveDataManager.SaveData.Constellation;
-        ScreenManager.Instance.Get<HoroscopeScreen>().Open(
+        await ScreenManager.Instance.Get<HoroscopeScreen>().Open(
             constellation,
             DateTime.Today,
             SaveDataManager.SaveData.GetCurrentCharacter());
