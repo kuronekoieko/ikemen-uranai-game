@@ -48,14 +48,14 @@ namespace TMPFontReplacer
         {
             foreach (TextMeshProUGUI tmp in FindObjectsOfType<TextMeshProUGUI>(true))
             {
-                tmp.font = f;
-                continue;
+                // tmp.font = f;
+                // continue;
                 if (tmp.font == null)
                 {
-                    Debug.Log(tmp.text);
+                    Debug.Log("フォントがnullです: " + tmp.text);
                     continue;
                 }
-                if (tmp.font.name == "NotoSansJP-Bold SDF")
+                if (tmp.font.name == "KiwiMaru-Regular SDF")
                 {
                     tmp.font = f;
                 }
