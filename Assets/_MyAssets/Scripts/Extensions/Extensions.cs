@@ -76,9 +76,11 @@ public static class Extensions
     {
         self.onClick.AddListener(async () =>
         {
+            InputBlockingCanvas.Instance.Show();
             self.interactable = false;
             await func();
             self.interactable = true;
+            InputBlockingCanvas.Instance.Hide();
         });
     }
 
