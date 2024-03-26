@@ -107,7 +107,7 @@ public static class LocalPushNotification
         {
             badgeCount++;
             AddSchedule(config, badgeCount);
-            //DebugUtils.LogJson("LocalPushNotification: ", config);
+            DebugUtils.LogJson("LocalPushNotification: ", config);
         }
     }
 
@@ -124,6 +124,7 @@ public static class LocalPushNotification
             badgeCount = badgeCount,
             cannelId = config.cannelId,
         };
+        // DebugUtils.LogJson(config_Sec);
         AddScheduleSec(config_Sec);
     }
 
