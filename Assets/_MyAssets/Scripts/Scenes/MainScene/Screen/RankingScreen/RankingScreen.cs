@@ -47,7 +47,6 @@ public class RankingScreen : BaseScreen
         homeButton.AddListener(async () =>
         {
             await Close();
-            ScreenManager.Instance.Get<HomeScreen>().Open();
         });
     }
 

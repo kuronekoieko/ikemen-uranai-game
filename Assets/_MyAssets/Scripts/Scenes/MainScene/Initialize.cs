@@ -83,6 +83,7 @@ namespace MainScene
             await CSVManager.InitializeAsync();
             await SaveDataInitializer.Initialize(CSVManager.Characters, FirebaseAuthenticationManager.User.UserId);
 
+            HomeScreen.Instance.OnStart();
             screenManager.OnStart();
 
             ScreenManager.Instance.Get<LoadingScreen>().Open();
@@ -109,11 +110,9 @@ namespace MainScene
             {
                 var downLoadTask = DownloadFilesAsync();
                 await UniTask.WhenAll(loadingScreenTask, downLoadTask, naninovelTask);
-
-                ScreenManager.Instance.Get<HomeScreen>().Open();
             }
 
-            ScreenManager.Instance.Get<LoadingScreen>().Close();
+            await ScreenManager.Instance.Get<LoadingScreen>().Close();
 
             //await NaninovelInitializer.PlayAsync("Home/chara001-text001");
             IsInitialized = true;
