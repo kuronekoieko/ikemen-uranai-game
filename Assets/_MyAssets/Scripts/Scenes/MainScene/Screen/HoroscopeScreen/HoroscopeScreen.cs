@@ -175,7 +175,6 @@ public class HoroscopeScreen : BaseScreen
     async UniTask OnClickHomeButton()
     {
         await Close();
-        ScreenManager.Instance.Get<HomeScreen>().Open();
         await ScreenManager.Instance.Get<RankingScreen>().Close();
     }
 
