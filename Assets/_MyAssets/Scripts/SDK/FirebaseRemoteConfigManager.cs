@@ -17,28 +17,42 @@ public static class FirebaseRemoteConfigManager
     var defaults = new Dictionary<string, object>();
     defaults.Add(Key.google_calender_api_key, "");
     IsInitialized = false;
-    await FirebaseRemoteConfig.DefaultInstance.SetDefaultsAsync(defaults);
-    await FirebaseRemoteConfig.DefaultInstance.FetchAsync(TimeSpan.Zero);
-    await FirebaseRemoteConfig.DefaultInstance.ActivateAsync();
+
+    try
+    {
+      await FirebaseRemoteConfig.DefaultInstance.SetDefaultsAsync(defaults);
+      await FirebaseRemoteConfig.DefaultInstance.FetchAsync(TimeSpan.Zero);
+      await FirebaseRemoteConfig.DefaultInstance.ActivateAsync();
+    }
+    catch (Exception e)
+    {
+      Debug.LogError(e);
+    }
     IsInitialized = true;
   }
 
 
   public static async UniTask<string> GetString(string key)
   {
-    await UniTask.WaitUntil(() => IsInitialized).Timeout(new TimeSpan(0, 0, 10));
+    UniTask timeout = UniTaskUtils.DelaySecond(3);
+    UniTask waitInitialized = UniTask.WaitUntil(() => IsInitialized);
+    await UniTask.WhenAny(waitInitialized, timeout);
     return FirebaseRemoteConfig.DefaultInstance.GetValue(key).StringValue;
   }
 
   public static async UniTask<int> GetInt(string key)
   {
-    await UniTask.WaitUntil(() => IsInitialized).Timeout(new TimeSpan(0, 0, 10));
+    UniTask timeout = UniTaskUtils.DelaySecond(3);
+    UniTask waitInitialized = UniTask.WaitUntil(() => IsInitialized);
+    await UniTask.WhenAny(waitInitialized, timeout);
     return (int)FirebaseRemoteConfig.DefaultInstance.GetValue(key).LongValue;
   }
 
   public static async UniTask<bool> GetBool(string key)
   {
-    await UniTask.WaitUntil(() => IsInitialized).Timeout(new TimeSpan(0, 0, 10));
+    UniTask timeout = UniTaskUtils.DelaySecond(3);
+    UniTask waitInitialized = UniTask.WaitUntil(() => IsInitialized);
+    await UniTask.WhenAny(waitInitialized, timeout);
     return FirebaseRemoteConfig.DefaultInstance.GetValue(key).BooleanValue;
   }
 
