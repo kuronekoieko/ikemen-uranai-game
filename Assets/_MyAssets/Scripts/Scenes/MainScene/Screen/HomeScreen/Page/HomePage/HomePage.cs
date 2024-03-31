@@ -48,7 +48,6 @@ public class HomePage : BasePage
             holidays,
             CSVManager.HomeTexts);
         if (homeText == null) return;
-
         EnableButtons(false);
         await NaninovelManager.PlayAsync(homeText.FileName);
         EnableButtons(true);

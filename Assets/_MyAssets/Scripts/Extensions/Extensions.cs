@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-using UnityEngine.Events;
-using Cysharp.Threading.Tasks;
+
 public static class Extensions
 {
 
@@ -71,28 +70,4 @@ public static class Extensions
     {
         return self.ToString("yyyy-MM-dd");
     }
-
-    public static void AddListener(this Button self, Func<UniTask> func)
-    {
-        self.onClick.AddListener(async () =>
-        {
-            InputBlockingCanvas.Instance.Show();
-            self.interactable = false;
-            await func();
-            self.interactable = true;
-            InputBlockingCanvas.Instance.Hide();
-        });
-    }
-
-    /*
-        public static void AddListener(this Button self, UnityAction unityAction)
-        {
-            self.onClick.AddListener(() =>
-            {
-                self.interactable = false;
-                unityAction.Invoke();
-                self.interactable = true;
-            });
-        }
-    */
 }
