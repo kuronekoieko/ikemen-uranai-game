@@ -107,7 +107,7 @@ public static class LocalPushNotification
         {
             badgeCount++;
             AddSchedule(config, badgeCount);
-            DebugUtils.LogJson("LocalPushNotification: ", config);
+            //            DebugUtils.LogJson("LocalPushNotification: ", config);
         }
     }
 

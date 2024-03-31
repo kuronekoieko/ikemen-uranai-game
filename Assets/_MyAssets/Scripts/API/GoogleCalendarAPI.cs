@@ -8,7 +8,7 @@ using System.Net;
 using System.Linq;
 
 
-public class GoogleCalendarAPI
+public static class GoogleCalendarAPI
 {
     static readonly Dictionary<int, HashSet<DateTime>> holidaysDic = new();
 
@@ -42,27 +42,30 @@ public class GoogleCalendarAPI
         var maxCount = 30;
 
         var url = $"https://www.googleapis.com/calendar/v3/calendars/{holidaysId}/events?key={key}&timeMin={startDate}&timeMax={endDate}&maxResults={maxCount}&orderBy=startTime&singleEvents=true";
-        var client = new WebClient() { Encoding = System.Text.Encoding.UTF8 };
-        var json = "";
-        try
-        {
-            json = await client.DownloadStringTaskAsync(url);
-            client.Dispose();
-        }
-        catch (Exception e)
-        {
-            Debug.LogError("GoogleCalendarAPI \n" + e);
-            return null;
-        }
 
-        var o = JObject.Parse(json);
-        var days = o["items"].Select(i =>
-        {
-            DateTime.TryParse(i["start"]["date"].ToString(), out DateTime dateTime);
-            return dateTime;
-        });
-        Debug.Log("googleカレンダー アクセス終了");
+        var result = await API.Get(url);
 
-        return new HashSet<DateTime>(days);
+        switch (result.status)
+        {
+            case API.Result.Status.Success:
+                var json = result.responseJson;
+                //DebugUtils.LogJson(json);
+                if (json == null) return null;
+                var o = JObject.Parse(json);
+                var days = o["items"].Select(i =>
+                {
+                    DateTime.TryParse(i["start"]["date"].ToString(), out DateTime dateTime);
+                    return dateTime;
+                });
+                Debug.Log("googleカレンダー アクセス終了");
+
+                return new HashSet<DateTime>(days);
+            case API.Result.Status.Error:
+                return null;
+            case API.Result.Status.Canceled:
+                return null;
+            default:
+                return null;
+        }
     }
 }

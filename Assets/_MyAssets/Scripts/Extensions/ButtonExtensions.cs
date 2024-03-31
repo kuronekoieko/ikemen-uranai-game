@@ -11,6 +11,12 @@ public static class ButtonExtensions
     {
         self.onClick.AddListener(async () =>
         {
+            if (CanvasManager.Instance == null)
+            {
+                await func();
+                return;
+            }
+
             // naninovelのUIカメラを10に設定しているため
             CanvasManager.Instance.Canvas.worldCamera.depth = 9;
             CanvasManager.Instance.GraphicRaycaster.enabled = false;

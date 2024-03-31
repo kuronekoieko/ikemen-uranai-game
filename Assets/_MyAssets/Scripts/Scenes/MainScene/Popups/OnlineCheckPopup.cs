@@ -14,17 +14,17 @@ public class OnlineCheckPopup : CommonPopup
 
         switch (result.status)
         {
-            case OnlineChecker.Result.Status.Success:
+            case API.Result.Status.Success:
                 isOnline = true;
                 break;
-            case OnlineChecker.Result.Status.Error:
+            case API.Result.Status.Error:
                 await ShowAsync(
                     "",
                     "インターネットに接続されていません",
                     "OK"
                 );
                 break;
-            case OnlineChecker.Result.Status.Canceled:
+            case API.Result.Status.Canceled:
                 break;
             default:
                 break;

@@ -50,7 +50,7 @@ public static class FirebaseDatabaseManager
 
         DataSnapshot snapshot = await reference.Child("users").Child(userId).GetValueAsync();
         string json = snapshot.GetRawJsonValue();
-        Debug.Log(json);
+        DebugUtils.LogJson(json);
         if (string.IsNullOrEmpty(json)) return null;
         SaveData saveData = null;
         try
