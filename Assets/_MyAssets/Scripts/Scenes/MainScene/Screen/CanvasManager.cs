@@ -26,5 +26,15 @@ public class CanvasManager : SingletonMonoBehaviour<CanvasManager>
     }
     CanvasScaler _canvasScaler;
 
+    public GraphicRaycaster GraphicRaycaster
+    {
+        get
+        {
+            if (_graphicRaycaster == null) _graphicRaycaster = GetComponent<GraphicRaycaster>();
+            return _graphicRaycaster;
+        }
+    }
+    GraphicRaycaster _graphicRaycaster;
+
     public float Rate => Screen.width / CanvasScaler.referenceResolution.x;
 }
