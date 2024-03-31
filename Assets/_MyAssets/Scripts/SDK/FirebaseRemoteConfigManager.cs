@@ -10,63 +10,44 @@ using System.Threading;
 // https://firebase.google.com/docs/remote-config/get-started?hl=ja&authuser=0&platform=unity
 public static class FirebaseRemoteConfigManager
 {
-  static bool IsInitialized = false;
 
-  public static async UniTask InitializeAsync()
+  public static async UniTask<bool> Initialize()
   {
     var defaults = new Dictionary<string, object>();
-    defaults.Add(Key.google_calender_api_key, "");
-    IsInitialized = false;
-
+    bool success;
     try
     {
       await FirebaseRemoteConfig.DefaultInstance.SetDefaultsAsync(defaults);
       await FirebaseRemoteConfig.DefaultInstance.FetchAsync(TimeSpan.Zero);
       await FirebaseRemoteConfig.DefaultInstance.ActivateAsync();
+      success = true;
     }
     catch (Exception e)
     {
       Debug.LogError(e);
+      success = false;
     }
-    IsInitialized = true;
+    return success;
   }
 
 
   public static string GetString(string key)
   {
-    //  UniTask timeout = UniTaskUtils.DelaySecond(3);
-    //  UniTask waitInitialized = UniTask.WaitUntil(() => IsInitialized);
-    //  await UniTask.WhenAny(waitInitialized, timeout);
-    if (IsInitialized == false)
-    {
-      return "";
-    }
+
+
     return FirebaseRemoteConfig.DefaultInstance.GetValue(key).StringValue;
   }
 
   public static int GetInt(string key)
   {
-    if (IsInitialized == false)
-    {
-      return 0;
-    }
-    // UniTask timeout = UniTaskUtils.DelaySecond(3);
-    // UniTask waitInitialized = UniTask.WaitUntil(() => IsInitialized);
-    // await UniTask.WhenAny(waitInitialized, timeout);
+
+
     return (int)FirebaseRemoteConfig.DefaultInstance.GetValue(key).LongValue;
   }
 
   public static bool GetBool(string key)
   {
-    if (IsInitialized == false)
-    {
-      return false;
-    }
-    // UniTask timeout = UniTaskUtils.DelaySecond(3);
-    // UniTask waitInitialized = UniTask.WaitUntil(() => IsInitialized);
-    Debug.Log("remote " + key + " 開始");
-    // await UniTask.WhenAny(waitInitialized, timeout);
-    Debug.Log("remote " + key + " 終了");
+
 
     return FirebaseRemoteConfig.DefaultInstance.GetValue(key).BooleanValue;
   }

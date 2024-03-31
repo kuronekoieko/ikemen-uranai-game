@@ -8,7 +8,7 @@ using SaveDataObjects;
 public static class SaveDataInitializer
 {
 
-    public static async UniTask Initialize(DataBase.Character[] databaseCharacters, string firebaseUserId)
+    public static async UniTask<bool> Initialize(DataBase.Character[] databaseCharacters, string firebaseUserId)
     {
         var defaultSaveData = new SaveData
         {
@@ -16,14 +16,19 @@ public static class SaveDataInitializer
             firebaseUserId = firebaseUserId,
             userId = UserIdManager.DefaultUserId,
         };
-        await SaveDataManager.LoadOverWriteAsync(defaultSaveData);
+        bool success = await SaveDataManager.LoadOverWriteAsync(defaultSaveData);
+        // ネットワークエラーの場合
+        if (success == false)
+        {
+            return false;
+        }
 
         SaveData saveData = SaveDataManager.SaveData;
 
         // セーブデータのチェック＆新規作成
         saveData.userId = await UserIdManager.ValidateUserId(saveData.userId);
         // ネットワークエラーの場合
-        if (saveData.userId == null) return;
+        if (saveData.userId == null) return false;
 
         string key = DateTime.Today.ToDateKey();
         bool existHistory = saveData.horoscopeHistories.TryGetValue(key, out HoroscopeHistory horoscopeHistory);
@@ -36,7 +41,13 @@ public static class SaveDataInitializer
         // 2024/01/18 23:19:23
         saveData.lastLoginDateTime = DateTime.Now.ToString();
 
-        bool success = await SaveDataManager.SaveAsync();
+        success = await SaveDataManager.SaveAsync();
+        // ネットワークエラーの場合
+        if (success == false)
+        {
+            return false;
+        }
+        return true;
     }
 
     static Dictionary<string, Character> CreateCharacters(DataBase.Character[] databaseCharacters)

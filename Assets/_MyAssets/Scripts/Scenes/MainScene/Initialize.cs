@@ -33,12 +33,35 @@ namespace MainScene
             // 同時押し無効
             Input.multiTouchEnabled = false;
 
-            await FirebaseAuthenticationManager.Initialize();
+            Debug.Log("FirebaseAuthenticationManager.Initialize");
+            bool success = await FirebaseAuthenticationManager.Initialize();
+            // Debug.Log("FirebaseAuthenticationManager.Initialize success:" + success);
+            if (success == false)
+            {
+                Debug.LogError("FirebaseAuthenticationManager.Initialize success:" + success);
+                await ShowInitFailed();
+                return;
+            }
+
+
+            Debug.Log("FirebaseDatabaseManager.Initialize");
             // FirebaseStorageManager.Initialize();
-            FirebaseDatabaseManager.Initialize();
+            //FirebaseDatabaseManager.Initialize();
+
+            Debug.Log("FirebaseRemoteConfigManager.InitializeAsync");
             // FirebaseCloudMessagingManager.Initialize();
-            await FirebaseRemoteConfigManager.InitializeAsync();
-            GoogleCalendarAPI.GetHolidaysAsync(DateTime.Now.Year).Forget();
+            success = await FirebaseRemoteConfigManager.Initialize();
+            if (success == false)
+            {
+                Debug.LogError("FirebaseRemoteConfigManager.Initialize success:" + success);
+                await ShowInitFailed();
+                return;
+            }
+
+
+            Debug.Log("GoogleCalendarAPI.GetHolidaysAsync");
+            //GoogleCalendarAPI.GetHolidaysAsync(DateTime.Now.Year).Forget();
+            await GoogleCalendarAPI.GetHolidaysAsync(DateTime.Now.Year);
 
             bool is_maintenance = FirebaseRemoteConfigManager.GetBool(FirebaseRemoteConfigManager.Key.is_maintenance);
             if (is_maintenance)
@@ -48,11 +71,7 @@ namespace MainScene
                         "メンテナンス中です\nしばらく時間をおいてお試しください。",
                         "OK"
                     );
-#if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-#else
-                Application.Quit();
-#endif
+                Quit();
                 return;
             }
 
@@ -67,32 +86,52 @@ namespace MainScene
                     );
                 Application.OpenURL(URLs.APP_STORE_PAGE);
 
-#if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-#else
-                Application.Quit();
-#endif
+                Quit();
                 return;
             }
 
 
             await CSVManager.InitializeAsync();
 
-            await SaveDataInitializer.Initialize(CSVManager.Characters, FirebaseAuthenticationManager.User.UserId);
+            Debug.Log("SaveDataInitializer.Initialize ");
+            success = await SaveDataInitializer.Initialize(CSVManager.Characters, FirebaseAuthenticationManager.User.UserId);
 
+            if (success == false)
+            {
+                Debug.LogError("SaveDataInitializer.Initialize success:" + success);
+
+                await ShowInitFailed();
+                return;
+            }
+
+
+            OnCompleteInit();
+        }
+
+        async UniTask ShowInitFailed()
+        {
+            await PopupManager.Instance.GetCommonPopup().ShowAsync(
+                    "",
+                    "サーバーへの接続に失敗しました。\nアプリを再起動してください。",
+                    "OK"
+                );
+
+            Quit();
+        }
+
+
+        async void OnCompleteInit()
+        {
             HomeScreen.Instance.OnStart();
             screenManager.OnStart();
+
+            await UniTask.DelayFrame(1);
 
             ScreenManager.Instance.Get<LoadingScreen>().Open();
 
             // ローディング画面を開いてから、スプラッシュを閉じる
             if (InitializeScene.Initialize.Instance) InitializeScene.Initialize.Instance.Close();
-            CompleteInit();
-        }
 
-
-        async void CompleteInit()
-        {
             var loadingScreenTask = ScreenManager.Instance.Get<LoadingScreen>().ProgressTimer(1);
             ReturnLocalPushNotification.SetLocalPush();
             var naninovelTask = NaninovelManager.InitializeAsync(SaveDataManager.SaveData.currentCharacterId);
@@ -143,6 +182,15 @@ namespace MainScene
         {
             if (IsInitialized == false) return;
             OnUpdate.Invoke();
+        }
+
+        void Quit()
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+                Application.Quit();
+#endif
         }
 
     }
