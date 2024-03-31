@@ -33,30 +33,29 @@ namespace MainScene
             // 同時押し無効
             Input.multiTouchEnabled = false;
 
-            Debug.Log("FirebaseAuthenticationManager.Initialize");
-            bool success = await FirebaseAuthenticationManager.Initialize();
-            // Debug.Log("FirebaseAuthenticationManager.Initialize success:" + success);
-            if (success == false)
+
+            (bool success_0, bool success_1) = await UniTask.WhenAll(
+                FirebaseRemoteConfigManager.Initialize(),
+                FirebaseAuthenticationManager.Initialize());
+
+
+            if (success_0 == false)
             {
-                Debug.LogError("FirebaseAuthenticationManager.Initialize success:" + success);
+                Debug.LogError("FirebaseAuthenticationManager.Initialize failed");
                 await ShowInitFailed();
                 return;
             }
 
-
-            Debug.Log("FirebaseDatabaseManager.Initialize");
-            // FirebaseStorageManager.Initialize();
-            //FirebaseDatabaseManager.Initialize();
-
-            Debug.Log("FirebaseRemoteConfigManager.InitializeAsync");
-            // FirebaseCloudMessagingManager.Initialize();
-            success = await FirebaseRemoteConfigManager.Initialize();
-            if (success == false)
+            if (success_1 == false)
             {
-                Debug.LogError("FirebaseRemoteConfigManager.Initialize success:" + success);
+                Debug.LogError("FirebaseRemoteConfigManager.Initialize failed");
                 await ShowInitFailed();
                 return;
             }
+
+            // Debug.Log("FirebaseRemoteConfigManager.InitializeAsync");
+
+
 
             bool is_maintenance = FirebaseRemoteConfigManager.GetBool(FirebaseRemoteConfigManager.Key.is_maintenance);
             if (is_maintenance)
@@ -88,8 +87,8 @@ namespace MainScene
 
             await CSVManager.InitializeAsync();
 
-            Debug.Log("SaveDataInitializer.Initialize ");
-            success = await SaveDataInitializer.Initialize(CSVManager.Characters, FirebaseAuthenticationManager.User.UserId);
+            // Debug.Log("SaveDataInitializer.Initialize ");
+            bool success = await SaveDataInitializer.Initialize(CSVManager.Characters, FirebaseAuthenticationManager.User.UserId);
 
             if (success == false)
             {
