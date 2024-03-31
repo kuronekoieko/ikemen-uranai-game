@@ -8,13 +8,31 @@ public static class FirebaseAuthenticationManager
 {
     public static FirebaseUser User => FirebaseAuth.DefaultInstance.CurrentUser;
 
-    public static async UniTask Initialize()
+    public static async UniTask<bool> Initialize()
     {
-        if (User == null)
+        bool success;
+        if (User != null)
         {
-            // 毎回新しいユーザーが作成されるっぽい？
-            await SignInAnonymouslyAsync();
+            success = true;
+            return success;
         }
+
+        // 毎回新しいユーザーが作成されるっぽい？
+        try
+        {
+            var firebaseUser = await FirebaseAuth.DefaultInstance.SignInAnonymouslyAsync();
+            // Debug.LogFormat("User signed in successfully: {0} ({1})", firebaseUser.DisplayName, firebaseUser.UserId);
+            // DebugUtils.LogJson(firebaseUser);
+            success = true;
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError(e);
+            success = false;
+        }
+
+
+        return success;
     }
 
     static async UniTask SignInAnonymouslyAsync()

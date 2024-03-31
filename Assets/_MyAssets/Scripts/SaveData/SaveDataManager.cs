@@ -43,7 +43,7 @@ public static class SaveDataManager
         }
         */
 
-        _SaveData = await FirebaseDatabaseManager.GetUserData(_SaveData.firebaseUserId);
+        (bool success, SaveData saveData) = await FirebaseDatabaseManager.GetUserData(_SaveData.firebaseUserId);
 
         // _SaveData ??= defaultSaveData;
 
@@ -52,9 +52,8 @@ public static class SaveDataManager
         await SaveAsync();
     }
 
-    public static async UniTask LoadOverWriteAsync(SaveData defaultSaveData)
+    public static async UniTask<bool> LoadOverWriteAsync(SaveData defaultSaveData)
     {
-
 
         /*
          _SaveData = defaultSaveData;
@@ -66,15 +65,27 @@ public static class SaveDataManager
                     JsonConvert.PopulateObject(jsonStr, _SaveData);
                 }
                 */
-        _SaveData = await FirebaseDatabaseManager.GetUserData(defaultSaveData.firebaseUserId);
-        _SaveData ??= defaultSaveData;
+        (bool success, SaveData saveData) = await FirebaseDatabaseManager.GetUserData(defaultSaveData.firebaseUserId);
+        if (success == false)
+        {
+            return success;
+        }
 
-        if (_SaveData == null)
+
+        if (saveData == null)
         {
             _SaveData = defaultSaveData;
-            //ユーザーデータ保存
-            await SaveAsync();
+            // 初回起動時に、二回セーブすることになるので不要
+            // 分岐せず一箇所で
+            //await SaveAsync();
         }
+        else
+        {
+            _SaveData = saveData;
+        }
+        success = true;
+        return success;
+
     }
 
 

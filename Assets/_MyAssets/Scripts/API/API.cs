@@ -10,7 +10,7 @@ public class API
 {
     static CancellationTokenSource _tokenSource;
 
-    public static async UniTask<Result> Get(string url, Dictionary<string, string> header = null)
+    public static async UniTask<Result> Get(string url, Dictionary<string, string> header = null, float timeoutSec = 10)
     {
         // POSTリクエストを送信
         UnityWebRequest request = UnityWebRequest.Get(url);
@@ -25,17 +25,26 @@ public class API
             }
         }
 
-        return await SendRequest(request);
+        return await SendRequest(request, timeoutSec);
     }
 
-    public async static UniTask<Result> SendRequest(UnityWebRequest request)
+    public async static UniTask<Result> SendRequest(UnityWebRequest request, float timeoutSec = 10)
     {
         _tokenSource = new CancellationTokenSource();
         Result result = new();
 
         try
         {
-            var taskResult = await request.SendWebRequest();
+            (bool isTimeout, UnityWebRequest taskResult) = await request.SendWebRequest().ToUniTask().TimeOutSeconds(timeoutSec);
+
+            if (isTimeout)
+            {
+                result.status = Result.Status.Canceled;
+                result.errorLog = "タイムアウト";
+                Debug.LogWarning($"APIリクエスト {result.status} タイムアウト");
+                return result;
+            }
+
             if (taskResult.result == UnityWebRequest.Result.Success)
             {
                 result.status = Result.Status.Success;

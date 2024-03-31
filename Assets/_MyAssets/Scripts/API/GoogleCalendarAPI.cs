@@ -43,7 +43,7 @@ public static class GoogleCalendarAPI
 
         var url = $"https://www.googleapis.com/calendar/v3/calendars/{holidaysId}/events?key={key}&timeMin={startDate}&timeMax={endDate}&maxResults={maxCount}&orderBy=startTime&singleEvents=true";
 
-        var result = await API.Get(url);
+        var result = await API.Get(url, timeoutSec: 3);
 
         switch (result.status)
         {

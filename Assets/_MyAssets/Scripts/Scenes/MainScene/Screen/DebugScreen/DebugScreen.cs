@@ -74,8 +74,19 @@ public class DebugScreen : BaseScreen
         uidText.text = "uid: ";
         mailAddressMIF.Text = "";
         passwordMIF.Text = "";
-        await SceneManager.LoadSceneAsync("Initialize");
+        // await SceneManager.LoadSceneAsync("Initialize");
+        Quit();
     }
+
+    void Quit()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+                Application.Quit();
+#endif
+    }
+
 
     public override async void Open()
     {
