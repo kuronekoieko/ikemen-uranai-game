@@ -40,13 +40,8 @@ public static class SaveDataInitializer
         // 時刻も保存したいので
         // 2024/01/18 23:19:23
         saveData.lastLoginDateTime = DateTime.Now.ToString();
-
-        success = await SaveDataManager.SaveAsync();
-        // ネットワークエラーの場合
-        if (success == false)
-        {
-            return false;
-        }
+        // セーブは外で行う
+        // 場合によっては重複して時間がかかるため
         return true;
     }
 

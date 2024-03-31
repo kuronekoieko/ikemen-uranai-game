@@ -58,11 +58,6 @@ namespace MainScene
                 return;
             }
 
-
-            Debug.Log("GoogleCalendarAPI.GetHolidaysAsync");
-            //GoogleCalendarAPI.GetHolidaysAsync(DateTime.Now.Year).Forget();
-            await GoogleCalendarAPI.GetHolidaysAsync(DateTime.Now.Year);
-
             bool is_maintenance = FirebaseRemoteConfigManager.GetBool(FirebaseRemoteConfigManager.Key.is_maintenance);
             if (is_maintenance)
             {
@@ -122,30 +117,39 @@ namespace MainScene
 
         async void OnCompleteInit()
         {
+            // この書き方だと、この行の時点で実行がはじまってしまう
+            // UniTask googleCalenderTask = GoogleCalendarAPI.GetHolidaysAsync(DateTime.Now.Year);
+
+
             HomeScreen.Instance.OnStart();
             screenManager.OnStart();
 
-            await UniTask.DelayFrame(1);
 
             ScreenManager.Instance.Get<LoadingScreen>().Open();
 
             // ローディング画面を開いてから、スプラッシュを閉じる
             if (InitializeScene.Initialize.Instance) InitializeScene.Initialize.Instance.Close();
 
-            var loadingScreenTask = ScreenManager.Instance.Get<LoadingScreen>().ProgressTimer(1);
             ReturnLocalPushNotification.SetLocalPush();
-            var naninovelTask = NaninovelManager.InitializeAsync(SaveDataManager.SaveData.currentCharacterId);
 
             if (SaveDataManager.SaveData.BirthDayDT == null)
             {
-                await UniTask.WhenAll(loadingScreenTask, naninovelTask);
+                await UniTask.WhenAll(
+                    ScreenManager.Instance.Get<LoadingScreen>().ProgressTimer(1),
+                    NaninovelManager.InitializeAsync(SaveDataManager.SaveData.currentCharacterId),
+                    GoogleCalendarAPI.GetHolidaysAsync(DateTime.Now.Year),
+                    SaveDataManager.SaveAsync());
 
                 ScreenManager.Instance.Get<InputProfileScreen>().Open();
             }
             else
             {
-                var downLoadTask = DownloadFilesAsync();
-                await UniTask.WhenAll(loadingScreenTask, downLoadTask, naninovelTask);
+                await UniTask.WhenAll(
+                    ScreenManager.Instance.Get<LoadingScreen>().ProgressTimer(1),
+                    NaninovelManager.InitializeAsync(SaveDataManager.SaveData.currentCharacterId),
+                    GoogleCalendarAPI.GetHolidaysAsync(DateTime.Now.Year),
+                    SaveDataManager.SaveAsync(),
+                    DownloadFilesAsync());
             }
 
             await ScreenManager.Instance.Get<LoadingScreen>().Close();
