@@ -68,8 +68,12 @@ public static class SaveDataManager
         _SaveData = await FirebaseDatabaseManager.GetUserData(defaultSaveData.firebaseUserId);
         _SaveData ??= defaultSaveData;
 
-        //ユーザーデータ保存
-        await SaveAsync();
+        if (_SaveData == null)
+        {
+            _SaveData = defaultSaveData;
+            //ユーザーデータ保存
+            await SaveAsync();
+        }
     }
 
 
