@@ -12,6 +12,7 @@ public static class SaveDataManager
 
     public static async UniTask<bool> SaveAsync()
     {
+        Debug.Log("セーブ開始");
         //ユーザーデータオブジェクトからjson形式のstringを取得
         string jsonStr = JsonConvert.SerializeObject(SaveData, Formatting.Indented);
         // SavePlayerPrefs(jsonStr);

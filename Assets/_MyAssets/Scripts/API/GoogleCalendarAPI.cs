@@ -14,6 +14,8 @@ public static class GoogleCalendarAPI
 
     public static async UniTask<HashSet<DateTime>> GetHolidaysAsync(int year)
     {
+        Debug.Log("googleカレンダー 初期化開始");
+
         bool exists = holidaysDic.TryGetValue(year, out HashSet<DateTime> holidays);
         if (exists) return holidays;
         holidays = await RequestHolidaysAsync(year);
