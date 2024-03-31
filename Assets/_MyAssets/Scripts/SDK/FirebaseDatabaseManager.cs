@@ -8,6 +8,8 @@ using UnityEngine.Events;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
+using System;
+using UniRx;
 
 
 
@@ -22,33 +24,59 @@ public static class FirebaseDatabaseManager
     }
 
 
-    public static async UniTask SendSaveData(SaveData saveData)
+    public static async UniTask<bool> SendSaveData(SaveData saveData)
     {
-        await PopupManager.Instance.GetPopup<OnlineCheckPopup>().CheckOnlineUntilOnline();
+        //await PopupManager.Instance.GetPopup<OnlineCheckPopup>().CheckOnlineUntilOnline();
 
         string userId = FirebaseAuthenticationManager.User.UserId;
+       // Debug.Log("SendSaveData " + userId);
+
         // 空のidを送ると、サーバーのデータ全部消える
-        if (string.IsNullOrEmpty(userId)) return;
+        if (string.IsNullOrEmpty(userId)) return false;
+        //Debug.Log("SendSaveData " + userId);
+
         string json = JsonConvert.SerializeObject(saveData);
-        await reference.Child("users").Child(userId).SetRawJsonValueAsync(json);
+        bool isTimeout = await reference.Child("users").Child(userId).SetRawJsonValueAsync(json).AsUniTask().TimeOutSeconds(3);
+        if (isTimeout)
+        {
+            Debug.LogWarning("SendSaveData isTimeout");
+            return false;
+        }
+        return true;
     }
 
     public static async UniTask RemoveSaveData()
     {
-        await PopupManager.Instance.GetPopup<OnlineCheckPopup>().CheckOnlineUntilOnline();
+        //await PopupManager.Instance.GetPopup<OnlineCheckPopup>().CheckOnlineUntilOnline();
 
         string userId = FirebaseAuthenticationManager.User.UserId;
         // 空のidを送ると、サーバーのデータ全部消える
         if (string.IsNullOrEmpty(userId)) return;
-        await reference.Child("users").Child(userId).RemoveValueAsync();
+        bool isTimeout = await reference.Child("users").Child(userId).RemoveValueAsync().AsUniTask().TimeOutSeconds(3);
+        if (isTimeout)
+        {
+            Debug.LogWarning("RemoveSaveData isTimeout");
+            return;
+        }
     }
 
 
     public static async UniTask<SaveData> GetUserData(string userId)
     {
-        await PopupManager.Instance.GetPopup<OnlineCheckPopup>().CheckOnlineUntilOnline();
 
-        DataSnapshot snapshot = await reference.Child("users").Child(userId).GetValueAsync();
+        //await PopupManager.Instance.GetPopup<OnlineCheckPopup>().CheckOnlineUntilOnline();
+
+
+        // ネットワークにつながってないときは、キャッシュされてるのを取ってきてるっぽい
+        // →取れるときと取れないときがある
+        (bool isTimeout, DataSnapshot snapshot) = await reference.Child("users").Child(userId).GetValueAsync().AsUniTask().TimeOutSeconds(3);
+
+        if (isTimeout)
+        {
+            Debug.LogWarning("GetUserData isTimeout");
+            return null;
+        }
+
         string json = snapshot.GetRawJsonValue();
         DebugUtils.LogJson(json);
         if (string.IsNullOrEmpty(json)) return null;
@@ -58,7 +86,7 @@ public static class FirebaseDatabaseManager
             saveData = JsonConvert.DeserializeObject<SaveData>(json);
             DebugUtils.LogJson(saveData);
         }
-        catch (System.Exception e)
+        catch (Exception e)
         {
             Debug.LogError(e);
         }
@@ -67,11 +95,19 @@ public static class FirebaseDatabaseManager
 
     public static async Task<List<SaveData>> GetUsers()
     {
-        await PopupManager.Instance.GetPopup<OnlineCheckPopup>().CheckOnlineUntilOnline();
+        //await PopupManager.Instance.GetPopup<OnlineCheckPopup>().CheckOnlineUntilOnline();
 
         List<SaveData> saveDatas = new();
 
-        DataSnapshot snapshot = await reference.Child("users").GetValueAsync();
+        // ネットワークにつながってないときは、キャッシュされてるのを取ってきてるっぽい
+        // オフラインの場合、ユーザーIDがかぶる可能性あり
+        (bool isTimeout, DataSnapshot snapshot) = await reference.Child("users").GetValueAsync().AsUniTask().TimeOutSeconds(3);
+        if (isTimeout)
+        {
+            Debug.LogWarning("GetUsers() isTimeout");
+            return null;
+        }
+
 
         // https://www.project-unknown.jp/entry/firebase-login-vol3_1#DataSnapshot-snapshot--taskResult
         IEnumerator<DataSnapshot> result = snapshot.Children.GetEnumerator();
@@ -86,7 +122,7 @@ public static class FirebaseDatabaseManager
             {
                 saveData = JsonConvert.DeserializeObject<SaveData>(json);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 Debug.LogError(e);
                 continue;

@@ -25,19 +25,20 @@ public static class UserIdManager
     {
         if (userId == DefaultUserId)
         {
-            userId = await CreateNewUserId();
+            return await CreateNewUserId();
         }
         if (userId.Length != userIdLength)
         {
-            userId = await CreateNewUserId();
+            return await CreateNewUserId();
         }
 
         return userId;
     }
 
-    public static async UniTask<string> CreateNewUserId()
+    static async UniTask<string> CreateNewUserId()
     {
         var users = await FirebaseDatabaseManager.GetUsers();
+        if (users == null) return null;
         int maxUserNumber = users
             .Where(user => user.userId.Length == userIdLength)
             .Max(user => Parse(user.userId));
