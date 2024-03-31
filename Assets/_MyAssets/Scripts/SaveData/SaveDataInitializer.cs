@@ -16,13 +16,14 @@ public static class SaveDataInitializer
             firebaseUserId = firebaseUserId,
             userId = UserIdManager.DefaultUserId,
         };
-
         await SaveDataManager.LoadOverWriteAsync(defaultSaveData);
 
         SaveData saveData = SaveDataManager.SaveData;
 
         // セーブデータのチェック＆新規作成
         saveData.userId = await UserIdManager.ValidateUserId(saveData.userId);
+        // ネットワークエラーの場合
+        if (saveData.userId == null) return;
 
         string key = DateTime.Today.ToDateKey();
         bool existHistory = saveData.horoscopeHistories.TryGetValue(key, out HoroscopeHistory horoscopeHistory);
@@ -35,7 +36,7 @@ public static class SaveDataInitializer
         // 2024/01/18 23:19:23
         saveData.lastLoginDateTime = DateTime.Now.ToString();
 
-        await SaveDataManager.SaveAsync();
+        bool success = await SaveDataManager.SaveAsync();
     }
 
     static Dictionary<string, Character> CreateCharacters(DataBase.Character[] databaseCharacters)

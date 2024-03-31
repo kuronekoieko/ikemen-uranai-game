@@ -32,27 +32,42 @@ public static class FirebaseRemoteConfigManager
   }
 
 
-  public static async UniTask<string> GetString(string key)
+  public static string GetString(string key)
   {
-    UniTask timeout = UniTaskUtils.DelaySecond(3);
-    UniTask waitInitialized = UniTask.WaitUntil(() => IsInitialized);
-    await UniTask.WhenAny(waitInitialized, timeout);
+    //  UniTask timeout = UniTaskUtils.DelaySecond(3);
+    //  UniTask waitInitialized = UniTask.WaitUntil(() => IsInitialized);
+    //  await UniTask.WhenAny(waitInitialized, timeout);
+    if (IsInitialized == false)
+    {
+      return "";
+    }
     return FirebaseRemoteConfig.DefaultInstance.GetValue(key).StringValue;
   }
 
-  public static async UniTask<int> GetInt(string key)
+  public static int GetInt(string key)
   {
-    UniTask timeout = UniTaskUtils.DelaySecond(3);
-    UniTask waitInitialized = UniTask.WaitUntil(() => IsInitialized);
-    await UniTask.WhenAny(waitInitialized, timeout);
+    if (IsInitialized == false)
+    {
+      return 0;
+    }
+    // UniTask timeout = UniTaskUtils.DelaySecond(3);
+    // UniTask waitInitialized = UniTask.WaitUntil(() => IsInitialized);
+    // await UniTask.WhenAny(waitInitialized, timeout);
     return (int)FirebaseRemoteConfig.DefaultInstance.GetValue(key).LongValue;
   }
 
-  public static async UniTask<bool> GetBool(string key)
+  public static bool GetBool(string key)
   {
-    UniTask timeout = UniTaskUtils.DelaySecond(3);
-    UniTask waitInitialized = UniTask.WaitUntil(() => IsInitialized);
-    await UniTask.WhenAny(waitInitialized, timeout);
+    if (IsInitialized == false)
+    {
+      return false;
+    }
+    // UniTask timeout = UniTaskUtils.DelaySecond(3);
+    // UniTask waitInitialized = UniTask.WaitUntil(() => IsInitialized);
+    Debug.Log("remote " + key + " 開始");
+    // await UniTask.WhenAny(waitInitialized, timeout);
+    Debug.Log("remote " + key + " 終了");
+
     return FirebaseRemoteConfig.DefaultInstance.GetValue(key).BooleanValue;
   }
 

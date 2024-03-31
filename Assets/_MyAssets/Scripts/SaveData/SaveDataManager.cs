@@ -10,13 +10,14 @@ public static class SaveDataManager
     public static SaveData SaveData => _SaveData;
     private static SaveData _SaveData;
 
-    public static async UniTask SaveAsync()
+    public static async UniTask<bool> SaveAsync()
     {
         //ユーザーデータオブジェクトからjson形式のstringを取得
         string jsonStr = JsonConvert.SerializeObject(SaveData, Formatting.Indented);
         // SavePlayerPrefs(jsonStr);
-        await FirebaseDatabaseManager.SendSaveData(SaveData);
+        bool success = await FirebaseDatabaseManager.SendSaveData(SaveData);
         Debug.Log(jsonStr);
+        return success;
     }
 
 

@@ -30,7 +30,7 @@ public static class GoogleCalendarAPI
     static async UniTask<HashSet<DateTime>> RequestHolidaysAsync(int year)
     {
         Debug.Log("googleカレンダー アクセス開始");
-        var key = await FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.google_calender_api_key);
+        var key = FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.google_calender_api_key);
         if (string.IsNullOrEmpty(key))
         {
             Debug.LogError("GoogleCalendarAPI key: " + key);
@@ -57,12 +57,16 @@ public static class GoogleCalendarAPI
                     DateTime.TryParse(i["start"]["date"].ToString(), out DateTime dateTime);
                     return dateTime;
                 });
-                Debug.Log("googleカレンダー アクセス終了");
+                Debug.Log("googleカレンダー 成功");
 
                 return new HashSet<DateTime>(days);
             case API.Result.Status.Error:
+                Debug.Log("googleカレンダー エラー");
+
                 return null;
             case API.Result.Status.Canceled:
+                Debug.Log("googleカレンダー キャンセル");
+
                 return null;
             default:
                 return null;

@@ -34,14 +34,13 @@ namespace MainScene
             Input.multiTouchEnabled = false;
 
             await FirebaseAuthenticationManager.Initialize();
-            FirebaseStorageManager.Initialize();
+            // FirebaseStorageManager.Initialize();
             FirebaseDatabaseManager.Initialize();
-            FirebaseCloudMessagingManager.Initialize();
-            FirebaseRemoteConfigManager.InitializeAsync().Forget();
+            // FirebaseCloudMessagingManager.Initialize();
+            await FirebaseRemoteConfigManager.InitializeAsync();
             GoogleCalendarAPI.GetHolidaysAsync(DateTime.Now.Year).Forget();
 
-
-            bool is_maintenance = await FirebaseRemoteConfigManager.GetBool(FirebaseRemoteConfigManager.Key.is_maintenance);
+            bool is_maintenance = FirebaseRemoteConfigManager.GetBool(FirebaseRemoteConfigManager.Key.is_maintenance);
             if (is_maintenance)
             {
                 await PopupManager.Instance.GetCommonPopup().ShowAsync(
@@ -57,8 +56,7 @@ namespace MainScene
                 return;
             }
 
-
-            string latestVersion = await FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.latest_version);
+            string latestVersion = FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.latest_version);
 
             if (latestVersion.TrimStart().TrimStart() != Application.version.TrimStart().TrimStart())
             {
@@ -78,9 +76,8 @@ namespace MainScene
             }
 
 
-
-
             await CSVManager.InitializeAsync();
+
             await SaveDataInitializer.Initialize(CSVManager.Characters, FirebaseAuthenticationManager.User.UserId);
 
             HomeScreen.Instance.OnStart();

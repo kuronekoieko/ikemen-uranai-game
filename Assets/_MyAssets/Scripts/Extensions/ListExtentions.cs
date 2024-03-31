@@ -8,6 +8,8 @@ public static class ListExtentions
 {
     public static List<T> ReverseList<T>(this List<T> self)
     {
+        if (self == null) return null;
+
         List<T> items = new();
         for (int i = self.Count - 1; i >= 0; i--)
         {
@@ -18,6 +20,8 @@ public static class ListExtentions
 
     public static List<T> Where<T>(this List<T> self, Func<T, bool> predicate)
     {
+        if (self == null) return null;
+
         List<T> list = new();
         foreach (var item in self)
         {
@@ -31,6 +35,8 @@ public static class ListExtentions
 
     public static T PopRandom<T>(this List<T> self, Func<T, bool> ignore)
     {
+        if (self == null) return default;
+
         if (self.Count == 0) return default;
         bool invalid = self.All(item => ignore(item));
         if (invalid)
@@ -51,6 +57,8 @@ public static class ListExtentions
 
     public static T PopRandom<T>(this List<T> self)
     {
+        if (self == null) return default;
+
         if (self.Count == 0) return default;
         T t = self.GetRandom();
         self.Remove(t);
@@ -59,24 +67,34 @@ public static class ListExtentions
 
     public static T GetRandom<T>(this List<T> self, out int index)
     {
+        index = default;
+        if (self == null) return default;
+
         index = UnityEngine.Random.Range(0, self.Count);
         return self[index];
     }
 
     public static T GetRandom<T>(this List<T> self)
     {
+        if (self == null) return default;
+
         int index = UnityEngine.Random.Range(0, self.Count);
         return self[index];
     }
 
     public static T GetRandom<T>(this T[] self, out int index)
     {
+        index = default;
+        if (self == null) return default;
+
         index = UnityEngine.Random.Range(0, self.Length);
         return self[index];
     }
 
     public static T GetRandom<T>(this T[] self)
     {
+        if (self == null) return default;
+
         int index = UnityEngine.Random.Range(0, self.Length);
         return self[index];
     }
@@ -103,6 +121,8 @@ public static class ListExtentions
 
     public static bool IsIndexOutOfRange<T>(this T[] self, int index)
     {
+        if (self == null) return true;
+
         return index < 0 || self.Length <= index;
     }
 
@@ -127,6 +147,8 @@ public static class ListExtentions
 
     public static bool IsIndexOutOfRange<T>(this List<T> self, int index)
     {
+        if (self == null) return true;
+
         return index < 0 || self.Count <= index;
     }
 
@@ -139,6 +161,8 @@ public static class ListExtentions
     /// <returns></returns>
     public static T ClampIndex<T>(this List<T> self, int index)
     {
+        if (self == null) return default;
+
         if (self.Count == 0) return default;
 
         if (index <= 0)
@@ -156,6 +180,8 @@ public static class ListExtentions
 
     public static bool IsLast<T>(this List<T> self, int index)
     {
+        if (self == null) return default;
+
         return self.Count - 1 == index;
     }
 
