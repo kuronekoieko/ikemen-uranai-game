@@ -41,14 +41,14 @@ public class OnlineCheckPopup : CommonPopup
 
         if (isOnline) return isOnline;
 
-        await PopupManager.Instance.GetPopup<LoadingPopup>().Open();
+        PopupManager.Instance.GetPopup<LoadingPopup>().Open();
 
         while (isOnline == false)
         {
             await UniTaskUtils.DelaySecond(0.5f);
             isOnline = await CheckOnline();
         }
-        await PopupManager.Instance.GetPopup<LoadingPopup>().Close();
+        PopupManager.Instance.GetPopup<LoadingPopup>().Close();
 
         return isOnline;
 

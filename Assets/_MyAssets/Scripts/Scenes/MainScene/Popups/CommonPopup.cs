@@ -74,19 +74,18 @@ public class CommonPopup : BasePopup
             await animator.PlayAsync("ButtonUp_Negative");
             status = 2;
         };
-        await base.Open();
+        base.Open();
 
         await UniTask.WaitWhile(() => status == 0);
         var isSelectedPositive = status == 1;
 
         await animator.PlayAsync("CloseWindow");
-        await Close();
+        Close();
         // await UniTask.WaitUntil(() => isClosed);
         return isSelectedPositive;
     }
 
-    protected async override UniTask OnClose()
+    protected override void OnClose()
     {
-        await UniTask.DelayFrame(0);
     }
 }
