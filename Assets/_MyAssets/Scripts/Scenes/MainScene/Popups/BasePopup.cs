@@ -10,8 +10,8 @@ using Cysharp.Threading.Tasks;
 [RequireComponent(typeof(CanvasGroup))]
 public class BasePopup : MonoBehaviour
 {
-    [SerializeField] protected Button negativeButton;
-    [SerializeField] protected Button positiveButton;
+    [SerializeField] protected CustomButton negativeButton;
+    [SerializeField] protected CustomButton positiveButton;
     CanvasGroup canvasGroup;
 
     protected Action onClickNegativeButton { get; set; }

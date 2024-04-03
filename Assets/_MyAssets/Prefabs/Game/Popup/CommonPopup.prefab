@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3228009549961773831}
   - component: {fileID: 8787262116772661742}
   - component: {fileID: 6338398305571823663}
-  - component: {fileID: 6059320035969794093}
+  - component: {fileID: 497961121414715474}
   m_Layer: 5
   m_Name: Negative Button
   m_TagString: Untagged
@@ -78,7 +78,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6059320035969794093
+--- !u!114 &497961121414715474
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -87,7 +87,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2953684228552707226}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 53cb60febb868e44e9a54171a91854a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -312,8 +312,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dacb2ab76f678ec42b20c83d6b0dae07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  negativeButton: {fileID: 6059320035969794093}
-  positiveButton: {fileID: 1551116137591105190}
+  negativeButton: {fileID: 497961121414715474}
+  positiveButton: {fileID: 2301640369511383961}
   titleText: {fileID: 3527649245028242839}
   messageText: {fileID: 9078750959201853216}
   pButtonText: {fileID: 5931553683891190922}
@@ -756,7 +756,7 @@ GameObject:
   - component: {fileID: 2986672440799844382}
   - component: {fileID: 9042361910944133374}
   - component: {fileID: 6864351068566958899}
-  - component: {fileID: 1551116137591105190}
+  - component: {fileID: 2301640369511383961}
   m_Layer: 5
   m_Name: Positive Button
   m_TagString: Untagged
@@ -823,7 +823,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1551116137591105190
+--- !u!114 &2301640369511383961
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -832,7 +832,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7375675535263504980}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 53cb60febb868e44e9a54171a91854a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
