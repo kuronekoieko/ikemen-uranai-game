@@ -7,9 +7,9 @@ public class LoadingPopup : BasePopup
 {
     public async UniTask ShowFixedTime(float duration)
     {
-        await Open();
+        Open();
         await UniTaskUtils.DelaySecond(duration);
-        await Close();
+        Close();
     }
 
 }

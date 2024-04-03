@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
+//using DG.Tweening;
 using UnityEngine.Events;
 using System;
 using Cysharp.Threading.Tasks;
@@ -12,11 +12,11 @@ public class BasePopup : MonoBehaviour
 {
     [SerializeField] protected CustomButton negativeButton;
     [SerializeField] protected CustomButton positiveButton;
-    CanvasGroup canvasGroup;
+    //CanvasGroup canvasGroup;
 
-    protected Action onClickNegativeButton { get; set; }
-    protected Action onClickPositiveButton { get; set; }
-    protected float animDuration = 0.2f;
+    // protected Action onClickNegativeButton { get; set; }
+    // protected Action onClickPositiveButton { get; set; }
+    // protected float animDuration = 0.2f;
     protected bool isClosed = false;
 
     public virtual void OnStart()
@@ -24,14 +24,16 @@ public class BasePopup : MonoBehaviour
         gameObject.SetActive(false);
         if (negativeButton) negativeButton.AddListener(async () =>
         {
-            await OnClickNegativeButton();
+            OnClickNegativeButton();
+            await UniTask.DelayFrame(0);
         });
         if (positiveButton) positiveButton.AddListener(async () =>
         {
-            await OnClickPositiveButton();
+            OnClickPositiveButton();
+            await UniTask.DelayFrame(0);
         });
         tag = "Popup";
-        canvasGroup = GetComponent<CanvasGroup>();
+        // canvasGroup = GetComponent<CanvasGroup>();
         AddImage();
     }
 
@@ -45,36 +47,36 @@ public class BasePopup : MonoBehaviour
         }
     }
 
-    public async UniTask Close()
+    public void Close()
     {
-        await OnClose();
+        OnClose();
     }
 
-    protected virtual async UniTask OnClose()
+    protected virtual void OnClose()
     {
         Debug.Log("OnClose");
-        onClickNegativeButton = null;
-        onClickPositiveButton = null;
+        // onClickNegativeButton = null;
+        // onClickPositiveButton = null;
 
-        await canvasGroup.DOFade(0f, animDuration).AsyncWaitForCompletion();
+        //  await canvasGroup.DOFade(0f, animDuration).AsyncWaitForCompletion();
         gameObject.SetActive(false);
         isClosed = true;
     }
 
 
-    async UniTask OnClickNegativeButton()
+    void OnClickNegativeButton()
     {
-        onClickNegativeButton?.Invoke();
-        await OnClose();
+        // onClickNegativeButton?.Invoke();
+        OnClose();
     }
 
-    async UniTask OnClickPositiveButton()
+    void OnClickPositiveButton()
     {
-        onClickPositiveButton?.Invoke();
-        await OnClose();
+        // onClickPositiveButton?.Invoke();
+        OnClose();
     }
 
-    public virtual async UniTask Open()
+    public virtual void Open()
     {
         isClosed = false;
 
@@ -82,8 +84,8 @@ public class BasePopup : MonoBehaviour
         transform.SetAsLastSibling();
 
         gameObject.SetActive(true);
-        canvasGroup.alpha = 0;
-        await canvasGroup.DOFade(1f, animDuration).AsyncWaitForCompletion();
+        // canvasGroup.alpha = 0;
+        // await canvasGroup.DOFade(1f, animDuration).AsyncWaitForCompletion();
     }
 
 }
