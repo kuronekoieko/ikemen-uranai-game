@@ -20,11 +20,11 @@ public static class ButtonExtensions
             // naninovelのUIカメラを10に設定しているため
             CanvasManager.Instance.Canvas.worldCamera.depth = 9;
             CanvasManager.Instance.GraphicRaycaster.enabled = false;
-            self.interactable = false;
+            self.enabled = false;
             await func();
             CanvasManager.Instance.Canvas.worldCamera.depth = 11;
             CanvasManager.Instance.GraphicRaycaster.enabled = true;
-            self.interactable = true;
+            self.enabled = true;
         });
     }
 }
