@@ -17,20 +17,18 @@ public class BasePopup : MonoBehaviour
     protected Action onClickNegativeButton { get; set; }
     protected Action onClickPositiveButton { get; set; }
     protected float animDuration = 0.2f;
-
+    protected bool isClosed = false;
 
     public virtual void OnStart()
     {
         gameObject.SetActive(false);
-        if (negativeButton) negativeButton.AddListener(() =>
+        if (negativeButton) negativeButton.AddListener(async () =>
         {
-            OnClickNegativeButton();
-            return UniTask.DelayFrame(0);
+            await OnClickNegativeButton();
         });
-        if (positiveButton) positiveButton.AddListener(() =>
+        if (positiveButton) positiveButton.AddListener(async () =>
         {
-            OnClickPositiveButton();
-            return UniTask.DelayFrame(0);
+            await OnClickPositiveButton();
         });
         tag = "Popup";
         canvasGroup = GetComponent<CanvasGroup>();
@@ -54,28 +52,32 @@ public class BasePopup : MonoBehaviour
 
     protected virtual async UniTask OnClose()
     {
+        Debug.Log("OnClose");
         onClickNegativeButton = null;
         onClickPositiveButton = null;
 
         await canvasGroup.DOFade(0f, animDuration).AsyncWaitForCompletion();
         gameObject.SetActive(false);
+        isClosed = true;
     }
 
 
-    void OnClickNegativeButton()
+    async UniTask OnClickNegativeButton()
     {
         onClickNegativeButton?.Invoke();
-        OnClose().Forget();
+        await OnClose();
     }
 
-    void OnClickPositiveButton()
+    async UniTask OnClickPositiveButton()
     {
         onClickPositiveButton?.Invoke();
-        OnClose().Forget();
+        await OnClose();
     }
 
     public virtual async UniTask Open()
     {
+        isClosed = false;
+
         // 今いる自分の階層の一番下に移動して、一番手前に表示されます。
         transform.SetAsLastSibling();
 

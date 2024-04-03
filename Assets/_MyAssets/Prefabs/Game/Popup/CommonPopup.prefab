@@ -270,6 +270,7 @@ GameObject:
   - component: {fileID: 4263467194752377258}
   - component: {fileID: 2377126366026622683}
   - component: {fileID: 3889748160739208243}
+  - component: {fileID: 1315401103}
   m_Layer: 5
   m_Name: CommonPopup
   m_TagString: Untagged
@@ -317,6 +318,7 @@ MonoBehaviour:
   messageText: {fileID: 9078750959201853216}
   pButtonText: {fileID: 5931553683891190922}
   nButtonText: {fileID: 125319596143712442}
+  animator: {fileID: 1315401103}
 --- !u!225 &4263467194752377258
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -367,6 +369,27 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &1315401103
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4353251072159203196}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5a9a988b4b36c1247af6b14a35778fea, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4964452318934973267
 GameObject:
   m_ObjectHideFlags: 0
