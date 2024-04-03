@@ -15,24 +15,25 @@ public class CommonPopup : BasePopup
     [SerializeField] TextMeshProUGUI nButtonText;
     [SerializeField] Animator animator;
 
-    public void Show(
-        string title,
-        string message,
-        string positive = "",
-        string negative = "",
-        Action onClickPositiveButton = null,
-        Action onClickNegativeButton = null)
-    {
-        base.Open().Forget();
-        if (onClickPositiveButton != null) base.onClickPositiveButton = onClickPositiveButton;
-        if (onClickNegativeButton != null) base.onClickNegativeButton = onClickNegativeButton;
-        titleText.text = title;
-        messageText.text = message;
-        pButtonText.text = positive;
-        nButtonText.text = negative;
-        positiveButton.gameObject.SetActive(!string.IsNullOrEmpty(positive));
-        negativeButton.gameObject.SetActive(!string.IsNullOrEmpty(negative));
-    }
+    /*    public void Show(
+            string title,
+            string message,
+            string positive = "",
+            string negative = "",
+            Action onClickPositiveButton = null,
+            Action onClickNegativeButton = null)
+        {
+            base.Open().Forget();
+            if (onClickPositiveButton != null) base.onClickPositiveButton = onClickPositiveButton;
+            if (onClickNegativeButton != null) base.onClickNegativeButton = onClickNegativeButton;
+            titleText.text = title;
+            messageText.text = message;
+            pButtonText.text = positive;
+            nButtonText.text = negative;
+            positiveButton.gameObject.SetActive(!string.IsNullOrEmpty(positive));
+            negativeButton.gameObject.SetActive(!string.IsNullOrEmpty(negative));
+        }*/
+
 
     public async UniTask<bool> ShowAsync(
         string title,
@@ -48,24 +49,44 @@ public class CommonPopup : BasePopup
         negativeButton.gameObject.SetActive(!string.IsNullOrEmpty(negative));
 
         // UnityEventを変換
-        var positiveButtonEvent = positiveButton.onClick.GetAsyncEventHandler(CancellationToken.None);
-        var negativeButtonEvent = negativeButton.onClick.GetAsyncEventHandler(CancellationToken.None);
+        //  var positiveButtonEvent = positiveButton.onClick.GetAsyncEventHandler(CancellationToken.None);
+        // var negativeButtonEvent = negativeButton.onClick.GetAsyncEventHandler(CancellationToken.None);
 
         // ボタンの入力待ち
-        UniTask pBtn = positiveButtonEvent.OnInvokeAsync();
-        UniTask nBtn = negativeButtonEvent.OnInvokeAsync();
-
+        // UniTask pBtn = positiveButtonEvent.OnInvokeAsync();
+        // UniTask nBtn = negativeButtonEvent.OnInvokeAsync();
+        int status = 0;
+        positiveButton.onPointerDown = async () =>
+        {
+            await animator.PlayAsync("ButtonDown");
+        };
+        positiveButton.onPointerUp = async () =>
+        {
+            await animator.PlayAsync("ButtonUp");
+            status = 1;
+        };
+        negativeButton.onPointerDown = async () =>
+        {
+            await animator.PlayAsync("ButtonDown");
+        };
+        negativeButton.onPointerUp = async () =>
+        {
+            await animator.PlayAsync("ButtonUp");
+            status = 2;
+        };
         await base.Open();
 
-        var btnIndex = await UniTask.WhenAny(pBtn, nBtn);
-        var isSelectedPositive = btnIndex == 0;
-        await UniTask.WaitUntil(() => isClosed);
+        await UniTask.WaitWhile(() => status == 0);
+        var isSelectedPositive = status == 1;
+
+        await animator.PlayAsync("CloseWindow");
+        await Close();
+        // await UniTask.WaitUntil(() => isClosed);
         return isSelectedPositive;
     }
 
     protected async override UniTask OnClose()
     {
-        await animator.PlayAsync("CloseWindow");
-        await base.OnClose();
+        await UniTask.DelayFrame(0);
     }
 }
