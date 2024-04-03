@@ -14,6 +14,7 @@ public class HomePage : BasePage
     [SerializeField] TomorrowHoroscopeButton tomorrowHoroscopesButton;
     [SerializeField] Button selectCharacterScreenButton;
     [SerializeField] Button debugButton;
+    [SerializeField] SideBanner sideBanner;
 
 
     public override void OnStart()
@@ -21,6 +22,7 @@ public class HomePage : BasePage
         base.OnStart();
         todayHoroscopesButton.OnStart();
         tomorrowHoroscopesButton.OnStart();
+        sideBanner.OnStart();
         selectCharacterScreenButton.AddListener(() =>
         {
             ScreenManager.Instance.Get<SelectCharacterScreen>().Open();
