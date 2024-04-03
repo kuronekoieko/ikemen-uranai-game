@@ -17,10 +17,10 @@ public static class AnimatorExtensions
 
     }
 
-    public async static UniTask PlayAsync(this Animator self, string stateName)
+    public async static UniTask PlayAsync(this Animator self, string stateName, int layer = 0)
     {
         // https://kan-kikuchi.hatenablog.com/entry/Animator_Replay
-        self.Play(stateName, 0, 0);
+        self.Play(stateName, layer, 0);
         await UniTask.WaitUntil(() => self.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f); // animationが終わるまで遅延
     }
 }
