@@ -12,25 +12,19 @@ public class BasePopup : MonoBehaviour
 {
     [SerializeField] protected CustomButton negativeButton;
     [SerializeField] protected CustomButton positiveButton;
-    //CanvasGroup canvasGroup;
 
-    // protected Action onClickNegativeButton { get; set; }
-    // protected Action onClickPositiveButton { get; set; }
-    // protected float animDuration = 0.2f;
-    protected bool isClosed = false;
 
     public virtual void OnStart()
     {
         gameObject.SetActive(false);
-        if (negativeButton) negativeButton.AddListener(async () =>
+        if (negativeButton) negativeButton.onClick.AddListener(async () =>
         {
             OnClickNegativeButton();
             await UniTask.DelayFrame(0);
         });
-        if (positiveButton) positiveButton.AddListener(async () =>
+        if (positiveButton) positiveButton.onClick.AddListener(() =>
         {
             OnClickPositiveButton();
-            await UniTask.DelayFrame(0);
         });
         tag = "Popup";
         // canvasGroup = GetComponent<CanvasGroup>();
@@ -54,38 +48,25 @@ public class BasePopup : MonoBehaviour
 
     protected virtual void OnClose()
     {
-        Debug.Log("OnClose");
-        // onClickNegativeButton = null;
-        // onClickPositiveButton = null;
-
-        //  await canvasGroup.DOFade(0f, animDuration).AsyncWaitForCompletion();
         gameObject.SetActive(false);
-        isClosed = true;
     }
 
 
     void OnClickNegativeButton()
     {
-        // onClickNegativeButton?.Invoke();
         OnClose();
     }
 
     void OnClickPositiveButton()
     {
-        // onClickPositiveButton?.Invoke();
         OnClose();
     }
 
     public virtual void Open()
     {
-        isClosed = false;
-
         // 今いる自分の階層の一番下に移動して、一番手前に表示されます。
         transform.SetAsLastSibling();
-
         gameObject.SetActive(true);
-        // canvasGroup.alpha = 0;
-        // await canvasGroup.DOFade(1f, animDuration).AsyncWaitForCompletion();
     }
 
 }

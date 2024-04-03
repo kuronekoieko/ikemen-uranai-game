@@ -15,25 +15,6 @@ public class CommonPopup : BasePopup
     [SerializeField] TextMeshProUGUI nButtonText;
     [SerializeField] Animator animator;
 
-    /*    public void Show(
-            string title,
-            string message,
-            string positive = "",
-            string negative = "",
-            Action onClickPositiveButton = null,
-            Action onClickNegativeButton = null)
-        {
-            base.Open().Forget();
-            if (onClickPositiveButton != null) base.onClickPositiveButton = onClickPositiveButton;
-            if (onClickNegativeButton != null) base.onClickNegativeButton = onClickNegativeButton;
-            titleText.text = title;
-            messageText.text = message;
-            pButtonText.text = positive;
-            nButtonText.text = negative;
-            positiveButton.gameObject.SetActive(!string.IsNullOrEmpty(positive));
-            negativeButton.gameObject.SetActive(!string.IsNullOrEmpty(negative));
-        }*/
-
 
     public async UniTask<bool> ShowAsync(
         string title,
@@ -48,44 +29,39 @@ public class CommonPopup : BasePopup
         positiveButton.gameObject.SetActive(!string.IsNullOrEmpty(positive));
         negativeButton.gameObject.SetActive(!string.IsNullOrEmpty(negative));
 
-        // UnityEventを変換
-        //  var positiveButtonEvent = positiveButton.onClick.GetAsyncEventHandler(CancellationToken.None);
-        // var negativeButtonEvent = negativeButton.onClick.GetAsyncEventHandler(CancellationToken.None);
-
-        // ボタンの入力待ち
-        // UniTask pBtn = positiveButtonEvent.OnInvokeAsync();
-        // UniTask nBtn = negativeButtonEvent.OnInvokeAsync();
         int status = 0;
         positiveButton.onPointerDown = async () =>
         {
-            await animator.PlayAsync("ButtonDown_Positive");
+            await animator.PlayAsync("ButtonDown_Positive", 1);
         };
         positiveButton.onPointerUp = async () =>
         {
-            await animator.PlayAsync("ButtonUp_Positive");
+            await animator.PlayAsync("ButtonUp_Positive", 1);
             status = 1;
         };
         negativeButton.onPointerDown = async () =>
         {
-            await animator.PlayAsync("ButtonDown_Negative");
+            await animator.PlayAsync("ButtonDown_Negative", 1);
         };
         negativeButton.onPointerUp = async () =>
         {
-            await animator.PlayAsync("ButtonUp_Negative");
+            await animator.PlayAsync("ButtonUp_Negative", 1);
             status = 2;
         };
+
         base.Open();
+
 
         await UniTask.WaitWhile(() => status == 0);
         var isSelectedPositive = status == 1;
 
         await animator.PlayAsync("CloseWindow");
-        Close();
-        // await UniTask.WaitUntil(() => isClosed);
+        base.OnClose();
         return isSelectedPositive;
     }
 
     protected override void OnClose()
     {
+
     }
 }

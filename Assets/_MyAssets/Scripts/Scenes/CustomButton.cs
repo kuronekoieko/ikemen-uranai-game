@@ -11,26 +11,17 @@ public class CustomButton : Button, IPointerDownHandler, IPointerUpHandler
 {
     public Action onPointerDown;
     public Action onPointerUp;
-    bool isButtonDown;
 
-    protected async UniTask Task()
-    {
-        await UniTask.WaitUntil(() => isButtonDown == false);
-    }
 
     public override void OnPointerDown(PointerEventData eventData)
     {
         if (interactable == false) return;
         onPointerDown?.Invoke();
-        isButtonDown = true;
     }
 
     public override void OnPointerUp(PointerEventData eventData)
     {
         if (interactable == false) return;
         onPointerUp?.Invoke();
-        isButtonDown = false;
     }
-
-
 }
