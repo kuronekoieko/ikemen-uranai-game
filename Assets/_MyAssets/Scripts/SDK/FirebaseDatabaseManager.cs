@@ -76,11 +76,6 @@ public static class FirebaseDatabaseManager
     {
         Debug.Log("GetUserData");
 
-        //await PopupManager.Instance.GetPopup<OnlineCheckPopup>().CheckOnlineUntilOnline();
-
-
-        // ネットワークにつながってないときは、キャッシュされてるのを取ってきてるっぽい
-        // →取れるときと取れないときがある
         (bool isTimeout, DataSnapshot snapshot) = await Reference.Child("users").Child(userId).GetValueAsync().AsUniTask().TimeOutSeconds(3);
 
         if (isTimeout)

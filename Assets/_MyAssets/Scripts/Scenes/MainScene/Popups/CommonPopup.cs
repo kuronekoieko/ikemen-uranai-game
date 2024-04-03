@@ -13,6 +13,7 @@ public class CommonPopup : BasePopup
     [SerializeField] TextMeshProUGUI messageText;
     [SerializeField] TextMeshProUGUI pButtonText;
     [SerializeField] TextMeshProUGUI nButtonText;
+    [SerializeField] Animator animator;
 
     public void Show(
         string title,
@@ -58,8 +59,13 @@ public class CommonPopup : BasePopup
 
         var btnIndex = await UniTask.WhenAny(pBtn, nBtn);
         var isSelectedPositive = btnIndex == 0;
-        await UniTask.Delay((int)(animDuration * 1000));
-        await UniTask.DelayFrame(1);
+        await UniTask.WaitUntil(() => isClosed);
         return isSelectedPositive;
+    }
+
+    protected async override UniTask OnClose()
+    {
+        await animator.PlayAsync("CloseWindow");
+        await base.OnClose();
     }
 }
