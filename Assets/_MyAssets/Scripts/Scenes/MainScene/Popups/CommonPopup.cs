@@ -58,20 +58,20 @@ public class CommonPopup : BasePopup
         int status = 0;
         positiveButton.onPointerDown = async () =>
         {
-            await animator.PlayAsync("ButtonDown");
+            await animator.PlayAsync("ButtonDown_Positive");
         };
         positiveButton.onPointerUp = async () =>
         {
-            await animator.PlayAsync("ButtonUp");
+            await animator.PlayAsync("ButtonUp_Positive");
             status = 1;
         };
         negativeButton.onPointerDown = async () =>
         {
-            await animator.PlayAsync("ButtonDown");
+            await animator.PlayAsync("ButtonDown_Negative");
         };
         negativeButton.onPointerUp = async () =>
         {
-            await animator.PlayAsync("ButtonUp");
+            await animator.PlayAsync("ButtonUp_Negative");
             status = 2;
         };
         await base.Open();
