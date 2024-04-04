@@ -33,6 +33,7 @@ namespace MainScene
             // 同時押し無効
             Input.multiTouchEnabled = false;
 
+            await PopupManager.Instance.GetPopup<OnlineCheckPopup>().CheckOnlineUntilOnline();
 
             (bool success_0, bool success_1) = await UniTask.WhenAll(
                 FirebaseRemoteConfigManager.Initialize(),
