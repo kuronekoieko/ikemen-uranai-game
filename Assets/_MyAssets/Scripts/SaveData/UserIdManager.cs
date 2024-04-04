@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using System.Linq;
-using UniRx;
 
 public static class UserIdManager
 {

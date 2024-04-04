@@ -85,14 +85,14 @@ public class HomePage : BasePage
         sideBanner.OnOpen();
     }
 
-    public async UniTask<bool> IsNotificationTodayHoroscope()
+    public bool IsNotificationTodayHoroscope()
     {
-        return await todayHoroscopesButton.IsNotification();
+        return todayHoroscopesButton.IsNotification();
     }
 
-    public async UniTask<bool> IsNotificationNextDayHoroscope()
+    public bool IsNotificationNextDayHoroscope()
     {
-        return await tomorrowHoroscopesButton.IsNotification();
+        return tomorrowHoroscopesButton.IsNotification();
     }
 
     protected override void OnClose()

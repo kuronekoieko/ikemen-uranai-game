@@ -23,10 +23,10 @@ public abstract class BaseHoroscopeButton : MonoBehaviour
 
     }
 
-    protected async UniTask<HoroscopeHistory> GetHoroscopeHistory()
+    protected HoroscopeHistory GetHoroscopeHistory()
     {
-        await UniTask.WaitUntil(() => SaveDataManager.SaveData != null);
-        await UniTask.WaitUntil(() => SaveDataManager.SaveData.horoscopeHistories != null);
+        if (SaveDataManager.SaveData == null) return null;
+        if (SaveDataManager.SaveData.horoscopeHistories == null) return null;
 
         SaveDataManager.SaveData.horoscopeHistories.TryGetValue(Key, out HoroscopeHistory horoscopeHistory);
         return horoscopeHistory;

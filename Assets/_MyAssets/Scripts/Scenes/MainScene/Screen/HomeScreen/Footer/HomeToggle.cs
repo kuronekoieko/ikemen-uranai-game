@@ -11,21 +11,20 @@ public class HomeToggle : BaseFooterToggleController
     {
         base.OnStart();
         base.SetSelectedAction(Home);
-        this.ObserveEveryValueChanged(async isShowBadgeAsync => await IsShowBadgeAsync())
-            .Subscribe(async isShowBadgeAsync =>
+        this.ObserveEveryValueChanged(isShowBadge => IsShowBadgeAsync())
+            .Subscribe(isShowBadge =>
             {
-                bool isShowBadge = await isShowBadgeAsync;
                 base.footerToggle.SetActiveBadge(isShowBadge);
             })
             .AddTo(gameObject);
     }
 
 
-    async UniTask<bool> IsShowBadgeAsync()
+    bool IsShowBadgeAsync()
     {
         if (PageManager.Instance == null) return false;
-        bool isNotificationTodayHoroscope = await PageManager.Instance.Get<HomePage>().IsNotificationTodayHoroscope();
-        bool isNotificationNextDayHoroscope = await PageManager.Instance.Get<HomePage>().IsNotificationNextDayHoroscope();
+        bool isNotificationTodayHoroscope = PageManager.Instance.Get<HomePage>().IsNotificationTodayHoroscope();
+        bool isNotificationNextDayHoroscope = PageManager.Instance.Get<HomePage>().IsNotificationNextDayHoroscope();
         return isNotificationTodayHoroscope || isNotificationNextDayHoroscope;
     }
 

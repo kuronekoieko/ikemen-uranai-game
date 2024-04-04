@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System;
 using SaveDataObjects;
 using Cysharp.Threading.Tasks;
+using UniRx;
 
 
 public class TodayHoroscopeButton : BaseHoroscopeButton
@@ -13,26 +14,37 @@ public class TodayHoroscopeButton : BaseHoroscopeButton
     public override void OnStart()
     {
         base.OnStart();
+
+        this.ObserveEveryValueChanged(isRead => IsNotification())
+            .Subscribe(isRead =>
+            {
+                if (isRead)
+                {
+                    base.Anim();
+                }
+                else
+                {
+                    Kill();
+                }
+            })
+            .AddTo(gameObject);
     }
 
-    public override async void OnOpen()
+    public override void OnOpen()
     {
-        bool isNotification = await IsNotification();
-        if (!isNotification) return;
-        base.Anim();
+
     }
 
-    public async UniTask<bool> IsNotification()
+    public bool IsNotification()
     {
-        HoroscopeHistory horoscopeHistory = await GetHoroscopeHistory();
-
+        HoroscopeHistory horoscopeHistory = GetHoroscopeHistory();
         if (horoscopeHistory == null) return false;
         return horoscopeHistory.isReadTodayHoroscope == false;
     }
 
     protected async override UniTask OnClick()
     {
-        HoroscopeHistory horoscopeHistory = await GetHoroscopeHistory();
+        HoroscopeHistory horoscopeHistory = GetHoroscopeHistory();
 
         if (horoscopeHistory == null) return;
 
@@ -43,7 +55,6 @@ public class TodayHoroscopeButton : BaseHoroscopeButton
         SaveDataManager.SaveData.horoscopeHistories[Key].isReadTodayHoroscope = true;
         await SaveDataManager.SaveAsync();
         ReturnLocalPushNotification.SetLocalPush();
-        Kill();
 
         var constellation = SaveDataManager.SaveData.Constellation;
         await ScreenManager.Instance.Get<HoroscopeScreen>().Open(
