@@ -79,7 +79,8 @@ namespace MainScene
                         "最新バージョンがあります。\nアプリをアップデートしてください。",
                         "OK"
                     );
-                Application.OpenURL(URLs.APP_STORE_PAGE);
+                string url = FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.url_app_store_page);
+                Application.OpenURL(url);
 
                 Quit();
                 return;
