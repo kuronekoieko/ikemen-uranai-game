@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SideBanner : MonoBehaviour
 {
-    [SerializeField] CustomButton openButton;
-    [SerializeField] CustomButton closeButton;
+    [SerializeField] Button openButton;
+    [SerializeField] Button closeButton;
     [SerializeField] Animator animator;
 
-    public async void OnStart()
+    public void OnStart()
     {
         openButton.AddListener(async () =>
         {
@@ -19,8 +20,14 @@ public class SideBanner : MonoBehaviour
         {
             await Open(false);
         });
+        // https://tsubakit1.hateblo.jp/entry/2018/10/04/233000
+        // gameobjectが最アクティブになると、アニメーションがentryに戻るので、オフにする
+        // ページ切替時に動いてしまうため
+        animator.keepAnimatorStateOnDisable = true;
+    }
 
-        await Open(false);
+    public void OnOpen()
+    {
     }
 
 
@@ -31,13 +38,11 @@ public class SideBanner : MonoBehaviour
 
         if (isOpen)
         {
-            await animator.PlayAsync("Open");
-
+            await animator.SetTriggerAsync("Open");
         }
         else
         {
-            await animator.PlayAsync("Close");
-
+            await animator.SetTriggerAsync("Close");
         }
     }
 }

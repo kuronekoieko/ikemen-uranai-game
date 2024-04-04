@@ -82,6 +82,7 @@ public class HomePage : BasePage
         base.Open();
         todayHoroscopesButton.OnOpen();
         tomorrowHoroscopesButton.OnOpen();
+        sideBanner.OnOpen();
     }
 
     public async UniTask<bool> IsNotificationTodayHoroscope()
