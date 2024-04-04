@@ -40,7 +40,6 @@ public class TodayHoroscopeButton : BaseHoroscopeButton
         {
             SaveDataManager.SaveData.exp += 5;
         }
-
         SaveDataManager.SaveData.horoscopeHistories[Key].isReadTodayHoroscope = true;
         await SaveDataManager.SaveAsync();
         ReturnLocalPushNotification.SetLocalPush();
