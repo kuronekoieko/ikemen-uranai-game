@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7679295484905925567}
   - component: {fileID: 7679295484905925562}
   - component: {fileID: 7679295484905925561}
-  - component: {fileID: 7679295484905925560}
+  - component: {fileID: 2365836783366019732}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7679295484905925560
+--- !u!114 &2365836783366019732
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -86,7 +86,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7679295484905925566}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53cb60febb868e44e9a54171a91854a4, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -524,8 +524,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fcf899702879a8438c4928139969af6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  openButton: {fileID: 7679295486536466607}
-  closeButton: {fileID: 7679295484905925560}
+  openButton: {fileID: 1671567398520164282}
+  closeButton: {fileID: 2365836783366019732}
   animator: {fileID: 7679295485769934452}
 --- !u!95 &7679295485769934452
 Animator:
@@ -801,7 +801,7 @@ GameObject:
   - component: {fileID: 7679295486536466606}
   - component: {fileID: 7679295486536466601}
   - component: {fileID: 7679295486536466600}
-  - component: {fileID: 7679295486536466607}
+  - component: {fileID: 1671567398520164282}
   m_Layer: 5
   m_Name: 'OpenButton '
   m_TagString: Untagged
@@ -867,7 +867,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7679295486536466607
+--- !u!114 &1671567398520164282
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -876,7 +876,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7679295486536466605}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53cb60febb868e44e9a54171a91854a4, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
