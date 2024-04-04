@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5627441543230059795}
   - component: {fileID: 5627441543230059797}
   - component: {fileID: 5627441543230059794}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: 02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -285,7 +285,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.25
+      scalar: 0.1
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -748,7 +748,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.5
+      value: 0.2
       mode: 0
       spread: 0
       speed:
@@ -867,7 +867,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 20
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -4781,7 +4781,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -4823,7 +4823,7 @@ GameObject:
   - component: {fileID: 5627441543718281270}
   - component: {fileID: 5627441543718281224}
   - component: {fileID: 5627441543718281225}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: 01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5097,7 +5097,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.25
+      scalar: 0.1
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -5560,7 +5560,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.5
+      value: 0.2
       mode: 0
       spread: 0
       speed:
@@ -5679,7 +5679,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 20
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -9593,7 +9593,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -9635,7 +9635,7 @@ GameObject:
   - component: {fileID: 5627441544422830782}
   - component: {fileID: 5627441544422830783}
   - component: {fileID: 5627441544422830780}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: DragEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14508,7 +14508,7 @@ GameObject:
   - component: {fileID: 5627441544787213078}
   - component: {fileID: 5627441544787212520}
   - component: {fileID: 5627441544787212521}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: 03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14782,7 +14782,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.25
+      scalar: 0.1
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -15245,7 +15245,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.5
+      value: 0.2
       mode: 0
       spread: 0
       speed:
@@ -15364,7 +15364,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 20
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -19278,7 +19278,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
