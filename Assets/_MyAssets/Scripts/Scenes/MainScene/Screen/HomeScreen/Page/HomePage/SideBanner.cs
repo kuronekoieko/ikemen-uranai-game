@@ -21,7 +21,7 @@ public class SideBanner : MonoBehaviour
             await Open(false);
         });
         // https://tsubakit1.hateblo.jp/entry/2018/10/04/233000
-        // gameobjectが最アクティブになると、アニメーションがentryに戻るので、オフにする
+        // gameobjectが再度アクティブになると、アニメーションがentryに戻るので、オフにする
         // ページ切替時に動いてしまうため
         animator.keepAnimatorStateOnDisable = true;
     }
@@ -38,11 +38,11 @@ public class SideBanner : MonoBehaviour
 
         if (isOpen)
         {
-            await animator.SetTriggerAsync("Open");
+            await animator.PlayAsync("Open");
         }
         else
         {
-            await animator.SetTriggerAsync("Close");
+            await animator.PlayAsync("Close");
         }
     }
 }
