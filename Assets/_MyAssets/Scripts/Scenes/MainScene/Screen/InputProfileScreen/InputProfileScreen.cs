@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using MainScene;
 using Cysharp.Threading.Tasks;
 using Mopsicus.Plugins;
+using SaveDataObjects;
 
 public class InputProfileScreen : BaseScreen
 {
@@ -78,6 +79,16 @@ public class InputProfileScreen : BaseScreen
         {
             SaveDataManager.SaveData.name = inputField.text;
             SaveDataManager.SaveData.birthDay = birthDay;
+            SaveDataManager.SaveData.horoscopeHistories.TryGetValue(DateTime.Today.ToDateKey(), out HoroscopeHistory horoscopeHistory);
+
+            if (horoscopeHistory == null) return;
+
+            if (horoscopeHistory.isReadTodayHoroscope == false)
+            {
+                SaveDataManager.SaveData.exp += 5;
+            }
+            SaveDataManager.SaveData.horoscopeHistories[DateTime.Today.ToDateKey()].isReadTodayHoroscope = true;
+
             await SaveDataManager.SaveAsync();
             var constellation = SaveDataManager.SaveData.Constellation;
             await ScreenManager.Instance.Get<HoroscopeScreen>().Open(constellation, DateTime.Today, SaveDataManager.SaveData.GetCurrentCharacter());

@@ -7,6 +7,7 @@ using MainScene;
 using TMPro;
 using SaveDataObjects;
 using Cysharp.Threading.Tasks;
+using UniRx;
 
 public class TomorrowHoroscopeButton : BaseHoroscopeButton
 {
@@ -21,18 +22,30 @@ public class TomorrowHoroscopeButton : BaseHoroscopeButton
         base.OnStart();
 
         Initialize.Instance.OnUpdate += OnUpdate;
+
+        this.ObserveEveryValueChanged(isRead => IsNotification())
+        .Subscribe(isRead =>
+        {
+            if (isRead)
+            {
+                base.Anim();
+            }
+            else
+            {
+                Kill();
+            }
+        })
+        .AddTo(gameObject);
     }
 
-    public override async void OnOpen()
+    public override void OnOpen()
     {
-        bool isNotification = await IsNotification();
-        if (!isNotification) return;
-        base.Anim();
+
     }
 
-    public async UniTask<bool> IsNotification()
+    public bool IsNotification()
     {
-        HoroscopeHistory horoscopeHistory = await GetHoroscopeHistory();
+        HoroscopeHistory horoscopeHistory = GetHoroscopeHistory();
 
         if (horoscopeHistory == null) return false;
         return horoscopeHistory.isReadNextDayHoroscope == false && button.interactable;
@@ -40,7 +53,7 @@ public class TomorrowHoroscopeButton : BaseHoroscopeButton
 
     protected async override UniTask OnClick()
     {
-        HoroscopeHistory horoscopeHistory = await GetHoroscopeHistory();
+        HoroscopeHistory horoscopeHistory = GetHoroscopeHistory();
         if (horoscopeHistory == null) return;
 
         if (horoscopeHistory.isReadNextDayHoroscope == false)
@@ -51,7 +64,7 @@ public class TomorrowHoroscopeButton : BaseHoroscopeButton
         SaveDataManager.SaveData.horoscopeHistories[Key].isReadNextDayHoroscope = true;
         await SaveDataManager.SaveAsync();
         ReturnLocalPushNotification.SetLocalPush();
-        Kill();
+
 
         var constellation = SaveDataManager.SaveData.Constellation;
         await ScreenManager.Instance.Get<HoroscopeScreen>().Open(
