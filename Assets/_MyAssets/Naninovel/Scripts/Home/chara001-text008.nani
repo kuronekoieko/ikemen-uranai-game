@@ -1,14 +1,14 @@
 @char chara001.idle001
 @voice Assets/_MyAssets/AddressablesResources/Remote/Voices/chara001-voice001.wav
-アモン​・リード: text_id=8の1行目
+アモン​・リード: text_id=8の1行目[br]１２３４５６７８９０１２３４５６７８９０１２３[br]２２３４５６７８９０１２３４５６７８９０１２３[br]３２３４５６７８９０１２３４５６７８９０１２３[br]４２３４５６７８９０１２３４５６７８９０１２３
 
 @char chara001.idle002
 @voice Assets/_MyAssets/AddressablesResources/Remote/Voices/chara001-voice002.wav
-アモン​・リード: text_id=8の2行目
+アモン​・リード: text_id=8の2行目[br]１２３４５６７８９０１２３４５６７８９０１２３[br]２２３４５６７８９０１２３４５６７８９０１２３[br]３２３４５６７８９０１２３４５６７８９０１２３[br]４２３４５６７８９０１２３４５６７８９０１２３
 
-アモン​・リード: text_id=8の3行目
+アモン​・リード: text_id=8の3行目[br]１２３４５６７８９０１２３４５６７８９０１２３[br]２２３４５６７８９０１２３４５６７８９０１２３[br]３２３４５６７８９０１２３４５６７８９０１２３[br]４２３４５６７８９０１２３４５６７８９０１２３
 
-アモン​・リード: text_id=8の4行目
+アモン​・リード: text_id=8の4行目[br]１２３４５６７８９０１２３４５６７８９０１２３[br]２２３４５６７８９０１２３４５６７８９０１２３[br]３２３４５６７８９０１２３４５６７８９０１２３[br]４２３４５６７８９０１２３４５６７８９０１２３
 
 @printer Home visible:false
 @stop
