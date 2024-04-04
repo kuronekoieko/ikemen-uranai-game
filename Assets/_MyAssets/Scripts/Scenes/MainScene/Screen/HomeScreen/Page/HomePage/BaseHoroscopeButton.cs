@@ -12,7 +12,7 @@ public abstract class BaseHoroscopeButton : MonoBehaviour
 {
     [SerializeField] protected Button button;
     protected string Key => DateTime.Today.ToDateKey();
-
+    Tweener tweener;
     public virtual void OnStart()
     {
         button.AddListener(OnClick);
@@ -34,7 +34,15 @@ public abstract class BaseHoroscopeButton : MonoBehaviour
 
     protected void Anim()
     {
-        transform
+        // アニメーション実行中に再度実行するとどんどんデカくなる→killで対応できる
+        // ホームボタンを押すたびにアニメーション動くと変
+        if (tweener != null && tweener.IsPlaying())
+        {
+            return;
+        }
+
+        Kill();
+        tweener = transform
             .DOPunchScale(Vector3.one * 0.1f, 2f, 3, 0.1f)
             .SetEase(Ease.Linear)
             .SetLoops(-1)
@@ -47,8 +55,9 @@ public abstract class BaseHoroscopeButton : MonoBehaviour
     protected void Kill()
     {
         // こっちだとスケールもどらないっぽい？
-        button.transform.DOKill(true);
-        transform.DOKill(true);
+        // button.transform.DOKill(true);
+        // transform.DOKill(true);
+        tweener?.Kill(true);
         transform.localScale = Vector3.one;
     }
 
