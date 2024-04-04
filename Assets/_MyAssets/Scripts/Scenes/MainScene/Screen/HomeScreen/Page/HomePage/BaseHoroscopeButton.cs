@@ -44,6 +44,14 @@ public abstract class BaseHoroscopeButton : MonoBehaviour
             });
     }
 
+    protected void Kill()
+    {
+        // こっちだとスケールもどらないっぽい？
+        button.transform.DOKill(true);
+        transform.DOKill(true);
+        transform.localScale = Vector3.one;
+    }
+
     protected abstract UniTask OnClick();
 
 }
