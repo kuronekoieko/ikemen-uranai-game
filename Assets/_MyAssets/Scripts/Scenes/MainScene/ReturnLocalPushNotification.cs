@@ -17,10 +17,12 @@ public static class ReturnLocalPushNotification
         // badgeCountは、勝手に加算されるわけではなく、指定した数が表示される
         // 例)badgeCount=40のときは、アイコンに「40」が出る
 
-        // Test();
+        //Test();
         // return;
 
         if (SaveDataManager.SaveData.notification.isOnOthers == false) return;
+
+
 
         var configs = new List<LocalPushNotification.Config>();
 
@@ -123,6 +125,8 @@ public static class ReturnLocalPushNotification
         int local_push_test_sec = FirebaseRemoteConfigManager.GetInt(FirebaseRemoteConfigManager.Key.local_push_test_sec);
         int local_push_test_count = FirebaseRemoteConfigManager.GetInt(FirebaseRemoteConfigManager.Key.local_push_test_count);
         int local_push_test_duration = FirebaseRemoteConfigManager.GetInt(FirebaseRemoteConfigManager.Key.local_push_test_duration);
+        string local_push_test_text = FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.local_push_test_text);
+
         var configs = new List<LocalPushNotification.Config>();
 
 
@@ -131,7 +135,7 @@ public static class ReturnLocalPushNotification
             LocalPushNotification.Config config = new()
             {
                 title = Application.productName,
-                message = "てすと " + i,
+                message = i + " " + local_push_test_text,
                 targetDateTime = DateTime.Now.AddSeconds(local_push_test_sec),
                 cannelId = i.ToString("D3"),
             };
