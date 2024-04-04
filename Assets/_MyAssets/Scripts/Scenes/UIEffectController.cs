@@ -7,11 +7,20 @@ public class UIEffectController : MonoBehaviour
 
     [SerializeField] ParticleSystem tapPs;
     [SerializeField] ParticleSystem dragPs;
-
     [SerializeField] Camera effectCamera;
 
+    private void Start()
+    {
+        var newDragPs = Instantiate(dragPs, tapPs.transform);
+        var particleSystems = newDragPs.GetComponentsInChildren<ParticleSystem>();
+        foreach (var item in particleSystems)
+        {
+            ParticleSystem.MainModule mainModule = item.main;
+            mainModule.loop = false;
+            mainModule.duration = 0.2f;
+        }
+    }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -24,7 +33,6 @@ public class UIEffectController : MonoBehaviour
             dragPs.Play();
         }
 
-
         if (Input.GetMouseButton(0))
         {
             var screenPos = Input.mousePosition;
@@ -35,7 +43,8 @@ public class UIEffectController : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            dragPs.Stop();
+            // https://tsubakit1.hateblo.jp/entry/2017/12/16/154037
+            dragPs.Stop(true, ParticleSystemStopBehavior.StopEmitting);
         }
 
     }
