@@ -58,12 +58,21 @@ public static class FirebaseRemoteConfigManager
     public static string local_push_test_sec = "local_push_test_sec";
     public static string local_push_test_count = "local_push_test_count";
     public static string local_push_test_duration = "local_push_test_duration";
+    public static string local_push_test_text = "local_push_test_text";
     public static string is_maintenance = "is_maintenance";
     public static string latest_version = "latest_version";
     public static string test_x = "test_x";
     public static string test_y = "test_y";
     public static string test_w = "test_w";
     public static string test_h = "test_h";
-
+    public static string url_account_transfer = "url_account_transfer";
+    public static string url_app_store_page = "url_app_store_page";
+    public static string url_contact_us = "url_contact_us";
+    public static string url_disclaimer = "url_disclaimer";
+    public static string url_faq = "url_faq";
+    public static string url_how_to_play = "url_how_to_play";
+    public static string url_privacy_policy = "url_privacy_policy";
+    public static string url_terms_of_use = "url_terms_of_use";
+    public static string url_x = "url_x";
   }
 }

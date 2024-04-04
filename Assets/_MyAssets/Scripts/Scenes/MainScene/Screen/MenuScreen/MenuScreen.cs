@@ -46,17 +46,22 @@ public class MenuScreen : BaseScreen
 
     UniTask OnClick_HowToPlay(string title)
     {
-        ScreenManager.Instance.Get<WebViewScreen>().Open(title, URLs.HowToPlay);
+        string url = FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.url_how_to_play);
+        ScreenManager.Instance.Get<WebViewScreen>().Open(title, url);
         return UniTask.DelayFrame(0);
     }
     UniTask OnClick_QA(string title)
     {
-        ScreenManager.Instance.Get<WebViewScreen>().Open(title, URLs.QA);
+        string url = FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.url_faq);
+
+        ScreenManager.Instance.Get<WebViewScreen>().Open(title, url);
         return UniTask.DelayFrame(0);
     }
     UniTask OnClick_X(string title)
     {
-        Application.OpenURL(URLs.X);
+        string url = FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.url_x);
+
+        Application.OpenURL(url);
         return UniTask.DelayFrame(0);
     }
     UniTask OnClick_AppReview(string title)
@@ -66,7 +71,9 @@ public class MenuScreen : BaseScreen
     }
     UniTask OnClick_ContactUs(string title)
     {
-        ScreenManager.Instance.Get<WebViewScreen>().Open(title, URLs.ContactUs);
+        string url = FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.url_contact_us);
+
+        ScreenManager.Instance.Get<WebViewScreen>().Open(title, url);
         return UniTask.DelayFrame(0);
     }
     UniTask OnClick_Notification(string title)
@@ -81,23 +88,31 @@ public class MenuScreen : BaseScreen
     }
     UniTask OnClick_Account(string title)
     {
-        ScreenManager.Instance.Get<WebViewScreen>().Open(title, URLs.Account);
+        string url = FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.url_account_transfer);
+
+        ScreenManager.Instance.Get<WebViewScreen>().Open(title, url);
         return UniTask.DelayFrame(0);
     }
     UniTask OnClick_TermsOfUse(string title)
     {
-        ScreenManager.Instance.Get<WebViewScreen>().Open(title, URLs.TermsOfUse);
+        string url = FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.url_terms_of_use);
+
+        ScreenManager.Instance.Get<WebViewScreen>().Open(title, url);
         return UniTask.DelayFrame(0);
     }
     UniTask OnClick_PrivacyPolicy(string title)
     {
-        ScreenManager.Instance.Get<WebViewScreen>().Open(title, URLs.PrivacyPolicy);
+        string url = FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.url_privacy_policy);
+
+        ScreenManager.Instance.Get<WebViewScreen>().Open(title, url);
         return UniTask.DelayFrame(0);
     }
     UniTask OnClick_Disclaimer(string title)
     {
+        string url = FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.url_disclaimer);
+
         // 特商・資金決済法の表記
-        ScreenManager.Instance.Get<WebViewScreen>().Open(title, URLs.Disclaimer);
+        ScreenManager.Instance.Get<WebViewScreen>().Open(title, url);
         return UniTask.DelayFrame(0);
     }
 }
