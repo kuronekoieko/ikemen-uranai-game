@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using SaveDataObjects;
-using DG.Tweening;
 using Cysharp.Threading.Tasks;
 
 
@@ -45,7 +44,7 @@ public class TodayHoroscopeButton : BaseHoroscopeButton
         SaveDataManager.SaveData.horoscopeHistories[Key].isReadTodayHoroscope = true;
         await SaveDataManager.SaveAsync();
         ReturnLocalPushNotification.SetLocalPush();
-        button.transform.DOKill(true);
+        Kill();
 
         var constellation = SaveDataManager.SaveData.Constellation;
         await ScreenManager.Instance.Get<HoroscopeScreen>().Open(

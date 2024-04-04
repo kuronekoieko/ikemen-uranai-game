@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 using System;
 using MainScene;
 using TMPro;
@@ -52,7 +51,7 @@ public class TomorrowHoroscopeButton : BaseHoroscopeButton
         SaveDataManager.SaveData.horoscopeHistories[Key].isReadNextDayHoroscope = true;
         await SaveDataManager.SaveAsync();
         ReturnLocalPushNotification.SetLocalPush();
-        transform.DOKill(true);
+        Kill();
 
         var constellation = SaveDataManager.SaveData.Constellation;
         await ScreenManager.Instance.Get<HoroscopeScreen>().Open(
