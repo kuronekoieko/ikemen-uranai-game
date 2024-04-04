@@ -51,7 +51,7 @@ public class HoroscopeScreen : BaseScreen
             ScreenManager.Instance.Get<InputProfileScreen>().Open();
             return;
         }
-        ScreenManager.Instance.Get<LoadingScreen>().Open();
+        //ScreenManager.Instance.Get<LoadingScreen>().Open();
 
         Fortune fortune = FortuneManager.GetFortune(dateTime, constellation.id);
         // TODO: 失敗したとき
@@ -64,7 +64,7 @@ public class HoroscopeScreen : BaseScreen
 
         // TODO: 失敗したとき
         // var (fortunes, audioClip) = await UniTask.WhenAll(task1, task2);
-        await ScreenManager.Instance.Get<LoadingScreen>().Close();
+        //await ScreenManager.Instance.Get<LoadingScreen>().Close();
 
         base.Open();
 
