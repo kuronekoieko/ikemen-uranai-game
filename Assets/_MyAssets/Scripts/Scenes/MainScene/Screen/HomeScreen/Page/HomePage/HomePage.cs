@@ -63,16 +63,11 @@ public class HomePage : BasePage
             CSVManager.HomeTexts);
         if (homeText == null) return;
 
-        Play(homeText);
-
-    }
-
-    async void Play(DataBase.HomeText homeText)
-    {
         EnableButtons(false);
         await NaninovelManager.PlayAsync(homeText.FileName);
         EnableButtons(true);
     }
+
 
     public void EnableButtons(bool enabled)
     {
