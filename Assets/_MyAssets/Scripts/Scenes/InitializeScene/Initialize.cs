@@ -18,6 +18,8 @@ namespace InitializeScene
 
             await PopupManager.Instance.GetPopup<OnlineCheckPopup>().CheckOnlineUntilOnline();
             DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(popupManager.gameObject);
+
             await SceneManager.LoadSceneAsync("Main");
         }
 
