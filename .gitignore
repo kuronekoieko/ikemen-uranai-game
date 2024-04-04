@@ -106,3 +106,8 @@ Assets/AddressableAssetsData/link.xml.meta
 
 #unity recorder
 Recordings/*
+
+
+#Macとwindowsで中身が勝手に変わるので
+Assets/NaninovelData/Metadata.xml
+Assets/NaninovelData/Metadata.xml.meta
