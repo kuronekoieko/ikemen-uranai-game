@@ -1,14 +1,14 @@
 @char chara002.idle001
 @voice Assets/_MyAssets/AddressablesResources/Remote/Voices/chara002-voice001.wav
-ナック・シュタイン: text_id=1の1行目
+ナック・シュタイン: text_id=1の1行目[br]１２３４５６７８９０１２３４５６７８９０１２３[br]２２３４５６７８９０１２３４５６７８９０１２３[br]３２３４５６７８９０１２３４５６７８９０１２３[br]４２３４５６７８９０１２３４５６７８９０１２３
 
 @char chara002.idle002
 @voice Assets/_MyAssets/AddressablesResources/Remote/Voices/chara002-voice002.wav
-ナック・シュタイン: text_id=1の2行目
+ナック・シュタイン: text_id=1の2行目[br]１２３４５６７８９０１２３４５６７８９０１２３[br]２２３４５６７８９０１２３４５６７８９０１２３[br]３２３４５６７８９０１２３４５６７８９０１２３[br]４２３４５６７８９０１２３４５６７８９０１２３
 
-ナック・シュタイン: text_id=1の3行目
+ナック・シュタイン: text_id=1の3行目[br]１２３４５６７８９０１２３４５６７８９０１２３[br]２２３４５６７８９０１２３４５６７８９０１２３[br]３２３４５６７８９０１２３４５６７８９０１２３[br]４２３４５６７８９０１２３４５６７８９０１２３
 
-ナック・シュタイン: text_id=1の4行目
+ナック・シュタイン: text_id=1の4行目[br]１２３４５６７８９０１２３４５６７８９０１２３[br]２２３４５６７８９０１２３４５６７８９０１２３[br]３２３４５６７８９０１２３４５６７８９０１２３[br]４２３４５６７８９０１２３４５６７８９０１２３
 
 @printer Home visible:false
 @stop

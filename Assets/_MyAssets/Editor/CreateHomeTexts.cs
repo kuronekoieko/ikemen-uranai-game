@@ -124,6 +124,11 @@ public class CreateHomeTexts
                 string voicePath = AssetBundleLoader.GetShortVoiceAddress(charaKey, charaText.voice_id);
                 sw.WriteLine("@voice " + voicePath);
             }
+            // charaText.text += "[br]１２３４５６７８９０１２３４５６７８９０１２３";
+            // charaText.text += "[br]２２３４５６７８９０１２３４５６７８９０１２３";
+            // charaText.text += "[br]３２３４５６７８９０１２３４５６７８９０１２３";
+            // charaText.text += "[br]４２３４５６７８９０１２３４５６７８９０１２３";
+
             sw.WriteLine(charaName + ": " + charaText.text);
             sw.WriteLine("");
         }
