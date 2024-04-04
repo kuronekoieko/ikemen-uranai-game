@@ -21,7 +21,7 @@ public static class WebView
     {
         if (Application.isEditor)
         {
-            //Application.OpenURL(url);
+            Application.OpenURL(url);
             return;
         }
 
