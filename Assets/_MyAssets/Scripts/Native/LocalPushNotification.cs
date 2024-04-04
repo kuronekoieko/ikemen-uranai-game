@@ -98,16 +98,18 @@ public static class LocalPushNotification
 
     public static void AddSchedules(List<Config> configs)
     {
+        // 一応100こまで
         var orderedConfigs = configs.
             OrderBy(config => config.targetDateTime)
             .Where(config => config.targetDateTime > DateTime.Now)
+            .Take(100)
             .ToList();
         int badgeCount = 0;
         foreach (var config in orderedConfigs)
         {
             badgeCount++;
+            //DebugUtils.LogJson("LocalPushNotification: ", config);
             AddSchedule(config, badgeCount);
-            //            DebugUtils.LogJson("LocalPushNotification: ", config);
         }
     }
 
@@ -124,7 +126,6 @@ public static class LocalPushNotification
             badgeCount = badgeCount,
             cannelId = config.cannelId,
         };
-        // DebugUtils.LogJson(config_Sec);
         AddScheduleSec(config_Sec);
     }
 
@@ -145,6 +146,8 @@ public static class LocalPushNotification
     // プッシュ通知を登録します。    
     static void AddScheduleSec(Config_Sec config)
     {
+        //  DebugUtils.LogJson(config);
+
 #if UNITY_ANDROID && !UNITY_EDITOR
         SetAndroidNotification(config.title, config.message, config.badgeCount, config.elapsedTime, config.cannelId);
 #endif
