@@ -102,15 +102,27 @@ public static class LocalPushNotification
         var orderedConfigs = configs.
             OrderBy(config => config.targetDateTime)
             .Where(config => config.targetDateTime > DateTime.Now)
-            .Take(100)
+            //.Where(config => config.targetDateTime < DateTime.Now.AddYears(4))
             .ToList();
         int badgeCount = 0;
         foreach (var config in orderedConfigs)
         {
             badgeCount++;
-            //DebugUtils.LogJson("LocalPushNotification: ", config);
+            // DebugUtils.LogJson("LocalPushNotification: ", config);
+            Debug.Log("LocalPushNotification: " + badgeCount + " " + config.targetDateTime + " " + config.message);
             AddSchedule(config, badgeCount);
         }
+
+        //  Config first = configs[0];
+        // Config last_1 = configs[configs.Count - 2];
+        //  Config last = configs[configs.Count - 1];
+
+        // Debug.Log((last_1.targetDateTime - first.targetDateTime).TotalDays);
+        // Debug.Log(last_1.targetDateTime + " " + first.targetDateTime);
+
+        //Debug.Log((last.targetDateTime - first.targetDateTime).TotalDays);
+        //Debug.Log(last.targetDateTime + " " + first.targetDateTime);
+
     }
 
     static void AddSchedule(Config config, int badgeCount)

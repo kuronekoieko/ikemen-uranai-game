@@ -99,7 +99,9 @@ public static class ReturnLocalPushNotification
             //  Debug.Log(dateTime);
         }
 
-        for (int i = 1; i < 100; i++)
+
+
+        for (int i = 1; i < 2; i++)
         {
             string message = messages[0];
             int day = 87 + 29 * i;
