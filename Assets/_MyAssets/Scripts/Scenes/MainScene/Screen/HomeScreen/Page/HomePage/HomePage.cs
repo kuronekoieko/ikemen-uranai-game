@@ -36,7 +36,7 @@ public class HomePage : BasePage
             ScreenManager.Instance.Get<DebugScreen>().Open();
             return UniTask.DelayFrame(0);
         });
-        debugButton.gameObject.SetActive(Debug.isDebugBuild);
+        //debugButton.gameObject.SetActive(Debug.isDebugBuild);
         popupButton.AddListener(async () =>
         {
             await PopupManager.Instance.GetCommonPopup().ShowAsync(
