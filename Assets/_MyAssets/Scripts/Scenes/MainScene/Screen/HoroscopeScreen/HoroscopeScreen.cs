@@ -85,6 +85,8 @@ public class HoroscopeScreen : BaseScreen
         {
             Debug.LogError("音声がありません");
         }
+
+        AudioManager.Instance.Play(AudioID.HoroscopeScreen);
     }
 
 
