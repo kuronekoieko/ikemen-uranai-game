@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UnityEngine;
 
 public class AudioManager : SingletonMonoBehaviour<AudioManager>
@@ -31,8 +32,17 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
         AudioClip audioClip = GetAudioClip(audioID);
         if (audioClip == null) { return; }
         if (backgroundMusicAS.clip == audioClip) return;
-        backgroundMusicAS.clip = audioClip;
-        backgroundMusicAS.Play();
+
+        float duration = 0.5f;
+        Sequence sequence = DOTween.Sequence();
+        sequence.Append(DOTween.To(() => backgroundMusicAS.volume, (x) => backgroundMusicAS.volume = x, 0, duration));
+        sequence.AppendCallback(() =>
+        {
+            backgroundMusicAS.clip = audioClip;
+            backgroundMusicAS.Play();
+        });
+        sequence.Append(DOTween.To(() => backgroundMusicAS.volume, (x) => backgroundMusicAS.volume = x, 1, duration));
+
     }
 
     public void PlayOneShot(AudioClip audioClip)
