@@ -139,7 +139,8 @@ namespace MainScene
                     ScreenManager.Instance.Get<LoadingScreen>().ProgressTimer(1),
                     NaninovelManager.InitializeAsync(SaveDataManager.SaveData.currentCharacterId),
                     GoogleCalendarAPI.GetHolidaysAsync(DateTime.Now.Year),
-                    SaveDataManager.SaveAsync());
+                    SaveDataManager.SaveAsync(),
+                    AudioManager.Instance.Initialize());
 
                 ScreenManager.Instance.Get<InputProfileScreen>().Open();
             }
@@ -150,6 +151,7 @@ namespace MainScene
                     NaninovelManager.InitializeAsync(SaveDataManager.SaveData.currentCharacterId),
                     GoogleCalendarAPI.GetHolidaysAsync(DateTime.Now.Year),
                     SaveDataManager.SaveAsync(),
+                    AudioManager.Instance.Initialize(),
                     DownloadFilesAsync());
             }
 
