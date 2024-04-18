@@ -44,10 +44,7 @@ public class RankingScreen : BaseScreen
             await Close();
         });
 
-        homeButton.AddListener(async () =>
-        {
-            await Close();
-        });
+        homeButton.AddListener(Close, AudioID.BtnClick_Negative);
     }
 
     public override void Open()

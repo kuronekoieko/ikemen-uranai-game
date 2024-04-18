@@ -36,7 +36,7 @@ public class HoroscopeScreen : BaseScreen
     {
         base.OnStart();
         otherConstellationInfoButton.AddListener(OnClickOtherConstellationInfoButton);
-        homeButton.AddListener(OnClickHomeButton);
+        homeButton.AddListener(OnClickHomeButton, AudioID.BtnClick_Negative);
         replayButton.AddListener(OnClickReplayButton);
         defaultCharacterSprite = characterImage.sprite;
         defaultConstellationSprite = constellationImage.sprite;
