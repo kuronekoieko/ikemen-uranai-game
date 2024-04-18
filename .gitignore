@@ -111,3 +111,7 @@ Recordings/*
 #Macとwindowsで中身が勝手に変わるので
 Assets/NaninovelData/Metadata.xml
 Assets/NaninovelData/Metadata.xml.meta
+
+# BuildReports
+Assets/BuildReports/*
+Assets/BuildReports.meta
