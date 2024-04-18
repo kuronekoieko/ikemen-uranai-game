@@ -7,10 +7,12 @@ using System;
 
 public static class ButtonExtensions
 {
-    public static void AddListener(this Button self, Func<UniTask> func)
+    public static void AddListener(this Button self, Func<UniTask> func, AudioID audioID = AudioID.BtnClick_Positive)
     {
         self.onClick.AddListener(async () =>
         {
+            AudioManager.Instance.PlayOneShot(audioID);
+
             if (CanvasManager.Instance == null)
             {
                 await func();
@@ -27,4 +29,6 @@ public static class ButtonExtensions
             self.enabled = true;
         });
     }
+
+
 }

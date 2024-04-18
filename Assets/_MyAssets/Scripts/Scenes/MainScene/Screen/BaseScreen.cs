@@ -14,7 +14,7 @@ public abstract class BaseScreen : MonoBehaviour
     {
         gameObject.SetActive(false);
         scrollRect = GetComponentInChildren<ScrollRect>();
-        if (closeButton) closeButton.AddListener(Close);
+        if (closeButton) closeButton.AddListener(Close, AudioID.BtnClick_Negative);
     }
 
     public virtual void Open()
