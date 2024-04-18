@@ -26,8 +26,8 @@ public class CommonPopup : BasePopup
         messageText.text = message;
         pButtonText.text = positive;
         nButtonText.text = negative;
-        positiveButton.gameObject.SetActive(!string.IsNullOrEmpty(positive));
-        negativeButton.gameObject.SetActive(!string.IsNullOrEmpty(negative));
+        if (positiveButton) positiveButton.gameObject.SetActive(!string.IsNullOrEmpty(positive));
+        if (negativeButton) negativeButton.gameObject.SetActive(!string.IsNullOrEmpty(negative));
 
         int status = 0;
         positiveButton.onPointerDown = async () =>
