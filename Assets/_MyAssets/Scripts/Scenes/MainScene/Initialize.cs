@@ -157,6 +157,8 @@ namespace MainScene
 
             await ScreenManager.Instance.Get<LoadingScreen>().Close();
 
+            AudioManager.Instance.Play(AudioID.Home);
+
             //await NaninovelInitializer.PlayAsync("Home/chara001-text001");
             IsInitialized = true;
         }
