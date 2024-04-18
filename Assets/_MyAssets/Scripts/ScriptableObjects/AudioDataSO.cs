@@ -18,5 +18,7 @@ public class AudioData
 
 public enum AudioID
 {
-    BtnClick,
+    BtnClick_Positive,
+    BtnClick_Negative,
+    LevelUp,
 }
