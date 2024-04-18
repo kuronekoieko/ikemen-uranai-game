@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UniRx;
+using Cysharp.Threading.Tasks;
 
 public class ScreenManager : MonoBehaviour
 {
@@ -12,6 +14,16 @@ public class ScreenManager : MonoBehaviour
     {
         Instance = this;
         StartScreens();
+
+        // 画面の開閉の間の1フレームで、open判定になるため
+        this.ObserveEveryValueChanged(isOpenHome => IsOpenHome())
+        .ThrottleFrame(5)
+        .Where(_ => IsOpenHome())
+        .Subscribe(isOpenHome =>
+        {
+            AudioManager.Instance.Play(AudioID.Home);
+        })
+        .AddTo(gameObject);
     }
 
     void StartScreens()
@@ -27,5 +39,15 @@ public class ScreenManager : MonoBehaviour
     {
         T subClass = baseScreens.Select(_ => _ as T).FirstOrDefault(_ => _);
         return subClass;
+    }
+
+    bool IsOpenHome()
+    {
+        if (baseScreens == null) return false;
+        foreach (var baseScreen in baseScreens)
+        {
+            if (baseScreen.gameObject.activeSelf) return false;
+        }
+        return true;
     }
 }

@@ -30,6 +30,7 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
     {
         AudioClip audioClip = GetAudioClip(audioID);
         if (audioClip == null) { return; }
+        if (backgroundMusicAS.clip == audioClip) return;
         backgroundMusicAS.clip = audioClip;
         backgroundMusicAS.Play();
     }
@@ -38,21 +39,21 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
     {
         // if (SaveData.Instance.isOffSE) { return; }
         if (audioClip == null) { return; }
+        if (soundEffectAS.clip == audioClip) return;
         soundEffectAS.PlayOneShot(audioClip);
     }
 
     public void PlayOneShot(AudioID audioID)
     {
-        if (audioDataSO == null) { return; }
-        if (audioID == AudioID.None) { return; }
-
         AudioClip audioClip = GetAudioClip(audioID);
-
         PlayOneShot(audioClip);
     }
 
     AudioClip GetAudioClip(AudioID audioID)
     {
+        if (audioDataSO == null) { return null; }
+        if (audioID == AudioID.None) { return null; }
+
         AudioData audioData = audioDataSO.audioDatas.FirstOrDefault(audioData => audioData.audioID == audioID);
         if (audioData == null)
         {
