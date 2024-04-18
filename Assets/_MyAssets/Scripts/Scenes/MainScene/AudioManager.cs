@@ -14,7 +14,8 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
 
     public async UniTask Initialize()
     {
-        var obj = await Resources.LoadAsync<AudioDataSO>("ScriptableObjects/AudioDataSO.asset");
+        // パスに拡張子つけない
+        var obj = await Resources.LoadAsync<AudioDataSO>("ScriptableObjects/AudioDataSO");
         audioDataSO = obj as AudioDataSO;
     }
 
@@ -28,7 +29,13 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
     public void PlayOneShot(AudioID audioID)
     {
         if (audioDataSO == null) { return; }
-        AudioClip audioClip = audioDataSO.audioDatas.FirstOrDefault(audioData => audioData.audioID == audioID).audioClip;
-        PlayOneShot(audioClip);
+        AudioData audioData = audioDataSO.audioDatas.FirstOrDefault(audioData => audioData.audioID == audioID);
+        if (audioData == null)
+        {
+            Debug.LogError("AudioManager audioID: " + audioID + " がありません");
+            return;
+        }
+
+        PlayOneShot(audioData.audioClip);
     }
 }
