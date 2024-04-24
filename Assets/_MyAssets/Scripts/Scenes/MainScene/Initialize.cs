@@ -131,7 +131,7 @@ namespace MainScene
             // ローディング画面を開いてから、スプラッシュを閉じる
             if (InitializeScene.Initialize.Instance) InitializeScene.Initialize.Instance.Close();
 
-            ReturnLocalPushNotification.SetLocalPush();
+            LocalPushNotificationManager.SetLocalPush();
 
             if (SaveDataManager.SaveData.BirthDayDT == null)
             {

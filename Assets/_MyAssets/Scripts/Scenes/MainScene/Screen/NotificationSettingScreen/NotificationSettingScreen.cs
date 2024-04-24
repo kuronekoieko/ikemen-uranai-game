@@ -55,19 +55,19 @@ public class NotificationSettingScreen : BaseScreen
     {
         SaveDataManager.SaveData.notification.isOnNextDayHoroscope = isOn;
         bool success = await SaveDataManager.SaveAsync();
-        if (success) ReturnLocalPushNotification.SetLocalPush();
+        if (success) LocalPushNotificationManager.SetLocalPush();
     }
     async void OnValueChanged_Today(bool isOn)
     {
         SaveDataManager.SaveData.notification.isOnTodayHoroscope = isOn;
         bool success = await SaveDataManager.SaveAsync();
-        if (success) ReturnLocalPushNotification.SetLocalPush();
+        if (success) LocalPushNotificationManager.SetLocalPush();
     }
     async void OnValueChanged_Others(bool isOn)
     {
         SaveDataManager.SaveData.notification.isOnOthers = isOn;
         bool success = await SaveDataManager.SaveAsync();
-        if (success) ReturnLocalPushNotification.SetLocalPush();
+        if (success) LocalPushNotificationManager.SetLocalPush();
     }
 
 }
