@@ -20,9 +20,6 @@ public static class ReturnLocalPushNotification
         //Test();
         // return;
 
-        if (SaveDataManager.SaveData.notification.isOnOthers == false) return;
-
-
 
         var configs = new List<LocalPushNotification.Config>();
 
@@ -31,45 +28,78 @@ public static class ReturnLocalPushNotification
 
         if (SaveDataManager.SaveData.horoscopeHistories.TryGetValue(Key, out HoroscopeHistory horoscopeHistory))
         {
-            bool isReadTodayHoroscope = horoscopeHistory.isReadTodayHoroscope;
-            bool isReadNextDayHoroscope = horoscopeHistory.isReadNextDayHoroscope;
-
-            for (int i = 0; i < 7; i++)
-            {
-                if (i == 0 && isReadTodayHoroscope) continue;
-
-                DateTime morningDT = DateTime.Today.AddDays(i).AddHours(8).AddMinutes(30);
-
-                LocalPushNotification.Config config = new()
-                {
-                    title = Application.productName,
-                    message = "今日の運勢をチェックしてね",
-                    targetDateTime = morningDT,
-                    cannelId = "001",
-                };
-                configs.Add(config);
-                //  Debug.Log(morningDT);
-            }
-
-            for (int i = 0; i < 7; i++)
-            {
-                if (i == 0 && isReadNextDayHoroscope) continue;
-
-                DateTime nightDT = DateTime.Today.AddDays(i).AddHours(21);
-
-                LocalPushNotification.Config config = new()
-                {
-                    title = Application.productName,
-                    message = "明日の運勢が公開されたよ",
-                    targetDateTime = nightDT,
-                    cannelId = "001",
-                };
-                configs.Add(config);
-                // Debug.Log(nightDT);
-
-            }
+            var todayConfigs = GetTodayConfigs(horoscopeHistory.isReadTodayHoroscope);
+            configs.AddRange(todayConfigs);
+            var nextDayConfigs = GetNextDayConfigs(horoscopeHistory.isReadNextDayHoroscope);
+            configs.AddRange(nextDayConfigs);
         }
 
+        var otherConfigs = GetOtherConfigs();
+        configs.AddRange(otherConfigs);
+
+        LocalPushNotification.AddSchedules(configs);
+    }
+
+
+    static List<LocalPushNotification.Config> GetTodayConfigs(bool isReadTodayHoroscope)
+    {
+        var configs = new List<LocalPushNotification.Config>();
+        if (!SaveDataManager.SaveData.notification.isOnTodayHoroscope) return configs;
+
+        for (int i = 0; i < 7; i++)
+        {
+            if (i == 0 && isReadTodayHoroscope) continue;
+
+            DateTime morningDT = DateTime.Today.AddDays(i).AddHours(8).AddMinutes(30);
+
+            LocalPushNotification.Config config = new()
+            {
+                title = Application.productName,
+                message = "今日の運勢をチェックしてね",
+                targetDateTime = morningDT,
+                cannelId = "001",
+            };
+            configs.Add(config);
+            //  Debug.Log(morningDT);
+        }
+
+        return configs;
+    }
+
+    static List<LocalPushNotification.Config> GetNextDayConfigs(bool isReadNextDayHoroscope)
+    {
+        var configs = new List<LocalPushNotification.Config>();
+        if (!SaveDataManager.SaveData.notification.isOnNextDayHoroscope) return configs;
+
+        for (int i = 0; i < 7; i++)
+        {
+            if (i == 0 && isReadNextDayHoroscope) continue;
+
+            DateTime nightDT = DateTime.Today.AddDays(i).AddHours(21);
+
+            LocalPushNotification.Config config = new()
+            {
+                title = Application.productName,
+                message = "明日の運勢が公開されたよ",
+                targetDateTime = nightDT,
+                cannelId = "001",
+            };
+            configs.Add(config);
+            // Debug.Log(nightDT);
+
+        }
+
+
+        return configs;
+    }
+
+
+
+    static List<LocalPushNotification.Config> GetOtherConfigs()
+    {
+        var configs = new List<LocalPushNotification.Config>();
+
+        if (!SaveDataManager.SaveData.notification.isOnOthers) return configs;
 
         Dictionary<int, string> messages = new()
         {
@@ -119,8 +149,11 @@ public static class ReturnLocalPushNotification
             //  Debug.Log(dateTime);
         }
 
-        LocalPushNotification.AddSchedules(configs);
+
+        return configs;
     }
+
+
 
     static void Test()
     {
@@ -152,3 +185,4 @@ public static class ReturnLocalPushNotification
     }
 
 }
+
