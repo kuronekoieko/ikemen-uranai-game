@@ -63,7 +63,7 @@ public class TomorrowHoroscopeButton : BaseHoroscopeButton
 
         SaveDataManager.SaveData.horoscopeHistories[Key].isReadNextDayHoroscope = true;
         await SaveDataManager.SaveAsync();
-        ReturnLocalPushNotification.SetLocalPush();
+        LocalPushNotificationManager.SetLocalPush();
 
 
         var constellation = SaveDataManager.SaveData.Constellation;

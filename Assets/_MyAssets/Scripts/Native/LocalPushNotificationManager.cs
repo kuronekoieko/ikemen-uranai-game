@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using SaveDataObjects;
 using UnityEngine;
 
-public static class ReturnLocalPushNotification
+public static class LocalPushNotificationManager
 {
     public static void SetLocalPush()
     {

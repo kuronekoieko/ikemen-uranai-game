@@ -54,7 +54,7 @@ public class TodayHoroscopeButton : BaseHoroscopeButton
         }
         SaveDataManager.SaveData.horoscopeHistories[Key].isReadTodayHoroscope = true;
         await SaveDataManager.SaveAsync();
-        ReturnLocalPushNotification.SetLocalPush();
+        LocalPushNotificationManager.SetLocalPush();
 
         var constellation = SaveDataManager.SaveData.Constellation;
         await ScreenManager.Instance.Get<HoroscopeScreen>().Open(
