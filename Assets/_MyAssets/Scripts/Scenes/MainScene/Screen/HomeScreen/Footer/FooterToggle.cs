@@ -42,7 +42,11 @@ public class FooterToggle : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     {
         toggle.onValueChanged.AddListener((isOn) =>
         {
-            if (isOn) onSelected.Invoke();
+            if (isOn)
+            {
+                onSelected.Invoke();
+                AudioManager.Instance.PlayOneShot(AudioID.BtnClick_Positive);
+            }
         });
     }
 
