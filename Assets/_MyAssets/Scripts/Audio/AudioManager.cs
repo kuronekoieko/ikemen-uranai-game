@@ -16,7 +16,7 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
 
     public async UniTask Initialize()
     {
-        string path = "ScriptableObjects/" + audioDataSO_NotCompressed;
+        string path = "ScriptableObjects/AudioDataSO";
         // パスに拡張子つけない
         var obj = await Resources.LoadAsync<AudioDataSO>(path);
 
