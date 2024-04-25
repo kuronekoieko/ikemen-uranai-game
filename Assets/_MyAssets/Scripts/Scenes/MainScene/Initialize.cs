@@ -71,8 +71,8 @@ namespace MainScene
             }
 
             string latestVersion = FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.latest_version);
-
-            if (latestVersion.TrimStart().TrimStart() != Application.version.TrimStart().TrimStart())
+            bool needUpdate = latestVersion.TrimStart().TrimStart() != Application.version.TrimStart().TrimStart();
+            if (needUpdate)
             {
                 await PopupManager.Instance.GetCommonPopup().ShowAsync(
                         "",
