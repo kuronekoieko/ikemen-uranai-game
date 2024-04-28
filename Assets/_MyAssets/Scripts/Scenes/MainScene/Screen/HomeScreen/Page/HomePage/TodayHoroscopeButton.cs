@@ -50,7 +50,7 @@ public class TodayHoroscopeButton : BaseHoroscopeButton
 
         if (horoscopeHistory.isReadTodayHoroscope == false)
         {
-            SaveDataManager.SaveData.exp += 5;
+           // SaveDataManager.SaveData.exp += 5;
         }
         SaveDataManager.SaveData.horoscopeHistories[Key].isReadTodayHoroscope = true;
         await SaveDataManager.SaveAsync();
