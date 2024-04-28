@@ -85,7 +85,7 @@ public class InputProfileScreen : BaseScreen
 
             if (horoscopeHistory.isReadTodayHoroscope == false)
             {
-                SaveDataManager.SaveData.exp += 5;
+              //  SaveDataManager.SaveData.exp += 5;
             }
             SaveDataManager.SaveData.horoscopeHistories[DateTime.Today.ToDateKey()].isReadTodayHoroscope = true;
 

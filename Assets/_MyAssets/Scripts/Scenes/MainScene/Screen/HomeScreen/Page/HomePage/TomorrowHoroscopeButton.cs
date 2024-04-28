@@ -58,7 +58,7 @@ public class TomorrowHoroscopeButton : BaseHoroscopeButton
 
         if (horoscopeHistory.isReadNextDayHoroscope == false)
         {
-            SaveDataManager.SaveData.exp += 5;
+           // SaveDataManager.SaveData.exp += 5;
         }
 
         SaveDataManager.SaveData.horoscopeHistories[Key].isReadNextDayHoroscope = true;
