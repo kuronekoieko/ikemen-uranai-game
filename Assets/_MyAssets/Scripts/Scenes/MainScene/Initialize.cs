@@ -123,8 +123,6 @@ namespace MainScene
 
             await screenManager.OnStart();
 
-            await UniTask.DelayFrame(1);
-
             ScreenManager.Instance.Get<LoadingScreen>().Open();
 
             // ローディング画面を開いてから、スプラッシュを閉じる
@@ -152,11 +150,13 @@ namespace MainScene
                     SaveDataManager.SaveAsync(),
                     AudioManager.Instance.Initialize(),
                     DownloadFilesAsync());
+
+                ScreenManager.Instance.Get<HomeScreen>().Open();
+
             }
 
             await ScreenManager.Instance.Get<LoadingScreen>().Close();
 
-            //await NaninovelInitializer.PlayAsync("Home/chara001-text001");
             IsInitialized = true;
         }
 

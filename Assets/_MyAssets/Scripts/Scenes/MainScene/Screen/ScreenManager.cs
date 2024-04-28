@@ -32,6 +32,14 @@ public class ScreenManager : MonoBehaviour
         .AddTo(gameObject);
     }
 
+    public void CloseAll()
+    {
+        foreach (var baseScreen in baseScreens)
+        {
+            baseScreen.Close();
+        }
+    }
+
     async UniTask StartScreens()
     {
 

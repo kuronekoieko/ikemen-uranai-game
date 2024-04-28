@@ -19,4 +19,15 @@ public class HomeScreen : BaseScreen
         homeHeader.OnStart();
         homeFooter.OnStart();
     }
+
+    public override void Open()
+    {
+        ScreenManager.Instance.CloseAll();
+        base.Open();
+    }
+
+    public override UniTask Close()
+    {
+        return base.Close();
+    }
 }
