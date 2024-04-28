@@ -29,6 +29,7 @@ public class MenuScreen : BaseScreen
         menuElementObjs.Add(new() { title = "利用規約", onClick = OnClick_TermsOfUse });
         menuElementObjs.Add(new() { title = "プライバシーポリシー", onClick = OnClick_PrivacyPolicy });
         menuElementObjs.Add(new() { title = "特商・資金決済法の表記", onClick = OnClick_Disclaimer });
+        menuElementObjs.Add(new() { title = "User ID: " + SaveDataManager.SaveData.userId, onClick = (a) => UniTask.DelayFrame(0) });
 
         menuElementPool.Show(menuElementObjs.ToArray());
     }
