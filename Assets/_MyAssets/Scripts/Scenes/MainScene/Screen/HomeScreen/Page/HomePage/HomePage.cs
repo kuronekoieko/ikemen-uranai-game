@@ -13,11 +13,7 @@ public class HomePage : BasePage
     [SerializeField] TodayHoroscopeButton todayHoroscopesButton;
     [SerializeField] TomorrowHoroscopeButton tomorrowHoroscopesButton;
     [SerializeField] Button selectCharacterScreenButton;
-    [SerializeField] Button debugButton;
     [SerializeField] SideBanner sideBanner;
-    [SerializeField] Button popupButton;
-
-
 
     public override void OnStart()
     {
@@ -31,22 +27,6 @@ public class HomePage : BasePage
             return UniTask.DelayFrame(0);
         });
         conversationButton.AddListener(OnClickCharacter);
-        debugButton.AddListener(() =>
-        {
-            ScreenManager.Instance.Get<DebugScreen>().Open();
-            return UniTask.DelayFrame(0);
-        });
-        //debugButton.gameObject.SetActive(Debug.isDebugBuild);
-        popupButton.AddListener(async () =>
-        {
-            await PopupManager.Instance.GetCommonPopup().ShowAsync(
-"",
-"メンテナンス中です\nしばらく時間をおいてお試しください。",
-"OK",
-"キャンセル"
-);
-
-        });
     }
 
     async UniTask OnClickCharacter()
