@@ -22,7 +22,7 @@ public class HomeScreen : BaseScreen
 
     public override void Open()
     {
-        ScreenManager.Instance.CloseAll();
+        AudioManager.Instance.Play(AudioID.Home);
         base.Open();
     }
 
