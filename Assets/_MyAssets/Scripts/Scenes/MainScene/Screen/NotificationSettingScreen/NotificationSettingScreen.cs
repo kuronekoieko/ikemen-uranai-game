@@ -11,9 +11,9 @@ public class NotificationSettingScreen : BaseScreen
 
 
 
-    public override void OnStart()
+    public override void OnStart(Camera uiCamera)
     {
-        base.OnStart();
+        base.OnStart(uiCamera);
         notificationSettingPool.OnStart();
 
         var notificationSettingObjs = new List<NotificationSettingObj>();

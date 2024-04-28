@@ -18,15 +18,14 @@ public class SelectCharacterScreen : BaseScreen
     [SerializeField] TextMeshProUGUI numberText;
 
 
-
-    public override void OnStart()
+    public override void OnStart(Camera uiCamera)
     {
-        base.OnStart();
+        base.OnStart(uiCamera);
         characterSelectPool.OnStart();
         characterSelectPool.Show(CSVManager.Characters.OrderBy(character => character.id).ToArray());
 
         // https://tempura-kingdom.jp/snapscroll/
-        snapScrollView.PageSize = CanvasManager.Instance.CanvasScaler.referenceResolution.x;
+        snapScrollView.PageSize = CanvasScaler.referenceResolution.x;
         var character = CSVManager.Characters.FirstOrDefault(character => character.id == SaveDataManager.SaveData.currentCharacterId);
         snapScrollView.Page = Array.IndexOf(CSVManager.Characters, character);
         snapScrollView.MaxPage = CSVManager.Characters.Length - 1;

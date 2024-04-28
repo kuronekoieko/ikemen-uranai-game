@@ -9,16 +9,15 @@ public abstract class BaseScreen : MonoBehaviour
     protected ScrollRect scrollRect;
     [SerializeField] Button closeButton;
     public Canvas Canvas { get; private set; }
+    public CanvasScaler CanvasScaler { get; private set; }
+    public float Rate => Screen.width / CanvasScaler.referenceResolution.x;
 
-    public void SetCamera(Camera uiCamera)
+    public virtual void OnStart(Camera uiCamera)
     {
         Canvas = GetComponent<Canvas>();
         Canvas.worldCamera = uiCamera;
-    }
+        CanvasScaler = GetComponent<CanvasScaler>();
 
-
-    public virtual void OnStart()
-    {
         gameObject.SetActive(false);
         scrollRect = GetComponentInChildren<ScrollRect>();
         if (closeButton) closeButton.AddListener(Close, AudioID.BtnClick_Negative);

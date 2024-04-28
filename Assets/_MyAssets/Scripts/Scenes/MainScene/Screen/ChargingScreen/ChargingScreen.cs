@@ -9,9 +9,9 @@ public class ChargingScreen : BaseScreen
 
     [SerializeField] ChargingPool chargingPool;
 
-    public override void OnStart()
+    public override void OnStart(Camera uiCamera)
     {
-        base.OnStart();
+        base.OnStart(uiCamera);
         chargingPool.OnStart();
         chargingPool.Show(CSVManager.ChargingProducts);
     }

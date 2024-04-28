@@ -17,9 +17,9 @@ public class InputProfileScreen : BaseScreen
     [SerializeField] Button nextButton;
     [SerializeField] TMP_InputField inputField;
 
-    public override void OnStart()
+    public override void OnStart(Camera uiCamera)
     {
-        base.OnStart();
+        base.OnStart(uiCamera);
 
         var months = new List<string>();
         for (int i = 1; i <= 12; i++)

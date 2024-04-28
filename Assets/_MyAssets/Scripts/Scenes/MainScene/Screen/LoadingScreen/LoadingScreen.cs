@@ -14,9 +14,9 @@ public class LoadingScreen : BaseScreen
     [SerializeField] TextMeshProUGUI uidText;
 
 
-    public override void OnStart()
+    public override void OnStart(Camera uiCamera)
     {
-        base.OnStart();
+        base.OnStart(uiCamera);
     }
 
     public override void Open()

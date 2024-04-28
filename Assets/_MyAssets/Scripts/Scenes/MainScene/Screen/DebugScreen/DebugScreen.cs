@@ -20,9 +20,9 @@ public class DebugScreen : BaseScreen
 
 
 
-    public override void OnStart()
+    public override void OnStart(Camera uiCamera)
     {
-        base.OnStart();
+        base.OnStart(uiCamera);
         signInButton.AddListener(async () =>
         {
             bool success = await FirebaseAuthenticationManager.ReauthenticateAsync(mailAddressMIF.Text, passwordMIF.Text);

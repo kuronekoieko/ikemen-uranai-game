@@ -23,9 +23,12 @@ public class RankingScreen : BaseScreen
         return UniTask.DelayFrame(0);
     }
 
-    public override void OnStart()
+
+
+
+    public override void OnStart(Camera uiCamera)
     {
-        base.OnStart();
+        base.OnStart(uiCamera);
 
         rankingElements.Add(rankingElement);
         for (int i = 0; i < 11; i++)
