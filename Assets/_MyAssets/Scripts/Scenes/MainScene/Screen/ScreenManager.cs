@@ -7,13 +7,15 @@ using Cysharp.Threading.Tasks;
 
 public class ScreenManager : MonoBehaviour
 {
+    [SerializeField] Camera uiCamera;
+
     BaseScreen[] baseScreens;
     public static ScreenManager Instance;
 
-    public void OnStart()
+    public async UniTask OnStart()
     {
         Instance = this;
-        StartScreens();
+        await StartScreens();
 
         // 画面の開閉の間の1フレームで、open判定になるため
         this.ObserveEveryValueChanged(isOpenHome => IsOpenHome())
@@ -26,12 +28,21 @@ public class ScreenManager : MonoBehaviour
         .AddTo(gameObject);
     }
 
-    void StartScreens()
+    async UniTask StartScreens()
     {
-        baseScreens = GetComponentsInChildren<BaseScreen>(true);
-        foreach (var baseModal in baseScreens)
+
+        var baseScreenPrefabs = await AssetBundleLoader.LoadAllAsync<GameObject>("Screens");
+
+        foreach (var baseScreenPrefab in baseScreenPrefabs)
         {
-            baseModal.OnStart();
+            Instantiate(baseScreenPrefab, transform);
+        }
+
+        baseScreens = GetComponentsInChildren<BaseScreen>(true);
+        foreach (var baseScreen in baseScreens)
+        {
+            baseScreen.OnStart();
+            baseScreen.SetCamera(uiCamera);
         }
     }
 
@@ -49,5 +60,14 @@ public class ScreenManager : MonoBehaviour
             if (baseScreen.gameObject.activeSelf) return false;
         }
         return true;
+    }
+
+    public void ResetOrder()
+    {
+        var a = baseScreens.OrderBy(baseScreen => baseScreen.transform.GetSiblingIndex()).ToArray();
+        for (int i = 0; i < a.Length; i++)
+        {
+            a[i].Canvas.sortingOrder = i;
+        }
     }
 }
