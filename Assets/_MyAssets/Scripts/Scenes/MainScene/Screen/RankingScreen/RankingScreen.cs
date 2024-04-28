@@ -11,7 +11,7 @@ using UnityEngine.UI;
 public class RankingScreen : BaseScreen
 {
     [SerializeField] Transform content;
-    List<RankingElement> rankingElements = new();
+    readonly List<RankingElement> rankingElements = new();
     [SerializeField] TextMeshProUGUI titleText;
     [SerializeField] Button myFortuneButton;
     [SerializeField] Button homeButton;
@@ -52,7 +52,7 @@ public class RankingScreen : BaseScreen
         base.Open();
 
         // titleText.text = DateTime.Now.ToString("M/d") + DateTime.Now.ToString("ddd") + " 今日の運勢ランキング";
-        titleText.text = DateTime.Now.ToString("M/d");
+        titleText.text = DateTime.Now.ToString("M月d日") + " 星座占い運勢ランキング";
 
         var dailyFortunes = CSVManager.Fortunes
             .Where(fortune => fortune.date_time == DateTime.Today.ToDateKey())
