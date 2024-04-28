@@ -5,13 +5,13 @@ using TMPro;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 
-public class HomeScreen : SingletonMonoBehaviour<HomeScreen>
+public class HomeScreen : BaseScreen
 {
     [SerializeField] HomeHeader homeHeader;
     [SerializeField] HomeFooter homeFooter;
     [SerializeField] PageManager pageManager;
 
-    public void OnStart()
+    public override void OnStart()
     {
         // フッターの初期化でページ遷移したいので、pageManagerが先
         pageManager.OnStart();

@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 using Cysharp.Threading.Tasks;
 using System;
 using UnityEngine.AddressableAssets;
+using System.Linq;
 
 public class AssetBundleLoader
 {
@@ -47,6 +48,26 @@ public class AssetBundleLoader
     {
         var locations = await Addressables.LoadResourceLocationsAsync(key).Task;
         return locations != null && locations.Count > 0;
+    }
+
+    // プレハブはGameObject型じゃないとエラー
+    public static async UniTask<T[]> LoadAllAsync<T>(string label) where T : UnityEngine.Object
+    {
+        // Debug.Log("ロード開始 " + address);
+        T[] asset = null;
+        // bool exists = await ExistsAsync(address);
+        IList<T> IList = await Addressables.LoadAssetsAsync<T>(label, null).Task;
+
+        if (IList == null)
+        {
+            Debug.LogWarning("ロード失敗\n" + label);
+        }
+        else
+        {
+            asset = IList.ToArray();
+        }
+
+        return asset;
     }
 
     public static string GetCharacterFullAddress(int characterId)

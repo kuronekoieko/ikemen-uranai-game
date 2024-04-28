@@ -121,10 +121,9 @@ namespace MainScene
             // この書き方だと、この行の時点で実行がはじまってしまう
             // UniTask googleCalenderTask = GoogleCalendarAPI.GetHolidaysAsync(DateTime.Now.Year);
 
+            await screenManager.OnStart();
 
-            HomeScreen.Instance.OnStart();
-            screenManager.OnStart();
-
+            await UniTask.DelayFrame(1);
 
             ScreenManager.Instance.Get<LoadingScreen>().Open();
 

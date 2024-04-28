@@ -8,6 +8,13 @@ public abstract class BaseScreen : MonoBehaviour
 {
     protected ScrollRect scrollRect;
     [SerializeField] Button closeButton;
+    public Canvas Canvas { get; private set; }
+
+    public void SetCamera(Camera uiCamera)
+    {
+        Canvas = GetComponent<Canvas>();
+        Canvas.worldCamera = uiCamera;
+    }
 
 
     public virtual void OnStart()
@@ -22,6 +29,7 @@ public abstract class BaseScreen : MonoBehaviour
         gameObject.SetActive(true);
         transform.SetAsLastSibling();
         if (scrollRect) scrollRect.verticalNormalizedPosition = 1f;
+        ScreenManager.Instance.ResetOrder();
     }
 
     public virtual UniTask Close()
