@@ -32,9 +32,9 @@ public class HoroscopeScreen : BaseScreen
     [SerializeField] Sprite[] constellationSprites;
 
 
-    public override void OnStart()
+    public override void OnStart(Camera uiCamera)
     {
-        base.OnStart();
+        base.OnStart(uiCamera);
         otherConstellationInfoButton.AddListener(OnClickOtherConstellationInfoButton);
         homeButton.AddListener(OnClickHomeButton, AudioID.BtnClick_Negative);
         replayButton.AddListener(OnClickReplayButton);

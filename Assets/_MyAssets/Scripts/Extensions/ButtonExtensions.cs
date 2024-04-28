@@ -13,19 +13,19 @@ public static class ButtonExtensions
         {
             AudioManager.Instance.PlayOneShot(audioID);
 
-            if (CanvasManager.Instance == null)
+            if (ScreenManager.Instance == null)
             {
                 await func();
                 return;
             }
 
             // naninovelのUIカメラを10に設定しているため
-            CanvasManager.Instance.Canvas.worldCamera.depth = 9;
-            CanvasManager.Instance.GraphicRaycaster.enabled = false;
+            ScreenManager.Instance.UICamera.depth = 9;
+            ScreenManager.Instance.CanvasGroup.interactable = false;
             self.enabled = false;
             await func();
-            CanvasManager.Instance.Canvas.worldCamera.depth = 11;
-            CanvasManager.Instance.GraphicRaycaster.enabled = true;
+            ScreenManager.Instance.UICamera.depth = 11;
+            ScreenManager.Instance.CanvasGroup.interactable = true;
             self.enabled = true;
         });
     }

@@ -12,9 +12,9 @@ public class MenuScreen : BaseScreen
     [SerializeField] MenuElementPool menuElementPool;
 
 
-    public override void OnStart()
+    public override void OnStart(Camera uiCamera)
     {
-        base.OnStart();
+        base.OnStart(uiCamera);
         menuElementPool.OnStart();
 
         var menuElementObjs = new List<MenuElementObj>();

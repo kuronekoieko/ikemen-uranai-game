@@ -11,9 +11,9 @@ public class WebViewScreen : BaseScreen
     [SerializeField] RectTransform rectTransform;
     Rect rect;
 
-    public override void OnStart()
+    public override void OnStart(Camera uiCamera)
     {
-        base.OnStart();
+        base.OnStart(uiCamera);
     }
 
     public void Open(string title, string url)
@@ -26,10 +26,10 @@ public class WebViewScreen : BaseScreen
         pos_TopLeftFromTopLeft.y = -pos_TopLeftFromTopLeft.y;
 
         rect = new(
-            pos_TopLeftFromTopLeft.x * CanvasManager.Instance.Rate,
-            pos_TopLeftFromTopLeft.y * CanvasManager.Instance.Rate,
-            bodyRT.rect.width * CanvasManager.Instance.Rate,
-            bodyRT.rect.height * CanvasManager.Instance.Rate
+            pos_TopLeftFromTopLeft.x * Rate,
+            pos_TopLeftFromTopLeft.y * Rate,
+            bodyRT.rect.width * Rate,
+            bodyRT.rect.height * Rate
         );
 
         // url = "https://www.google.co.jp/";

@@ -10,9 +10,9 @@ public class DescriptionScreen : BaseScreen
     [SerializeField] TextMeshProUGUI titleText;
     [SerializeField] TextMeshProUGUI descriptionText;
 
-    public override void OnStart()
+    public override void OnStart(Camera uiCamera)
     {
-        base.OnStart();
+        base.OnStart(uiCamera);
     }
 
     public void Open(string title, string description)

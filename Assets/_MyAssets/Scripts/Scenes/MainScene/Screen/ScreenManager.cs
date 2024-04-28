@@ -8,9 +8,13 @@ using Cysharp.Threading.Tasks;
 public class ScreenManager : MonoBehaviour
 {
     [SerializeField] Camera uiCamera;
+    public Camera UICamera => uiCamera;
+    [SerializeField] CanvasGroup canvasGroup;
+    public CanvasGroup CanvasGroup => canvasGroup;
+
 
     BaseScreen[] baseScreens;
-    public static ScreenManager Instance;
+    public static ScreenManager Instance { get; private set; }
 
     public async UniTask OnStart()
     {
@@ -41,8 +45,7 @@ public class ScreenManager : MonoBehaviour
         baseScreens = GetComponentsInChildren<BaseScreen>(true);
         foreach (var baseScreen in baseScreens)
         {
-            baseScreen.OnStart();
-            baseScreen.SetCamera(uiCamera);
+            baseScreen.OnStart(uiCamera);
         }
     }
 
