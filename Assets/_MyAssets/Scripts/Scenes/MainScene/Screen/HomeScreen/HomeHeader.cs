@@ -123,7 +123,7 @@ public class HomeHeader : MonoBehaviour
 
     UniTask OnClickChargingScreenButton()
     {
-        ScreenManager.Instance.Get<ChargingScreen>().Open();
+        // ScreenManager.Instance.Get<ChargingScreen>().Open();
         return UniTask.DelayFrame(0);
     }
 
