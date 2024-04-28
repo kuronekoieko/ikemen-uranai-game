@@ -12,9 +12,10 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] CanvasGroup canvasGroup;
     public CanvasGroup CanvasGroup => canvasGroup;
 
-
     BaseScreen[] baseScreens;
     public static ScreenManager Instance { get; private set; }
+    HomeScreen homeScreen;
+
 
     public async UniTask OnStart()
     {
@@ -27,17 +28,9 @@ public class ScreenManager : MonoBehaviour
         .Where(_ => IsOpenHome())
         .Subscribe(isOpenHome =>
         {
-            AudioManager.Instance.Play(AudioID.Home);
+            Get<HomeScreen>().Open();
         })
         .AddTo(gameObject);
-    }
-
-    public void CloseAll()
-    {
-        foreach (var baseScreen in baseScreens)
-        {
-            baseScreen.Close();
-        }
     }
 
     async UniTask StartScreens()
@@ -54,7 +47,13 @@ public class ScreenManager : MonoBehaviour
         foreach (var baseScreen in baseScreens)
         {
             baseScreen.OnStart(uiCamera);
+            if (baseScreen.TryGetComponent(out HomeScreen homeScreen))
+            {
+                this.homeScreen = homeScreen;
+            }
         }
+
+        homeScreen.Open();
     }
 
     public T Get<T>() where T : BaseScreen
@@ -66,8 +65,10 @@ public class ScreenManager : MonoBehaviour
     bool IsOpenHome()
     {
         if (baseScreens == null) return false;
+        if (homeScreen == null) return false;
         foreach (var baseScreen in baseScreens)
         {
+            if (baseScreen == homeScreen) continue;
             if (baseScreen.gameObject.activeSelf) return false;
         }
         return true;
