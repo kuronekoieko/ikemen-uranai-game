@@ -24,7 +24,6 @@ public class LoadingScreen : BaseScreen
         base.Open();
 
         SetProgress(0);
-        progressBarImage.fillAmount = 0;
 
         // テキストサイズはauto sizeで
 
