@@ -4,11 +4,9 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using UnityEngine.Events;
 using System;
-using UnityEngine.UI;
 
 public class Initialize : SingletonMonoBehaviour<Initialize>
 {
-    [SerializeField] Image splashImage;
     bool IsInitialized;
     public UnityAction OnUpdate = () => { };
 
@@ -22,6 +20,8 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
         // https://qiita.com/norimatsu_yusuke/items/5babc03b27a1715bb56c
         // 同時押し無効
         Input.multiTouchEnabled = false;
+
+        SplashCanvas.Instance.Open();
 
         await PopupManager.Instance.OnStart();
 
@@ -118,7 +118,7 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
         ScreenManager.Instance.Get<LoadingScreen>().Open();
 
         // ローディング画面を開いてから、スプラッシュを閉じる
-        splashImage.gameObject.SetActive(false);
+        await SplashCanvas.Instance.Close();
 
         LocalPushNotificationManager.SetLocalPush();
 
