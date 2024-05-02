@@ -5,7 +5,6 @@ using TMPro;
 using UnityEngine.UI;
 using System;
 using System.Globalization;
-using MainScene;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 

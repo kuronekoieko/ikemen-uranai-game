@@ -5,202 +5,204 @@ using Cysharp.Threading.Tasks;
 using UnityEngine.Events;
 using System;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
-namespace MainScene
+
+public class Initialize : SingletonMonoBehaviour<Initialize>
 {
+    [SerializeField] ScreenManager screenManager;
+    [SerializeField] PopupManager popupManager;
+    [SerializeField] Image splashImage;
+    bool IsInitialized;
 
-    public class Initialize : SingletonMonoBehaviour<Initialize>
+    public UnityAction OnUpdate = () => { };
+
+    [RuntimeInitializeOnLoadMethod]
+    static void RuntimeInitializeOnLoad()
     {
-        [SerializeField] ScreenManager screenManager;
-        bool IsInitialized;
+        //SceneManager.LoadScene(0);
+    }
 
-        public UnityAction OnUpdate = () => { };
+    async void Start()
+    {
+        popupManager.OnStart();
 
-        [RuntimeInitializeOnLoadMethod]
-        static void RuntimeInitializeOnLoad()
+
+        if (IsInitialized) return;
+        IsInitialized = false;
+
+        Application.targetFrameRate = 60;
+        // https://qiita.com/norimatsu_yusuke/items/5babc03b27a1715bb56c
+        // 同時押し無効
+        Input.multiTouchEnabled = false;
+
+        await PopupManager.Instance.GetPopup<OnlineCheckPopup>().CheckOnlineUntilOnline();
+
+        (bool success_0, bool success_1) = await UniTask.WhenAll(
+            FirebaseRemoteConfigManager.Initialize(),
+            FirebaseAuthenticationManager.Initialize());
+
+
+        if (success_0 == false)
         {
-            SceneManager.LoadScene(0);
+            Debug.LogError("FirebaseAuthenticationManager.Initialize failed");
+            await ShowInitFailed();
+            return;
         }
 
-        private async void Start()
+        if (success_1 == false)
         {
-            if (IsInitialized) return;
-            IsInitialized = false;
-
-            Application.targetFrameRate = 60;
-            // https://qiita.com/norimatsu_yusuke/items/5babc03b27a1715bb56c
-            // 同時押し無効
-            Input.multiTouchEnabled = false;
-
-            await PopupManager.Instance.GetPopup<OnlineCheckPopup>().CheckOnlineUntilOnline();
-
-            (bool success_0, bool success_1) = await UniTask.WhenAll(
-                FirebaseRemoteConfigManager.Initialize(),
-                FirebaseAuthenticationManager.Initialize());
-
-
-            if (success_0 == false)
-            {
-                Debug.LogError("FirebaseAuthenticationManager.Initialize failed");
-                await ShowInitFailed();
-                return;
-            }
-
-            if (success_1 == false)
-            {
-                Debug.LogError("FirebaseRemoteConfigManager.Initialize failed");
-                await ShowInitFailed();
-                return;
-            }
-
-            // Debug.Log("FirebaseRemoteConfigManager.InitializeAsync");
-
-
-
-            bool is_maintenance = FirebaseRemoteConfigManager.GetBool(FirebaseRemoteConfigManager.Key.is_maintenance);
-            if (is_maintenance)
-            {
-                await PopupManager.Instance.GetCommonPopup().ShowAsync(
-                        "",
-                        "メンテナンス中です\nしばらく時間をおいてお試しください。",
-                        "OK"
-                    );
-                Quit();
-                return;
-            }
-
-            string latestVersion = FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.latest_version);
-            bool needUpdate = latestVersion.TrimStart().TrimStart() != Application.version.TrimStart().TrimStart();
-            if (needUpdate)
-            {
-                await PopupManager.Instance.GetCommonPopup().ShowAsync(
-                        "",
-                        "最新バージョンがあります。\nアプリをアップデートしてください。",
-                        "OK"
-                    );
-                string url = FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.url_app_store_page);
-                Application.OpenURL(url);
-
-                Quit();
-                return;
-            }
-
-
-            await CSVManager.InitializeAsync();
-
-            // Debug.Log("SaveDataInitializer.Initialize ");
-            bool success = await SaveDataInitializer.Initialize(CSVManager.Characters, FirebaseAuthenticationManager.User.UserId);
-
-            if (success == false)
-            {
-                Debug.LogError("SaveDataInitializer.Initialize success:" + success);
-
-                await ShowInitFailed();
-                return;
-            }
-
-
-            OnCompleteInit();
+            Debug.LogError("FirebaseRemoteConfigManager.Initialize failed");
+            await ShowInitFailed();
+            return;
         }
 
-        async UniTask ShowInitFailed()
+        // Debug.Log("FirebaseRemoteConfigManager.InitializeAsync");
+
+
+
+        bool is_maintenance = FirebaseRemoteConfigManager.GetBool(FirebaseRemoteConfigManager.Key.is_maintenance);
+        if (is_maintenance)
         {
             await PopupManager.Instance.GetCommonPopup().ShowAsync(
                     "",
-                    "サーバーへの接続に失敗しました。\nアプリを再起動してください。",
+                    "メンテナンス中です\nしばらく時間をおいてお試しください。",
                     "OK"
                 );
+            Quit();
+            return;
+        }
+
+        string latestVersion = FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.latest_version);
+        bool needUpdate = latestVersion.TrimStart().TrimStart() != Application.version.TrimStart().TrimStart();
+        if (needUpdate)
+        {
+            await PopupManager.Instance.GetCommonPopup().ShowAsync(
+                    "",
+                    "最新バージョンがあります。\nアプリをアップデートしてください。",
+                    "OK"
+                );
+            string url = FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.url_app_store_page);
+            Application.OpenURL(url);
 
             Quit();
+            return;
         }
 
 
-        async void OnCompleteInit()
+        await CSVManager.InitializeAsync();
+
+        // Debug.Log("SaveDataInitializer.Initialize ");
+        bool success = await SaveDataInitializer.Initialize(CSVManager.Characters, FirebaseAuthenticationManager.User.UserId);
+
+        if (success == false)
         {
-            // この書き方だと、この行の時点で実行がはじまってしまう
-            // UniTask googleCalenderTask = GoogleCalendarAPI.GetHolidaysAsync(DateTime.Now.Year);
+            Debug.LogError("SaveDataInitializer.Initialize success:" + success);
 
-            await screenManager.OnStart();
-
-            ScreenManager.Instance.Get<LoadingScreen>().Open();
-
-            // ローディング画面を開いてから、スプラッシュを閉じる
-            if (InitializeScene.Initialize.Instance) InitializeScene.Initialize.Instance.Close();
-
-            LocalPushNotificationManager.SetLocalPush();
-
-            if (SaveDataManager.SaveData.BirthDayDT == null)
-            {
-                await UniTask.WhenAll(
-                    ScreenManager.Instance.Get<LoadingScreen>().ProgressTimer(1),
-                    NaninovelManager.InitializeAsync(SaveDataManager.SaveData.currentCharacterId),
-                    GoogleCalendarAPI.GetHolidaysAsync(DateTime.Now.Year),
-                    SaveDataManager.SaveAsync(),
-                    AudioManager.Instance.Initialize());
-
-                ScreenManager.Instance.Get<InputProfileScreen>().Open();
-            }
-            else
-            {
-                await UniTask.WhenAll(
-                    ScreenManager.Instance.Get<LoadingScreen>().ProgressTimer(1),
-                    NaninovelManager.InitializeAsync(SaveDataManager.SaveData.currentCharacterId),
-                    GoogleCalendarAPI.GetHolidaysAsync(DateTime.Now.Year),
-                    SaveDataManager.SaveAsync(),
-                    AudioManager.Instance.Initialize(),
-                    DownloadFilesAsync());
-
-                ScreenManager.Instance.Get<HomeScreen>().Open();
-
-            }
-
-            await ScreenManager.Instance.Get<LoadingScreen>().Close();
-
-            IsInitialized = true;
+            await ShowInitFailed();
+            return;
         }
 
 
+        OnCompleteInit();
+    }
 
-        async UniTask DownloadFilesAsync()
+    async UniTask ShowInitFailed()
+    {
+        await PopupManager.Instance.GetCommonPopup().ShowAsync(
+                "",
+                "サーバーへの接続に失敗しました。\nアプリを再起動してください。",
+                "OK"
+            );
+
+        Quit();
+    }
+
+
+    async void OnCompleteInit()
+    {
+        // この書き方だと、この行の時点で実行がはじまってしまう
+        // UniTask googleCalenderTask = GoogleCalendarAPI.GetHolidaysAsync(DateTime.Now.Year);
+
+        await screenManager.OnStart();
+
+        ScreenManager.Instance.Get<LoadingScreen>().Open();
+
+        // ローディング画面を開いてから、スプラッシュを閉じる
+        splashImage.gameObject.SetActive(false);
+
+        LocalPushNotificationManager.SetLocalPush();
+
+        if (SaveDataManager.SaveData.BirthDayDT == null)
         {
+            await UniTask.WhenAll(
+                ScreenManager.Instance.Get<LoadingScreen>().ProgressTimer(1),
+                NaninovelManager.InitializeAsync(SaveDataManager.SaveData.currentCharacterId),
+                GoogleCalendarAPI.GetHolidaysAsync(DateTime.Now.Year),
+                SaveDataManager.SaveAsync(),
+                AudioManager.Instance.Initialize());
 
-            // 初回起動時は、誕生日情報が無いので、Constellationがnullになる
-            var todayFortune = FortuneManager.GetFortune(DateTime.Today, SaveDataManager.SaveData.Constellation.id);
-            var tomorrowFortune = FortuneManager.GetFortune(DateTime.Today.AddDays(1), SaveDataManager.SaveData.Constellation.id);
+            ScreenManager.Instance.Get<InputProfileScreen>().Open();
+        }
+        else
+        {
+            await UniTask.WhenAll(
+                ScreenManager.Instance.Get<LoadingScreen>().ProgressTimer(1),
+                NaninovelManager.InitializeAsync(SaveDataManager.SaveData.currentCharacterId),
+                GoogleCalendarAPI.GetHolidaysAsync(DateTime.Now.Year),
+                SaveDataManager.SaveAsync(),
+                AudioManager.Instance.Initialize(),
+                DownloadFilesAsync());
 
-            // var task1 = FileDownloader.DownloadFortune(DateTime.Today);
-            // var task2 = FileDownloader.DownloadFortune(DateTime.Today.AddDays(1));
-            var todayAudioFileName = AssetBundleLoader.GetAudioFileName(SaveDataManager.SaveData.GetCurrentCharacter(), todayFortune);
-            var task3 = AssetBundleLoader.LoadAssetAsync<AudioClip>(todayAudioFileName);
+            ScreenManager.Instance.Get<HomeScreen>().Open();
 
-            var tomorrowAudioFileName = AssetBundleLoader.GetAudioFileName(SaveDataManager.SaveData.GetCurrentCharacter(), tomorrowFortune);
-            var task4 = AssetBundleLoader.LoadAssetAsync<AudioClip>(tomorrowAudioFileName);
-
-            // var test = "Voices/chara0001-rank01-msg01";
-            // var task5 = FileDownloader.GetAudioClip(test);
-
-            await UniTask.WhenAll(task3, task4);
         }
 
+        await ScreenManager.Instance.Get<LoadingScreen>().Close();
 
-        private void Update()
-        {
-            if (IsInitialized == false) return;
-            OnUpdate.Invoke();
-        }
+        IsInitialized = true;
+    }
 
-        void Quit()
-        {
-            Debug.Log("Quit");
+
+
+    async UniTask DownloadFilesAsync()
+    {
+
+        // 初回起動時は、誕生日情報が無いので、Constellationがnullになる
+        var todayFortune = FortuneManager.GetFortune(DateTime.Today, SaveDataManager.SaveData.Constellation.id);
+        var tomorrowFortune = FortuneManager.GetFortune(DateTime.Today.AddDays(1), SaveDataManager.SaveData.Constellation.id);
+
+        // var task1 = FileDownloader.DownloadFortune(DateTime.Today);
+        // var task2 = FileDownloader.DownloadFortune(DateTime.Today.AddDays(1));
+        var todayAudioFileName = AssetBundleLoader.GetAudioFileName(SaveDataManager.SaveData.GetCurrentCharacter(), todayFortune);
+        var task3 = AssetBundleLoader.LoadAssetAsync<AudioClip>(todayAudioFileName);
+
+        var tomorrowAudioFileName = AssetBundleLoader.GetAudioFileName(SaveDataManager.SaveData.GetCurrentCharacter(), tomorrowFortune);
+        var task4 = AssetBundleLoader.LoadAssetAsync<AudioClip>(tomorrowAudioFileName);
+
+        // var test = "Voices/chara0001-rank01-msg01";
+        // var task5 = FileDownloader.GetAudioClip(test);
+
+        await UniTask.WhenAll(task3, task4);
+    }
+
+
+    private void Update()
+    {
+        if (IsInitialized == false) return;
+        OnUpdate.Invoke();
+    }
+
+    void Quit()
+    {
+        Debug.Log("Quit");
 
 #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
+        UnityEditor.EditorApplication.isPlaying = false;
 #else
                 Application.Quit();
 #endif
-        }
-
     }
 
 }
