@@ -25,27 +25,28 @@ public class LoadingScreen : BaseScreen
 
         SetProgress(0);
         progressBarImage.fillAmount = 0;
-        // hintTitleText.text = "カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法";
-        hintTitleText.text = "カードのレベルアップ方法";
 
-        hintTitleText.LimitLineCount(lineCountMax: 1, fontSizeMin: 40);
-        //  hintContentText.text = "カードを重複して手に入れるか、\n成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。";
-        hintContentText.text = "カードを重複して手に入れるか、\n成長の鍵を手に入れることでレベルを上げることができます。";
-        hintContentText.LimitLineCount(lineCountMax: 3, fontSizeMin: 30);
-
-        uidText.text = "123456";
-
+        // テキストサイズはauto sizeで
 
         var hint = CSVManager.Hints.GetRandom();
-        if (hint == null) return;
-
-        hintTitleText.text = hint.title;
-        hintTitleText.LimitLineCount(lineCountMax: 1, fontSizeMin: 40);
-
-        hintContentText.text = hint.description;
-        hintContentText.LimitLineCount(lineCountMax: 3, fontSizeMin: 30);
-
-        uidText.text = "UserID:  " + SaveDataManager.SaveData.userId;
+        if (hint == null)
+        {
+            //hintTitleText.text = "カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法";
+            hintTitleText.text = "カードのレベルアップ方法";
+            // hintTitleText.LimitLineCount(lineCountMax: 1, fontSizeMin: 40);
+            // hintContentText.text = "カードを重複して手に入れるか、\n成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。成長の鍵を手に入れることでレベルを上げることができます。";
+            hintContentText.text = "カードを重複して手に入れるか、\n成長の鍵を手に入れることでレベルを上げることができます。";
+            // hintContentText.LimitLineCount(lineCountMax: 3, fontSizeMin: 30);
+            uidText.text = "UserID:  123456";
+        }
+        else
+        {
+            hintTitleText.text = hint.title;
+            // hintTitleText.LimitLineCount(lineCountMax: 1, fontSizeMin: 40);
+            hintContentText.text = hint.description;
+            // hintContentText.LimitLineCount(lineCountMax: 3, fontSizeMin: 30);
+            uidText.text = "UserID:  " + SaveDataManager.SaveData.userId;
+        }
     }
 
     /// <summary>
