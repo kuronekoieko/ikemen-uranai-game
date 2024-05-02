@@ -11,8 +11,8 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
     [SerializeField] AudioSource backgroundMusicAS;
 
     AudioDataSO audioDataSO;
-    readonly string audioDataSO_Compressed = "AudioDataSO_Compressed";
-    readonly string audioDataSO_NotCompressed = "AudioDataSO_NotCompressed";
+    // readonly string audioDataSO_Compressed = "AudioDataSO_Compressed";
+    // readonly string audioDataSO_NotCompressed = "AudioDataSO_NotCompressed";
 
     public async UniTask Initialize()
     {
