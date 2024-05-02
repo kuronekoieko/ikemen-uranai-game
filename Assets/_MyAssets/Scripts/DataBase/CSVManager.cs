@@ -11,6 +11,7 @@ using System;
 public static class CSVManager
 {
     // 各オブジェクト内の変数名はcsvのキーと同じにする
+
     public static Character[] Characters { get; private set; }
     public static LevelData[] CharacterLevelDatas { get; private set; }
     public static LevelData[] PlayerLevelDatas { get; private set; }
@@ -25,18 +26,41 @@ public static class CSVManager
 
     public static async UniTask InitializeAsync()
     {
-        Characters = await DeserializeAsync<Character>("Characters");
-        CharacterLevelDatas = await DeserializeAsync<LevelData>("CharacterLevel-Exp");
-        PlayerLevelDatas = await DeserializeAsync<LevelData>("PlayerLevel-Exp");
-        Constellations = await DeserializeAsync<Constellation>("Constellations");
-        Fortunes = await DeserializeAsync<Fortune>("Fortunes");
-        Hints = await DeserializeAsync<Hint>("Hint");
-        LuckyItems = await DeserializeAsync<LuckyItem>("Fortunes/LuckyItems");
-        LuckyColors = await DeserializeAsync<LuckyColor>("Fortunes/LuckyColors");
-        ChargingProducts = await DeserializeAsync<ChargingProduct>("ChargingProducts");
-        var fortuneMessageDics = await DeserializeAsync_StringDics("FortuneMessages");
+        Debug.Log("CSV初期化 開始");
+
+        await UniTask.WhenAll(GetValues(), InitHomeText());
+
+        Debug.Log("CSV初期化 終了");
+    }
+
+    static async UniTask GetValues()
+    {
+        List<Dictionary<string, string>> fortuneMessageDics;
+
+        (Characters,
+        CharacterLevelDatas,
+        PlayerLevelDatas,
+        Constellations,
+        Fortunes,
+        Hints,
+        LuckyItems,
+        LuckyColors,
+        ChargingProducts,
+        fortuneMessageDics)
+        = await UniTask.WhenAll(
+            DeserializeAsync<Character>("Characters"),
+            DeserializeAsync<LevelData>("CharacterLevel-Exp"),
+            DeserializeAsync<LevelData>("PlayerLevel-Exp"),
+            DeserializeAsync<Constellation>("Constellations"),
+            DeserializeAsync<Fortune>("Fortunes"),
+            DeserializeAsync<Hint>("Hint"),
+            DeserializeAsync<LuckyItem>("Fortunes/LuckyItems"),
+            DeserializeAsync<LuckyColor>("Fortunes/LuckyColors"),
+            DeserializeAsync<ChargingProduct>("ChargingProducts"),
+            DeserializeAsync_StringDics("FortuneMessages"));
+
         FortuneMessages = ToObjects(fortuneMessageDics).ToArray();
-        await InitHomeText();
+
     }
 
     static async UniTask InitHomeText()
