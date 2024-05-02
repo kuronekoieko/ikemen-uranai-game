@@ -10,6 +10,8 @@ public static class FirebaseAuthenticationManager
 
     public static async UniTask<bool> Initialize()
     {
+        Debug.Log("FirebaseAuthenticationManager 初期化開始 User: " + User);
+
         bool success;
         if (User != null)
         {
