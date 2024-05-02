@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-using MainScene;
+
 using TMPro;
 using SaveDataObjects;
 using Cysharp.Threading.Tasks;
@@ -58,7 +58,7 @@ public class TomorrowHoroscopeButton : BaseHoroscopeButton
 
         if (horoscopeHistory.isReadNextDayHoroscope == false)
         {
-           // SaveDataManager.SaveData.exp += 5;
+            // SaveDataManager.SaveData.exp += 5;
         }
 
         SaveDataManager.SaveData.horoscopeHistories[Key].isReadNextDayHoroscope = true;
