@@ -7,12 +7,11 @@ using UnityEngine.Events;
 using System;
 using Cysharp.Threading.Tasks;
 
-[RequireComponent(typeof(CanvasGroup))]
+[RequireComponent(typeof(Canvas))]
 public class BasePopup : MonoBehaviour
 {
     [SerializeField] protected CustomButton negativeButton;
     [SerializeField] protected CustomButton positiveButton;
-
 
     public virtual void OnStart()
     {
@@ -71,6 +70,7 @@ public class BasePopup : MonoBehaviour
         // 今いる自分の階層の一番下に移動して、一番手前に表示されます。
         transform.SetAsLastSibling();
         gameObject.SetActive(true);
+        PopupManager.Instance.ResetOrder();
     }
 
 }
