@@ -23,6 +23,7 @@ public static class FirebaseAuthenticationManager
             var firebaseUser = await FirebaseAuth.DefaultInstance.SignInAnonymouslyAsync();
             // Debug.LogFormat("User signed in successfully: {0} ({1})", firebaseUser.DisplayName, firebaseUser.UserId);
             // DebugUtils.LogJson(firebaseUser);
+            Debug.Log("FirebaseAuthenticationManager 新規ユーザー作成: " + User.UserId);
             success = true;
         }
         catch (System.Exception e)
