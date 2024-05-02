@@ -16,8 +16,8 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
 
     public async UniTask Initialize()
     {
-        string path = AssetBundleLoader.localAddressHeader + "ScriptableObjects/AudioDataSO" + ".asset";
-        audioDataSO = await AssetBundleLoader.LoadAssetAsync<AudioDataSO>(path);
+        string path = AddressablesLoader.localAddressHeader + "ScriptableObjects/AudioDataSO" + ".asset";
+        audioDataSO = await AddressablesLoader.LoadAsync<AudioDataSO>(path);
 
 
         if (audioDataSO == null)

@@ -7,12 +7,12 @@ using System;
 using UnityEngine.AddressableAssets;
 using System.Linq;
 
-public class AssetBundleLoader
+public class AddressablesLoader
 {
     public static readonly string localAddressHeader = "Assets/_MyAssets/AddressablesResources/Local/";
     static readonly string remoteAddressHeader = "Assets/_MyAssets/AddressablesResources/Remote/";
 
-    public static async UniTask<T> LoadAssetAsync<T>(string address) where T : UnityEngine.Object
+    public static async UniTask<T> LoadAsync<T>(string address) where T : UnityEngine.Object
     {
         Addressables.WebRequestOverride = EditWebRequestURL;
         // Debug.Log("ロード開始 " + address);

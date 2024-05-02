@@ -121,7 +121,7 @@ public class CreateHomeTexts
             if (!charaText.voice_id.Contains("-") && !string.IsNullOrEmpty(charaText.voice_id))
             {
                 // string voicePath = "Voices/" + charaKey + "-" + charaText.voice_id + ".wav";
-                string voicePath = AssetBundleLoader.GetShortVoiceAddress(charaKey, charaText.voice_id);
+                string voicePath = AddressablesLoader.GetShortVoiceAddress(charaKey, charaText.voice_id);
                 sw.WriteLine("@voice " + voicePath);
             }
             // charaText.text += "[br]１２３４５６７８９０１２３４５６７８９０１２３";

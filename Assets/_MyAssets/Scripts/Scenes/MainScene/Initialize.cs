@@ -166,11 +166,11 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
 
         // var task1 = FileDownloader.DownloadFortune(DateTime.Today);
         // var task2 = FileDownloader.DownloadFortune(DateTime.Today.AddDays(1));
-        var todayAudioFileName = AssetBundleLoader.GetAudioFileName(SaveDataManager.SaveData.GetCurrentCharacter(), todayFortune);
-        var task3 = AssetBundleLoader.LoadAssetAsync<AudioClip>(todayAudioFileName);
+        var todayAudioFileName = AddressablesLoader.GetAudioFileName(SaveDataManager.SaveData.GetCurrentCharacter(), todayFortune);
+        var task3 = AddressablesLoader.LoadAsync<AudioClip>(todayAudioFileName);
 
-        var tomorrowAudioFileName = AssetBundleLoader.GetAudioFileName(SaveDataManager.SaveData.GetCurrentCharacter(), tomorrowFortune);
-        var task4 = AssetBundleLoader.LoadAssetAsync<AudioClip>(tomorrowAudioFileName);
+        var tomorrowAudioFileName = AddressablesLoader.GetAudioFileName(SaveDataManager.SaveData.GetCurrentCharacter(), tomorrowFortune);
+        var task4 = AddressablesLoader.LoadAsync<AudioClip>(tomorrowAudioFileName);
 
         // var test = "Voices/chara0001-rank01-msg01";
         // var task5 = FileDownloader.GetAudioClip(test);
