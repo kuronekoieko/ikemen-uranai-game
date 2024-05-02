@@ -16,11 +16,10 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
 
     public async UniTask Initialize()
     {
-        string path = "ScriptableObjects/AudioDataSO";
-        // パスに拡張子つけない
-        var obj = await Resources.LoadAsync<AudioDataSO>(path);
+        string path = AssetBundleLoader.localAddressHeader + "ScriptableObjects/AudioDataSO" + ".asset";
+        audioDataSO = await AssetBundleLoader.LoadAssetAsync<AudioDataSO>(path);
 
-        audioDataSO = obj as AudioDataSO;
+
         if (audioDataSO == null)
         {
             Debug.LogError("AudioManager audioID: " + path + " がありません");
