@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class SplashCanvas : SingletonMonoBehaviour<SplashCanvas>
+public class SplashCanvas : MonoBehaviour
 {
     [SerializeField] CanvasGroup splashCG;
 
