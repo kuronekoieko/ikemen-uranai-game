@@ -22,5 +22,7 @@ public class SplashCanvas : MonoBehaviour
     {
         await splashCG.DOFade(0, 1f).AsyncWaitForCompletion();
         gameObject.SetActive(false);
+        // 次の処理が重いと、非表示になるのに時間かかるため
+        await UniTask.DelayFrame(1);
     }
 }
