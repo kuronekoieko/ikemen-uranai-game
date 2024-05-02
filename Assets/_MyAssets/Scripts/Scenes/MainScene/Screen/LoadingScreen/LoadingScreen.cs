@@ -23,6 +23,7 @@ public class LoadingScreen : BaseScreen
     {
         base.Open();
 
+        SetProgress(0);
         progressBarImage.fillAmount = 0;
         // hintTitleText.text = "カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法カードのレベルアップ方法";
         hintTitleText.text = "カードのレベルアップ方法";
