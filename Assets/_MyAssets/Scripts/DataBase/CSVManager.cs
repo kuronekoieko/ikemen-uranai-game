@@ -71,15 +71,9 @@ public static class CSVManager
 
     public static async UniTask<T[]> DeserializeAsync<T>(string fileName)
     {
-        // パスに拡張子つけない
-        string path = "CSV/" + fileName;
-        var result = await Resources.LoadAsync<TextAsset>(path);
-        var textAsset = result as TextAsset;
-        if (textAsset == null)
-        {
-            Debug.LogError("csv読み込みに失敗しました: " + path);
-            return null;
-        }
+
+        var textAsset = await LoadTextAsset(fileName);
+        if (textAsset == null) return null;
 
         var ary = CSVSerializer.Deserialize<T>(textAsset.text);
         if (ary == null)
@@ -91,14 +85,24 @@ public static class CSVManager
     }
 
 
+    static async UniTask<TextAsset> LoadTextAsset(string fileName)
+    {
+        string path = AssetBundleLoader.localAddressHeader + "CSV/" + fileName + ".csv";
+        var textAsset = await AssetBundleLoader.LoadAssetAsync<TextAsset>(path);
+
+        if (textAsset == null)
+        {
+            Debug.LogError("csv読み込みに失敗しました: " + path);
+            return null;
+        }
+        return textAsset;
+    }
+
 
     static async UniTask<List<Dictionary<string, string>>> DeserializeAsync_StringDics(string fileName)
     {
-        // パスに拡張子つけない
-        string path = "CSV/" + fileName;
-        var result = await Resources.LoadAsync<TextAsset>(path);
-        var textAsset = result as TextAsset;
-        if (textAsset == null) Debug.LogError("csv読み込みに失敗しました: " + path);
+        var textAsset = await LoadTextAsset(fileName);
+        if (textAsset == null) return null;
 
         var stringLists = CSVToStringLists(textAsset.text);
         var stringDics = CSVToStringDics(stringLists);
