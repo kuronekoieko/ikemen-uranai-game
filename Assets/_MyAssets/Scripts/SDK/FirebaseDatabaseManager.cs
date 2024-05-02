@@ -47,7 +47,7 @@ public static class FirebaseDatabaseManager
         //Debug.Log("SendSaveData " + userId);
 
         string json = JsonConvert.SerializeObject(saveData);
-        bool isTimeout = await Reference.Child("users").Child(userId).SetRawJsonValueAsync(json).AsUniTask().TimeOutSeconds(3);
+        bool isTimeout = await Reference.Child("users").Child(userId).SetRawJsonValueAsync(json).AsUniTask().TimeOutSeconds(10);
         if (isTimeout)
         {
             Debug.LogWarning("SendSaveData isTimeout");
@@ -63,7 +63,7 @@ public static class FirebaseDatabaseManager
         string userId = FirebaseAuthenticationManager.User.UserId;
         // 空のidを送ると、サーバーのデータ全部消える
         if (string.IsNullOrEmpty(userId)) return;
-        bool isTimeout = await Reference.Child("users").Child(userId).RemoveValueAsync().AsUniTask().TimeOutSeconds(3);
+        bool isTimeout = await Reference.Child("users").Child(userId).RemoveValueAsync().AsUniTask().TimeOutSeconds(10);
         if (isTimeout)
         {
             Debug.LogWarning("RemoveSaveData isTimeout");
@@ -76,7 +76,7 @@ public static class FirebaseDatabaseManager
     {
         Debug.Log("GetUserData");
 
-        (bool isTimeout, DataSnapshot snapshot) = await Reference.Child("users").Child(userId).GetValueAsync().AsUniTask().TimeOutSeconds(3);
+        (bool isTimeout, DataSnapshot snapshot) = await Reference.Child("users").Child(userId).GetValueAsync().AsUniTask().TimeOutSeconds(10);
 
         if (isTimeout)
         {
@@ -109,7 +109,7 @@ public static class FirebaseDatabaseManager
 
         // ネットワークにつながってないときは、キャッシュされてるのを取ってきてるっぽい
         // オフラインの場合、ユーザーIDがかぶる可能性あり
-        (bool isTimeout, DataSnapshot snapshot) = await Reference.Child("users").GetValueAsync().AsUniTask().TimeOutSeconds(3);
+        (bool isTimeout, DataSnapshot snapshot) = await Reference.Child("users").GetValueAsync().AsUniTask().TimeOutSeconds(10);
         if (isTimeout)
         {
             Debug.LogError("GetUsers() isTimeout");
