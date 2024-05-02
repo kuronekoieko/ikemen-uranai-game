@@ -24,7 +24,7 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
         // 同時押し無効
         Input.multiTouchEnabled = false;
 
-        splashCanvas.Open();
+        await splashCanvas.Open();
 
         await PopupManager.OnStart();
 

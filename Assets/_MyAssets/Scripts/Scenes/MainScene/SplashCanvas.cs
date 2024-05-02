@@ -13,9 +13,9 @@ public class SplashCanvas : MonoBehaviour
         splashCG.alpha = 0;
     }
 
-    public void Open()
+    public async UniTask Open()
     {
-        splashCG.DOFade(1, 1f);
+        await splashCG.DOFade(1, 1f).AsyncWaitForCompletion();
     }
 
     public async UniTask Close()
