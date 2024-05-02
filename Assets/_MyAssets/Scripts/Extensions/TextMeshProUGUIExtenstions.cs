@@ -32,6 +32,7 @@ public static class TextMeshProUGUIExtenstions
             textInfo = self.GetTextInfo(self.text);
             // Debug.Log(self.text.Length + " " + textInfo.lineCount);
         }
+        Debug.Log(self.text.Length + " " + textInfo.lineCount);
 
     }
 }
