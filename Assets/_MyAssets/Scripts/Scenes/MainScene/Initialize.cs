@@ -11,6 +11,8 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
     bool IsInitialized;
     public UnityAction OnUpdate = () => { };
 
+    PopupManager PopupManager => PopupManager.Instance;
+    ScreenManager ScreenManager => ScreenManager.Instance;
 
     async void Start()
     {
@@ -24,9 +26,9 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
 
         splashCanvas.Open();
 
-        await PopupManager.Instance.OnStart();
+        await PopupManager.OnStart();
 
-        await PopupManager.Instance.GetPopup<OnlineCheckPopup>().CheckOnlineUntilOnline();
+        await PopupManager.GetPopup<OnlineCheckPopup>().CheckOnlineUntilOnline();
 
         (bool success_0, bool success_1) = await UniTask.WhenAll(
             FirebaseRemoteConfigManager.Initialize(),
@@ -54,7 +56,7 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
         bool is_maintenance = FirebaseRemoteConfigManager.GetBool(FirebaseRemoteConfigManager.Key.is_maintenance);
         if (is_maintenance)
         {
-            await PopupManager.Instance.GetCommonPopup().ShowAsync(
+            await PopupManager.GetCommonPopup().ShowAsync(
                     "",
                     "メンテナンス中です\nしばらく時間をおいてお試しください。",
                     "OK"
@@ -67,7 +69,7 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
         bool needUpdate = latestVersion.TrimStart().TrimStart() != Application.version.TrimStart().TrimStart();
         if (needUpdate)
         {
-            await PopupManager.Instance.GetCommonPopup().ShowAsync(
+            await PopupManager.GetCommonPopup().ShowAsync(
                     "",
                     "最新バージョンがあります。\nアプリをアップデートしてください。",
                     "OK"
@@ -99,7 +101,7 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
 
     async UniTask ShowInitFailed()
     {
-        await PopupManager.Instance.GetCommonPopup().ShowAsync(
+        await PopupManager.GetCommonPopup().ShowAsync(
                 "",
                 "サーバーへの接続に失敗しました。\nアプリを再起動してください。",
                 "OK"
@@ -114,9 +116,9 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
         // この書き方だと、この行の時点で実行がはじまってしまう
         // UniTask googleCalenderTask = GoogleCalendarAPI.GetHolidaysAsync(DateTime.Now.Year);
 
-        await ScreenManager.Instance.OnStart();
+        await ScreenManager.OnStart();
 
-        ScreenManager.Instance.Get<LoadingScreen>().Open();
+        ScreenManager.Get<LoadingScreen>().Open();
 
         // ローディング画面を開いてから、スプラッシュを閉じる
         await splashCanvas.Close();
@@ -126,29 +128,29 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
         if (SaveDataManager.SaveData.BirthDayDT == null)
         {
             await UniTask.WhenAll(
-                ScreenManager.Instance.Get<LoadingScreen>().ProgressTimer(1),
+                ScreenManager.Get<LoadingScreen>().ProgressTimer(1),
                 NaninovelManager.InitializeAsync(SaveDataManager.SaveData.currentCharacterId),
                 GoogleCalendarAPI.GetHolidaysAsync(DateTime.Now.Year),
                 SaveDataManager.SaveAsync(),
                 AudioManager.Instance.Initialize());
 
-            ScreenManager.Instance.Get<InputProfileScreen>().Open();
+            ScreenManager.Get<InputProfileScreen>().Open();
         }
         else
         {
             await UniTask.WhenAll(
-                ScreenManager.Instance.Get<LoadingScreen>().ProgressTimer(1),
+                ScreenManager.Get<LoadingScreen>().ProgressTimer(1),
                 NaninovelManager.InitializeAsync(SaveDataManager.SaveData.currentCharacterId),
                 GoogleCalendarAPI.GetHolidaysAsync(DateTime.Now.Year),
                 SaveDataManager.SaveAsync(),
                 AudioManager.Instance.Initialize(),
                 DownloadFilesAsync());
 
-            ScreenManager.Instance.Get<HomeScreen>().Open();
+            ScreenManager.Get<HomeScreen>().Open();
 
         }
 
-        await ScreenManager.Instance.Get<LoadingScreen>().Close();
+        await ScreenManager.Get<LoadingScreen>().Close();
 
         IsInitialized = true;
     }
