@@ -52,16 +52,37 @@ namespace TMPFontReplacer
                 // continue;
                 if (tmp.font == null)
                 {
-                    Debug.Log("フォントがnullです: " + tmp.text);
+                    string path = GetPath(tmp.gameObject);
+                    Debug.Log(path);
+                    Debug.Log("フォント: " + tmp.font.name);
                     continue;
+                }
+                if (tmp.font.name == "LiberationSans SDF")
+                {
+                    string path = GetPath(tmp.gameObject);
+                    Debug.Log(path);
+                    Debug.Log("フォント: " + tmp.font.name);
+
+                    //tmp.font = f;
                 }
                 if (tmp.font.name == "KiwiMaru-Regular SDF")
                 {
-                    tmp.font = f;
+                    //tmp.font = f;
                 }
             }
 
 
+        }
+
+
+        string GetPath(GameObject gameObject)
+        {
+            string str = gameObject.name;
+            if (gameObject.transform.parent)
+            {
+                str = GetPath(gameObject.transform.parent.gameObject) + "/" + str;
+            }
+            return str;
         }
     }
 }
