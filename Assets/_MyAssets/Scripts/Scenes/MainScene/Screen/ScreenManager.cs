@@ -5,7 +5,7 @@ using System.Linq;
 using UniRx;
 using Cysharp.Threading.Tasks;
 
-public class ScreenManager : MonoBehaviour
+public class ScreenManager : SingletonMonoBehaviour<ScreenManager>
 {
     [SerializeField] Camera uiCamera;
     public Camera UICamera => uiCamera;
@@ -13,13 +13,11 @@ public class ScreenManager : MonoBehaviour
     public CanvasGroup CanvasGroup => canvasGroup;
 
     BaseScreen[] baseScreens;
-    public static ScreenManager Instance { get; private set; }
     HomeScreen homeScreen;
 
 
     public async UniTask OnStart()
     {
-        Instance = this;
         await StartScreens();
 
         // 画面の開閉の間の1フレームで、open判定になるため

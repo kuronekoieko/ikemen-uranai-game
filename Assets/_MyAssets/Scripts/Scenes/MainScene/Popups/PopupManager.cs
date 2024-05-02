@@ -2,29 +2,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 
 public class PopupManager : SingletonMonoBehaviour<PopupManager>
 {
     BasePopup[] basePopups;
-    [SerializeField] CommonPopup commonPopupPrefab;
-    List<CommonPopup> commonPopups = new();
+    CommonPopup commonPopupPrefab;
+    readonly List<CommonPopup> commonPopups = new();
 
 
 
-    public void OnStart()
+    public async UniTask OnStart()
     {
-        StartPopups();
+        await StartPopupsAsync();
         commonPopupPrefab.gameObject.SetActive(false);
         HideDummies();
     }
 
 
-    void StartPopups()
+    async UniTask StartPopupsAsync()
     {
+        var prefabs = await AssetBundleLoader.LoadAllAsync<GameObject>("Popups");
+        foreach (var prefab in prefabs)
+        {
+            Instantiate(prefab, transform);
+        }
+
         basePopups = GetComponentsInChildren<BasePopup>(true);
         foreach (var basePopup in basePopups)
         {
             basePopup.OnStart();
+            // https://l-s-d.sakura.ne.jp/2016/04/check_derive_sub_class/
+            if (!basePopup.GetType().IsSubclassOf(typeof(CommonPopup)))
+            {
+                if (basePopup.TryGetComponent(out CommonPopup commonPopup))
+                {
+                    this.commonPopupPrefab = commonPopup;
+                }
+            }
         }
     }
 

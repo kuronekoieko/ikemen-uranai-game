@@ -4,31 +4,17 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using UnityEngine.Events;
 using System;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
-
 
 public class Initialize : SingletonMonoBehaviour<Initialize>
 {
-    [SerializeField] ScreenManager screenManager;
-    [SerializeField] PopupManager popupManager;
     [SerializeField] Image splashImage;
     bool IsInitialized;
-
     public UnityAction OnUpdate = () => { };
 
-    [RuntimeInitializeOnLoadMethod]
-    static void RuntimeInitializeOnLoad()
-    {
-        //SceneManager.LoadScene(0);
-    }
 
     async void Start()
     {
-        popupManager.OnStart();
-
-
         if (IsInitialized) return;
         IsInitialized = false;
 
@@ -36,6 +22,8 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
         // https://qiita.com/norimatsu_yusuke/items/5babc03b27a1715bb56c
         // 同時押し無効
         Input.multiTouchEnabled = false;
+
+        await PopupManager.Instance.OnStart();
 
         await PopupManager.Instance.GetPopup<OnlineCheckPopup>().CheckOnlineUntilOnline();
 
@@ -125,7 +113,7 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
         // この書き方だと、この行の時点で実行がはじまってしまう
         // UniTask googleCalenderTask = GoogleCalendarAPI.GetHolidaysAsync(DateTime.Now.Year);
 
-        await screenManager.OnStart();
+        await ScreenManager.Instance.OnStart();
 
         ScreenManager.Instance.Get<LoadingScreen>().Open();
 
