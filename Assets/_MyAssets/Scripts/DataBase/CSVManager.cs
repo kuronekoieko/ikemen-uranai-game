@@ -53,7 +53,7 @@ public static class CSVManager
             DeserializeAsync<LevelData>("PlayerLevel-Exp"),
             DeserializeAsync<Constellation>("Constellations"),
             DeserializeAsync<Fortune>("Fortunes"),
-            DeserializeAsync<Hint>("Hint"),
+            DeserializeAsync<Hint>("Hints"),
             DeserializeAsync<LuckyItem>("Fortunes/LuckyItems"),
             DeserializeAsync<LuckyColor>("Fortunes/LuckyColors"),
             DeserializeAsync<ChargingProduct>("ChargingProducts"),
