@@ -65,24 +65,31 @@ public static class CSVManager
 
     static async UniTask InitHomeText()
     {
-        HomeTexts = await DeserializeAsync<HomeText>("Home/HomeTexts");
-        var Dates = await DeserializeAsync<Date>("Home/Dates");
-        var Days = await DeserializeAsync<Day>("Home/Days");
-        var Times = await DeserializeAsync<DataBase.Time>("Home/Times");
+        (var homeTexts,
+        var dates,
+        var days,
+        var times)
+        = await UniTask.WhenAll(
+            DeserializeAsync<HomeText>("Home/HomeTexts"),
+            DeserializeAsync<Date>("Home/Dates"),
+            DeserializeAsync<Day>("Home/Days"),
+            DeserializeAsync<DataBase.Time>("Home/Times"));
+
+        HomeTexts = homeTexts;
 
         foreach (var homeText in HomeTexts)
         {
-            homeText.date = Dates.FirstOrDefault(date => date.date_id == homeText.date_id);
+            homeText.date = dates.FirstOrDefault(date => date.date_id == homeText.date_id);
             if (homeText.date == null)
             {
                 Debug.LogError($"id:{homeText.id} date が存在しません");
             }
-            homeText.day = Days.FirstOrDefault(date => date.day_id == homeText.day_id);
+            homeText.day = days.FirstOrDefault(date => date.day_id == homeText.day_id);
             if (homeText.day == null)
             {
                 Debug.LogError($"id:{homeText.id} day が存在しません");
             }
-            homeText.time = Times.FirstOrDefault(date => date.time_id == homeText.time_id);
+            homeText.time = times.FirstOrDefault(date => date.time_id == homeText.time_id);
             if (homeText.time == null)
             {
                 Debug.LogError($"id:{homeText.id} time が存在しません");
