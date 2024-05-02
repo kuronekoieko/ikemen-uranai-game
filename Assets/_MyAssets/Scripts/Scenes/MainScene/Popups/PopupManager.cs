@@ -75,6 +75,16 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
         }
     }
 
+    public void ResetOrder()
+    {
+        // CommonPopupが増えるため
+        Canvas[] canvases = GetComponentsInChildren<Canvas>(true);
+        for (int i = 0; i < canvases.Length; i++)
+        {
+            canvases[i].sortingOrder = i;
+        }
+    }
+
     public CommonPopup GetCommonPopup()
     {
         CommonPopup instance = null;
