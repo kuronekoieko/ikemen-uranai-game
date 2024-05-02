@@ -28,7 +28,7 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
 
         await PopupManager.OnStart();
 
-        await PopupManager.GetPopup<OnlineCheckPopup>().CheckOnlineUntilOnline();
+        await OnlineCheckPopupManager.CheckOnlineUntilOnline();
 
         (bool success_0, bool success_1) = await UniTask.WhenAll(
             FirebaseRemoteConfigManager.Initialize(),

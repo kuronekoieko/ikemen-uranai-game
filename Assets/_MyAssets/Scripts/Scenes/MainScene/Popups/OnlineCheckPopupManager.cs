@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 
-public class OnlineCheckPopup : CommonPopup
+public static class OnlineCheckPopupManager
 {
 
-    public async UniTask<bool> CheckOnline()
+    public static async UniTask<bool> CheckOnline()
     {
         Debug.Log("オンラインチェック 開始");
         var result = await OnlineChecker.IsOnline();
         bool isOnline = false;
-
+        // result.status = API.Result.Status.Error;
         switch (result.status)
         {
             case API.Result.Status.Success:
                 isOnline = true;
                 break;
             case API.Result.Status.Error:
-                await ShowAsync(
+                await PopupManager.Instance.GetCommonPopup().ShowAsync(
                     "",
                     "インターネットに接続されていません",
                     "OK"
@@ -35,7 +35,7 @@ public class OnlineCheckPopup : CommonPopup
         return isOnline;
     }
 
-    public async UniTask<bool> CheckOnlineUntilOnline()
+    public static async UniTask<bool> CheckOnlineUntilOnline()
     {
         bool isOnline = await CheckOnline();
 
@@ -54,7 +54,7 @@ public class OnlineCheckPopup : CommonPopup
 
     }
 
-    public async void StartCheckOnlineLoop()
+    public static async void StartCheckOnlineLoop()
     {
         while (true)
         {
