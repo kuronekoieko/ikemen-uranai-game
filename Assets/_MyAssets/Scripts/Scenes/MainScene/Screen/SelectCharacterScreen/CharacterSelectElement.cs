@@ -21,8 +21,8 @@ public class CharacterSelectElement : ObjectPoolingElement
         cvText.text = "CV: " + character.voice_actor_jp;
         descriptionText.text = character.description;
 
-        string address = AssetBundleLoader.GetCharacterFullAddress(character.id);
-        Sprite sprite = await AssetBundleLoader.LoadAssetAsync<Sprite>(address);
+        string address = AddressablesLoader.GetCharacterFullAddress(character.id);
+        Sprite sprite = await AddressablesLoader.LoadAsync<Sprite>(address);
         if (sprite == null) return;
         characterImage.sprite = sprite;
     }

@@ -87,8 +87,8 @@ public static class CSVManager
 
     static async UniTask<TextAsset> LoadTextAsset(string fileName)
     {
-        string path = AssetBundleLoader.localAddressHeader + "CSV/" + fileName + ".csv";
-        var textAsset = await AssetBundleLoader.LoadAssetAsync<TextAsset>(path);
+        string path = AddressablesLoader.localAddressHeader + "CSV/" + fileName + ".csv";
+        var textAsset = await AddressablesLoader.LoadAsync<TextAsset>(path);
 
         if (textAsset == null)
         {

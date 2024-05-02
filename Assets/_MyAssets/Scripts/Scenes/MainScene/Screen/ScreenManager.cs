@@ -34,7 +34,7 @@ public class ScreenManager : SingletonMonoBehaviour<ScreenManager>
     async UniTask StartScreens()
     {
 
-        var baseScreenPrefabs = await AssetBundleLoader.LoadAllAsync<GameObject>("Screens");
+        var baseScreenPrefabs = await AddressablesLoader.LoadAllAsync<GameObject>("Screens");
 
         foreach (var baseScreenPrefab in baseScreenPrefabs)
         {

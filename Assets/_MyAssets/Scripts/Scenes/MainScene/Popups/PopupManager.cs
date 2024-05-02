@@ -22,7 +22,7 @@ public class PopupManager : SingletonMonoBehaviour<PopupManager>
 
     async UniTask StartPopupsAsync()
     {
-        var prefabs = await AssetBundleLoader.LoadAllAsync<GameObject>("Popups");
+        var prefabs = await AddressablesLoader.LoadAllAsync<GameObject>("Popups");
         foreach (var prefab in prefabs)
         {
             Instantiate(prefab, transform);

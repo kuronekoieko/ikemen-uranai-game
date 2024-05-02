@@ -57,10 +57,10 @@ public class HoroscopeScreen : BaseScreen
         // TODO: 失敗したとき
         if (fortune == null) return;
 
-        string fileName = AssetBundleLoader.GetAudioFileName(character, fortune);
+        string fileName = AddressablesLoader.GetAudioFileName(character, fortune);
 
         Debug.Log(fileName);
-        audioClip = await AssetBundleLoader.LoadAssetAsync<AudioClip>(fileName);
+        audioClip = await AddressablesLoader.LoadAsync<AudioClip>(fileName);
 
         // TODO: 失敗したとき
         // var (fortunes, audioClip) = await UniTask.WhenAll(task1, task2);
@@ -85,7 +85,7 @@ public class HoroscopeScreen : BaseScreen
         {
             Debug.LogError("音声がありません");
         }
-        
+
         AudioManager.Instance.Play(AudioID.HoroscopeScreen);
     }
 
@@ -155,8 +155,8 @@ public class HoroscopeScreen : BaseScreen
 
     async void ShowCharacter(SaveDataObjects.Character character)
     {
-        string address = AssetBundleLoader.GetCharacterFullAddress(character.id);
-        Sprite sprite = await AssetBundleLoader.LoadAssetAsync<Sprite>(address);
+        string address = AddressablesLoader.GetCharacterFullAddress(character.id);
+        Sprite sprite = await AddressablesLoader.LoadAsync<Sprite>(address);
         if (sprite != null)
         {
             characterImage.sprite = sprite;
