@@ -7,6 +7,7 @@ using System;
 
 public class Initialize : SingletonMonoBehaviour<Initialize>
 {
+    [SerializeField] SplashCanvas splashCanvas;
     bool IsInitialized;
     public UnityAction OnUpdate = () => { };
 
@@ -21,7 +22,7 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
         // 同時押し無効
         Input.multiTouchEnabled = false;
 
-        SplashCanvas.Instance.Open();
+        splashCanvas.Open();
 
         await PopupManager.Instance.OnStart();
 
@@ -118,7 +119,7 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
         ScreenManager.Instance.Get<LoadingScreen>().Open();
 
         // ローディング画面を開いてから、スプラッシュを閉じる
-        await SplashCanvas.Instance.Close();
+        await splashCanvas.Close();
 
         LocalPushNotificationManager.SetLocalPush();
 
