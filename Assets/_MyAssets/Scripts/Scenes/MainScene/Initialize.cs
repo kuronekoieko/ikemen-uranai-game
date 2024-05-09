@@ -30,7 +30,12 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
 
         await CSVManager.InitializePopupTexts();
 
-        await OnlineCheckPopupManager.CheckUntilOnline();
+        bool isCanceled = await OnlineCheckPopupManager.WaitUntilOnline();
+        if (isCanceled)
+        {
+            Quit();
+            return;
+        }
 
         (bool success_0, bool success_1) = await UniTask.WhenAll(
             FirebaseRemoteConfigManager.Initialize(),
