@@ -34,7 +34,9 @@ public static class OnlineCheckPopupManager
     public static async UniTask<bool> WaitUntilOnline()
     {
         var status = await CheckOnline();
-        if (status == API.Result.Status.Success) return status == API.Result.Status.Canceled;
+
+        bool isCanceled = status == API.Result.Status.Canceled;
+        if (status == API.Result.Status.Success) return isCanceled;
 
         PopupManager.Instance.GetPopup<LoadingPopup>().Open();
 
@@ -45,7 +47,8 @@ public static class OnlineCheckPopupManager
         }
         PopupManager.Instance.GetPopup<LoadingPopup>().Close();
 
-        return status == API.Result.Status.Canceled;
+        isCanceled = status == API.Result.Status.Canceled;
+        return isCanceled;
     }
 
 }
