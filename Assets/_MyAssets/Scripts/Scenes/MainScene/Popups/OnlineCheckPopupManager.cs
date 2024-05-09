@@ -6,19 +6,19 @@ using Cysharp.Threading.Tasks;
 public static class OnlineCheckPopupManager
 {
 
-    public static async UniTask<bool> CheckOnline()
+    public static async UniTask<API.Result.Status> CheckOnline()
     {
         Debug.Log("オンラインチェック 開始");
         var result = await OnlineChecker.IsOnline();
-        bool isOnline = false;
-        // result.status = API.Result.Status.Error;
+
+        //result.status = API.Result.Status.Error;
         switch (result.status)
         {
             case API.Result.Status.Success:
-                isOnline = true;
                 break;
             case API.Result.Status.Error:
-                await PopupManager.Instance.GetCommonPopup().ShowAsync(1);
+                bool isRetry = await PopupManager.Instance.GetCommonPopup().ShowAsync(1);
+                if (isRetry == false) return API.Result.Status.Canceled;
                 break;
             case API.Result.Status.Canceled:
                 break;
@@ -28,35 +28,25 @@ public static class OnlineCheckPopupManager
         Debug.Log("オンラインチェック 終了");
 
 
-        return isOnline;
+        return result.status;
     }
 
-    public static async UniTask<bool> CheckUntilOnline()
+    public static async UniTask<bool> WaitUntilOnline()
     {
-        bool isOnline = await CheckOnline();
+        var status = await CheckOnline();
 
-        if (isOnline) return isOnline;
+        if (status == API.Result.Status.Success) return true;
 
         PopupManager.Instance.GetPopup<LoadingPopup>().Open();
 
-        while (isOnline == false)
+        while (status == API.Result.Status.Error)
         {
             await UniTaskUtils.DelaySecond(0.5f);
-            isOnline = await CheckOnline();
+            status = await CheckOnline();
         }
         PopupManager.Instance.GetPopup<LoadingPopup>().Close();
 
-        return isOnline;
-
-    }
-
-    public static async void StartCheckOnlineLoop()
-    {
-        while (true)
-        {
-            await CheckUntilOnline();
-            await UniTaskUtils.DelaySecond(3);
-        }
+        return status == API.Result.Status.Canceled;
     }
 
 }
