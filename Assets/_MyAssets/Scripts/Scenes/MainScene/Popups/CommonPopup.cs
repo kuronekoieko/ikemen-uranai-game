@@ -18,17 +18,14 @@ public class CommonPopup : BasePopup
 
     public async UniTask<bool> ShowAsync(DataBase.PopupText popupText)
     {
-        if (popupText == null) return true;
+        popupText ??= DataBase.PopupText.CreateDefault();
         return await ShowAsync("", popupText.text, popupText.button_positive, popupText.button_negative);
     }
 
 
     public async UniTask<bool> ShowAsync(int id)
     {
-        CSVManager.PopupTexts.TryGetValue(id - 1, out DataBase.PopupText popupText);
-        popupText ??= DataBase.PopupText.CreateDefault();
-
-        DebugUtils.LogJson(popupText);
+        var popupText = CSVManager.GetPopupText(id);
 
         return await ShowAsync(
             title: "",

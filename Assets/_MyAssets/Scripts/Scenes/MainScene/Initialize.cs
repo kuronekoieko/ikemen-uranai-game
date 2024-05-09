@@ -73,9 +73,7 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
         {
             string maintenance_message = FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.maintenance_message);
 
-            int id = 2;
-            CSVManager.PopupTexts.TryGetValue(id - 1, out DataBase.PopupText popupText);
-            popupText ??= DataBase.PopupText.CreateDefault();
+            var popupText = CSVManager.GetPopupText(2);
             popupText.text = maintenance_message;
 
             await PopupManager.GetCommonPopup().ShowAsync(popupText);

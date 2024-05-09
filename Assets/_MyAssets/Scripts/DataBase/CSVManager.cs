@@ -25,6 +25,14 @@ public static class CSVManager
     public static HomeText[] HomeTexts { get; private set; }
     public static PopupText[] PopupTexts { get; private set; }
 
+    public static PopupText GetPopupText(int id)
+    {
+        PopupTexts.TryGetValue(id - 1, out PopupText popupText);
+        popupText ??= PopupText.CreateDefault();
+        DebugUtils.LogJson(popupText);
+        return popupText;
+    }
+
     public static async UniTask InitializePopupTexts()
     {
         PopupTexts = await DeserializeAsync<PopupText>("PopupTexts");
