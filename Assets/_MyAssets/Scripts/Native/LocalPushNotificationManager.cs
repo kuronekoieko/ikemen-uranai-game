@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using SaveDataObjects;
 using UnityEngine;
 
@@ -55,7 +56,7 @@ public static class LocalPushNotificationManager
             LocalPushNotification.Config config = new()
             {
                 title = Application.productName,
-                message = "今日の運勢をチェックしてね",
+                message = "今日の運勢をチェックしよう！",
                 targetDateTime = morningDT,
                 cannelId = "001",
             };
@@ -80,7 +81,7 @@ public static class LocalPushNotificationManager
             LocalPushNotification.Config config = new()
             {
                 title = Application.productName,
-                message = "明日の運勢が公開されたよ",
+                message = "明日の運勢が公開されたよ！",
                 targetDateTime = nightDT,
                 cannelId = "001",
             };
@@ -101,14 +102,19 @@ public static class LocalPushNotificationManager
 
         if (!SaveDataManager.SaveData.notification.isOnOthers) return configs;
 
+        var character = CSVManager.Characters.FirstOrDefault(character => character.id == SaveDataManager.SaveData.currentCharacterId);
+        character ??= CSVManager.Characters.FirstOrDefault();
+        string characterName = "イケボ";
+        if (character != null) characterName = character.name_jp;
+
         Dictionary<int, string> messages = new()
         {
-            {7,"アプリに戻ってきてね。イケボが待ってるよ！の文面1"},
-            {15,"アプリに戻ってきてね。イケボが待ってるよ！の文面2"},
-            {29,"アプリに戻ってきてね。イケボが待ってるよ！の文面3"},
-            {58,"アプリに戻ってきてね。イケボが待ってるよ！の文面4"},
-            {87,"アプリに戻ってきてね。イケボが待ってるよ！の文面5"},
-            {0,"アプリに戻ってきてね。イケボが待ってるよ！の文面の最後"},
+            {7,$"アプリにログインして、運勢をチェックしよう！{characterName}が待ってるよ！"},
+            {15,$"アプリにログインして、運勢をチェックしよう！{characterName}が待ってるよ！"},
+            {29,$"アプリにログインして、運勢をチェックしよう！{characterName}が待ってるよ！"},
+            {58,$"アプリにログインして、運勢をチェックしよう！{characterName}が待ってるよ！"},
+            {87,$"アプリにログインして、運勢をチェックしよう！{characterName}が待ってるよ！"},
+            {0,$"アプリに戻ってきてね。イケボが待ってるよ！の最後の文面。"},
         };
 
         foreach (var pair in messages)
