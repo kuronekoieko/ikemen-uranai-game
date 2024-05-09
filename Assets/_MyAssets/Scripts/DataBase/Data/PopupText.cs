@@ -15,5 +15,14 @@ namespace DataBase
         public string text;
         public string button_negative;
         public string button_positive;
+
+        public static PopupText CreateDefault()
+        {
+            return new()
+            {
+                text = "エラーが発生しました。",
+                button_positive = "OK",
+            };
+        }
     }
 }

@@ -26,11 +26,7 @@ public class CommonPopup : BasePopup
     public async UniTask<bool> ShowAsync(int id)
     {
         CSVManager.PopupTexts.TryGetValue(id - 1, out DataBase.PopupText popupText);
-        popupText ??= new()
-        {
-            text = "エラーが発生しました。",
-            button_positive = "OK",
-        };
+        popupText ??= DataBase.PopupText.CreateDefault();
 
         DebugUtils.LogJson(popupText);
 
