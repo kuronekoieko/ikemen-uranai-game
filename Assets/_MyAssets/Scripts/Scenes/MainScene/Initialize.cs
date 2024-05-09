@@ -36,26 +36,35 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
             Quit();
             return;
         }
+        /*
 
         (bool success_0, bool success_1) = await UniTask.WhenAll(
             FirebaseRemoteConfigManager.Initialize(),
-            FirebaseAuthenticationManager.Initialize());
+            FirebaseAuthenticationManager.Initialize());*/
 
-        if (success_0 == false)
+        isCanceled = await ShowInitFailed(async () =>
         {
-            Debug.LogError("FirebaseAuthenticationManager.Initialize failed");
-            await ShowInitFailed();
+            bool success = await FirebaseRemoteConfigManager.Initialize();
+            if (success == false) Debug.LogError("FirebaseRemoteConfigManager.Initialize failed");
+            return success;
+        });
+        if (isCanceled)
+        {
+            Quit();
             return;
         }
 
-        if (success_1 == false)
+        isCanceled = await ShowInitFailed(async () =>
         {
-            Debug.LogError("FirebaseRemoteConfigManager.Initialize failed");
-            await ShowInitFailed();
+            bool success = await FirebaseAuthenticationManager.Initialize();
+            if (success == false) Debug.LogError("FirebaseAuthenticationManager.Initialize failed");
+            return success;
+        });
+        if (isCanceled)
+        {
+            Quit();
             return;
         }
-
-        // Debug.Log("FirebaseRemoteConfigManager.InitializeAsync");
 
 
 
@@ -82,14 +91,15 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
 
         await CSVManager.InitializeAsync();
 
-        // Debug.Log("SaveDataInitializer.Initialize ");
-        bool success = await SaveDataInitializer.Initialize(CSVManager.Characters, FirebaseAuthenticationManager.User.UserId);
 
-        if (success == false)
+        isCanceled = await ShowInitFailed(() =>
         {
-            Debug.LogError("SaveDataInitializer.Initialize success:" + success);
-
-            await ShowInitFailed();
+            // Debug.LogError("SaveDataInitializer.Initialize success:" + success);
+            return SaveDataInitializer.Initialize(CSVManager.Characters, FirebaseAuthenticationManager.User.UserId);
+        });
+        if (isCanceled)
+        {
+            Quit();
             return;
         }
 
@@ -97,10 +107,25 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
         OnCompleteInit();
     }
 
-    async UniTask ShowInitFailed()
+    async UniTask<bool> ShowInitFailed(Func<UniTask<bool>> uniTask)
     {
-        await PopupManager.GetCommonPopup().ShowAsync(4);
-        Quit();
+        bool success = await uniTask();
+        bool isCanceled = false;
+
+        while (success == false)
+        {
+            bool isRetry = await PopupManager.GetCommonPopup().ShowAsync(4);
+            if (isRetry == false)
+            {
+                isCanceled = true;
+                return isCanceled;
+            }
+            await UniTaskUtils.DelaySecond(0.5f);
+            success = await uniTask();
+        }
+
+
+        return isCanceled;
     }
 
 
