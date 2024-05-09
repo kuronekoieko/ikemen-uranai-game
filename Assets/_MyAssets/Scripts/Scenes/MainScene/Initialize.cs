@@ -79,7 +79,9 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
             popupText.text = maintenance_message;
 
             await PopupManager.GetCommonPopup().ShowAsync(popupText);
-            Application.OpenURL(URLs.X);
+
+            string url = FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.url_x);
+            Application.OpenURL(url);
 
             Quit();
             return;
