@@ -19,13 +19,13 @@ public class NotificationSettingScreen : BaseScreen
         var notificationSettingObjs = new List<NotificationSettingObj>();
         notificationSettingObjs.Add(new()
         {
-            title = "明日の星座占いの通知(毎日、夜の21:00)",
+            title = "明日の星座占い(毎日、夜の21:00)",
             onValueChanged = OnValueChanged_NextDay,
             isOn = SaveDataManager.SaveData.notification.isOnNextDayHoroscope
         });
         notificationSettingObjs.Add(new()
         {
-            title = "今日の星座占いの通知(毎日、朝の8:30)",
+            title = "今日の星座占い(毎日、朝の8:30)",
             onValueChanged = OnValueChanged_Today,
             isOn = SaveDataManager.SaveData.notification.isOnTodayHoroscope
         });
