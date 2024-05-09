@@ -23,6 +23,12 @@ public static class CSVManager
     public static LuckyColor[] LuckyColors { get; private set; }
     public static ChargingProduct[] ChargingProducts { get; private set; }
     public static HomeText[] HomeTexts { get; private set; }
+    public static PopupText[] PopupTexts { get; private set; }
+
+    public static async UniTask InitializePopupTexts()
+    {
+        PopupTexts = await DeserializeAsync<PopupText>("PopupTexts");
+    }
 
     public static async UniTask InitializeAsync()
     {

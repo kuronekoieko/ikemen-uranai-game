@@ -16,7 +16,33 @@ public class CommonPopup : BasePopup
     [SerializeField] Animator animator;
 
 
-    public async UniTask<bool> ShowAsync(
+    public async UniTask<bool> ShowAsync(DataBase.PopupText popupText)
+    {
+        if (popupText == null) return true;
+        return await ShowAsync("", popupText.text, popupText.button_positive, popupText.button_negative);
+    }
+
+
+    public async UniTask<bool> ShowAsync(int id)
+    {
+        CSVManager.PopupTexts.TryGetValue(id - 1, out DataBase.PopupText popupText);
+        popupText ??= new()
+        {
+            text = "エラーが発生しました。",
+            button_positive = "OK",
+        };
+
+        DebugUtils.LogJson(popupText);
+
+        return await ShowAsync(
+            title: "",
+            message: popupText.text,
+            positive: popupText.button_positive,
+            negative: popupText.button_negative);
+    }
+
+
+    async UniTask<bool> ShowAsync(
         string title,
         string message,
         string positive,
