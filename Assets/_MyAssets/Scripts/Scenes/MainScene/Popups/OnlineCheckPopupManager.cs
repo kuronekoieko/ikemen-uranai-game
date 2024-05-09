@@ -18,11 +18,7 @@ public static class OnlineCheckPopupManager
                 isOnline = true;
                 break;
             case API.Result.Status.Error:
-                await PopupManager.Instance.GetCommonPopup().ShowAsync(
-                    "",
-                    "インターネットに接続されていません",
-                    "OK"
-                );
+                await PopupManager.Instance.GetCommonPopup().ShowAsync(1);
                 break;
             case API.Result.Status.Canceled:
                 break;
@@ -35,7 +31,7 @@ public static class OnlineCheckPopupManager
         return isOnline;
     }
 
-    public static async UniTask<bool> CheckOnlineUntilOnline()
+    public static async UniTask<bool> CheckUntilOnline()
     {
         bool isOnline = await CheckOnline();
 
@@ -58,7 +54,7 @@ public static class OnlineCheckPopupManager
     {
         while (true)
         {
-            await CheckOnlineUntilOnline();
+            await CheckUntilOnline();
             await UniTaskUtils.DelaySecond(3);
         }
     }

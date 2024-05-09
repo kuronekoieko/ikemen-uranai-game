@@ -28,12 +28,13 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
 
         await PopupManager.OnStart();
 
-        await OnlineCheckPopupManager.CheckOnlineUntilOnline();
+        await CSVManager.InitializePopupTexts();
+
+        await OnlineCheckPopupManager.CheckUntilOnline();
 
         (bool success_0, bool success_1) = await UniTask.WhenAll(
             FirebaseRemoteConfigManager.Initialize(),
             FirebaseAuthenticationManager.Initialize());
-
 
         if (success_0 == false)
         {
@@ -56,11 +57,7 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
         bool is_maintenance = FirebaseRemoteConfigManager.GetBool(FirebaseRemoteConfigManager.Key.is_maintenance);
         if (is_maintenance)
         {
-            await PopupManager.GetCommonPopup().ShowAsync(
-                    "",
-                    "メンテナンス中です\nしばらく時間をおいてお試しください。",
-                    "OK"
-                );
+            await PopupManager.GetCommonPopup().ShowAsync(2);
             Quit();
             return;
         }
@@ -69,11 +66,7 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
         bool needUpdate = latestVersion.TrimStart().TrimStart() != Application.version.TrimStart().TrimStart();
         if (needUpdate)
         {
-            await PopupManager.GetCommonPopup().ShowAsync(
-                    "",
-                    "最新バージョンがあります。\nアプリをアップデートしてください。",
-                    "OK"
-                );
+            await PopupManager.GetCommonPopup().ShowAsync(3);
             string url = FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.url_app_store_page);
             Application.OpenURL(url);
 
@@ -101,12 +94,7 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
 
     async UniTask ShowInitFailed()
     {
-        await PopupManager.GetCommonPopup().ShowAsync(
-                "",
-                "サーバーへの接続に失敗しました。\nアプリを再起動してください。",
-                "OK"
-            );
-
+        await PopupManager.GetCommonPopup().ShowAsync(4);
         Quit();
     }
 

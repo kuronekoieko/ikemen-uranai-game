@@ -12,13 +12,12 @@ public class DebugPopupButton : MonoBehaviour
 
         button.AddListener(async () =>
         {
-            await PopupManager.Instance.GetCommonPopup().ShowAsync(
-        "",
-        "メンテナンス中です\nしばらく時間をおいてお試しください。",
-        "OK",
-        "キャンセル"
-        );
-
+            await PopupManager.Instance.GetCommonPopup().ShowAsync(new DataBase.PopupText()
+            {
+                text = "メンテナンス中です\nしばらく時間をおいてお試しください。",
+                button_positive = "OK",
+                button_negative = "キャンセル",
+            });
         });
     }
 
