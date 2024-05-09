@@ -71,7 +71,16 @@ public class Initialize : SingletonMonoBehaviour<Initialize>
         bool is_maintenance = FirebaseRemoteConfigManager.GetBool(FirebaseRemoteConfigManager.Key.is_maintenance);
         if (is_maintenance)
         {
-            await PopupManager.GetCommonPopup().ShowAsync(2);
+            string maintenance_message = FirebaseRemoteConfigManager.GetString(FirebaseRemoteConfigManager.Key.maintenance_message);
+
+            int id = 2;
+            CSVManager.PopupTexts.TryGetValue(id - 1, out DataBase.PopupText popupText);
+            popupText ??= DataBase.PopupText.CreateDefault();
+            popupText.text = maintenance_message;
+
+            await PopupManager.GetCommonPopup().ShowAsync(popupText);
+            Application.OpenURL(URLs.X);
+
             Quit();
             return;
         }

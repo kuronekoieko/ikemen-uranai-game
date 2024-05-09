@@ -60,6 +60,7 @@ public static class FirebaseRemoteConfigManager
     public static string local_push_test_duration = "local_push_test_duration";
     public static string local_push_test_text = "local_push_test_text";
     public static string is_maintenance = "is_maintenance";
+    public static string maintenance_message = "maintenance_message";
     public static string latest_version = "latest_version";
     public static string test_x = "test_x";
     public static string test_y = "test_y";
