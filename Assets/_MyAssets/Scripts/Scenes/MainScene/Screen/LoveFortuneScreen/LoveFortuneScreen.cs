@@ -25,7 +25,7 @@ public class LoveFortuneScreen : BaseScreen
     [SerializeField] LayoutElement loveFortuneLE;
     [SerializeField] TextMeshProUGUI loveFortuneTitleText;
     [SerializeField] TextMeshProUGUI loveFortuneMessageText;
-
+    [SerializeField] LoveFortuneStar loveFortuneStar;
 
     // フッター =============================
 
@@ -60,6 +60,7 @@ public class LoveFortuneScreen : BaseScreen
         compatibilityMessageText.text = "相性占いの結果の文章";
         loveFortuneMessageText.text = "今日の恋愛占いの結果の文章";
 
+        loveFortuneStar.Show(5f);
     }
 
     public override UniTask Close()
