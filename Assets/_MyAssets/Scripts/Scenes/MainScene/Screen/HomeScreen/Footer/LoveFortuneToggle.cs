@@ -12,6 +12,6 @@ public class LoveFortuneToggle : BaseFooterToggleController
     public void LoveFortuneScreen()
     {
         // PageManager.Instance.Get<HoroscopePage>().Open();
-        ScreenManager.Instance.Get<LoveFortuneScreen>().Open();
+        ScreenManager.Instance.Get<InputPartnerScreen>().Open();
     }
 }
