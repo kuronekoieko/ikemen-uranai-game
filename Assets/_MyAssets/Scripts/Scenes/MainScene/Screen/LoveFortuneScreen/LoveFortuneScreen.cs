@@ -12,15 +12,17 @@ public class LoveFortuneScreen : BaseScreen
 {
     // ヘッダー =============================
     [SerializeField] TextMeshProUGUI screenTitleText;
-    // [SerializeField] Image constellationImage;
 
     // ボディー =============================
     [SerializeField] LoveFortunePerson myLFP;
     [SerializeField] LoveFortunePerson partnerLFP;
+    [SerializeField] TextMeshProUGUI compatibilityRateText;
 
+    [SerializeField] LayoutElement compatibilityLE;
     [SerializeField] TextMeshProUGUI compatibilityTitleText;
     [SerializeField] TextMeshProUGUI compatibilityMessageText;
 
+    [SerializeField] LayoutElement loveFortuneLE;
     [SerializeField] TextMeshProUGUI loveFortuneTitleText;
     [SerializeField] TextMeshProUGUI loveFortuneMessageText;
 
@@ -30,7 +32,6 @@ public class LoveFortuneScreen : BaseScreen
     [SerializeField] Button replayButton;
     [SerializeField] Button otherPartnerButton;
     [SerializeField] Button homeButton;
-    //  [SerializeField] Sprite[] typeSprites;
 
     AudioClip audioClip;
 
@@ -55,7 +56,7 @@ public class LoveFortuneScreen : BaseScreen
         myLFP.Show(null, "自分の名前");
         partnerLFP.Show(null, "相手の名前");
 
-
+        compatibilityRateText.text = "100" + "%";
         compatibilityMessageText.text = "相性占いの結果の文章";
         loveFortuneMessageText.text = "今日の恋愛占いの結果の文章";
 
