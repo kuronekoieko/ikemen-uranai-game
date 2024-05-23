@@ -20,7 +20,19 @@ public class InputPartnerProfileScreen : BaseScreen
 
         confirmButton.AddListener(async () =>
         {
-            await Close();
+            if (string.IsNullOrEmpty(nameIF.text))
+            {
+                await PopupManager.Instance.GetCommonPopup().ShowAsync(new DataBase.PopupText()
+                {
+                    text = "名前が入力されていません",
+                    button_positive = "OK",
+                    // button_negative = "キャンセル",
+                });
+            }
+            else
+            {
+                await Close();
+            }
         });
 
         var months = new List<string>();
