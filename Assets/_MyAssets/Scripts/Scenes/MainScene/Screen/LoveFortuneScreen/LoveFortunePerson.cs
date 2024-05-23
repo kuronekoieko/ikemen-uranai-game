@@ -17,7 +17,7 @@ public class LoveFortunePerson : MonoBehaviour
 
     public void Show(Sprite iconSprite, string name)
     {
-        iconImage.sprite = iconSprite;
+        if (iconSprite) iconImage.sprite = iconSprite;
         nameText.text = name;
     }
 
