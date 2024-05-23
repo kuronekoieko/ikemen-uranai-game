@@ -25,7 +25,7 @@ public class HoroscopeScreen : BaseScreen
     Sprite defaultCharacterSprite;
     Sprite defaultConstellationSprite;
 
-
+    // フッター =============================
     [SerializeField] Button replayButton;
     [SerializeField] Button otherConstellationInfoButton;
     [SerializeField] Button homeButton;

@@ -490,6 +490,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 371839349600004829}
+  - component: {fileID: 6931180499652794987}
   m_Layer: 5
   m_Name: Person
   m_TagString: Untagged
@@ -519,6 +520,20 @@ RectTransform:
   m_AnchoredPosition: {x: -353.2725, y: 0}
   m_SizeDelta: {x: 435.2656, y: 509.34}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6931180499652794987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1814557183750557886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3799f7307a7e4f446b7e9bcd756f33d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iconImage: {fileID: 3578006674236960944}
+  nameText: {fileID: 6032388709270662088}
 --- !u!1 &3578006672314894185
 GameObject:
   m_ObjectHideFlags: 0
@@ -1492,18 +1507,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   closeButton: {fileID: 3578006673538241705}
-  screenTitleText: {fileID: 0}
-  constellationImage: {fileID: 0}
-  constellationNameText: {fileID: 0}
-  fortuneRankText: {fileID: 0}
-  messageText: {fileID: 0}
-  luckyItemText: {fileID: 0}
-  luckyColorText: {fileID: 0}
-  characterImage: {fileID: 0}
-  replayButton: {fileID: 0}
-  otherConstellationInfoButton: {fileID: 0}
-  homeButton: {fileID: 0}
-  constellationSprites: []
+  screenTitleText: {fileID: 3578006673955468286}
+  myLFP: {fileID: 6931180499652794987}
+  partnerLFP: {fileID: 6491808052244361696}
+  compatibilityTitleText: {fileID: 4317128089205118443}
+  compatibilityMessageText: {fileID: 3578006672688625253}
+  loveFortuneTitleText: {fileID: 4856926646497199352}
+  loveFortuneMessageText: {fileID: 8563947994687436841}
+  replayButton: {fileID: 3578006673961695505}
+  otherPartnerButton: {fileID: 3578006673690572664}
+  homeButton: {fileID: 3578006673957281503}
 --- !u!1 &3578006672892236756
 GameObject:
   m_ObjectHideFlags: 0
@@ -2707,7 +2720,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3578006673955468287
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2756,7 +2769,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u4ECA\u65E5\u306E\u661F\u5EA7\u5360\u3044"
+  m_text: "\u4ECA\u65E5\u306E\u604B\u611B\u5360\u3044"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8714d5a1c9b8a99488511050cfe2e369, type: 2}
   m_sharedMaterial: {fileID: -1988856639038499321, guid: 8714d5a1c9b8a99488511050cfe2e369, type: 2}
@@ -4016,6 +4029,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6236870636183897084}
+  - component: {fileID: 6491808052244361696}
   m_Layer: 5
   m_Name: Person (1)
   m_TagString: Untagged
@@ -4045,6 +4059,20 @@ RectTransform:
   m_AnchoredPosition: {x: 358.72754, y: 0}
   m_SizeDelta: {x: 435.2656, y: 509.34}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6491808052244361696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7479730902008037024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3799f7307a7e4f446b7e9bcd756f33d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iconImage: {fileID: 3539889948503535799}
+  nameText: {fileID: 6168913738145134829}
 --- !u!1 &8380877678264082245
 GameObject:
   m_ObjectHideFlags: 0
