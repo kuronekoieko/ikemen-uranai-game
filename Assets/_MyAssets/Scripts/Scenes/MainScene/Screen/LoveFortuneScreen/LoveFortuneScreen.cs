@@ -12,37 +12,82 @@ public class LoveFortuneScreen : BaseScreen
 {
     // ヘッダー =============================
     [SerializeField] TextMeshProUGUI screenTitleText;
-    [SerializeField] Image constellationImage;
+    // [SerializeField] Image constellationImage;
 
     // ボディー =============================
-    [SerializeField] TextMeshProUGUI constellationNameText;
-    [SerializeField] TextMeshProUGUI fortuneRankText;
-    [SerializeField] TextMeshProUGUI messageText;
-    [SerializeField] TextMeshProUGUI luckyItemText;
-    [SerializeField] TextMeshProUGUI luckyColorText;
-    [SerializeField] Image characterImage;
-    Sprite defaultCharacterSprite;
-    Sprite defaultConstellationSprite;
+    [SerializeField] LoveFortunePerson myLFP;
+    [SerializeField] LoveFortunePerson partnerLFP;
 
+    [SerializeField] TextMeshProUGUI compatibilityTitleText;
+    [SerializeField] TextMeshProUGUI compatibilityMessageText;
+
+    [SerializeField] TextMeshProUGUI loveFortuneTitleText;
+    [SerializeField] TextMeshProUGUI loveFortuneMessageText;
+
+
+    // フッター =============================
 
     [SerializeField] Button replayButton;
-    [SerializeField] Button otherConstellationInfoButton;
+    [SerializeField] Button otherPartnerButton;
     [SerializeField] Button homeButton;
-    [SerializeField] Sprite[] constellationSprites;
+    //  [SerializeField] Sprite[] typeSprites;
+
+    AudioClip audioClip;
 
 
     public override void OnStart(Camera uiCamera)
     {
         base.OnStart(uiCamera);
+        homeButton.AddListener(OnClickHomeButton, AudioID.BtnClick_Negative);
+        replayButton.AddListener(OnClickReplayButton);
+        otherPartnerButton.AddListener(OnClickOtherPartnerButton);
     }
 
     public override void Open()
     {
         base.Open();
+
+
+        var dateTime = DateTime.Today;
+        string day = dateTime.Date == DateTime.Today ? "今日" : "明日";
+        screenTitleText.text = day + "の恋愛占い";
+
+        myLFP.Show(null, "自分の名前");
+        partnerLFP.Show(null, "相手の名前");
+
+
+        compatibilityMessageText.text = "相性占いの結果の文章";
+        loveFortuneMessageText.text = "今日の恋愛占いの結果の文章";
+
     }
 
     public override UniTask Close()
     {
         return base.Close();
+    }
+
+    async UniTask OnClickHomeButton()
+    {
+        await Close();
+    }
+
+    UniTask OnClickReplayButton()
+    {
+        if (audioClip != null)
+        {
+            AudioManager.Instance.PlayOneShot(audioClip);
+        }
+        else
+        {
+            Debug.LogError("音声がありません");
+        }
+        return UniTask.DelayFrame(0);
+    }
+
+    UniTask OnClickOtherPartnerButton()
+    {
+        Close();
+        // ScreenManager.Instance.Get<RankingScreen>().Open();
+        return UniTask.DelayFrame(0);
     }
 }
