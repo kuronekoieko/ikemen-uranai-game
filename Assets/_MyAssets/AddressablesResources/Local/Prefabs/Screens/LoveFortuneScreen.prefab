@@ -1491,7 +1491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9338e001547b68c4ab9e99deeb27e1aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  closeButton: {fileID: 0}
+  closeButton: {fileID: 3578006673538241705}
   screenTitleText: {fileID: 0}
   constellationImage: {fileID: 0}
   constellationNameText: {fileID: 0}
