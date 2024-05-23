@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using SaveDataObjects;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class InputPartnerScreen : BaseScreen
 {
@@ -10,15 +12,26 @@ public class InputPartnerScreen : BaseScreen
     [SerializeField] Button addPartnerButton;
     [SerializeField] Button nextButton;
 
-
     public override void OnStart(Camera uiCamera)
     {
         base.OnStart(uiCamera);
         partnerPool.OnStart();
         nextButton.AddListener(async () =>
         {
-            ScreenManager.Instance.Get<LoveFortuneScreen>().Open();
-            await UniTask.DelayFrame(0);
+            var partnerElement = partnerPool.list.FirstOrDefault(partnerElement => partnerElement.IsSelect);
+
+            if (partnerElement == null)
+            {
+                await PopupManager.Instance.GetCommonPopup().ShowAsync(new DataBase.PopupText()
+                {
+                    text = "相手が選択されていません",
+                    button_positive = "OK",
+                });
+            }
+            else
+            {
+                ScreenManager.Instance.Get<LoveFortuneScreen>().Open(partnerElement.PartnerProfile);
+            }
         });
         addPartnerButton.AddListener(async () =>
         {

@@ -12,7 +12,8 @@ public class PartnerElement : ObjectPoolingElement
     [SerializeField] TextMeshProUGUI nameText;
     [SerializeField] Button editButton;
     [SerializeField] Button deleteButton;
-    PartnerProfile partnerProfile;
+    public PartnerProfile PartnerProfile { get; private set; }
+    public bool IsSelect => gameObject.activeSelf && toggle.isOn;
 
     public override void OnInstantiate()
     {
@@ -42,14 +43,14 @@ public class PartnerElement : ObjectPoolingElement
 
     async void EditPartner()
     {
-        partnerProfile = await ScreenManager.Instance.Get<InputPartnerProfileScreen>().EditPartner(partnerProfile);
-        Show(partnerProfile);
+        PartnerProfile = await ScreenManager.Instance.Get<InputPartnerProfileScreen>().EditPartner(PartnerProfile);
+        Show(PartnerProfile);
     }
 
     public void Show(PartnerProfile partnerProfile)
     {
-        this.partnerProfile = partnerProfile;
+        this.PartnerProfile = partnerProfile;
         nameText.text = partnerProfile.name;
-        
+
     }
 }

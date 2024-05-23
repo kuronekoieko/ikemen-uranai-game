@@ -7,6 +7,7 @@ using System.Linq;
 using System;
 using DataBase;
 using Cysharp.Threading.Tasks;
+using SaveDataObjects;
 
 public class LoveFortuneScreen : BaseScreen
 {
@@ -44,7 +45,7 @@ public class LoveFortuneScreen : BaseScreen
         otherPartnerButton.AddListener(OnClickOtherPartnerButton);
     }
 
-    public override void Open()
+    public void Open(PartnerProfile partnerProfile)
     {
         base.Open();
 
@@ -53,14 +54,30 @@ public class LoveFortuneScreen : BaseScreen
         string day = dateTime.Date == DateTime.Today ? "今日" : "明日";
         screenTitleText.text = day + "の恋愛占い";
 
-        myLFP.Show(null, "自分の名前");
-        partnerLFP.Show(null, "相手の名前");
+        myLFP.Show(null, SaveDataManager.SaveData.name);
 
-        compatibilityRateText.text = "100" + "%";
-        compatibilityMessageText.text = "相性占いの結果の文章";
-        loveFortuneMessageText.text = "今日の恋愛占いの結果の文章";
+        if (partnerProfile == null)
+        {
+            partnerLFP.Show(null, "相手の名前");
 
-        loveFortuneStar.Show(5f);
+            compatibilityRateText.text = "100" + "%";
+            compatibilityMessageText.text = "相性占いの結果の文章";
+            loveFortuneMessageText.text = "今日の恋愛占いの結果の文章";
+
+            loveFortuneStar.Show(5f);
+        }
+        else
+        {
+            partnerLFP.Show(null, partnerProfile.name);
+
+            compatibilityRateText.text = "100" + "%";
+            compatibilityMessageText.text = "相性占いの結果の文章";
+            loveFortuneMessageText.text = "今日の恋愛占いの結果の文章";
+
+            loveFortuneStar.Show(5f);
+        }
+
+
     }
 
     public override UniTask Close()
