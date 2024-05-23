@@ -70,6 +70,7 @@ public class LoveFortuneScreen : BaseScreen
 
     async UniTask OnClickHomeButton()
     {
+        await ScreenManager.Instance.Get<InputPartnerScreen>().Close();
         await Close();
     }
 
@@ -89,7 +90,7 @@ public class LoveFortuneScreen : BaseScreen
     UniTask OnClickOtherPartnerButton()
     {
         Close();
-        // ScreenManager.Instance.Get<RankingScreen>().Open();
+        ScreenManager.Instance.Get<InputPartnerScreen>().Open();
         return UniTask.DelayFrame(0);
     }
 }
