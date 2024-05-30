@@ -1,0 +1,45 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "02.moc3",
+		"Textures": [
+			"02.1024/texture_00.png"
+		],
+		"DisplayInfo": "02.cdi3.json",
+		"Expressions": [
+			{
+				"Name": "face_a",
+				"File": "exp/face_a.exp3.json"
+			},
+			{
+				"Name": "face_b",
+				"File": "exp/face_b.exp3.json"
+			},
+			{
+				"Name": "face_c",
+				"File": "exp/face_c.exp3.json"
+			},
+			{
+				"Name": "face_d",
+				"File": "exp/face_d.exp3.json"
+			},
+			{
+				"Name": "face_e",
+				"File": "exp/face_e.exp3.json"
+			}
+		]
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		}
+	],
+	"HitAreas": []
+}
