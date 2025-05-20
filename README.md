@@ -12,3 +12,18 @@
 
 # アプリの概要
 - LINE占いのような占いアプリを元にした、女性向けのソーシャルゲームです。
+
+# 開発途中動画
+※限定共有公開です。
+
+[タップエフェクト、登録画面、占い結果画面、ランキング画面、ホーム画面(サイドバー、ポップアップ表示、会話テキスト)](https://www.youtube.com/shorts/SbM4mNxSs7E)
+
+[SE、BGMの実装](https://www.youtube.com/shorts/JccByzdnFhI)
+
+[キャラ変更画面](https://www.youtube.com/shorts/doW51yc1xa4)
+
+[ゲーム内webview ダークテーマ](https://www.youtube.com/shorts/7hPu-GZCsOk)
+
+[ゲーム内webview ライトテーマ](https://www.youtube.com/shorts/mB_gfpJOrn4)
+
+
