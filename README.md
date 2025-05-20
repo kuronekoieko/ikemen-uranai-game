@@ -26,4 +26,6 @@
 
 [ゲーム内webview ライトテーマ](https://www.youtube.com/shorts/mB_gfpJOrn4)
 
+# その他
+各種APIキーは無効化してあります
 
