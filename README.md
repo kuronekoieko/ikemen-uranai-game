@@ -27,5 +27,5 @@
 [ゲーム内webview ライトテーマ](https://www.youtube.com/shorts/mB_gfpJOrn4)
 
 # その他
-各種APIキーは無効化してあります
-
+- 各種APIキーは無効化してあります
+- Assets/Naninovel/は、ライセンス上公開リポジトリにできないため、コミットから削除してあります。
