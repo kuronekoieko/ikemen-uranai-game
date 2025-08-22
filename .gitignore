@@ -115,3 +115,7 @@ Assets/NaninovelData/Metadata.xml.meta
 # BuildReports
 Assets/BuildReports/*
 Assets/BuildReports.meta
+
+# Naninovelはライセンスでパブリックリポジトリにすることが禁止されているため
+Assets/Naninovel/*
+Assets/Naninovel.meta
